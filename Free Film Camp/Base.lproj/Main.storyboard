@@ -26,6 +26,44 @@
             </objects>
             <point key="canvasLocation" x="282" y="-783"/>
         </scene>
+        <!--Clips-->
+        <scene sceneID="R3q-qt-yrF">
+            <objects>
+                <collectionViewController title="Clips" id="4to-zB-zdm" customClass="ClipsViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="Vjp-tg-RBq">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="XK4-NA-xMA">
+                            <size key="itemSize" width="90" height="90"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ClipCell" id="haP-B8-Tyq">
+                                <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <animations/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="4to-zB-zdm" id="fIW-lc-mfk"/>
+                            <outlet property="delegate" destination="4to-zB-zdm" id="KDm-Yv-zdS"/>
+                        </connections>
+                    </collectionView>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yhe-FW-yes" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1842" y="-2211"/>
+        </scene>
         <!--Movie Builder-->
         <scene sceneID="f6n-iJ-EFr">
             <objects>
@@ -66,12 +104,12 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0iK-tb-rZv">
-                                <rect key="frame" x="267" y="303" width="66" height="30"/>
+                                <rect key="frame" x="219" y="303" width="162" height="30"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="66" id="x3A-NN-EW3"/>
+                                    <constraint firstAttribute="width" constant="162" id="x3A-NN-EW3"/>
                                 </constraints>
-                                <state key="normal" title="Dummy"/>
+                                <state key="normal" title="Scene Builder"/>
                                 <connections>
                                     <segue destination="bU4-OJ-BuB" kind="show" id="ayP-SQ-LJd"/>
                                 </connections>
@@ -97,7 +135,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vdY-14-4vq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1078" y="-1863"/>
+            <point key="canvasLocation" x="1088" y="-1532"/>
         </scene>
         <!--Scene Builder-->
         <scene sceneID="JsG-kM-3LC">
@@ -182,7 +220,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pwW-Fl-SX9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1834" y="-1863"/>
+            <point key="canvasLocation" x="1842" y="-1532"/>
         </scene>
         <!--Voice Over-->
         <scene sceneID="Q77-QL-bxb">
@@ -269,7 +307,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6FB-dL-6WS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2546" y="-1864"/>
+            <point key="canvasLocation" x="3358" y="-1864"/>
         </scene>
         <!--Free Film Camp-->
         <scene sceneID="KZQ-Og-Cls">
@@ -283,7 +321,7 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="KtM-ME-n2y" kind="relationship" relationship="viewControllers" id="adi-8t-Vr3"/>
+                        <segue destination="RyH-ob-Tbe" kind="relationship" relationship="viewControllers" id="adi-8t-Vr3"/>
                         <segue destination="2iN-Oy-Lgz" kind="relationship" relationship="viewControllers" id="SSI-FW-gvs"/>
                         <segue destination="Muc-4y-MQX" kind="relationship" relationship="viewControllers" id="IhX-c7-bWd"/>
                     </connections>
@@ -341,7 +379,7 @@
                                     <action selector="flipCamera:" destination="KtM-ME-n2y" eventType="touchUpInside" id="pd9-zh-31Y"/>
                                 </connections>
                             </button>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="2e3-6R-qjb">
+                            <progressView opaque="NO" userInteractionEnabled="NO" alpha="0.65000000000000002" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2e3-6R-qjb">
                                 <rect key="frame" x="176" y="61" width="249" height="2"/>
                                 <animations/>
                                 <constraints>
@@ -360,6 +398,18 @@
                                     <action selector="recordTime:" destination="KtM-ME-n2y" eventType="touchUpInside" id="tFS-MB-S80"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S7w-U1-SZA">
+                                <rect key="frame" x="460" y="434" width="120" height="109"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="109" id="I9D-yc-b2W"/>
+                                    <constraint firstAttribute="width" constant="120" id="kzW-vi-kzn"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <segue destination="4to-zB-zdm" kind="show" id="6sD-Pz-6MZ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -370,6 +420,7 @@
                             <constraint firstItem="8fN-iV-i3T" firstAttribute="trailing" secondItem="Peq-8Z-zMT" secondAttribute="trailingMargin" id="OjH-T0-YMe"/>
                             <constraint firstItem="Eoh-jG-C7J" firstAttribute="bottom" secondItem="Peq-8Z-zMT" secondAttribute="bottomMargin" id="Q5i-Sr-gFI"/>
                             <constraint firstItem="AWJ-uc-Kxa" firstAttribute="trailing" secondItem="Peq-8Z-zMT" secondAttribute="trailingMargin" id="RVE-Si-aa1"/>
+                            <constraint firstItem="S7w-U1-SZA" firstAttribute="centerX" secondItem="8fN-iV-i3T" secondAttribute="centerX" id="WOg-b2-6dC"/>
                             <constraint firstItem="ugW-wz-3wW" firstAttribute="top" secondItem="BG8-UZ-oCb" secondAttribute="bottom" constant="22" id="Yog-eD-MmN"/>
                             <constraint firstItem="ugW-wz-3wW" firstAttribute="leading" secondItem="Peq-8Z-zMT" secondAttribute="leadingMargin" id="eBr-sv-Gyd"/>
                             <constraint firstItem="2e3-6R-qjb" firstAttribute="centerX" secondItem="Peq-8Z-zMT" secondAttribute="centerX" id="h9s-zM-fUy"/>
@@ -378,9 +429,11 @@
                             <constraint firstItem="L1L-08-2Tw" firstAttribute="leading" secondItem="Peq-8Z-zMT" secondAttribute="leadingMargin" id="oFU-be-zJJ"/>
                             <constraint firstItem="2e3-6R-qjb" firstAttribute="top" secondItem="BG8-UZ-oCb" secondAttribute="bottom" constant="41" id="whm-Zg-rDt"/>
                             <constraint firstItem="Eoh-jG-C7J" firstAttribute="top" secondItem="Peq-8Z-zMT" secondAttribute="topMargin" id="yJD-gz-2zL"/>
+                            <constraint firstItem="S7w-U1-SZA" firstAttribute="centerY" secondItem="8fN-iV-i3T" secondAttribute="centerY" id="zsp-gk-dDc"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Camera" id="wy2-uJ-qcF"/>
+                    <navigationItem key="navigationItem" id="1A5-x8-sY5"/>
+                    <nil key="simulatedTopBarMetrics"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
                         <outlet property="cameraView" destination="Eoh-jG-C7J" id="A62-ba-x8L"/>
@@ -393,7 +446,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HtI-cw-RDb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="282" y="-2211"/>
+            <point key="canvasLocation" x="1094" y="-2211"/>
         </scene>
         <!--Movie Builder-->
         <scene sceneID="Jgj-Yw-CO5">
@@ -415,6 +468,26 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9vk-dN-88D" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="282" y="-1532"/>
+        </scene>
+        <!--Camera-->
+        <scene sceneID="L7V-x4-cbZ">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="RyH-ob-Tbe" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Camera" id="wy2-uJ-qcF"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="jbV-yr-gBa">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="KtM-ME-n2y" kind="relationship" relationship="rootViewController" id="Ctd-B2-KE7"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="e2n-tZ-jQG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="282" y="-2211"/>
         </scene>
     </scenes>
 </document>

@@ -18,6 +18,7 @@
 		8CA57DA01BC258990016762A /* SceneBuilderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA57D9F1BC258990016762A /* SceneBuilderViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		8CA57DA41BC49AE50016762A /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA57DA31BC49AE50016762A /* CameraViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		8CA57DA81BC4B20D0016762A /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 8CA57DA71BC4B20D0016762A /* .gitignore */; settings = {ASSET_TAGS = (); }; };
+		8CA57DAA1BC4D4C50016762A /* ClipsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA57DA91BC4D4C50016762A /* ClipsViewController.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		8CA57D9F1BC258990016762A /* SceneBuilderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneBuilderViewController.swift; sourceTree = "<group>"; };
 		8CA57DA31BC49AE50016762A /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		8CA57DA71BC4B20D0016762A /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = .gitignore; path = ../../../.Trash/.gitignore; sourceTree = "<group>"; };
+		8CA57DA91BC4D4C50016762A /* ClipsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClipsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +159,7 @@
 				8CA57D9D1BC258850016762A /* MovieBuilderViewController.swift */,
 				8CA57D9F1BC258990016762A /* SceneBuilderViewController.swift */,
 				8CA57DA31BC49AE50016762A /* CameraViewController.swift */,
+				8CA57DA91BC4D4C50016762A /* ClipsViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -296,6 +299,7 @@
 				8CA57DA41BC49AE50016762A /* CameraViewController.swift in Sources */,
 				8CA57D701BC252EA0016762A /* Free_Film_Camp.xcdatamodeld in Sources */,
 				8CA57DA01BC258990016762A /* SceneBuilderViewController.swift in Sources */,
+				8CA57DAA1BC4D4C50016762A /* ClipsViewController.swift in Sources */,
 				8CA57D681BC252EA0016762A /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
