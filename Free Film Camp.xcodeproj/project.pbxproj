@@ -8,13 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		8CA57D681BC252EA0016762A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA57D671BC252EA0016762A /* AppDelegate.swift */; };
-		8CA57D6A1BC252EA0016762A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA57D691BC252EA0016762A /* ViewController.swift */; };
 		8CA57D6D1BC252EA0016762A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CA57D6B1BC252EA0016762A /* Main.storyboard */; };
 		8CA57D701BC252EA0016762A /* Free_Film_Camp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8CA57D6E1BC252EA0016762A /* Free_Film_Camp.xcdatamodeld */; };
 		8CA57D721BC252EA0016762A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8CA57D711BC252EA0016762A /* Assets.xcassets */; };
 		8CA57D751BC252EA0016762A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CA57D731BC252EA0016762A /* LaunchScreen.storyboard */; };
 		8CA57D801BC252EB0016762A /* Free_Film_CampTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA57D7F1BC252EB0016762A /* Free_Film_CampTests.swift */; };
 		8CA57D8B1BC252EB0016762A /* Free_Film_CampUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA57D8A1BC252EB0016762A /* Free_Film_CampUITests.swift */; };
+		8CA57D9E1BC258850016762A /* MovieBuilderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA57D9D1BC258850016762A /* MovieBuilderViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		8CA57DA01BC258990016762A /* SceneBuilderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA57D9F1BC258990016762A /* SceneBuilderViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		8CA57DA41BC49AE50016762A /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA57DA31BC49AE50016762A /* CameraViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		8CA57DA81BC4B20D0016762A /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 8CA57DA71BC4B20D0016762A /* .gitignore */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,7 +40,6 @@
 /* Begin PBXFileReference section */
 		8CA57D641BC252EA0016762A /* Free Film Camp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Free Film Camp.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CA57D671BC252EA0016762A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		8CA57D691BC252EA0016762A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		8CA57D6C1BC252EA0016762A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8CA57D6F1BC252EA0016762A /* Free_Film_Camp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Free_Film_Camp.xcdatamodel; sourceTree = "<group>"; };
 		8CA57D711BC252EA0016762A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -49,6 +51,10 @@
 		8CA57D861BC252EB0016762A /* Free Film CampUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Free Film CampUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CA57D8A1BC252EB0016762A /* Free_Film_CampUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Free_Film_CampUITests.swift; sourceTree = "<group>"; };
 		8CA57D8C1BC252EB0016762A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8CA57D9D1BC258850016762A /* MovieBuilderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieBuilderViewController.swift; sourceTree = "<group>"; };
+		8CA57D9F1BC258990016762A /* SceneBuilderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneBuilderViewController.swift; sourceTree = "<group>"; };
+		8CA57DA31BC49AE50016762A /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		8CA57DA71BC4B20D0016762A /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = .gitignore; path = ../../../.Trash/.gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +85,7 @@
 		8CA57D5B1BC252EA0016762A = {
 			isa = PBXGroup;
 			children = (
+				8CA57DA71BC4B20D0016762A /* .gitignore */,
 				8CA57D661BC252EA0016762A /* Free Film Camp */,
 				8CA57D7E1BC252EB0016762A /* Free Film CampTests */,
 				8CA57D891BC252EB0016762A /* Free Film CampUITests */,
@@ -100,12 +107,10 @@
 			isa = PBXGroup;
 			children = (
 				8CA57D671BC252EA0016762A /* AppDelegate.swift */,
-				8CA57D691BC252EA0016762A /* ViewController.swift */,
-				8CA57D6B1BC252EA0016762A /* Main.storyboard */,
-				8CA57D711BC252EA0016762A /* Assets.xcassets */,
-				8CA57D731BC252EA0016762A /* LaunchScreen.storyboard */,
+				8CA57D9A1BC254C60016762A /* Controller */,
+				8CA57D991BC254BE0016762A /* Model */,
+				8CA57D981BC254B50016762A /* View */,
 				8CA57D761BC252EA0016762A /* Info.plist */,
-				8CA57D6E1BC252EA0016762A /* Free_Film_Camp.xcdatamodeld */,
 			);
 			path = "Free Film Camp";
 			sourceTree = "<group>";
@@ -126,6 +131,34 @@
 				8CA57D8C1BC252EB0016762A /* Info.plist */,
 			);
 			path = "Free Film CampUITests";
+			sourceTree = "<group>";
+		};
+		8CA57D981BC254B50016762A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8CA57D6B1BC252EA0016762A /* Main.storyboard */,
+				8CA57D731BC252EA0016762A /* LaunchScreen.storyboard */,
+				8CA57D711BC252EA0016762A /* Assets.xcassets */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		8CA57D991BC254BE0016762A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8CA57D6E1BC252EA0016762A /* Free_Film_Camp.xcdatamodeld */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		8CA57D9A1BC254C60016762A /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				8CA57D9D1BC258850016762A /* MovieBuilderViewController.swift */,
+				8CA57D9F1BC258990016762A /* SceneBuilderViewController.swift */,
+				8CA57DA31BC49AE50016762A /* CameraViewController.swift */,
+			);
+			name = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -231,6 +264,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8CA57DA81BC4B20D0016762A /* .gitignore in Resources */,
 				8CA57D751BC252EA0016762A /* LaunchScreen.storyboard in Resources */,
 				8CA57D721BC252EA0016762A /* Assets.xcassets in Resources */,
 				8CA57D6D1BC252EA0016762A /* Main.storyboard in Resources */,
@@ -258,8 +292,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8CA57D9E1BC258850016762A /* MovieBuilderViewController.swift in Sources */,
+				8CA57DA41BC49AE50016762A /* CameraViewController.swift in Sources */,
 				8CA57D701BC252EA0016762A /* Free_Film_Camp.xcdatamodeld in Sources */,
-				8CA57D6A1BC252EA0016762A /* ViewController.swift in Sources */,
+				8CA57DA01BC258990016762A /* SceneBuilderViewController.swift in Sources */,
 				8CA57D681BC252EA0016762A /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -487,6 +523,7 @@
 				8CA57D911BC252EB0016762A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8CA57D921BC252EB0016762A /* Build configuration list for PBXNativeTarget "Free Film CampTests" */ = {
 			isa = XCConfigurationList;
@@ -495,6 +532,7 @@
 				8CA57D941BC252EB0016762A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8CA57D951BC252EB0016762A /* Build configuration list for PBXNativeTarget "Free Film CampUITests" */ = {
 			isa = XCConfigurationList;
@@ -503,6 +541,7 @@
 				8CA57D971BC252EB0016762A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
