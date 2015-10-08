@@ -24,6 +24,19 @@ class SceneBuilderViewController: UIViewController {
         
     }
 
+    @IBAction func selectClipOne(sender: AnyObject) {
+        
+        self.performSegueWithIdentifier("clipsLibrary", sender: self)
+        print("BUTTON!!!!!!!!!!!!!")
+    }
+    
+    @IBAction func selectClipTwo(sender: AnyObject) {
+    }
+    
+    @IBAction func selectClip3(sender: AnyObject) {
+    }
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

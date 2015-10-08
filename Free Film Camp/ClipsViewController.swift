@@ -25,7 +25,6 @@ class ClipsViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationController?.navigationBarHidden = false
         
         fetchOptions.predicate = NSPredicate(format: "title = %@", albumTitle)
         clipsAlbumFetch = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: fetchOptions)
@@ -55,6 +54,10 @@ class ClipsViewController: UICollectionViewController {
         }
     }
     
+    @IBAction func cancelSelection(sender: AnyObject) {
+        
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
 
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
@@ -65,17 +68,17 @@ class ClipsViewController: UICollectionViewController {
         
         let manager = PHImageManager.defaultManager()
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! VideoLibraryCell
-        cell.backgroundColor = UIColor.redColor()
+        cell.backgroundColor = UIColor.blueColor()
         
         if cell.tag != 0 {
             
             manager.cancelImageRequest(PHImageRequestID(cell.tag))
         }
         
-        let video = videos[indexPath.section]
+        let video = videos[indexPath.row]
         
         cell.tag = Int(manager.requestImageForAsset(video,
-            targetSize: CGSize(width: 100, height: 100),
+            targetSize: CGSize(width: 140, height: 140),
             contentMode: .AspectFill,
             options: nil) { (result, _) -> Void in
                 cell.imageView.image = result
