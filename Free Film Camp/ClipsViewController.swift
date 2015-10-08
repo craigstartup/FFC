@@ -8,11 +8,14 @@
 
 import UIKit
 import Photos
+import AVKit
 
-class ClipsViewController: UICollectionViewController {
+class ClipsViewController: UICollectionViewController, UIGestureRecognizerDelegate {
 
     let library = PHPhotoLibrary.sharedPhotoLibrary()
-    let cachingManager = PHCachingImageManager()
+    let manager = PHImageManager.defaultManager()
+    let vpVC = AVPlayerViewController()
+
     // fetch albums and assets
     let fetchOptions = PHFetchOptions()
     let albumTitle = "Free Film Camp Clips"
@@ -21,11 +24,14 @@ class ClipsViewController: UICollectionViewController {
     var clipsAlbum: PHAssetCollection!
     let reuseIdentifier = "ClipCell"
     var videos = [PHAsset]()
+    // handle interaction
+    var longPress: UILongPressGestureRecognizer!
+    var tap: UITapGestureRecognizer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        // retrieve or creat clips album
         fetchOptions.predicate = NSPredicate(format: "title = %@", albumTitle)
         clipsAlbumFetch = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: fetchOptions)
         clipsAlbum = clipsAlbumFetch.firstObject as! PHAssetCollection
@@ -45,6 +51,7 @@ class ClipsViewController: UICollectionViewController {
             
         }
         
+        // retrieve videos from clips album
         clipsAlbumVideosFetch = PHAsset.fetchAssetsInAssetCollection(clipsAlbum, options: nil)
         
         clipsAlbumVideosFetch.enumerateObjectsUsingBlock { (object, _, _) in
@@ -52,6 +59,14 @@ class ClipsViewController: UICollectionViewController {
                 self.videos.append(asset)
             }
         }
+        // setup gesture recognizer
+        longPress = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")
+        longPress.minimumPressDuration = 0.5
+        longPress.delegate = self
+        longPress.delaysTouchesBegan = true
+        self.collectionView?.addGestureRecognizer(longPress)
+        tap = UITapGestureRecognizer(target: self, action: "handleTap:")
+        self.collectionView?.addGestureRecognizer(tap)
     }
     
     @IBAction func cancelSelection(sender: AnyObject) {
@@ -66,7 +81,6 @@ class ClipsViewController: UICollectionViewController {
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        let manager = PHImageManager.defaultManager()
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! VideoLibraryCell
         cell.backgroundColor = UIColor.blueColor()
         
@@ -86,11 +100,33 @@ class ClipsViewController: UICollectionViewController {
         return cell
     }
     
-    override func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
+    
+    func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
         
-        print(indexPath.description)
+        if gestureRecognizer.state != UIGestureRecognizerState.Ended {
+
+            return
+        }
+        let itemTouched = gestureRecognizer.locationInView(self.collectionView)
+        let indexPath = self.collectionView?.indexPathForItemAtPoint(itemTouched)
+        var videoPlayer: AVPlayer!
+        let video = videos[(indexPath?.row)!]
+        manager.requestPlayerItemForVideo(video, options: nil) { (playerItem, info) -> Void in
+            videoPlayer = AVPlayer(playerItem: playerItem!)
+            self.vpVC.player = videoPlayer
+        }
+        
+        self.presentViewController(self.vpVC, animated: true, completion: nil)
+        
+        
+        
     }
     
+    
+    func handleTap(gestureRecognizer: UITapGestureRecognizer) {
+        
+        
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

@@ -24,7 +24,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TuO-DA-K77" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="282" y="-783"/>
+            <point key="canvasLocation" x="318" y="-791"/>
         </scene>
         <!--Clips-->
         <scene sceneID="R3q-qt-yrF">
@@ -150,7 +150,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vdY-14-4vq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1088" y="-840"/>
+            <point key="canvasLocation" x="1130" y="-791"/>
         </scene>
         <!--Scene Builder-->
         <scene sceneID="JsG-kM-3LC">
@@ -242,7 +242,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="vDO-tT-Aig">
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vDO-tT-Aig">
                                 <rect key="frame" x="225" y="367" width="150" height="2"/>
                                 <animations/>
                                 <constraints>
