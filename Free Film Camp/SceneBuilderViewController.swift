@@ -257,23 +257,26 @@ class SceneBuilderViewController: UIViewController {
                         
                         }, completionHandler: { (success: Bool, error: NSError?) -> Void in
                             
-                            if !success {
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
                                 
-                                let alert = UIAlertController(title: "Failed", message: "Failed to save video", preferredStyle: .Alert)
-                                let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
-                                alert.addAction(action)
-                                self.presentViewController(alert, animated: true, completion: nil)
-                                print("Failed to add photo to album: %@", error?.localizedDescription)
-                            } else {
-                                
-                                let alert = UIAlertController(title: "Success", message: "Video saved.", preferredStyle: .Alert)
-                                let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
-                                alert.addAction(action)
-                                self.presentViewController(alert, animated: true, completion: nil)
-                                
-                                
-                            }
-                            
+                                if !success {
+                                    
+                                    
+                                    let alert = UIAlertController(title: "Failed", message: "Failed to save video", preferredStyle: .Alert)
+                                    let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                                    alert.addAction(action)
+                                    self.presentViewController(alert, animated: true, completion: nil)
+                                    print("Failed to add photo to album: %@", error?.localizedDescription)
+                                } else {
+                                    
+                                    let alert = UIAlertController(title: "Success", message: "Video saved.", preferredStyle: .Alert)
+                                    let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                                    alert.addAction(action)
+                                    self.presentViewController(alert, animated: true, completion: nil)
+                                    
+                                    
+                                }
+                            })
                             cleanup()
                     })
                     
