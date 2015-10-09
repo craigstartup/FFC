@@ -10,20 +10,20 @@ import UIKit
 import Photos
 import AVKit
 
-class ClipsViewController: UICollectionViewController, UIGestureRecognizerDelegate {
-
+class TheatreViewController: UICollectionViewController {
+    
     let library = PHPhotoLibrary.sharedPhotoLibrary()
     let manager = PHImageManager.defaultManager()
     let vpVC = AVPlayerViewController()
     let defaults = NSUserDefaults()
-
+    
     // fetch albums and assets
     let fetchOptions = PHFetchOptions()
-    let albumTitle = "Free Film Camp Clips"
+    let albumTitle = "Free Film Camp Scenes"
     var clipsAlbumFetch: PHFetchResult!
     var clipsAlbumVideosFetch: PHFetchResult!
     var clipsAlbum: PHAssetCollection!
-    let reuseIdentifier = "ClipCell"
+    let reuseIdentifier = "TheatreCell"
     var videos = [PHAsset]()
     
     // handle interaction
@@ -64,36 +64,9 @@ class ClipsViewController: UICollectionViewController, UIGestureRecognizerDelega
                 self.videos.append(asset)
             }
         }
-        // setup gesture recognizer
-        longPress = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")
-        longPress.minimumPressDuration = 0.5
-        longPress.delegate = self
-        longPress.delaysTouchesBegan = true
-        self.collectionView?.addGestureRecognizer(longPress)
-        tap = UITapGestureRecognizer(target: self, action: "handleTap:")
-        tap.delegate = self
-        self.collectionView?.addGestureRecognizer(tap)
-        // tell user how to use
-        if defaults.objectForKey("initialEntry") != nil{
-            initialEntry = (defaults.objectForKey("initialEntry") as? Bool)!
-        }
         
-        if initialEntry {
-            initialEntry = false
-            defaults.setObject(initialEntry, forKey: "initialEntry")
-            defaults.synchronize()
-            let alert = UIAlertController(title: "Welcome", message: "Tap image to selct. Tap and hold to play.", preferredStyle: .Alert)
-            let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
-            alert.addAction(action)
-            self.presentViewController(alert, animated: true, completion: nil)
-        }
     }
     
-    @IBAction func cancelSelection(sender: AnyObject) {
-        
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
-
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         return clipsAlbum.estimatedAssetCount
@@ -101,7 +74,7 @@ class ClipsViewController: UICollectionViewController, UIGestureRecognizerDelega
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! VideoLibraryCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! TheatreCell
         cell.backgroundColor = UIColor.blueColor()
         
         if cell.tag != 0 {
@@ -116,78 +89,46 @@ class ClipsViewController: UICollectionViewController, UIGestureRecognizerDelega
             contentMode: .AspectFill,
             options: nil) { (result, _) -> Void in
                 cell.imageView.image = result
-        })
+            })
         return cell
     }
     
-    
-    func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
-        
-        if gestureRecognizer.state != UIGestureRecognizerState.Ended {
+    override func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
+        print("tapped item")
 
-            return
-        }
-        let itemTouched = gestureRecognizer.locationInView(self.collectionView)
-        let indexPath = self.collectionView?.indexPathForItemAtPoint(itemTouched)
-        var videoPlayer: AVPlayer!
-        let video = videos[(indexPath?.row)!]
+        let video = videos[(indexPath.row)]
         manager.requestPlayerItemForVideo(video, options: nil) { (playerItem, info) -> Void in
-            videoPlayer = AVPlayer(playerItem: playerItem!)
-            self.vpVC.player = videoPlayer
-        }
-        self.presentViewController(self.vpVC, animated: true, completion: nil)
-        
-        
-    }
-    
-    
-    func handleTap(gestureRecognizer: UITapGestureRecognizer) {
-        print("TAP")
-        if gestureRecognizer.state != UIGestureRecognizerState.Ended {
-            
-            return
-        }
-        let itemTouched = gestureRecognizer.locationInView(self.collectionView)
-        let indexPath = self.collectionView?.indexPathForItemAtPoint(itemTouched)
-        let video = videos[(indexPath?.row)!]
-        manager.requestAVAssetForVideo(video, options: nil) { (videoAsset, audioMix, info) -> Void in
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 
-                if (videoAsset?.isKindOfClass(AVURLAsset) != nil) {
-                    
-                    let url = videoAsset as! AVURLAsset
-                    self.videoAssetToPass = url.URL
-                    self.performSegueWithIdentifier("clipSelectedSegue", sender: self)
-                }
+                let videoPlayer = AVPlayer(playerItem: playerItem!)
+                //let layer = AVPlayerLayer(player: videoPlayer)
+                //layer.frame = self.view.bounds
+                //self.view.layer.addSublayer(layer)
+                //videoPlayer.play()
+                self.vpVC.player = videoPlayer
+                self.presentViewController(self.vpVC, animated: true, completion: nil)
             })
+            
         }
-        
+       
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        
-        if segue.identifier == "clipSelectedSegue" {
-            
-            let sceneBuilderVC = segue.destinationViewController as! SceneBuilderViewController
-            sceneBuilderVC.selectedVideoAsset = self.videoAssetToPass
-        }
-    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
+    
     /*
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // Get the new view controller using segue.destinationViewController.
+    // Pass the selected object to the new view controller.
     }
     */
-
+    
 }

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8C5E51CD1BC7AD3B0028CBAA /* TheatreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5E51CC1BC7AD3B0028CBAA /* TheatreViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		8C5E51D11BC7B2840028CBAA /* TheatreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5E51D01BC7B2840028CBAA /* TheatreCell.swift */; settings = {ASSET_TAGS = (); }; };
 		8CA57D681BC252EA0016762A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA57D671BC252EA0016762A /* AppDelegate.swift */; };
 		8CA57D6D1BC252EA0016762A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CA57D6B1BC252EA0016762A /* Main.storyboard */; };
 		8CA57D701BC252EA0016762A /* Free_Film_Camp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8CA57D6E1BC252EA0016762A /* Free_Film_Camp.xcdatamodeld */; };
@@ -20,7 +22,7 @@
 		8CA57DA81BC4B20D0016762A /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 8CA57DA71BC4B20D0016762A /* .gitignore */; settings = {ASSET_TAGS = (); }; };
 		8CA57DAA1BC4D4C50016762A /* ClipsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA57DA91BC4D4C50016762A /* ClipsViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		8CA57DE91BC5F0710016762A /* VideoLibraryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA57DE81BC5F0710016762A /* VideoLibraryCell.swift */; settings = {ASSET_TAGS = (); }; };
-		8CA57DEB1BC6D6750016762A /* ClipsPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA57DEA1BC6D6750016762A /* ClipsPlayerViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		8CBF277F1BC78A3A00EEFA27 /* VoiceOverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBF277E1BC78A3A00EEFA27 /* VoiceOverViewController.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +43,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8C5E51CC1BC7AD3B0028CBAA /* TheatreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TheatreViewController.swift; sourceTree = "<group>"; };
+		8C5E51D01BC7B2840028CBAA /* TheatreCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TheatreCell.swift; sourceTree = "<group>"; };
 		8CA57D641BC252EA0016762A /* Free Film Camp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Free Film Camp.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CA57D671BC252EA0016762A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8CA57D6C1BC252EA0016762A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -60,7 +64,7 @@
 		8CA57DA71BC4B20D0016762A /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = .gitignore; path = ../../../.Trash/.gitignore; sourceTree = "<group>"; };
 		8CA57DA91BC4D4C50016762A /* ClipsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClipsViewController.swift; sourceTree = "<group>"; };
 		8CA57DE81BC5F0710016762A /* VideoLibraryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoLibraryCell.swift; sourceTree = "<group>"; };
-		8CA57DEA1BC6D6750016762A /* ClipsPlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClipsPlayerViewController.swift; sourceTree = "<group>"; };
+		8CBF277E1BC78A3A00EEFA27 /* VoiceOverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceOverViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +150,7 @@
 				8CA57D731BC252EA0016762A /* LaunchScreen.storyboard */,
 				8CA57D711BC252EA0016762A /* Assets.xcassets */,
 				8CA57DE81BC5F0710016762A /* VideoLibraryCell.swift */,
+				8C5E51D01BC7B2840028CBAA /* TheatreCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -165,7 +170,8 @@
 				8CA57D9F1BC258990016762A /* SceneBuilderViewController.swift */,
 				8CA57DA31BC49AE50016762A /* CameraViewController.swift */,
 				8CA57DA91BC4D4C50016762A /* ClipsViewController.swift */,
-				8CA57DEA1BC6D6750016762A /* ClipsPlayerViewController.swift */,
+				8CBF277E1BC78A3A00EEFA27 /* VoiceOverViewController.swift */,
+				8C5E51CC1BC7AD3B0028CBAA /* TheatreViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -302,13 +308,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				8CA57D9E1BC258850016762A /* MovieBuilderViewController.swift in Sources */,
-				8CA57DEB1BC6D6750016762A /* ClipsPlayerViewController.swift in Sources */,
+				8CBF277F1BC78A3A00EEFA27 /* VoiceOverViewController.swift in Sources */,
 				8CA57DE91BC5F0710016762A /* VideoLibraryCell.swift in Sources */,
 				8CA57DA41BC49AE50016762A /* CameraViewController.swift in Sources */,
 				8CA57D701BC252EA0016762A /* Free_Film_Camp.xcdatamodeld in Sources */,
 				8CA57DA01BC258990016762A /* SceneBuilderViewController.swift in Sources */,
 				8CA57DAA1BC4D4C50016762A /* ClipsViewController.swift in Sources */,
+				8C5E51D11BC7B2840028CBAA /* TheatreCell.swift in Sources */,
 				8CA57D681BC252EA0016762A /* AppDelegate.swift in Sources */,
+				8C5E51CD1BC7AD3B0028CBAA /* TheatreViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

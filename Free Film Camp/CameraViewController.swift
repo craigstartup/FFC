@@ -69,7 +69,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         
         if let _: AnyObject = toAlbum.firstObject {
             
-            print("Free Film Camp Scenes exists")
+            print("Free Film Camp Clips exists")
         } else {
             
             library.performChanges({ () -> Void in
@@ -126,7 +126,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         clipsView.userInteractionEnabled = false
        
         
-        // record for 3 seconds and save in background to photos
+        // record for 3 seconds to file
         dispatch_async(self.sessionQueue) { () -> Void in
             
             if !self.videoForFileOutput.recording {
