@@ -114,8 +114,6 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     @IBAction func record(sender: AnyObject) {
         
         videoForFileOutput.maxRecordedDuration = maxVideoTime
-        self.tabBarController!.tabBar.alpha = 0
-        self.tabBarController!.tabBar.userInteractionEnabled = false
         // disable and hide buttons
         recordButton.alpha = 0
         recordButton.enabled = false
@@ -259,8 +257,6 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             
             self.recordButton.enabled = true
             self.recordButton.alpha = 1
-            self.tabBarController!.tabBar.alpha = 1
-            self.tabBarController!.tabBar.userInteractionEnabled = true
         }
         
         print("End recording")
