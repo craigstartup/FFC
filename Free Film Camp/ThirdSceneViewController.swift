@@ -1,23 +1,19 @@
 //
-//  MovieBuilderViewController.swift
+//  ThirdSceneViewController.swift
 //  Free Film Camp
 //
-//  Created by Eric Mentele on 10/5/15.
+//  Created by Eric Mentele on 10/12/15.
 //  Copyright © 2015 Eric Mentele. All rights reserved.
 //
 
 import UIKit
-import Photos
 
-
-class MovieBuilderViewController: UIViewController {
-    
+class ThirdSceneViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        
+
+        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {

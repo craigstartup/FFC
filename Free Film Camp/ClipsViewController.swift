@@ -127,6 +127,7 @@ class ClipsViewController: UICollectionViewController, UIGestureRecognizerDelega
 
             return
         }
+        
         let itemTouched = gestureRecognizer.locationInView(self.collectionView)
         let indexPath = self.collectionView?.indexPathForItemAtPoint(itemTouched)
         var videoPlayer: AVPlayer!
@@ -170,7 +171,7 @@ class ClipsViewController: UICollectionViewController, UIGestureRecognizerDelega
         
         if segue.identifier == "clipSelectedSegue" {
             
-            let sceneBuilderVC = segue.destinationViewController as! SceneBuilderViewController
+            let sceneBuilderVC = segue.destinationViewController as! FirstSceneViewController
             sceneBuilderVC.selectedVideoAsset = self.videoAssetToPass
         }
     }

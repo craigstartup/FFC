@@ -117,7 +117,7 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         
         if segue.identifier == "getAudio" {
             
-            let mergeVC = segue.destinationViewController as! SceneBuilderViewController
+            let mergeVC = segue.destinationViewController as! FirstSceneViewController
             mergeVC.audioAsset = self.audioAssetToPass
             
         }

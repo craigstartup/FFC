@@ -1,79 +1,77 @@
-//  Assisted by http://www.raywenderlich.com/94404/play-record-merge-videos-ios-swift
-//  SceneBuilderViewController.swift
+//
+//  MediaLibraryController.swift
 //  Free Film Camp
 //
-//  Created by Eric Mentele on 10/5/15.
+//  Created by Eric Mentele on 10/13/15.
 //  Copyright © 2015 Eric Mentele. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import Photos
 import AVFoundation
 
-
-class SceneBuilderViewController: UIViewController {
-
+class MediaController {
+    
+    static let sharedMediaController = MediaController()
     
     let library = PHPhotoLibrary.sharedPhotoLibrary()
-    let fetchOptions = PHFetchOptions()
-    let toAlbumTitle = "Free Film Camp Scenes"
-    var assetRequestNumber: Int!
-    
-    var selectedVideoAsset: NSURL!
-    var firstAsset: AVAsset!
-    var secondAsset: AVAsset!
-    var thirdAsset: AVAsset!
-    var audioAsset: AVAsset!
+
+    // Shots
+    var s1Shot1: AVAsset!
+    var s1Shot2: AVAsset!
+    var s1Shot3: AVAsset!
+    var s1VoiceOver: AVAsset!
+
+    var s2Shot1: AVAsset!
+    var s2Shot2: AVAsset!
+    var s2Shot3: AVAsset!
+    var s2VoiceOver: AVAsset!
+
+    var s3Shot1: AVAsset!
+    var s3Shot2: AVAsset!
+    var s3Shot3: AVAsset!
+    var s3VoiceOver: AVAsset!
+
+    // place holder for scene
     var newScene: PHObjectPlaceholder!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // set up album for recorded scenes
-        fetchOptions.predicate = NSPredicate(format: "title = %@", toAlbumTitle)
-        let toAlbum = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: fetchOptions)
+    //Scenes
+    var scene1: AVAsset!
+    var scene2: AVAsset!
+    var scene3: AVAsset!
+    
+    let clipsAlbumTitle = "Free Film Camp Clips"
+    let scenesAlbumTitle = "Free Film Camp Scenes"
+    let moviesAlbumTitle = "Free Film Camp Movies"
+    
+    var saveSceneSuccess = false
+    
+    
+    func saveScene(scene: Int) -> Bool {
         
-        if let _: AnyObject = toAlbum.firstObject {
+        var firstAsset: AVAsset!, secondAsset: AVAsset!, thirdAsset: AVAsset!, audioAsset: AVAsset!
+        
+        switch (scene) {
             
-            print("Free Film Camp Scenes exists")
-        } else {
-            
-            library.performChanges({ () -> Void in
-                PHAssetCollectionChangeRequest.creationRequestForAssetCollectionWithTitle(toAlbumTitle)
-                }) { (success: Bool, error: NSError?) -> Void in
-                    if !success {
-                        print(error!.localizedDescription)
-                    }
-            }
-            
+        case 1:
+            firstAsset = self.s1Shot1
+            secondAsset = self.s1Shot2
+            thirdAsset  = self.s1Shot3
+            audioAsset = self.s1VoiceOver
+        case 2:
+            firstAsset = self.s2Shot1
+            secondAsset = self.s2Shot2
+            thirdAsset  = self.s2Shot3
+            audioAsset = self.s2VoiceOver
+        case 3:
+            firstAsset = self.s3Shot1
+            secondAsset = self.s3Shot2
+            thirdAsset  = self.s3Shot3
+            audioAsset = self.s3VoiceOver
+        default:
+            print("Invalid scene number")
         }
-
-    }
-
-    @IBAction func selectClipOne(sender: AnyObject) {
         
-        self.assetRequestNumber = 1
-        self.performSegueWithIdentifier("clipsLibrary", sender: self)
-        
-    }
-    
-    @IBAction func selectClipTwo(sender: AnyObject) {
-        
-        self.assetRequestNumber = 2
-        self.performSegueWithIdentifier("clipsLibrary", sender: self)
-    }
-    
-    @IBAction func selectClip3(sender: AnyObject) {
-        
-        self.assetRequestNumber = 3
-        self.performSegueWithIdentifier("clipsLibrary", sender: self)
-    }
-    
-    @IBAction func record(sender: AnyObject) {
-    }
-    
-    
-    @IBAction func mergeMedia(sender: AnyObject) {
         
         if firstAsset != nil && secondAsset != nil && thirdAsset != nil {
             
@@ -160,8 +158,11 @@ class SceneBuilderViewController: UIViewController {
             let paths: NSArray = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
             
             let documentDirectory: String = paths[0] as! String
-            let id = String(arc4random() % 1000)
-            let url = NSURL(fileURLWithPath: documentDirectory).URLByAppendingPathComponent("mergeVideo-\(id).mov")
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateStyle = .LongStyle
+            dateFormatter.timeStyle = .ShortStyle
+            let date = dateFormatter.stringFromDate(NSDate())
+            let url = NSURL(fileURLWithPath: documentDirectory).URLByAppendingPathComponent("mergeVideo-\(date).mov")
             // make exporter
             let exporter = AVAssetExportSession(
                 asset: mixComposition,
@@ -177,27 +178,9 @@ class SceneBuilderViewController: UIViewController {
                     })
             }
         }
-        
+        return self.saveSceneSuccess
     }
     
-    // MARK: unwind segues
-    @IBAction func clipUnwindSegue(unwindSegue: UIStoryboardSegue) {
-        
-        if assetRequestNumber == 1 {
-            
-            self.firstAsset = AVAsset(URL: self.selectedVideoAsset)
-        } else if assetRequestNumber == 2 {
-            
-            self.secondAsset = AVAsset(URL: self.selectedVideoAsset)
-        } else if assetRequestNumber == 3 {
-            
-            self.thirdAsset = AVAsset(URL: self.selectedVideoAsset)
-        }
-    }
-    
-    @IBAction func audioUnwindSegue(unwindSegue: UIStoryboardSegue){
-        
-    }
     
     // MARK: Merge Helper Methods
     func exportDidFinish(session:AVAssetExportSession) {
@@ -219,13 +202,13 @@ class SceneBuilderViewController: UIViewController {
                     print(fileError.localizedDescription)
                 }
             }
-
+            
             // check if authorized to save to photos
             PHPhotoLibrary.requestAuthorization({ (status:PHAuthorizationStatus) -> Void in
                 
                 if status == PHAuthorizationStatus.Authorized {
                     
-                    // move movie to Photos library
+                    // move scene to Photos library
                     PHPhotoLibrary.sharedPhotoLibrary().performChanges({ () -> Void in
                         
                         let options = PHAssetResourceCreationOptions()
@@ -249,34 +232,22 @@ class SceneBuilderViewController: UIViewController {
                         
                         // add to Free Film Camp album
                         let fetchOptions = PHFetchOptions()
-                        fetchOptions.predicate = NSPredicate(format: "title = %@", self.toAlbumTitle)
+                        fetchOptions.predicate = NSPredicate(format: "title = %@", self.scenesAlbumTitle)
                         let album: PHFetchResult = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: fetchOptions)
                         let albumCollection = album.firstObject as! PHAssetCollection
                         let albumChangeRequest = PHAssetCollectionChangeRequest(forAssetCollection: albumCollection, assets: album)
                         albumChangeRequest?.addAssets([self.newScene])
                         
                         }, completionHandler: { (success: Bool, error: NSError?) -> Void in
-                            
-                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
                                 
                                 if !success {
                                     
-                                    
-                                    let alert = UIAlertController(title: "Failed", message: "Failed to save video", preferredStyle: .Alert)
-                                    let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
-                                    alert.addAction(action)
-                                    self.presentViewController(alert, animated: true, completion: nil)
+                                    self.saveSceneSuccess = false
                                     print("Failed to add photo to album: %@", error?.localizedDescription)
                                 } else {
                                     
-                                    let alert = UIAlertController(title: "Success", message: "Video saved.", preferredStyle: .Alert)
-                                    let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
-                                    alert.addAction(action)
-                                    self.presentViewController(alert, animated: true, completion: nil)
-                                    
-                                    
+                                    self.saveSceneSuccess = true
                                 }
-                            })
                             cleanup()
                     })
                     
@@ -286,27 +257,5 @@ class SceneBuilderViewController: UIViewController {
                 }
             })
         }
-        audioAsset = nil
-        firstAsset = nil
-        secondAsset = nil
-        thirdAsset = nil
     }
-
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

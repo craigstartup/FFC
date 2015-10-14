@@ -22,6 +22,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     @IBOutlet weak var clipsView: UIImageView!
     @IBOutlet weak var clipsButton: UIButton!
     
+    @IBOutlet weak var cancelButton: UIButton!
     // camera components
     let videoCapture = AVCaptureSession()
     let camera = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
@@ -265,6 +266,11 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         print("End recording")
     }
     
+    
+    @IBAction func cancelCamera(sender: AnyObject) {
+        
+        self.navigationController?.popViewControllerAnimated(true)
+    }
     
     @IBAction func flipCamera(sender: AnyObject) {
         
