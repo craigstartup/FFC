@@ -3,7 +3,7 @@
 //  Free Film Camp
 //
 //  Created by Eric Mentele on 10/8/15.
-//  Copyright © 2015 Eric Mentele. All rights reserved.
+//  Copyright © 2015 Craig Swanson. All rights reserved.
 //
 
 import UIKit
@@ -19,6 +19,8 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     var audioPlayer: AVAudioPlayer!
     var audioRecorder: AVAudioRecorder!
     var audioAssetToPass: AVAsset!
+    
+    var segueID: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,10 +63,19 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     
     @IBAction func recordButtonPressed(sender: AnyObject) {
         
+        if audioPlayer?.playing == true {
+            
+            audioPlayer.stop()
+        }
         if audioRecorder.recording == false {
+            recordButton.enabled = false
+            recordButton.alpha = 0.5
             playButton.enabled = false
+            playButton.alpha = 0.5
             doneButton.enabled = false
+            doneButton.alpha = 0.5
             stopButton.enabled = true
+            stopButton.alpha = 1.0
             audioRecorder.record()
         }
     }
@@ -74,7 +85,10 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         
         if audioRecorder.recording == false {
             stopButton.enabled = true
+            stopButton.alpha = 1.0
             recordButton.enabled = false
+            recordButton.alpha = 0.5
+            playButton.alpha = 0.5
             
             do {
                 
@@ -87,15 +101,21 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
             audioPlayer.delegate = self
         }
         
+        playButton.alpha = 1.0
+        recordButton.alpha = 1.0
+        recordButton.enabled = true
     }
-    
     
     @IBAction func stopButtonPressed(sender: AnyObject) {
         
         stopButton.enabled = false
+        stopButton.alpha = 0.5
         playButton.enabled = true
+        playButton.alpha = 1.0
         recordButton.enabled = true
+        recordButton.alpha = 1.0
         doneButton.enabled = true
+        doneButton.alpha = 1.0
         
         if audioRecorder.recording == true {
             audioRecorder.stop()
@@ -109,17 +129,24 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     @IBAction func doneButtonPressed(sender: AnyObject) {
         
         self.audioAssetToPass = AVAsset(URL: (audioRecorder?.url)!)
-        
+        self.performSegueWithIdentifier(self.segueID, sender: self)
     }
     
     // get audio file
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-        if segue.identifier == "getAudio" {
+        if segue.identifier == "s1AudioSelectedSegue" {
             
-            let mergeVC = segue.destinationViewController as! FirstSceneViewController
-            mergeVC.audioAsset = self.audioAssetToPass
+            let scene1BuilderVC = segue.destinationViewController as! FirstSceneViewController
+            scene1BuilderVC.audioAsset = self.audioAssetToPass
+        } else if segue.identifier == "s2AudioSelectedSegue" {
             
+            let scene2BuilderVC = segue.destinationViewController as! SecondSceneViewController
+            scene2BuilderVC.audioAsset = self.audioAssetToPass
+        } else if segue.identifier == "s3AudioSelectedSegue" {
+            
+            let scene3BuilderVC = segue.destinationViewController as! ThirdSceneViewController
+            scene3BuilderVC.audioAsset = self.audioAssetToPass
         }
     }
     

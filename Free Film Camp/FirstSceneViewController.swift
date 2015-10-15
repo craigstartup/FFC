@@ -3,7 +3,7 @@
 //  Free Film Camp
 //
 //  Created by Eric Mentele on 10/5/15.
-//  Copyright © 2015 Eric Mentele. All rights reserved.
+//  Copyright © 2015 Craig Swanson. All rights reserved.
 //
 
 import UIKit
@@ -17,9 +17,10 @@ class FirstSceneViewController: UIViewController {
     let library = PHPhotoLibrary.sharedPhotoLibrary()
     let fetchOptions = PHFetchOptions()
     let toAlbumTitle = "Free Film Camp Scenes"
+    let clipID = "s1ClipSelectedSegue"
+    let audioID = "s1AudioSelectedSegue"
     var assetRequestNumber: Int!
     var scene = 1
-    var clipsVC: UIViewController!
     
     var selectedVideoAsset: NSURL!
     var audioAsset: AVAsset!
@@ -27,7 +28,6 @@ class FirstSceneViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        clipsVC = storyboard?.instantiateViewControllerWithIdentifier("videoVC") as! ClipsViewController
         // set up album for recorded scenes
         fetchOptions.predicate = NSPredicate(format: "title = %@", toAlbumTitle)
         let toAlbum = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: fetchOptions)
@@ -58,25 +58,23 @@ class FirstSceneViewController: UIViewController {
     @IBAction func selectClipOne(sender: AnyObject) {
         
         self.assetRequestNumber = 1
-        presentViewController(self.clipsVC, animated: true, completion: nil)
-        
+        self.performSegueWithIdentifier("s1SelectClip", sender: self)
     }
     
     @IBAction func selectClipTwo(sender: AnyObject) {
         
         self.assetRequestNumber = 2
-        presentViewController(self.clipsVC, animated: true, completion: nil)    }
+        self.performSegueWithIdentifier("s1SelectClip", sender: self)
+    }
     
     @IBAction func selectClip3(sender: AnyObject) {
         
         self.assetRequestNumber = 3
-        presentViewController(self.clipsVC, animated: true, completion: nil)
+        self.performSegueWithIdentifier("s1SelectClip", sender: self)
     }
     
     @IBAction func record(sender: AnyObject) {
-        
-        let vc = storyboard?.instantiateViewControllerWithIdentifier("voiceOverVC") as! VoiceOverViewController
-        presentViewController(vc, animated: true, completion: nil)
+
     }
     
     @IBAction func previewSelection(sender: AnyObject) {
@@ -86,15 +84,31 @@ class FirstSceneViewController: UIViewController {
         
         if MediaController.sharedMediaController.saveScene(self.scene) {
             
-            let alert = UIAlertController(title: "Success", message: "Video saved.", preferredStyle: .Alert)
-            let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
-            alert.addAction(action)
-            self.presentViewController(alert, animated: true, completion: nil)
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                
+                let alert = UIAlertController(title: "Success", message: "Video saved.", preferredStyle: .Alert)
+                let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                alert.addAction(action)
+                self.presentViewController(alert, animated: true, completion: nil)
+            })
+        }
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    
+        if segue.identifier == "s1SelectClip" {
+            
+            let destinationVC = segue.destinationViewController as! ClipsViewController
+            destinationVC.segueID = self.clipID
+        } else if segue.identifier == "s1SelectAudio" {
+            
+            let destinationVC = segue.destinationViewController as! VoiceOverViewController
+            destinationVC.segueID = self.audioID
         }
     }
     
     // MARK: unwind segues
-    @IBAction func clipUnwindSegue(unwindSegue: UIStoryboardSegue) {
+    @IBAction func s1ClipUnwindSegue(unwindSegue: UIStoryboardSegue) {
         
         if assetRequestNumber == 1 {
             
@@ -108,7 +122,8 @@ class FirstSceneViewController: UIViewController {
         }
     }
     
-    @IBAction func audioUnwindSegue(unwindSegue: UIStoryboardSegue){
+    @IBAction func s1AudioUnwindSegue(unwindSegue: UIStoryboardSegue){
+        
         MediaController.sharedMediaController.s1VoiceOver = self.audioAsset
     }
     

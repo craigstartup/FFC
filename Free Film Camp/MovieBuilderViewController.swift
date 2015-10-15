@@ -3,7 +3,7 @@
 //  Free Film Camp
 //
 //  Created by Eric Mentele on 10/5/15.
-//  Copyright © 2015 Eric Mentele. All rights reserved.
+//  Copyright © 2015 Craig Swanson. All rights reserved.
 //
 
 import UIKit
@@ -12,6 +12,7 @@ import Photos
 
 class MovieBuilderViewController: UIViewController {
     
+    @IBOutlet weak var headshot: UIImageView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,7 +20,20 @@ class MovieBuilderViewController: UIViewController {
         
         
     }
+    
+    
+    @IBAction func addHeadshot(sender: AnyObject) {
+    }
 
+    @IBAction func addMusic(sender: AnyObject) {
+    }
+    
+    @IBAction func makeMovie(sender: AnyObject) {
+    }
+    
+    @IBAction func preview(sender: AnyObject) {
+    }
+   
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

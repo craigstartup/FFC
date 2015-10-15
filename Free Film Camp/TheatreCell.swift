@@ -3,7 +3,7 @@
 //  Free Film Camp
 //
 //  Created by Eric Mentele on 10/9/15.
-//  Copyright © 2015 Eric Mentele. All rights reserved.
+//  Copyright © 2015 Craig Swanson. All rights reserved.
 //
 
 import Foundation

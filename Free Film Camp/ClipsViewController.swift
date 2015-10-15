@@ -3,7 +3,7 @@
 //  Free Film Camp
 //
 //  Created by Eric Mentele on 10/6/15.
-//  Copyright © 2015 Eric Mentele. All rights reserved.
+//  Copyright © 2015 Craig Swanson. All rights reserved.
 //
 
 import UIKit
@@ -29,6 +29,9 @@ class ClipsViewController: UICollectionViewController, UIGestureRecognizerDelega
     // handle interaction
     var longPress: UILongPressGestureRecognizer!
     var tap: UITapGestureRecognizer!
+    
+    // handle segue based on presenting VC
+    var segueID: String!
     
     // pass back selected video
     var videoAssetToPass: NSURL!
@@ -160,7 +163,7 @@ class ClipsViewController: UICollectionViewController, UIGestureRecognizerDelega
                     
                     let url = videoAsset as! AVURLAsset
                     self.videoAssetToPass = url.URL
-                    self.performSegueWithIdentifier("clipSelectedSegue", sender: self)
+                    self.performSegueWithIdentifier(self.segueID, sender: self)
                 }
             })
         }
@@ -169,11 +172,20 @@ class ClipsViewController: UICollectionViewController, UIGestureRecognizerDelega
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-        if segue.identifier == "clipSelectedSegue" {
+        if segue.identifier == "s1ClipSelectedSegue" {
             
-            let sceneBuilderVC = segue.destinationViewController as! FirstSceneViewController
-            sceneBuilderVC.selectedVideoAsset = self.videoAssetToPass
+            let scene1BuilderVC = segue.destinationViewController as! FirstSceneViewController
+            scene1BuilderVC.selectedVideoAsset = self.videoAssetToPass
+        } else if segue.identifier == "s2ClipSelectedSegue" {
+            
+            let scene2BuilderVC = segue.destinationViewController as! SecondSceneViewController
+            scene2BuilderVC.selectedVideoAsset = self.videoAssetToPass
+        } else if segue.identifier == "s3ClipSelectedSegue" {
+            
+            let scene3BuilderVC = segue.destinationViewController as! ThirdSceneViewController
+            scene3BuilderVC.selectedVideoAsset = self.videoAssetToPass
         }
+
     }
     
     override func didReceiveMemoryWarning() {
