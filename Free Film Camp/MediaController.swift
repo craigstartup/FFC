@@ -6,6 +6,18 @@
 //  Copyright © 2015 Craig Swanson. All rights reserved.
 //
 
+// For later use
+//let cleanup: dispatch_block_t = { () -> Void in
+//    
+//    do {
+//        
+//        try NSFileManager.defaultManager().removeItemAtURL(outputURL)
+//    } catch let fileError as NSError {
+//        
+//        print(fileError.localizedDescription)
+//    }
+//}
+
 import Foundation
 import Photos
 import AVFoundation
@@ -40,9 +52,7 @@ class MediaController {
     var scene2: AVAsset!
     var scene3: AVAsset!
     
-    let clipsAlbumTitle = "Free Film Camp Clips"
-    let scenesAlbumTitle = "Free Film Camp Scenes"
-    let moviesAlbumTitle = "Free Film Camp Movies"
+    var albumTitle = "Free Film Camp Clips"
     
     var saveSceneSuccess = false
     
@@ -51,6 +61,7 @@ class MediaController {
         
         var firstAsset: AVAsset!, secondAsset: AVAsset!, thirdAsset: AVAsset!, audioAsset: AVAsset!
         
+        self.albumTitle = "Free Film Camp Scenes"
         switch (scene) {
             
         case 1:
@@ -182,6 +193,145 @@ class MediaController {
     }
     
     
+    func saveMovie() {
+        
+        albumTitle = "Free Film Camp Movies"
+        
+        if self.s1Shot1 != nil && s1Shot2 != nil && s1Shot3 != nil &&
+        self.s2Shot1 != nil && s2Shot2 != nil && s2Shot3 != nil &&
+        self.s3Shot1 != nil && s3Shot2 != nil && s3Shot3 != nil {
+            
+            let mixComposition = AVMutableComposition()
+            let assets = [self.s1Shot1, self.s1Shot2, self.s1Shot3, self.s2Shot1, self.s2Shot2, self.s2Shot3, self.s3Shot1, self.s3Shot2, self.s3Shot3]
+            
+            var totalTime: CMTime = kCMTimeZero
+            var firstVideoSet: CMTime!
+            var secondVideoSet: CMTime!
+            var thirdVideoSet: CMTime!
+            for var i = 0; i < assets.count; i++ {
+                
+                totalTime = CMTimeAdd(totalTime, assets[i].duration)
+                if i == 2 {
+                    
+                    firstVideoSet = totalTime
+                } else if i == 5 {
+                    
+                    secondVideoSet = totalTime
+                } else if i == 8 {
+                    
+                    thirdVideoSet = totalTime
+                }
+            }
+            let videoSets = [firstVideoSet, secondVideoSet, thirdVideoSet]
+            
+            // create tracks with sequential starting times.
+            var tracks = [AVMutableCompositionTrack]()
+            var tracksTime: CMTime = kCMTimeZero
+            for var i = 0; i < assets.count; i++ {
+                
+                let track = mixComposition.addMutableTrackWithMediaType(AVMediaTypeVideo,
+                    preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
+                
+                do {
+                    
+                    try track.insertTimeRange(CMTimeRangeMake(kCMTimeZero, assets[i].duration),
+                        ofTrack: assets[i].tracksWithMediaType(AVMediaTypeVideo)[0] ,
+                        atTime: tracksTime)
+                } catch let firstTrackError as NSError {
+                    
+                    print(firstTrackError.localizedDescription)
+                }
+                tracksTime = CMTimeAdd(tracksTime, assets[i].duration)
+                tracks.append(track)
+            }
+            
+            // Set up an overall instructions array to manage video visibility.
+            let mainInstruction = AVMutableVideoCompositionInstruction()
+            mainInstruction.timeRange = CMTimeRangeMake(kCMTimeZero, totalTime)
+            
+            var instructions = [AVMutableVideoCompositionLayerInstruction]()
+            var instructionTime: CMTime = kCMTimeZero
+            // Create seperate instructions for each track.
+            for var i = 0; i < tracks.count; i++ {
+                
+                let instruction = AVMutableVideoCompositionLayerInstruction(assetTrack: tracks[i])
+                instructionTime = CMTimeAdd(instructionTime, assets[i].duration)
+                instruction.setOpacity(0.0, atTime: instructionTime)
+                instructions.append(instruction)
+            }
+            
+            // Add individual instructions to main for execution.
+            mainInstruction.layerInstructions = instructions
+            let mainComposition = AVMutableVideoComposition()
+            // Add instruction composition to main composition and set frame rate to 30 per second.
+            mainComposition.instructions = [mainInstruction]
+            mainComposition.frameDuration = CMTimeMake(1, 30)
+            mainComposition.renderSize = mixComposition.naturalSize
+            // get audio
+            
+            //let mix = AVMutableAudioMix()
+
+            if self.s1VoiceOver != nil && self.s2VoiceOver != nil && self.s3VoiceOver != nil {
+                
+                var audioAssets = [self.s1VoiceOver, self.s2VoiceOver, self.s3VoiceOver]
+                var audioTrackTime: CMTime = kCMTimeZero
+                var audioTracks = [AVMutableCompositionTrack]()
+                //var inputParams = [AVAudioMixInputParameters]()
+                
+                for var i = 0; i < audioAssets.count; i++ {
+                    
+                    let audioTrack = mixComposition.addMutableTrackWithMediaType(AVMediaTypeAudio, preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
+                    
+                    do {
+                        
+                        try audioTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, audioAssets[i].duration), ofTrack: audioAssets[i].tracksWithMediaType(AVMediaTypeAudio)[0],
+                            atTime: kCMTimeZero)
+                        
+                    } catch let audioTrackError as NSError{
+                        
+                        print(audioTrackError.localizedDescription)
+                    }
+//                    let audioParams = AVMutableAudioMixInputParameters(track: audioTrack)
+//                    audioParams.trackID = audioTrack.trackID
+//                    audioParams.setVolume(Float(1.0), atTime: kCMTimeZero)
+//                    audioParams.setVolume(Float(0.0), atTime: audioAssets[i].duration)
+//                    let audioInputParams:AVAudioMixInputParameters = audioParams
+//                    audioTrackTime = CMTimeAdd(audioTrackTime, audioAssets[i].duration)
+//                    inputParams.append(audioInputParams)
+                    audioTracks.append(audioTrack)
+                }
+          
+                //mix.inputParameters = inputParams
+                
+            }
+                        // setup to save
+            let paths: NSArray = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
+            
+            let documentDirectory: String = paths[0] as! String
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateStyle = .LongStyle
+            dateFormatter.timeStyle = .ShortStyle
+            let date = dateFormatter.stringFromDate(NSDate())
+            let url = NSURL(fileURLWithPath: documentDirectory).URLByAppendingPathComponent("mergeVideo-\(date).mov")
+            // make exporter
+            let exporter = AVAssetExportSession(
+                asset: mixComposition,
+                presetName: AVAssetExportPresetHighestQuality)
+            exporter!.outputURL = url
+            exporter!.outputFileType = AVFileTypeQuickTimeMovie
+            exporter!.shouldOptimizeForNetworkUse = true
+            //exporter!.audioMix = mix
+            exporter!.videoComposition = mainComposition
+            exporter!
+                .exportAsynchronouslyWithCompletionHandler() {
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.exportDidFinish(exporter!)
+                    })
+            }
+        }
+    }
+    
+    
     // MARK: Merge Helper Methods
     func exportDidFinish(session:AVAssetExportSession) {
         
@@ -191,17 +341,6 @@ class MediaController {
         if session.status == AVAssetExportSessionStatus.Completed {
             
             let outputURL: NSURL = session.outputURL!
-            
-            let cleanup: dispatch_block_t = { () -> Void in
-                
-                do {
-                    
-                    try NSFileManager.defaultManager().removeItemAtURL(outputURL)
-                } catch let fileError as NSError {
-                    
-                    print(fileError.localizedDescription)
-                }
-            }
             
             // check if authorized to save to photos
             PHPhotoLibrary.requestAuthorization({ (status:PHAuthorizationStatus) -> Void in
@@ -223,8 +362,6 @@ class MediaController {
                                 
                                 print("Failed to save to photos: %@", error?.localizedDescription)
                             }
-                            
-                            cleanup()
                     })
                     
                     // save movie to correct album
@@ -232,7 +369,7 @@ class MediaController {
                         
                         // add to Free Film Camp album
                         let fetchOptions = PHFetchOptions()
-                        fetchOptions.predicate = NSPredicate(format: "title = %@", self.scenesAlbumTitle)
+                        fetchOptions.predicate = NSPredicate(format: "title = %@", self.albumTitle)
                         let album: PHFetchResult = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: fetchOptions)
                         let albumCollection = album.firstObject as! PHAssetCollection
                         let albumChangeRequest = PHAssetCollectionChangeRequest(forAssetCollection: albumCollection, assets: album)
@@ -247,13 +384,9 @@ class MediaController {
                                 } else {
                                     
                                     self.saveSceneSuccess = true
+                                    print("SUCCESS")
                                 }
-                            cleanup()
                     })
-                    
-                } else {
-                    
-                    cleanup()
                 }
             })
         }

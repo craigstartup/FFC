@@ -29,6 +29,7 @@ class MovieBuilderViewController: UIViewController {
     }
     
     @IBAction func makeMovie(sender: AnyObject) {
+        MediaController.sharedMediaController.saveMovie()
     }
     
     @IBAction func preview(sender: AnyObject) {

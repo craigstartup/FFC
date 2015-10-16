@@ -50,7 +50,7 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         }
         
         do {
-            try audioRecorder = AVAudioRecorder(URL: soundFileURL, settings: recordSettings as! [String : AnyObject])
+            try self.audioRecorder = AVAudioRecorder(URL: soundFileURL, settings: recordSettings as! [String : AnyObject])
             audioRecorder?.prepareToRecord()
             
         } catch let error as NSError {
@@ -76,7 +76,7 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
             doneButton.alpha = 0.5
             stopButton.enabled = true
             stopButton.alpha = 1.0
-            audioRecorder.record()
+            audioRecorder.recordForDuration(9.0)
         }
     }
     
@@ -92,8 +92,8 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
             
             do {
                 
-                try audioPlayer = AVAudioPlayer(contentsOfURL: (audioRecorder?.url)!)
-                audioPlayer.play()
+                try self.audioPlayer = AVAudioPlayer(contentsOfURL: (audioRecorder?.url)!)
+                self.audioPlayer.play()
             } catch let error as NSError {
                 
                 print("audioPlayer error: \(error.localizedDescription)")
@@ -119,7 +119,7 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         
         if audioRecorder.recording == true {
             audioRecorder.stop()
-        } else {
+        } else if audioPlayer?.playing == true {
             audioPlayer.stop()
         }
         
