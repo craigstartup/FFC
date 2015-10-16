@@ -208,25 +208,26 @@ class MediaController {
             var firstVideoSet: CMTime!
             var secondVideoSet: CMTime!
             var thirdVideoSet: CMTime!
-            for var i = 0; i < assets.count; i++ {
+            for var x = 0; x < assets.count; x++ {
                 
-                totalTime = CMTimeAdd(totalTime, assets[i].duration)
-                if i == 2 {
+                totalTime = CMTimeAdd(totalTime, assets[x].duration)
+                if x == 2 {
                     
                     firstVideoSet = totalTime
-                } else if i == 5 {
+                } else if x == 5 {
                     
                     secondVideoSet = totalTime
-                } else if i == 8 {
+                } else if x == 8 {
                     
                     thirdVideoSet = totalTime
                 }
             }
             let videoSets = [firstVideoSet, secondVideoSet, thirdVideoSet]
-            
+            let audioAssets = [self.s3VoiceOver, self.s2VoiceOver, self.s1VoiceOver]
             // create tracks with sequential starting times.
             var tracks = [AVMutableCompositionTrack]()
             var tracksTime: CMTime = kCMTimeZero
+            var audioTrackTime = kCMTimeZero
             for var i = 0; i < assets.count; i++ {
                 
                 let track = mixComposition.addMutableTrackWithMediaType(AVMediaTypeVideo,
@@ -243,6 +244,29 @@ class MediaController {
                 }
                 tracksTime = CMTimeAdd(tracksTime, assets[i].duration)
                 tracks.append(track)
+                
+                if (i == 0 || i == 3 || i == 6) {
+                    var y: Int = 0
+                    if i == 3{
+                        y = 1
+                    } else if i == 6 {
+                        y == 2
+                    }
+                    let audioTrack = mixComposition.addMutableTrackWithMediaType(AVMediaTypeAudio, preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
+                    
+                    do {
+                        
+                        try audioTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, audioAssets[y].duration), ofTrack: audioAssets[y].tracksWithMediaType(AVMediaTypeAudio)[0],
+                            atTime: audioTrackTime)
+                        
+                    } catch let audioTrackError as NSError {
+                        
+                        print(audioTrackError.localizedDescription)
+                    }
+                    let ttime = audioAssets[y].duration
+                    audioTrackTime = CMTimeAdd(audioTrackTime, ttime)
+                }
+
             }
             
             // Set up an overall instructions array to manage video visibility.
@@ -271,40 +295,7 @@ class MediaController {
             
             //let mix = AVMutableAudioMix()
 
-            if self.s1VoiceOver != nil && self.s2VoiceOver != nil && self.s3VoiceOver != nil {
-                
-                var audioAssets = [self.s1VoiceOver, self.s2VoiceOver, self.s3VoiceOver]
-                var audioTrackTime: CMTime = kCMTimeZero
-                var audioTracks = [AVMutableCompositionTrack]()
-                //var inputParams = [AVAudioMixInputParameters]()
-                
-                for var i = 0; i < audioAssets.count; i++ {
-                    
-                    let audioTrack = mixComposition.addMutableTrackWithMediaType(AVMediaTypeAudio, preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
-                    
-                    do {
-                        
-                        try audioTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, audioAssets[i].duration), ofTrack: audioAssets[i].tracksWithMediaType(AVMediaTypeAudio)[0],
-                            atTime: kCMTimeZero)
-                        
-                    } catch let audioTrackError as NSError{
-                        
-                        print(audioTrackError.localizedDescription)
-                    }
-//                    let audioParams = AVMutableAudioMixInputParameters(track: audioTrack)
-//                    audioParams.trackID = audioTrack.trackID
-//                    audioParams.setVolume(Float(1.0), atTime: kCMTimeZero)
-//                    audioParams.setVolume(Float(0.0), atTime: audioAssets[i].duration)
-//                    let audioInputParams:AVAudioMixInputParameters = audioParams
-//                    audioTrackTime = CMTimeAdd(audioTrackTime, audioAssets[i].duration)
-//                    inputParams.append(audioInputParams)
-                    audioTracks.append(audioTrack)
-                }
-          
-                //mix.inputParameters = inputParams
-                
-            }
-                        // setup to save
+                                    // setup to save
             let paths: NSArray = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
             
             let documentDirectory: String = paths[0] as! String
