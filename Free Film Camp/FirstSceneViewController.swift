@@ -15,8 +15,10 @@ class FirstSceneViewController: UIViewController {
 
     
     let library = PHPhotoLibrary.sharedPhotoLibrary()
-    let fetchOptions = PHFetchOptions()
+    let sceneFetchOptions = PHFetchOptions()
+    let movieFetchOptions = PHFetchOptions()
     let toAlbumTitle = "Free Film Camp Scenes"
+    let movieAlbumTitle = "Free Film Camp Movies"
     let clipID = "s1ClipSelectedSegue"
     let audioID = "s1AudioSelectedSegue"
     var assetRequestNumber: Int!
@@ -28,9 +30,9 @@ class FirstSceneViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // set up album for recorded scenes
-        fetchOptions.predicate = NSPredicate(format: "title = %@", toAlbumTitle)
-        let toAlbum = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: fetchOptions)
+        // set up album for recorded scenes and movies
+        self.sceneFetchOptions.predicate = NSPredicate(format: "title = %@", self.toAlbumTitle)
+        let toAlbum = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: self.sceneFetchOptions)
         
         if let _: AnyObject = toAlbum.firstObject {
             
@@ -38,7 +40,29 @@ class FirstSceneViewController: UIViewController {
         } else {
             
             library.performChanges({ () -> Void in
-                PHAssetCollectionChangeRequest.creationRequestForAssetCollectionWithTitle(toAlbumTitle)
+                
+                PHAssetCollectionChangeRequest.creationRequestForAssetCollectionWithTitle(self.toAlbumTitle)
+                
+                }) { (success: Bool, error: NSError?) -> Void in
+                    if !success {
+                        print(error!.localizedDescription)
+                    }
+            }
+            
+        }
+        
+        self.movieFetchOptions.predicate = NSPredicate(format: "title = %@", self.movieAlbumTitle)
+        let movieAlbum = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: self.movieFetchOptions)
+        
+        if let _: AnyObject = movieAlbum.firstObject {
+            
+            print("Free Film Camp Movies exists")
+        } else {
+            
+            library.performChanges({ () -> Void in
+                
+                PHAssetCollectionChangeRequest.creationRequestForAssetCollectionWithTitle(self.movieAlbumTitle)
+                
                 }) { (success: Bool, error: NSError?) -> Void in
                     if !success {
                         print(error!.localizedDescription)
@@ -53,22 +77,29 @@ class FirstSceneViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         
         self.navigationController?.setNavigationBarHidden(false, animated: false)
+        
     }
 
     @IBAction func selectClipOne(sender: AnyObject) {
         
+        MediaController.sharedMediaController.s1Shot1 = nil
+        self.selectedVideoAsset = nil
         self.assetRequestNumber = 1
         self.performSegueWithIdentifier("s1SelectClip", sender: self)
     }
     
     @IBAction func selectClipTwo(sender: AnyObject) {
         
+        MediaController.sharedMediaController.s1Shot2 = nil
+        self.selectedVideoAsset = nil
         self.assetRequestNumber = 2
         self.performSegueWithIdentifier("s1SelectClip", sender: self)
     }
     
     @IBAction func selectClip3(sender: AnyObject) {
         
+        MediaController.sharedMediaController.s1Shot3 = nil
+        self.selectedVideoAsset = nil
         self.assetRequestNumber = 3
         self.performSegueWithIdentifier("s1SelectClip", sender: self)
     }

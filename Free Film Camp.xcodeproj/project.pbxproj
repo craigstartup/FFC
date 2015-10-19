@@ -47,6 +47,7 @@
 
 /* Begin PBXFileReference section */
 		8C4B70591BCD7BBE00E54C5E /* MediaController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaController.swift; sourceTree = "<group>"; };
+		8C4B705B1BCFFCD400E54C5E /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = MyPlayground.playground; path = "Free Film Camp/MyPlayground.playground"; sourceTree = "<group>"; };
 		8C5E51CC1BC7AD3B0028CBAA /* TheatreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TheatreViewController.swift; sourceTree = "<group>"; };
 		8C5E51D01BC7B2840028CBAA /* TheatreCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TheatreCell.swift; sourceTree = "<group>"; };
 		8C84DEF21BCCD13000984B63 /* SecondSceneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecondSceneViewController.swift; sourceTree = "<group>"; };
@@ -101,6 +102,7 @@
 		8CA57D5B1BC252EA0016762A = {
 			isa = PBXGroup;
 			children = (
+				8C4B705B1BCFFCD400E54C5E /* MyPlayground.playground */,
 				8CA57DA71BC4B20D0016762A /* .gitignore */,
 				8CA57D661BC252EA0016762A /* Free Film Camp */,
 				8CA57D7E1BC252EB0016762A /* Free Film CampTests */,
@@ -252,6 +254,7 @@
 				TargetAttributes = {
 					8CA57D631BC252EA0016762A = {
 						CreatedOnToolsVersion = 7.0.1;
+						DevelopmentTeam = 8F48NKUJX6;
 					};
 					8CA57D7A1BC252EB0016762A = {
 						CreatedOnToolsVersion = 7.0.1;
@@ -470,10 +473,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Free Film Camp/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ericmentele.Free-Film-Camp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -481,10 +487,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Free Film Camp/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ericmentele.Free-Film-Camp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
