@@ -13,7 +13,6 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     
     @IBOutlet weak var recordButton: UIButton!
     @IBOutlet weak var playButton: UIButton!
-    @IBOutlet weak var stopButton: UIButton!
     @IBOutlet weak var doneButton: UIButton!
     
     var audioPlayer: AVAudioPlayer!
@@ -25,10 +24,8 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        playButton.enabled = false
-        stopButton.enabled = false
-        doneButton.enabled = false
-        
+        // set up voice recorder
+        // TODO: Cleanup temp files.
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = .LongStyle
         dateFormatter.timeStyle = .LongStyle
@@ -44,7 +41,7 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         do {
             
             let audioSession = AVAudioSession.sharedInstance()
-            try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
+            try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker)
         } catch let error as NSError {
             
             print("audioSession error: \(error.localizedDescription)")
@@ -58,8 +55,19 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
             
             print("audioSession error: \(error.localizedDescription)")
         }
+        self.audioRecorder.delegate = self
     }
     
+    override func viewDidAppear(animated: Bool) {
+        
+        // set up initial button states
+        playButton.enabled = false
+        playButton.alpha = 0.4
+        doneButton.enabled = false
+        doneButton.alpha = 0.4
+        recordButton.alpha = 1
+        recordButton.enabled = true
+    }
     
     
     @IBAction func recordButtonPressed(sender: AnyObject) {
@@ -72,11 +80,9 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
             recordButton.enabled = false
             recordButton.alpha = 0.5
             playButton.enabled = false
-            playButton.alpha = 0.5
+            playButton.alpha = 0.4
             doneButton.enabled = false
-            doneButton.alpha = 0.5
-            stopButton.enabled = true
-            stopButton.alpha = 1.0
+            doneButton.alpha = 0.4
             audioRecorder.recordForDuration(9.0)
         }
     }
@@ -85,11 +91,10 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     @IBAction func playButtonPressed(sender: AnyObject) {
         
         if audioRecorder.recording == false {
-            stopButton.enabled = true
-            stopButton.alpha = 1.0
             recordButton.enabled = false
             recordButton.alpha = 0.5
-            playButton.alpha = 0.5
+            playButton.alpha = 0.4
+            playButton.enabled = false
             
             do {
                 
@@ -99,31 +104,8 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
                 
                 print("audioPlayer error: \(error.localizedDescription)")
             }
-            audioPlayer.delegate = self
+            self.audioPlayer.delegate = self
         }
-        
-        playButton.alpha = 1.0
-        recordButton.alpha = 1.0
-        recordButton.enabled = true
-    }
-    
-    @IBAction func stopButtonPressed(sender: AnyObject) {
-        
-        stopButton.enabled = false
-        stopButton.alpha = 0.5
-        playButton.enabled = true
-        playButton.alpha = 1.0
-        recordButton.enabled = true
-        recordButton.alpha = 1.0
-        doneButton.enabled = true
-        doneButton.alpha = 1.0
-        
-        if audioRecorder.recording == true {
-            audioRecorder.stop()
-        } else if audioPlayer?.playing == true {
-            audioPlayer.stop()
-        }
-        
     }
     
     
@@ -153,21 +135,32 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     
     
     func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
+        playButton.alpha = 1.0
+        playButton.enabled = true
+        recordButton.alpha = 1.0
         recordButton.enabled = true
-        stopButton.enabled = false
     }
     
     
     func audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer, error: NSError?) {
+        
         print("Audio Play Decode Error")
     }
     
     
     func audioRecorderDidFinishRecording(recorder: AVAudioRecorder, successfully flag: Bool) {
+        
+        self.playButton.enabled = true
+        self.playButton.alpha = 1
+        self.recordButton.enabled = true
+        self.recordButton.alpha = 1
+        self.doneButton.enabled = true
+        self.doneButton.alpha = 1
     }
     
     
     func audioRecorderEncodeErrorDidOccur(recorder: AVAudioRecorder, error: NSError?) {
+        
         print("Audio Record Encode Error")
     }
     

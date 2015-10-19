@@ -29,6 +29,11 @@ class SecondSceneViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        PHPhotoLibrary.requestAuthorization { (status) -> Void in
+            if status == PHAuthorizationStatus.Authorized {
+                
+            }
+        }
     }
     
     
@@ -65,13 +70,7 @@ class SecondSceneViewController: UIViewController {
     
     @IBAction func mergeMedia(sender: AnyObject) {
         
-        if MediaController.sharedMediaController.saveScene(self.scene) {
-            
-            let alert = UIAlertController(title: "Success", message: "Video saved.", preferredStyle: .Alert)
-            let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
-            alert.addAction(action)
-            self.presentViewController(alert, animated: true, completion: nil)
-        }
+        MediaController.sharedMediaController.saveScene(self.scene)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -105,7 +104,6 @@ class SecondSceneViewController: UIViewController {
         
         MediaController.sharedMediaController.s2VoiceOver = self.audioAsset
     }
-    
     
     
     override func didReceiveMemoryWarning() {

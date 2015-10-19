@@ -91,11 +91,8 @@
                                 <rect key="frame" x="20" y="548" width="560" height="44"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="na2-7t-mhh">
-                                        <rect key="frame" x="0.0" y="0.0" width="140" height="44"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="187" height="44"/>
                                         <animations/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="140" id="YsO-I1-cP8"/>
-                                        </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                         <state key="normal" title="Record">
                                             <color key="titleColor" red="1" green="0.054037065269999997" blue="0.25342486240000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -105,11 +102,8 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MbU-Fj-Cdv">
-                                        <rect key="frame" x="140" y="0.0" width="140" height="44"/>
+                                        <rect key="frame" x="187" y="0.0" width="186" height="44"/>
                                         <animations/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="140" id="bXX-0w-AAQ"/>
-                                        </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                         <state key="normal" title="Play">
                                             <color key="titleColor" red="0.40000000600000002" green="1" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -118,22 +112,8 @@
                                             <action selector="playButtonPressed:" destination="t2l-7N-cdU" eventType="touchUpInside" id="Crp-Uu-puV"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lOJ-Un-pgj">
-                                        <rect key="frame" x="280" y="0.0" width="140" height="44"/>
-                                        <animations/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="140" id="BYN-Vw-SPX"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="26"/>
-                                        <state key="normal" title="Stop">
-                                            <color key="titleColor" red="0.098039217289999994" green="0.098039217289999994" blue="0.098039217289999994" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="stopButtonPressed:" destination="t2l-7N-cdU" eventType="touchUpInside" id="m4c-xG-e9w"/>
-                                        </connections>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tiy-FS-viV">
-                                        <rect key="frame" x="420" y="0.0" width="140" height="44"/>
+                                        <rect key="frame" x="373" y="0.0" width="187" height="44"/>
                                         <animations/>
                                         <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                         <state key="normal" title="Done">
@@ -147,6 +127,14 @@
                                 <animations/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="tiy-FS-viV" firstAttribute="leading" secondItem="MbU-Fj-Cdv" secondAttribute="trailing" id="PAr-fq-1Ob"/>
+                                    <constraint firstItem="MbU-Fj-Cdv" firstAttribute="leading" secondItem="na2-7t-mhh" secondAttribute="trailing" id="U49-ZO-D8s"/>
+                                    <constraint firstAttribute="trailing" secondItem="tiy-FS-viV" secondAttribute="trailing" id="awR-S8-wA9"/>
+                                    <constraint firstItem="MbU-Fj-Cdv" firstAttribute="width" secondItem="na2-7t-mhh" secondAttribute="width" constant="-1" id="eiw-JH-0mZ"/>
+                                    <constraint firstItem="tiy-FS-viV" firstAttribute="width" secondItem="na2-7t-mhh" secondAttribute="width" id="f9v-UM-FBW"/>
+                                    <constraint firstItem="na2-7t-mhh" firstAttribute="leading" secondItem="nZ9-Zw-TTL" secondAttribute="leading" id="uYe-9b-3gT"/>
+                                </constraints>
                             </stackView>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vDO-tT-Aig">
                                 <rect key="frame" x="0.0" y="538" width="600" height="2"/>
@@ -156,16 +144,17 @@
                         <animations/>
                         <color key="backgroundColor" red="0.2666666667" green="0.2666666667" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="nZ9-Zw-TTL" firstAttribute="leading" secondItem="Fyg-ug-AMe" secondAttribute="leadingMargin" id="2ew-IM-5X4"/>
                             <constraint firstItem="zfb-Yi-cGw" firstAttribute="top" secondItem="Fyg-ug-AMe" secondAttribute="top" id="6xq-CB-C0l"/>
-                            <constraint firstItem="nZ9-Zw-TTL" firstAttribute="centerX" secondItem="vDO-tT-Aig" secondAttribute="centerX" id="9Y8-YU-hZ6"/>
                             <constraint firstItem="zfb-Yi-cGw" firstAttribute="trailing" secondItem="vDO-tT-Aig" secondAttribute="trailing" id="Cko-si-VGP"/>
+                            <constraint firstItem="nZ9-Zw-TTL" firstAttribute="leading" secondItem="Fyg-ug-AMe" secondAttribute="leadingMargin" id="K7k-QI-1RV"/>
+                            <constraint firstItem="I6K-8R-b3A" firstAttribute="top" secondItem="nZ9-Zw-TTL" secondAttribute="bottom" constant="8" id="KBg-ek-D8w"/>
                             <constraint firstItem="vDO-tT-Aig" firstAttribute="top" secondItem="zfb-Yi-cGw" secondAttribute="bottom" constant="8" symbolic="YES" id="KZL-a9-cfN"/>
-                            <constraint firstItem="nZ9-Zw-TTL" firstAttribute="top" secondItem="vDO-tT-Aig" secondAttribute="bottom" constant="8" id="Qr6-bM-Lef"/>
-                            <constraint firstItem="I6K-8R-b3A" firstAttribute="top" secondItem="nZ9-Zw-TTL" secondAttribute="bottom" constant="8" symbolic="YES" id="Rp6-v6-10x"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="nZ9-Zw-TTL" secondAttribute="trailing" id="LWS-wm-c9V"/>
                             <constraint firstItem="vDO-tT-Aig" firstAttribute="leading" secondItem="zfb-Yi-cGw" secondAttribute="leading" id="S68-kJ-nXv"/>
                             <constraint firstItem="vDO-tT-Aig" firstAttribute="leading" secondItem="Fyg-ug-AMe" secondAttribute="leading" id="fLs-EF-VFG"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="nZ9-Zw-TTL" secondAttribute="trailing" id="hGz-Gs-ndB"/>
                             <constraint firstAttribute="trailing" secondItem="zfb-Yi-cGw" secondAttribute="trailing" id="jfU-Zd-vDC"/>
+                            <constraint firstItem="nZ9-Zw-TTL" firstAttribute="top" secondItem="vDO-tT-Aig" secondAttribute="bottom" constant="8" id="t8G-Sp-Dr1"/>
                         </constraints>
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
@@ -173,7 +162,6 @@
                         <outlet property="doneButton" destination="tiy-FS-viV" id="5PU-Ib-c2r"/>
                         <outlet property="playButton" destination="MbU-Fj-Cdv" id="xhQ-BJ-xpi"/>
                         <outlet property="recordButton" destination="na2-7t-mhh" id="dvm-vz-M2c"/>
-                        <outlet property="stopButton" destination="lOJ-Un-pgj" id="cLp-Xe-6Cf"/>
                         <segue destination="g3f-9f-LiE" kind="unwind" identifier="s1AudioSelectedSegue" unwindAction="s1AudioUnwindSegue:" id="I3l-bq-aCB"/>
                         <segue destination="g3f-9f-LiE" kind="unwind" identifier="s2AudioSelectedSegue" unwindAction="s2AudioUnwindSegue:" id="Bde-oq-xVR"/>
                         <segue destination="g3f-9f-LiE" kind="unwind" identifier="s3AudioSelectedSegue" unwindAction="s3AudioUnwindSegue:" id="T2b-o0-3nR"/>

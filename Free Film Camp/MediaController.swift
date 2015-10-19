@@ -6,17 +6,6 @@
 //  Copyright © 2015 Craig Swanson. All rights reserved.
 //
 
-// For later use
-//let cleanup: dispatch_block_t = { () -> Void in
-//    
-//    do {
-//        
-//        try NSFileManager.defaultManager().removeItemAtURL(outputURL)
-//    } catch let fileError as NSError {
-//        
-//        print(fileError.localizedDescription)
-//    }
-//}
 
 import Foundation
 import Photos
@@ -65,10 +54,7 @@ class MediaController {
     
     var albumTitle = "Free Film Camp Clips"
     
-    var saveSceneSuccess = false
-    
-    
-    func saveScene(scene: Int) -> Bool {
+    func saveScene(scene: Int) {
         
         var firstAsset: AVAsset!, secondAsset: AVAsset!, thirdAsset: AVAsset!, audioAsset: AVAsset!
         
@@ -200,7 +186,6 @@ class MediaController {
                     })
             }
         }
-        return self.saveSceneSuccess
     }
     
     
@@ -272,6 +257,18 @@ class MediaController {
     
     
     func finishMovie(inout mixComposition: AVMutableComposition, assets: [AVAsset!]) {
+        
+        let cleanup: dispatch_block_t = { () -> Void in
+            
+            do {
+                
+                try NSFileManager.defaultManager().removeItemAtURL(self.vOExporter.outputURL!)
+            } catch let fileError as NSError {
+                
+                print(fileError.localizedDescription)
+            }
+        }
+
         
         var totalTime: CMTime = kCMTimeZero
         
@@ -367,12 +364,18 @@ class MediaController {
         self.s1Shot1 = nil
         self.s1Shot2 = nil
         self.s1Shot3 = nil
+        self.s1VoiceOver = nil
         self.s2Shot1 = nil
         self.s2Shot2 = nil
         self.s2Shot3 = nil
+        self.s2VoiceOver = nil
         self.s3Shot1 = nil
         self.s3Shot2 = nil
         self.s3Shot3 = nil
+        self.s3VoiceOver = nil
+        cleanup()
+        self.audioVoiceOverAsset = nil
+        self.vOExporter = nil
     }
     
     // MARK: Merge Helper Methods
@@ -422,11 +425,9 @@ class MediaController {
                                 
                                 if !success {
                                     
-                                    self.saveSceneSuccess = false
                                     print("Failed to add photo to album: %@", error?.localizedDescription)
                                 } else {
                                     
-                                    self.saveSceneSuccess = true
                                     print("SUCCESS")
                                 }
                     })

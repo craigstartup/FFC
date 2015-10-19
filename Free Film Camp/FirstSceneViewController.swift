@@ -30,8 +30,14 @@ class FirstSceneViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        PHPhotoLibrary.requestAuthorization { (status) -> Void in
+            if status == PHAuthorizationStatus.Authorized {
+                
+            }
+        }
         // set up album for recorded scenes and movies
         self.sceneFetchOptions.predicate = NSPredicate(format: "title = %@", self.toAlbumTitle)
+        
         let toAlbum = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: self.sceneFetchOptions)
         
         if let _: AnyObject = toAlbum.firstObject {
@@ -113,16 +119,8 @@ class FirstSceneViewController: UIViewController {
     
     @IBAction func mergeMedia(sender: AnyObject) {
         
-        if MediaController.sharedMediaController.saveScene(self.scene) {
-            
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                
-                let alert = UIAlertController(title: "Success", message: "Video saved.", preferredStyle: .Alert)
-                let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
-                alert.addAction(action)
-                self.presentViewController(alert, animated: true, completion: nil)
-            })
-        }
+        MediaController.sharedMediaController.saveScene(self.scene)
+        
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -157,6 +155,7 @@ class FirstSceneViewController: UIViewController {
         
         MediaController.sharedMediaController.s1VoiceOver = self.audioAsset
     }
+    
     
     
     

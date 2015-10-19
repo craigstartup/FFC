@@ -29,6 +29,8 @@ class ClipsViewController: UICollectionViewController, UIGestureRecognizerDelega
     // handle interaction
     var longPress: UILongPressGestureRecognizer!
     var tap: UITapGestureRecognizer!
+    var timer: NSTimer!
+    var longItem: CGPoint!
     
     // handle segue based on presenting VC
     var segueID: String!
@@ -85,7 +87,7 @@ class ClipsViewController: UICollectionViewController, UIGestureRecognizerDelega
             initialEntry = false
             defaults.setObject(initialEntry, forKey: "initialEntry")
             defaults.synchronize()
-            let alert = UIAlertController(title: "Welcome", message: "Tap image to selct. Tap and hold to play.", preferredStyle: .Alert)
+            let alert = UIAlertController(title: "Welcome", message: "Tap image to select. Tap and hold to play.", preferredStyle: .Alert)
             let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
             alert.addAction(action)
             self.presentViewController(alert, animated: true, completion: nil)
@@ -126,23 +128,35 @@ class ClipsViewController: UICollectionViewController, UIGestureRecognizerDelega
     
     func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
         
-        if gestureRecognizer.state != UIGestureRecognizerState.Ended {
-
-            return
+        if gestureRecognizer.state == UIGestureRecognizerState.Began {
+            
+            self.longItem = gestureRecognizer.locationInView(self.collectionView)
+            timer = NSTimer.scheduledTimerWithTimeInterval(0.2, target: self, selector: "endLongPress:", userInfo: nil, repeats: false)
+            
+        } else if gestureRecognizer.state == UIGestureRecognizerState.Ended {
+            
+            self.timer.invalidate()
+            self.timer = nil
+            self.longItem = nil
         }
+    }
+    
+    func endLongPress(timer: NSTimer!) {
         
-        let itemTouched = gestureRecognizer.locationInView(self.collectionView)
-        let indexPath = self.collectionView?.indexPathForItemAtPoint(itemTouched)
+        
+        let indexPath = self.collectionView?.indexPathForItemAtPoint(self.longItem)
         var videoPlayer: AVPlayer!
         let video = videos[(indexPath?.row)!]
         manager.requestPlayerItemForVideo(video, options: nil) { (playerItem, info) -> Void in
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                
                 videoPlayer = AVPlayer(playerItem: playerItem!)
                 self.vpVC.player = videoPlayer
                 self.presentViewController(self.vpVC, animated: true, completion: nil)
             })
         }
+
     }
     
     
