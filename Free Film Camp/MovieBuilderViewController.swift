@@ -38,6 +38,7 @@ class MovieBuilderViewController: UIViewController, PHPhotoLibraryChangeObserver
     }
     
     @IBAction func preview(sender: AnyObject) {
+        
     }
     
     func photoLibraryDidChange(changeInstance: PHChange) {
