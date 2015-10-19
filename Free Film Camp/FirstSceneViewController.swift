@@ -77,22 +77,29 @@ class FirstSceneViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         
         self.navigationController?.setNavigationBarHidden(false, animated: false)
+        
     }
 
     @IBAction func selectClipOne(sender: AnyObject) {
         
+        MediaController.sharedMediaController.s1Shot1 = nil
+        self.selectedVideoAsset = nil
         self.assetRequestNumber = 1
         self.performSegueWithIdentifier("s1SelectClip", sender: self)
     }
     
     @IBAction func selectClipTwo(sender: AnyObject) {
         
+        MediaController.sharedMediaController.s1Shot2 = nil
+        self.selectedVideoAsset = nil
         self.assetRequestNumber = 2
         self.performSegueWithIdentifier("s1SelectClip", sender: self)
     }
     
     @IBAction func selectClip3(sender: AnyObject) {
         
+        MediaController.sharedMediaController.s1Shot3 = nil
+        self.selectedVideoAsset = nil
         self.assetRequestNumber = 3
         self.performSegueWithIdentifier("s1SelectClip", sender: self)
     }

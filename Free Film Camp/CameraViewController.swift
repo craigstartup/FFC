@@ -90,7 +90,6 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     override func viewWillLayoutSubviews() {
         
         self.preview.frame = self.view.bounds
-        preview.videoGravity = AVLayerVideoGravityResizeAspectFill
         if preview.connection.supportsVideoOrientation {
             
             preview.connection.videoOrientation = AVCaptureVideoOrientation.LandscapeRight
@@ -140,7 +139,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                 // record to a temporary file.
                 let dateFormatter = NSDateFormatter()
                 dateFormatter.dateStyle = .LongStyle
-                dateFormatter.timeStyle = .ShortStyle
+                dateFormatter.timeStyle = .LongStyle
                 let date = dateFormatter.stringFromDate(NSDate())
                 let videoOutputFilePath = NSTemporaryDirectory()
                 let url = NSURL(fileURLWithPath: videoOutputFilePath).URLByAppendingPathComponent("mergeVideo-\(date).mov")

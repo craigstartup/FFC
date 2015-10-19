@@ -29,11 +29,12 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         stopButton.enabled = false
         doneButton.enabled = false
         
-        let dirPaths =
-        NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory,
-            NSSearchPathDomainMask.UserDomainMask, true)
-        let docsDir = dirPaths[0]
-        let soundFileURL = NSURL(fileURLWithPath: docsDir).URLByAppendingPathComponent("sound.caf")
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateStyle = .LongStyle
+        dateFormatter.timeStyle = .LongStyle
+        let date = dateFormatter.stringFromDate(NSDate())
+        let soundFilePath = NSTemporaryDirectory()
+        let url = NSURL(fileURLWithPath: soundFilePath).URLByAppendingPathComponent("sound-\(date).caf")
         let recordSettings =
         [AVEncoderAudioQualityKey: AVAudioQuality.Min.rawValue,
             AVEncoderBitRateKey: 16,
@@ -50,7 +51,7 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         }
         
         do {
-            try self.audioRecorder = AVAudioRecorder(URL: soundFileURL, settings: recordSettings as! [String : AnyObject])
+            try self.audioRecorder = AVAudioRecorder(URL: url, settings: recordSettings as! [String : AnyObject])
             audioRecorder?.prepareToRecord()
             
         } catch let error as NSError {

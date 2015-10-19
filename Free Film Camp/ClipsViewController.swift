@@ -44,9 +44,9 @@ class ClipsViewController: UICollectionViewController, UIGestureRecognizerDelega
         fetchOptions.predicate = NSPredicate(format: "title = %@", albumTitle)
         clipsAlbumFetch = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: fetchOptions)
         clipsAlbum = clipsAlbumFetch.firstObject as! PHAssetCollection
+
         if let _: AnyObject = clipsAlbumFetch.firstObject {
-            
-            print("Free Film Camp Clips exists")
+                        print("Free Film Camp Clips exists")
         } else {
             
             library.performChanges({ () -> Void in
