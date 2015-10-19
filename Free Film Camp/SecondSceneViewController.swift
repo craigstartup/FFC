@@ -11,7 +11,7 @@ import Photos
 import AVFoundation
 
 
-class SecondSceneViewController: UIViewController {
+class SecondSceneViewController: UIViewController, PHPhotoLibraryChangeObserver {
     
     
     let library = PHPhotoLibrary.sharedPhotoLibrary()
@@ -29,6 +29,11 @@ class SecondSceneViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        PHPhotoLibrary.requestAuthorization { (status) -> Void in
+            if status == PHAuthorizationStatus.Authorized {
+                PHPhotoLibrary.sharedPhotoLibrary().registerChangeObserver(self)
+            }
+        }
     }
     
     
@@ -65,13 +70,7 @@ class SecondSceneViewController: UIViewController {
     
     @IBAction func mergeMedia(sender: AnyObject) {
         
-        if MediaController.sharedMediaController.saveScene(self.scene) {
-            
-            let alert = UIAlertController(title: "Success", message: "Video saved.", preferredStyle: .Alert)
-            let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
-            alert.addAction(action)
-            self.presentViewController(alert, animated: true, completion: nil)
-        }
+        MediaController.sharedMediaController.saveScene(self.scene)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -106,7 +105,20 @@ class SecondSceneViewController: UIViewController {
         MediaController.sharedMediaController.s2VoiceOver = self.audioAsset
     }
     
-    
+    func photoLibraryDidChange(changeInstance: PHChange) {
+        
+        let alert = UIAlertController(title: "Alert", message: "Saved", preferredStyle: .Alert)
+        let ok = UIAlertAction(title: "OK", style: .Default) { (action) -> Void in
+            
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
+        alert.addAction(ok)
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            self.presentViewController(alert, animated: true, completion: nil)
+            
+        }
+
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
