@@ -11,7 +11,7 @@ import Photos
 import AVFoundation
 
 
-class ThirdSceneViewController: UIViewController, PHPhotoLibraryChangeObserver {
+class ThirdSceneViewController: UIViewController {
     
     
     let library = PHPhotoLibrary.sharedPhotoLibrary()
@@ -29,7 +29,7 @@ class ThirdSceneViewController: UIViewController, PHPhotoLibraryChangeObserver {
         
         PHPhotoLibrary.requestAuthorization { (status) -> Void in
             if status == PHAuthorizationStatus.Authorized {
-                PHPhotoLibrary.sharedPhotoLibrary().registerChangeObserver(self)
+                
             }
         }
     }
@@ -103,21 +103,7 @@ class ThirdSceneViewController: UIViewController, PHPhotoLibraryChangeObserver {
         MediaController.sharedMediaController.s3VoiceOver = self.audioAsset
     }
     
-    func photoLibraryDidChange(changeInstance: PHChange) {
         
-        let alert = UIAlertController(title: "Alert", message: "Saved", preferredStyle: .Alert)
-        let ok = UIAlertAction(title: "OK", style: .Default) { (action) -> Void in
-            
-            self.dismissViewControllerAnimated(true, completion: nil)
-        }
-        alert.addAction(ok)
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
-            self.presentViewController(alert, animated: true, completion: nil)
-            
-        }
-
-    }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

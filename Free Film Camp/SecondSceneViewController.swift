@@ -11,7 +11,7 @@ import Photos
 import AVFoundation
 
 
-class SecondSceneViewController: UIViewController, PHPhotoLibraryChangeObserver {
+class SecondSceneViewController: UIViewController {
     
     
     let library = PHPhotoLibrary.sharedPhotoLibrary()
@@ -31,7 +31,7 @@ class SecondSceneViewController: UIViewController, PHPhotoLibraryChangeObserver 
         
         PHPhotoLibrary.requestAuthorization { (status) -> Void in
             if status == PHAuthorizationStatus.Authorized {
-                PHPhotoLibrary.sharedPhotoLibrary().registerChangeObserver(self)
+                
             }
         }
     }
@@ -105,20 +105,6 @@ class SecondSceneViewController: UIViewController, PHPhotoLibraryChangeObserver 
         MediaController.sharedMediaController.s2VoiceOver = self.audioAsset
     }
     
-    func photoLibraryDidChange(changeInstance: PHChange) {
-        
-        let alert = UIAlertController(title: "Alert", message: "Saved", preferredStyle: .Alert)
-        let ok = UIAlertAction(title: "OK", style: .Default) { (action) -> Void in
-            
-            self.dismissViewControllerAnimated(true, completion: nil)
-        }
-        alert.addAction(ok)
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
-            self.presentViewController(alert, animated: true, completion: nil)
-            
-        }
-
-    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

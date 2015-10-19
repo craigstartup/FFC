@@ -11,7 +11,7 @@ import Photos
 import AVFoundation
 
 
-class FirstSceneViewController: UIViewController, PHPhotoLibraryChangeObserver {
+class FirstSceneViewController: UIViewController {
 
     
     let library = PHPhotoLibrary.sharedPhotoLibrary()
@@ -32,7 +32,7 @@ class FirstSceneViewController: UIViewController, PHPhotoLibraryChangeObserver {
         
         PHPhotoLibrary.requestAuthorization { (status) -> Void in
             if status == PHAuthorizationStatus.Authorized {
-                PHPhotoLibrary.sharedPhotoLibrary().registerChangeObserver(self)
+                
             }
         }
         // set up album for recorded scenes and movies
@@ -156,19 +156,6 @@ class FirstSceneViewController: UIViewController, PHPhotoLibraryChangeObserver {
         MediaController.sharedMediaController.s1VoiceOver = self.audioAsset
     }
     
-    func photoLibraryDidChange(changeInstance: PHChange) {
-        
-        let alert = UIAlertController(title: "Alert", message: "Saved", preferredStyle: .Alert)
-        let ok = UIAlertAction(title: "OK", style: .Default) { (action) -> Void in
-            
-            self.dismissViewControllerAnimated(true, completion: nil)
-        }
-        alert.addAction(ok)
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
-            self.presentViewController(alert, animated: true, completion: nil)
-
-        }
-    }
     
     
     
