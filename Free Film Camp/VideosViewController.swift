@@ -66,7 +66,7 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
         
         // setup gesture recognizer
         longPress = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")
-        longPress.minimumPressDuration = 0.1
+        longPress.minimumPressDuration = 0.3
         longPress.delegate = self
         longPress.delaysTouchesBegan = true
         self.collectionView?.addGestureRecognizer(longPress)
@@ -97,8 +97,7 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
                 self.videos.append(asset)
             }
         }
-        self.collectionView?.reloadItemsAtIndexPaths((self.collectionView?.indexPathsForVisibleItems())!)
-        self.collectionView?.reloadData()
+        
     }
     
     
