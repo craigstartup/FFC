@@ -10,7 +10,7 @@ import UIKit
 import Photos
 
 
-class MovieBuilderViewController: UIViewController, PHPhotoLibraryChangeObserver {
+class MovieBuilderViewController: UIViewController {
     
     @IBOutlet weak var headshot: UIImageView!
 
