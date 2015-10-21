@@ -1,5 +1,5 @@
 //
-//  ClipsViewController.swift
+//  VideosViewController.swift
 //  Free Film Camp
 //
 //  Created by Eric Mentele on 10/6/15.

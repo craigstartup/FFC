@@ -29,11 +29,7 @@ class SecondSceneViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        PHPhotoLibrary.requestAuthorization { (status) -> Void in
-            if status == PHAuthorizationStatus.Authorized {
-                
-            }
-        }
+
     }
     
     
@@ -77,7 +73,7 @@ class SecondSceneViewController: UIViewController {
         
         if segue.identifier == "s2SelectClip" {
             
-            let destinationVC = segue.destinationViewController as! ClipsViewController
+            let destinationVC = segue.destinationViewController as! VideosViewController
             destinationVC.segueID = self.clipID
         } else if segue.identifier == "s2SelectAudio" {
             

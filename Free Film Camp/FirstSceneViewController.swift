@@ -30,11 +30,6 @@ class FirstSceneViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        PHPhotoLibrary.requestAuthorization { (status) -> Void in
-            if status == PHAuthorizationStatus.Authorized {
-                
-            }
-        }
         // set up album for recorded scenes and movies
         self.sceneFetchOptions.predicate = NSPredicate(format: "title = %@", self.toAlbumTitle)
         
@@ -76,7 +71,6 @@ class FirstSceneViewController: UIViewController {
             }
             
         }
-
     }
     
     
@@ -127,7 +121,7 @@ class FirstSceneViewController: UIViewController {
     
         if segue.identifier == "s1SelectClip" {
             
-            let destinationVC = segue.destinationViewController as! ClipsViewController
+            let destinationVC = segue.destinationViewController as! VideosViewController
             destinationVC.segueID = self.clipID
         } else if segue.identifier == "s1SelectAudio" {
             

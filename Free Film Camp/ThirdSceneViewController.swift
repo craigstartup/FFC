@@ -27,11 +27,6 @@ class ThirdSceneViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        PHPhotoLibrary.requestAuthorization { (status) -> Void in
-            if status == PHAuthorizationStatus.Authorized {
-                
-            }
-        }
     }
     
     
@@ -74,7 +69,7 @@ class ThirdSceneViewController: UIViewController {
         
         if segue.identifier == "s3SelectClip" {
             
-            let destinationVC = segue.destinationViewController as! ClipsViewController
+            let destinationVC = segue.destinationViewController as! VideosViewController
             destinationVC.segueID = self.clipID
         } else if segue.identifier == "s3SelectAudio" {
             

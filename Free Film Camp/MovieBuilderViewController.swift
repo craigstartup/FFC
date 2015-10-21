@@ -10,18 +10,13 @@ import UIKit
 import Photos
 
 
-class MovieBuilderViewController: UIViewController, PHPhotoLibraryChangeObserver {
+class MovieBuilderViewController: UIViewController {
     
     @IBOutlet weak var headshot: UIImageView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        PHPhotoLibrary.requestAuthorization { (status) -> Void in
-            if status == PHAuthorizationStatus.Authorized {
-                PHPhotoLibrary.sharedPhotoLibrary().registerChangeObserver(self)
-            }
-        }
         
     }
     
@@ -38,22 +33,9 @@ class MovieBuilderViewController: UIViewController, PHPhotoLibraryChangeObserver
     }
     
     @IBAction func preview(sender: AnyObject) {
+        
     }
     
-    func photoLibraryDidChange(changeInstance: PHChange) {
-        
-        let alert = UIAlertController(title: "Alert", message: "Saved", preferredStyle: .Alert)
-        let ok = UIAlertAction(title: "OK", style: .Default) { (action) -> Void in
-            
-            self.dismissViewControllerAnimated(true, completion: nil)
-        }
-        alert.addAction(ok)
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
-            self.presentViewController(alert, animated: true, completion: nil)
-            
-        }
-
-    }
    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
