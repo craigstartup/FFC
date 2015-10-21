@@ -21,8 +21,8 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     @IBOutlet weak var recordButton: UIButton!
     @IBOutlet weak var clipsView: UIImageView!
     @IBOutlet weak var clipsButton: UIButton!
-    
     @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet weak var confirmShotButton: UIButton!
     // camera components
     let videoCapture = AVCaptureSession()
     let camera = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
@@ -34,11 +34,13 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     // background queue
     var sessionQueue: dispatch_queue_t!
     var backgroundRecordingID: UIBackgroundTaskIdentifier!
-    // storage
+    // video storage
     let library = PHPhotoLibrary.sharedPhotoLibrary()
     let fetchOptions = PHFetchOptions()
     let toAlbumTitle = "Free Film Camp Clips"
     var newClip: PHObjectPlaceholder!
+    
+    var pickingShot = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -106,6 +108,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     
     override func viewDidDisappear(animated: Bool) {
         
+        self.pickingShot = false
         videoCapture.stopRunning()
     }
     
@@ -264,7 +267,17 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     
     @IBAction func cancelCamera(sender: AnyObject) {
         
+        if self.pickingShot == true {
+            
+            self.performSegueWithIdentifier("cameraUnwindSegue", sender: self)
+        }
         self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    @IBAction func shotConfirmed(sender: AnyObject) {
+        
+        self.presentingViewController?.dismissViewControllerAnimated(false, completion: nil)
+        
     }
     
     @IBAction func flipCamera(sender: AnyObject) {
@@ -280,6 +293,14 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        if segue.identifier == "cameraUnwindSegue" {
+            
+            //let videosVC = segue.destinationViewController as! VideosViewController
+            
+        }
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
