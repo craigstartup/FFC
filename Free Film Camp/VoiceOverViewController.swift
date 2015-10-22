@@ -21,6 +21,8 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     
     var segueID: String!
     
+    var hasRecorded = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -63,8 +65,6 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         // set up initial button states
         playButton.enabled = false
         playButton.alpha = 0.4
-        doneButton.enabled = false
-        doneButton.alpha = 0.4
         recordButton.alpha = 1
         recordButton.enabled = true
     }
@@ -72,6 +72,7 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     
     @IBAction func recordButtonPressed(sender: AnyObject) {
         
+        self.hasRecorded = true
         if audioPlayer?.playing == true {
             
             audioPlayer.stop()
@@ -111,25 +112,29 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     
     @IBAction func doneButtonPressed(sender: AnyObject) {
         
+        if hasRecorded {
         self.audioAssetToPass = AVAsset(URL: (audioRecorder?.url)!)
+        }
+        
         self.performSegueWithIdentifier(self.segueID, sender: self)
     }
     
     // get audio file
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        
-        if segue.identifier == "s1AudioSelectedSegue" {
-            
-            let scene1BuilderVC = segue.destinationViewController as! FirstSceneViewController
-            scene1BuilderVC.audioAsset = self.audioAssetToPass
-        } else if segue.identifier == "s2AudioSelectedSegue" {
-            
-            let scene2BuilderVC = segue.destinationViewController as! SecondSceneViewController
-            scene2BuilderVC.audioAsset = self.audioAssetToPass
-        } else if segue.identifier == "s3AudioSelectedSegue" {
-            
-            let scene3BuilderVC = segue.destinationViewController as! ThirdSceneViewController
-            scene3BuilderVC.audioAsset = self.audioAssetToPass
+        if self.audioAssetToPass != nil {
+            if segue.identifier == "s1AudioSelectedSegue" {
+                
+                let scene1BuilderVC = segue.destinationViewController as! FirstSceneViewController
+                scene1BuilderVC.audioAsset = self.audioAssetToPass
+            } else if segue.identifier == "s2AudioSelectedSegue" {
+                
+                let scene2BuilderVC = segue.destinationViewController as! SecondSceneViewController
+                scene2BuilderVC.audioAsset = self.audioAssetToPass
+            } else if segue.identifier == "s3AudioSelectedSegue" {
+                
+                let scene3BuilderVC = segue.destinationViewController as! ThirdSceneViewController
+                scene3BuilderVC.audioAsset = self.audioAssetToPass
+            }
         }
     }
     
