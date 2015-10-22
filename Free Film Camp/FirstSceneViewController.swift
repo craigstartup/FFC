@@ -13,6 +13,11 @@ import AVFoundation
 
 class FirstSceneViewController: UIViewController {
 
+    @IBOutlet weak var shot1Button: UIButton!
+    @IBOutlet weak var shot2Button: UIButton!
+    @IBOutlet weak var shot3Button: UIButton!
+    @IBOutlet weak var recordVoiceOverButton: UIButton!
+    @IBOutlet weak var voiceOverLabel: UILabel!
     
     let library = PHPhotoLibrary.sharedPhotoLibrary()
     let sceneFetchOptions = PHFetchOptions()
@@ -25,6 +30,7 @@ class FirstSceneViewController: UIViewController {
     var scene = 1
     
     var selectedVideoAsset: NSURL!
+    var selectedVideoImage: UIImage!
     var audioAsset: AVAsset!
     
     override func viewDidLoad() {
@@ -78,6 +84,48 @@ class FirstSceneViewController: UIViewController {
         
         self.navigationController?.setNavigationBarHidden(false, animated: false)
         
+        if assetRequestNumber != nil {
+            
+            if self.assetRequestNumber == 1 {
+                
+                MediaController.sharedMediaController.s1Shot1Image = self.selectedVideoImage
+                
+            } else if self.assetRequestNumber == 2 {
+                
+                MediaController.sharedMediaController.s1Shot2Image = self.selectedVideoImage
+                
+                
+            } else if self.assetRequestNumber == 3 {
+                
+                MediaController.sharedMediaController.s1Shot3Image = self.selectedVideoImage
+                
+            }
+        }
+        
+        if MediaController.sharedMediaController.s1Shot1Image != nil {
+            self.shot1Button.setImage(MediaController.sharedMediaController.s1Shot1Image, forState: UIControlState.Normal)
+            self.shot1Button.imageView!.contentMode = UIViewContentMode.ScaleToFill
+            self.shot1Button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Fill
+            self.shot1Button.contentVerticalAlignment = UIControlContentVerticalAlignment.Fill
+        }
+        if MediaController.sharedMediaController.s1Shot2Image != nil {
+            self.shot2Button.setImage(MediaController.sharedMediaController.s1Shot2Image, forState: UIControlState.Normal)
+            self.shot2Button.imageView!.contentMode = UIViewContentMode.ScaleToFill
+            self.shot2Button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Fill
+            self.shot2Button.contentVerticalAlignment = UIControlContentVerticalAlignment.Fill
+        }
+        if MediaController.sharedMediaController.s1Shot3Image != nil {
+            self.shot3Button.setImage(MediaController.sharedMediaController.s1Shot3Image, forState: UIControlState.Normal)
+            self.shot3Button.imageView!.contentMode = UIViewContentMode.ScaleToFill
+            self.shot3Button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Fill
+            self.shot3Button.contentVerticalAlignment = UIControlContentVerticalAlignment.Fill
+        }
+        
+        if MediaController.sharedMediaController.s1VoiceOver != nil {
+            
+            let check = UIImage(named: "Check")
+            self.recordVoiceOverButton.setImage(check, forState: UIControlState.Normal)
+        }
     }
 
     @IBAction func selectClipOne(sender: AnyObject) {
@@ -116,6 +164,7 @@ class FirstSceneViewController: UIViewController {
         MediaController.sharedMediaController.saveScene(self.scene)
         
     }
+    
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     

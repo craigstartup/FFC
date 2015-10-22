@@ -35,9 +35,11 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
     // handle segue based on presenting VC
     var segueID: String!
     
-    // pass back selected video
+    // pass back selected video and image
     var videoAssetToPass: NSURL!
     var initialEntry = true
+    var images = [UIImage]()
+    var videoImageToPass: UIImage!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -122,7 +124,6 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
         } else {
             
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! VideoLibraryCell
-            cell.backgroundColor = UIColor.blueColor()
             
             if cell.tag != 0 {
                 
@@ -132,11 +133,13 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
             let video = videos[indexPath.row - 1]
             
             cell.tag = Int(manager.requestImageForAsset(video,
-                targetSize: CGSize(width: 140, height: 140),
+                targetSize: CGSize(width: 215, height: 136),
                 contentMode: .AspectFill,
                 options: nil) { (result, _) -> Void in
                     cell.imageView.image = result
+                    self.images.append(result!)
                 })
+            
             return cell
         }
         
@@ -195,6 +198,7 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
                         
                         let url = videoAsset as! AVURLAsset
                         self.videoAssetToPass = url.URL
+                        self.videoImageToPass = self.images[(indexPath?.row)! - 1]
                         self.performSegueWithIdentifier(self.segueID, sender: self)
                     }
                 })
@@ -209,14 +213,17 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
             
             let scene1BuilderVC = segue.destinationViewController as! FirstSceneViewController
             scene1BuilderVC.selectedVideoAsset = self.videoAssetToPass
+            scene1BuilderVC.selectedVideoImage = self.videoImageToPass
         } else if segue.identifier == "s2ClipSelectedSegue" {
             
             let scene2BuilderVC = segue.destinationViewController as! SecondSceneViewController
             scene2BuilderVC.selectedVideoAsset = self.videoAssetToPass
+            scene2BuilderVC.selectedVideoImage = self.videoImageToPass
         } else if segue.identifier == "s3ClipSelectedSegue" {
             
             let scene3BuilderVC = segue.destinationViewController as! ThirdSceneViewController
             scene3BuilderVC.selectedVideoAsset = self.videoAssetToPass
+            scene3BuilderVC.selectedVideoImage = self.videoImageToPass
         } else if segue.identifier == "pickingShot" {
             
             let cameraVC = segue.destinationViewController as! CameraViewController

@@ -72,7 +72,6 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         
         if let _: AnyObject = toAlbum.firstObject {
             
-            print("Free Film Camp Clips exists")
         } else {
             
             library.performChanges({ () -> Void in
@@ -271,7 +270,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             
             self.performSegueWithIdentifier("cameraUnwindSegue", sender: self)
         }
-        self.navigationController?.popViewControllerAnimated(true)
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBAction func shotConfirmed(sender: AnyObject) {

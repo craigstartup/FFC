@@ -24,24 +24,33 @@ class MediaController {
     
     let library = PHPhotoLibrary.sharedPhotoLibrary()
     let comCenter = NSNotificationCenter.defaultCenter()
-    
+    // Main voiceover
     var audioVoiceOverAsset: AVAsset!
     var sessionURL: NSURL!
     var vOExporter: AVAssetExportSession!
-    // Shots
+    // Scene components
     var s1Shot1: AVAsset!
+    var s1Shot1Image: UIImage!
     var s1Shot2: AVAsset!
+    var s1Shot2Image: UIImage!
     var s1Shot3: AVAsset!
+    var s1Shot3Image: UIImage!
     var s1VoiceOver: AVAsset!
 
     var s2Shot1: AVAsset!
+    var s2Shot1Image: UIImage!
     var s2Shot2: AVAsset!
+    var s2Shot2Image: UIImage!
     var s2Shot3: AVAsset!
+    var s2Shot3Image: UIImage!
     var s2VoiceOver: AVAsset!
 
     var s3Shot1: AVAsset!
+    var s3Shot1Image: UIImage!
     var s3Shot2: AVAsset!
+    var s3Shot2Image: UIImage!
     var s3Shot3: AVAsset!
+    var s3Shot3Image:UIImage!
     var s3VoiceOver: AVAsset!
 
     // place holder for scene
@@ -382,7 +391,6 @@ class MediaController {
     func exportDidFinish(session:AVAssetExportSession) {
         
         assert(session.status == AVAssetExportSessionStatus.Completed, "Session status not completed")
-        
         
         if session.status == AVAssetExportSessionStatus.Completed {
             

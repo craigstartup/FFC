@@ -289,7 +289,7 @@
                                     <constraint firstAttribute="width" constant="75" id="YQP-EY-uPV"/>
                                     <constraint firstAttribute="height" constant="55" id="lZ3-fh-YxF"/>
                                 </constraints>
-                                <state key="normal" image="Checkbx 3 copy">
+                                <state key="normal">
                                     <color key="titleColor" red="1" green="0.054037065269999997" blue="0.25342486240000001" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
@@ -394,7 +394,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="plus_white_69" highlightedImage="plus_white_69" translatesAutoresizingMaskIntoConstraints="NO" id="T5W-V7-OTD">
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="T5W-V7-OTD">
                                 <rect key="frame" x="7" y="74" width="190" height="111"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -402,14 +402,16 @@
                                     <constraint firstAttribute="width" secondItem="T5W-V7-OTD" secondAttribute="height" multiplier="190:111" id="swW-u2-nQI"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qxs-2x-Cgo" userLabel="Shot 1">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qxs-2x-Cgo" userLabel="Shot 1">
                                 <rect key="frame" x="7" y="74" width="190" height="111"/>
                                 <animations/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" image="plus_white_69"/>
                                 <connections>
                                     <action selector="selectClipOne:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="7EC-BK-HLV"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="plus_white_69" translatesAutoresizingMaskIntoConstraints="NO" id="fpG-ck-N14">
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fpG-ck-N14">
                                 <rect key="frame" x="205" y="74" width="190" height="111"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -417,14 +419,16 @@
                                     <constraint firstAttribute="width" secondItem="fpG-ck-N14" secondAttribute="height" multiplier="190:111" id="VXj-zZ-1Qm"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zh0-jF-OTX" userLabel="Shot 2">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zh0-jF-OTX" userLabel="Shot 2">
                                 <rect key="frame" x="205" y="74" width="190" height="111"/>
                                 <animations/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" image="plus_white_69"/>
                                 <connections>
                                     <action selector="selectClipTwo:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="mNa-MZ-naK"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="plus_white_69" translatesAutoresizingMaskIntoConstraints="NO" id="DAY-fY-Gbz">
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DAY-fY-Gbz">
                                 <rect key="frame" x="403" y="74" width="190" height="111"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -432,13 +436,6 @@
                                     <constraint firstAttribute="width" secondItem="DAY-fY-Gbz" secondAttribute="height" multiplier="190:111" id="oYz-fl-zlr"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="akN-Vz-J8y" userLabel="Shot 3">
-                                <rect key="frame" x="403" y="74" width="190" height="111"/>
-                                <animations/>
-                                <connections>
-                                    <action selector="selectClip3:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="IFX-k7-J6V"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F1y-jG-nX1">
                                 <rect key="frame" x="300" y="535" width="293" height="65"/>
                                 <animations/>
@@ -531,6 +528,15 @@
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="akN-Vz-J8y" userLabel="Shot 3">
+                                <rect key="frame" x="403" y="74" width="190" height="111"/>
+                                <animations/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" image="plus_white_69"/>
+                                <connections>
+                                    <action selector="selectClip3:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="IFX-k7-J6V"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" red="0.26666666666666666" green="0.26666666666666666" blue="0.26666666666666666" alpha="1" colorSpace="calibratedRGB"/>
@@ -604,6 +610,11 @@
                     </navigationItem>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
+                        <outlet property="recordVoiceOverButton" destination="jAP-bU-Obn" id="UyJ-ey-yB2"/>
+                        <outlet property="shot1Button" destination="Qxs-2x-Cgo" id="kqj-3f-mUy"/>
+                        <outlet property="shot2Button" destination="zh0-jF-OTX" id="UFa-Eb-rXk"/>
+                        <outlet property="shot3Button" destination="akN-Vz-J8y" id="Og8-Kz-XBY"/>
+                        <outlet property="voiceOverLabel" destination="8j6-AJ-GMb" id="jxO-Oa-XJu"/>
                         <segue destination="4to-zB-zdm" kind="presentation" identifier="s1SelectClip" id="CH1-X3-ObO"/>
                     </connections>
                 </viewController>
@@ -623,7 +634,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="plus_white_69" highlightedImage="plus_white_69" translatesAutoresizingMaskIntoConstraints="NO" id="L4z-uE-Hle">
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="L4z-uE-Hle">
                                 <rect key="frame" x="7" y="74" width="190" height="111"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -631,14 +642,16 @@
                                     <constraint firstAttribute="width" secondItem="L4z-uE-Hle" secondAttribute="height" multiplier="190:111" id="Mgj-sI-wo0"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GI0-A2-cm3" userLabel="Shot 1">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GI0-A2-cm3" userLabel="Shot 1">
                                 <rect key="frame" x="7" y="74" width="190" height="111"/>
                                 <animations/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" image="plus_white_69"/>
                                 <connections>
                                     <action selector="selectClipOne:" destination="qVt-sA-xLt" eventType="touchUpInside" id="GEg-w2-Ncs"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="plus_white_69" translatesAutoresizingMaskIntoConstraints="NO" id="vwC-50-eBv">
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vwC-50-eBv">
                                 <rect key="frame" x="205" y="74" width="190" height="111"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -646,14 +659,16 @@
                                     <constraint firstAttribute="width" secondItem="vwC-50-eBv" secondAttribute="height" multiplier="190:111" id="BdF-dI-46Z"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aGu-cQ-eFw" userLabel="Shot 2">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aGu-cQ-eFw" userLabel="Shot 2">
                                 <rect key="frame" x="205" y="74" width="190" height="111"/>
                                 <animations/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" image="plus_white_69"/>
                                 <connections>
                                     <action selector="selectClipTwo:" destination="qVt-sA-xLt" eventType="touchUpInside" id="eMM-Hj-U1f"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="plus_white_69" translatesAutoresizingMaskIntoConstraints="NO" id="TWu-jP-jbE">
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TWu-jP-jbE">
                                 <rect key="frame" x="403" y="74" width="190" height="111"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -661,9 +676,11 @@
                                     <constraint firstAttribute="width" secondItem="TWu-jP-jbE" secondAttribute="height" multiplier="190:111" id="vci-9k-XhC"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BJv-D1-8mW" userLabel="Shot 3">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BJv-D1-8mW" userLabel="Shot 3">
                                 <rect key="frame" x="403" y="74" width="190" height="111"/>
                                 <animations/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" image="plus_white_69"/>
                                 <connections>
                                     <action selector="selectClip3:" destination="qVt-sA-xLt" eventType="touchUpInside" id="0v9-4G-XhO"/>
                                 </connections>
@@ -827,6 +844,11 @@
                     </navigationItem>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
+                        <outlet property="recordVoiceOverButton" destination="YqY-j0-TIZ" id="bqd-R2-tmY"/>
+                        <outlet property="recordVoiceOverLabel" destination="VA4-im-jry" id="Av8-mI-C3k"/>
+                        <outlet property="shot1Button" destination="GI0-A2-cm3" id="huQ-fR-2ly"/>
+                        <outlet property="shot2Button" destination="aGu-cQ-eFw" id="QON-CV-7S0"/>
+                        <outlet property="shot3Button" destination="BJv-D1-8mW" id="u42-JR-Z68"/>
                         <segue destination="4to-zB-zdm" kind="presentation" identifier="s3SelectClip" id="pbY-XE-sGo"/>
                     </connections>
                 </viewController>
@@ -846,7 +868,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="plus_white_69" highlightedImage="plus_white_69" translatesAutoresizingMaskIntoConstraints="NO" id="dwg-le-U0j">
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dwg-le-U0j">
                                 <rect key="frame" x="7" y="74" width="190" height="111"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -854,14 +876,16 @@
                                     <constraint firstAttribute="width" secondItem="dwg-le-U0j" secondAttribute="height" multiplier="190:111" id="FwO-vI-nzA"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="otP-Je-oPR" userLabel="Shot 1">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="otP-Je-oPR" userLabel="Shot 1">
                                 <rect key="frame" x="7" y="74" width="190" height="111"/>
                                 <animations/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" image="plus_white_69"/>
                                 <connections>
                                     <action selector="selectClipOne:" destination="MQa-Na-cfN" eventType="touchUpInside" id="uVs-PT-yvb"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="plus_white_69" translatesAutoresizingMaskIntoConstraints="NO" id="BO1-rx-eMa">
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BO1-rx-eMa">
                                 <rect key="frame" x="205" y="74" width="190" height="111"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -869,14 +893,16 @@
                                     <constraint firstAttribute="width" secondItem="BO1-rx-eMa" secondAttribute="height" multiplier="190:111" id="EdV-JC-Axm"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SeG-j5-p1x" userLabel="Shot 2">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SeG-j5-p1x" userLabel="Shot 2">
                                 <rect key="frame" x="205" y="74" width="190" height="111"/>
                                 <animations/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" image="plus_white_69"/>
                                 <connections>
                                     <action selector="selectClipTwo:" destination="MQa-Na-cfN" eventType="touchUpInside" id="cEe-07-0HP"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="plus_white_69" translatesAutoresizingMaskIntoConstraints="NO" id="wdc-jU-oZv">
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wdc-jU-oZv">
                                 <rect key="frame" x="403" y="74" width="190" height="111"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -884,9 +910,11 @@
                                     <constraint firstAttribute="width" secondItem="wdc-jU-oZv" secondAttribute="height" multiplier="190:111" id="Bx6-RT-Ho1"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z29-YX-x1f" userLabel="Shot 3">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z29-YX-x1f" userLabel="Shot 3">
                                 <rect key="frame" x="403" y="74" width="190" height="111"/>
                                 <animations/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" image="plus_white_69"/>
                                 <connections>
                                     <action selector="selectClip3:" destination="MQa-Na-cfN" eventType="touchUpInside" id="NaD-dL-pB7"/>
                                 </connections>
@@ -1050,6 +1078,11 @@
                     </navigationItem>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
+                        <outlet property="recordVoiceOverButton" destination="1rO-1c-1TE" id="Bse-hU-MGy"/>
+                        <outlet property="recordVoiceOverLabel" destination="liu-f8-dJC" id="gUL-fF-6kD"/>
+                        <outlet property="shot1Button" destination="otP-Je-oPR" id="Nnf-e5-ilF"/>
+                        <outlet property="shot2Button" destination="SeG-j5-p1x" id="Vw1-TX-Vtu"/>
+                        <outlet property="shot3Button" destination="z29-YX-x1f" id="8I0-Ub-eUs"/>
                         <segue destination="4to-zB-zdm" kind="presentation" identifier="s2SelectClip" id="OJI-ki-Muw"/>
                     </connections>
                 </viewController>
@@ -1201,14 +1234,13 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Checkbx 3 copy" width="60" height="60"/>
         <image name="camera_cancel_btn_36" width="40" height="40"/>
         <image name="camera_record_btn_70" width="60" height="60"/>
         <image name="plus_white_69" width="60" height="60"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="LiM-u3-3jo"/>
-        <segue reference="pbY-XE-sGo"/>
-        <segue reference="nYQ-Mx-U5W"/>
+        <segue reference="il3-XV-Oru"/>
+        <segue reference="CH1-X3-ObO"/>
+        <segue reference="bJ2-dg-x9E"/>
     </inferredMetricsTieBreakers>
 </document>

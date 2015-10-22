@@ -13,6 +13,11 @@ import AVFoundation
 
 class ThirdSceneViewController: UIViewController {
     
+    @IBOutlet weak var shot1Button: UIButton!
+    @IBOutlet weak var shot2Button: UIButton!
+    @IBOutlet weak var shot3Button: UIButton!
+    @IBOutlet weak var recordVoiceOverButton: UIButton!
+    @IBOutlet weak var recordVoiceOverLabel: UILabel!
     
     let library = PHPhotoLibrary.sharedPhotoLibrary()
     let fetchOptions = PHFetchOptions()
@@ -20,8 +25,10 @@ class ThirdSceneViewController: UIViewController {
     let clipID = "s3ClipSelectedSegue"
     let audioID = "s3AudioSelectedSegue"
     var scene = 3
+    var buttonToChange: UIButton!
     
     var selectedVideoAsset: NSURL!
+    var selectedVideoImage: UIImage!
     var audioAsset: AVAsset!
     
     override func viewDidLoad() {
@@ -29,10 +36,55 @@ class ThirdSceneViewController: UIViewController {
         
     }
     
-    
     override func viewWillAppear(animated: Bool) {
         
         self.navigationController?.setNavigationBarHidden(false, animated: false)
+        
+        if assetRequestNumber != nil {
+            
+            if self.assetRequestNumber == 1 {
+                
+                MediaController.sharedMediaController.s3Shot1Image = self.selectedVideoImage
+                
+            } else if self.assetRequestNumber == 2 {
+                
+                MediaController.sharedMediaController.s3Shot2Image = self.selectedVideoImage
+                
+                
+            } else if self.assetRequestNumber == 3 {
+                
+                MediaController.sharedMediaController.s3Shot3Image = self.selectedVideoImage
+                
+            }
+        }
+        
+        if MediaController.sharedMediaController.s3Shot1Image != nil {
+            self.shot1Button.setImage(MediaController.sharedMediaController.s3Shot1Image, forState: UIControlState.Normal)
+            self.shot1Button.imageView!.contentMode = UIViewContentMode.ScaleToFill
+            self.shot1Button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Fill
+            self.shot1Button.contentVerticalAlignment = UIControlContentVerticalAlignment.Fill
+        }
+        
+        if MediaController.sharedMediaController.s3Shot2Image != nil {
+            self.shot2Button.setImage(MediaController.sharedMediaController.s3Shot2Image, forState: UIControlState.Normal)
+            self.shot2Button.imageView!.contentMode = UIViewContentMode.ScaleToFill
+            self.shot2Button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Fill
+            self.shot2Button.contentVerticalAlignment = UIControlContentVerticalAlignment.Fill
+        }
+        
+        if MediaController.sharedMediaController.s3Shot3Image != nil {
+            self.shot3Button.setImage(MediaController.sharedMediaController.s3Shot3Image, forState: UIControlState.Normal)
+            self.shot3Button.imageView!.contentMode = UIViewContentMode.ScaleToFill
+            self.shot3Button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Fill
+            self.shot3Button.contentVerticalAlignment = UIControlContentVerticalAlignment.Fill
+        }
+        
+        if MediaController.sharedMediaController.s3VoiceOver != nil {
+            
+            let check = UIImage(named: "Check")
+            self.recordVoiceOverButton.setImage(check, forState: UIControlState.Normal)
+        }
+
     }
     
     @IBAction func selectClipOne(sender: AnyObject) {
