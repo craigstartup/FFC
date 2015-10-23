@@ -75,7 +75,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         } else {
             
             library.performChanges({ () -> Void in
-                PHAssetCollectionChangeRequest.creationRequestForAssetCollectionWithTitle(toAlbumTitle)
+                PHAssetCollectionChangeRequest.creationRequestForAssetCollectionWithTitle(self.toAlbumTitle)
                 }) { (success: Bool, error: NSError?) -> Void in
                     if !success {
                         print(error!.localizedDescription)

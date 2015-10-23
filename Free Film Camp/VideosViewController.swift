@@ -38,7 +38,7 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
     // pass back selected video and image
     var videoAssetToPass: NSURL!
     var initialEntry = true
-    var images = [UIImage]()
+    //var images = [UIImage]()
     var videoImageToPass: UIImage!
     
     override func viewDidLoad() {
@@ -54,7 +54,7 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
         } else {
             
             library.performChanges({ () -> Void in
-                PHAssetCollectionChangeRequest.creationRequestForAssetCollectionWithTitle(albumTitle)
+                PHAssetCollectionChangeRequest.creationRequestForAssetCollectionWithTitle(self.albumTitle)
                 }) { (success: Bool, error: NSError?) -> Void in
                     if !success {
                         print(error!.localizedDescription)
@@ -137,7 +137,7 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
                 contentMode: .AspectFill,
                 options: nil) { (result, _) -> Void in
                     cell.imageView.image = result
-                    self.images.append(result!)
+                    //self.images.append(result!)
                 })
             
             return cell
@@ -190,6 +190,12 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
         let indexPath = self.collectionView?.indexPathForItemAtPoint(itemTouched)
         if indexPath!.row > 0 {
             let video = videos[(indexPath?.row)! - 1]
+            manager.requestImageForAsset(video,
+                targetSize: CGSize(width: 215, height: 136),
+                contentMode: .AspectFill,
+                options: nil) { (result, _) -> Void in
+                    self.videoImageToPass = result!
+            }
             manager.requestAVAssetForVideo(video, options: nil) { (videoAsset, audioMix, info) -> Void in
                 
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -198,7 +204,6 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
                         
                         let url = videoAsset as! AVURLAsset
                         self.videoAssetToPass = url.URL
-                        self.videoImageToPass = self.images[(indexPath?.row)! - 1]
                         self.performSegueWithIdentifier(self.segueID, sender: self)
                     }
                 })

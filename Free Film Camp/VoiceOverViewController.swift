@@ -14,6 +14,7 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     @IBOutlet weak var recordButton: UIButton!
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var doneButton: UIButton!
+    @IBOutlet weak var videoPreviewLayer: UIView!
     
     var audioPlayer: AVAudioPlayer!
     var audioRecorder: AVAudioRecorder!

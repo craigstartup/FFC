@@ -113,7 +113,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zfb-Yi-cGw">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zfb-Yi-cGw" userLabel="Preview Player">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="530"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -193,6 +193,7 @@
                         <outlet property="doneButton" destination="tiy-FS-viV" id="5PU-Ib-c2r"/>
                         <outlet property="playButton" destination="MbU-Fj-Cdv" id="xhQ-BJ-xpi"/>
                         <outlet property="recordButton" destination="na2-7t-mhh" id="dvm-vz-M2c"/>
+                        <outlet property="videoPreviewLayer" destination="zfb-Yi-cGw" id="zLG-wN-w77"/>
                         <segue destination="g3f-9f-LiE" kind="unwind" identifier="s1AudioSelectedSegue" unwindAction="s1AudioUnwindSegue:" id="I3l-bq-aCB"/>
                         <segue destination="g3f-9f-LiE" kind="unwind" identifier="s2AudioSelectedSegue" unwindAction="s2AudioUnwindSegue:" id="Bde-oq-xVR"/>
                         <segue destination="g3f-9f-LiE" kind="unwind" identifier="s3AudioSelectedSegue" unwindAction="s3AudioUnwindSegue:" id="T2b-o0-3nR"/>

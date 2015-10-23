@@ -47,7 +47,7 @@ class TheatreViewController: UICollectionViewController {
         } else {
             
             library.performChanges({ () -> Void in
-                PHAssetCollectionChangeRequest.creationRequestForAssetCollectionWithTitle(albumTitle)
+                PHAssetCollectionChangeRequest.creationRequestForAssetCollectionWithTitle(self.albumTitle)
                 }) { (success: Bool, error: NSError?) -> Void in
                     if !success {
                         print(error!.localizedDescription)
