@@ -121,6 +121,7 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
                 print("audioPlayer error: \(error.localizedDescription)")
             }
             self.audioPlayer.delegate = self
+            self.videoPlayer.play()
         }
     }
     
