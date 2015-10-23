@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="VaU-F1-wSE">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="VaU-F1-wSE">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -113,12 +113,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zfb-Yi-cGw" userLabel="Preview Player">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="530"/>
-                                <animations/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
-                            <stackView opaque="NO" contentMode="scaleAspectFit" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="nZ9-Zw-TTL">
+                            <stackView opaque="NO" contentMode="scaleAspectFit" distribution="fillEqually" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="nZ9-Zw-TTL">
                                 <rect key="frame" x="20" y="548" width="560" height="44"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="na2-7t-mhh">
@@ -158,34 +153,26 @@
                                 <animations/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstItem="tiy-FS-viV" firstAttribute="leading" secondItem="MbU-Fj-Cdv" secondAttribute="trailing" id="PAr-fq-1Ob"/>
-                                    <constraint firstItem="MbU-Fj-Cdv" firstAttribute="leading" secondItem="na2-7t-mhh" secondAttribute="trailing" id="U49-ZO-D8s"/>
-                                    <constraint firstAttribute="trailing" secondItem="tiy-FS-viV" secondAttribute="trailing" id="awR-S8-wA9"/>
-                                    <constraint firstItem="MbU-Fj-Cdv" firstAttribute="width" secondItem="na2-7t-mhh" secondAttribute="width" constant="-1" id="eiw-JH-0mZ"/>
-                                    <constraint firstItem="tiy-FS-viV" firstAttribute="width" secondItem="na2-7t-mhh" secondAttribute="width" id="f9v-UM-FBW"/>
-                                    <constraint firstItem="na2-7t-mhh" firstAttribute="leading" secondItem="nZ9-Zw-TTL" secondAttribute="leading" id="uYe-9b-3gT"/>
-                                </constraints>
                             </stackView>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vDO-tT-Aig">
-                                <rect key="frame" x="0.0" y="538" width="600" height="2"/>
+                            <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="zfb-Yi-cGw" userLabel="Preview Player">
+                                <rect key="frame" x="20" y="233" width="560" height="315"/>
                                 <animations/>
-                            </progressView>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="315" id="Jbx-bV-tBS"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" red="0.2666666667" green="0.2666666667" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="zfb-Yi-cGw" firstAttribute="top" secondItem="Fyg-ug-AMe" secondAttribute="top" id="6xq-CB-C0l"/>
-                            <constraint firstItem="zfb-Yi-cGw" firstAttribute="trailing" secondItem="vDO-tT-Aig" secondAttribute="trailing" id="Cko-si-VGP"/>
-                            <constraint firstItem="nZ9-Zw-TTL" firstAttribute="leading" secondItem="Fyg-ug-AMe" secondAttribute="leadingMargin" id="K7k-QI-1RV"/>
-                            <constraint firstItem="I6K-8R-b3A" firstAttribute="top" secondItem="nZ9-Zw-TTL" secondAttribute="bottom" constant="8" id="KBg-ek-D8w"/>
-                            <constraint firstItem="vDO-tT-Aig" firstAttribute="top" secondItem="zfb-Yi-cGw" secondAttribute="bottom" constant="8" symbolic="YES" id="KZL-a9-cfN"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="nZ9-Zw-TTL" secondAttribute="trailing" id="LWS-wm-c9V"/>
-                            <constraint firstItem="vDO-tT-Aig" firstAttribute="leading" secondItem="zfb-Yi-cGw" secondAttribute="leading" id="S68-kJ-nXv"/>
-                            <constraint firstItem="vDO-tT-Aig" firstAttribute="leading" secondItem="Fyg-ug-AMe" secondAttribute="leading" id="fLs-EF-VFG"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="nZ9-Zw-TTL" secondAttribute="trailing" id="hGz-Gs-ndB"/>
-                            <constraint firstAttribute="trailing" secondItem="zfb-Yi-cGw" secondAttribute="trailing" id="jfU-Zd-vDC"/>
-                            <constraint firstItem="nZ9-Zw-TTL" firstAttribute="top" secondItem="vDO-tT-Aig" secondAttribute="bottom" constant="8" id="t8G-Sp-Dr1"/>
+                            <constraint firstItem="nZ9-Zw-TTL" firstAttribute="leading" secondItem="Fyg-ug-AMe" secondAttribute="leadingMargin" id="8jn-Rx-fet"/>
+                            <constraint firstItem="zfb-Yi-cGw" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Fyg-ug-AMe" secondAttribute="trailingMargin" id="gwK-TW-Jt9"/>
+                            <constraint firstItem="zfb-Yi-cGw" firstAttribute="centerX" secondItem="Fyg-ug-AMe" secondAttribute="centerX" id="gyo-le-ICD"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="nZ9-Zw-TTL" secondAttribute="trailing" id="kxt-zU-BES"/>
+                            <constraint firstItem="I6K-8R-b3A" firstAttribute="top" secondItem="nZ9-Zw-TTL" secondAttribute="bottom" constant="8" id="nla-c9-C4D"/>
+                            <constraint firstItem="nZ9-Zw-TTL" firstAttribute="top" secondItem="zfb-Yi-cGw" secondAttribute="bottom" id="qcS-6v-VLj"/>
+                            <constraint firstItem="zfb-Yi-cGw" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Fyg-ug-AMe" secondAttribute="leadingMargin" id="u4i-rf-bt3"/>
                         </constraints>
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
@@ -442,8 +429,8 @@
                                 <animations/>
                                 <color key="backgroundColor" red="0.95290798611111105" green="0.95290798611111105" blue="0.95290798611111105" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="Save">
-                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <state key="normal" title="Save Scene To Photos">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="mergeMedia:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="wt8-vJ-avy"/>
@@ -459,7 +446,7 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Preview">
-                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="previewSelection:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="gee-zp-rIa"/>
@@ -691,8 +678,8 @@
                                 <animations/>
                                 <color key="backgroundColor" red="0.95290798610000005" green="0.95290798610000005" blue="0.95290798610000005" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="Save">
-                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <state key="normal" title="Save Scene To Photos">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="mergeMedia:" destination="qVt-sA-xLt" eventType="touchUpInside" id="N2b-jq-CKa"/>
@@ -708,7 +695,7 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Preview">
-                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="previewSelection:" destination="qVt-sA-xLt" eventType="touchUpInside" id="vy1-g3-WcI"/>
@@ -925,8 +912,8 @@
                                 <animations/>
                                 <color key="backgroundColor" red="0.95290798610000005" green="0.95290798610000005" blue="0.95290798610000005" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="Save">
-                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <state key="normal" title="Save Scene To Photos">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="mergeMedia:" destination="MQa-Na-cfN" eventType="touchUpInside" id="eDL-ya-mEe"/>
@@ -942,7 +929,7 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Preview">
-                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <color key="titleColor" red="0.77254901960784317" green="0.77254901960784317" blue="0.77254901960784317" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="previewSelection:" destination="MQa-Na-cfN" eventType="touchUpInside" id="5wi-jE-tLE"/>
@@ -1127,7 +1114,7 @@
                                 <color key="backgroundColor" red="0.95290798610000005" green="0.95290798610000005" blue="0.95290798610000005" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Make Movie">
-                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="makeMovie:" destination="fje-F2-EuG" eventType="touchUpInside" id="5pv-cW-eNu"/>
@@ -1143,7 +1130,7 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Preview">
-                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="preview:" destination="fje-F2-EuG" eventType="touchUpInside" id="YT1-Kd-ndS"/>
@@ -1240,8 +1227,8 @@
         <image name="plus_white_69" width="60" height="60"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="LiM-u3-3jo"/>
         <segue reference="il3-XV-Oru"/>
-        <segue reference="CH1-X3-ObO"/>
-        <segue reference="bJ2-dg-x9E"/>
+        <segue reference="pbY-XE-sGo"/>
     </inferredMetricsTieBreakers>
 </document>

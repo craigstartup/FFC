@@ -9,6 +9,7 @@
 import UIKit
 import Photos
 import AVFoundation
+import AVKit
 
 
 class FirstSceneViewController: UIViewController {
@@ -19,6 +20,7 @@ class FirstSceneViewController: UIViewController {
     @IBOutlet weak var recordVoiceOverButton: UIButton!
     @IBOutlet weak var voiceOverLabel: UILabel!
     
+    var vpVC = AVPlayerViewController()
     let library = PHPhotoLibrary.sharedPhotoLibrary()
     let sceneFetchOptions = PHFetchOptions()
     let movieFetchOptions = PHFetchOptions()
@@ -157,6 +159,30 @@ class FirstSceneViewController: UIViewController {
     }
     
     @IBAction func previewSelection(sender: AnyObject) {
+        
+            var firstAsset: AVAsset!, secondAsset: AVAsset!, thirdAsset: AVAsset!
+            
+                firstAsset = MediaController.sharedMediaController.s1Shot1
+                secondAsset = MediaController.sharedMediaController.s1Shot2
+                thirdAsset  = MediaController.sharedMediaController.s1Shot3
+        
+            if firstAsset != nil && secondAsset != nil && thirdAsset != nil {
+                
+                let assets = [firstAsset, secondAsset, thirdAsset]
+                var shots = [AVPlayerItem]()
+                
+                
+                for item in assets {
+                    
+                    let shot = AVPlayerItem(asset: item)
+                    shots.append(shot)
+                }
+                
+                let videoPlayer = AVQueuePlayer(items: shots)
+                self.vpVC.player = videoPlayer
+                self.presentViewController(self.vpVC, animated: true, completion: nil)
+            }
+
     }
     
     @IBAction func mergeMedia(sender: AnyObject) {
