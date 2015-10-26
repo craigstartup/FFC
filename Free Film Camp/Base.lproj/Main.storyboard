@@ -695,7 +695,7 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Preview">
-                                    <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="previewSelection:" destination="qVt-sA-xLt" eventType="touchUpInside" id="vy1-g3-WcI"/>
@@ -929,7 +929,7 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Preview">
-                                    <color key="titleColor" red="0.77254901960784317" green="0.77254901960784317" blue="0.77254901960784317" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="previewSelection:" destination="MQa-Na-cfN" eventType="touchUpInside" id="5wi-jE-tLE"/>
@@ -1227,8 +1227,8 @@
         <image name="plus_white_69" width="60" height="60"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="LiM-u3-3jo"/>
         <segue reference="il3-XV-Oru"/>
-        <segue reference="pbY-XE-sGo"/>
+        <segue reference="QIo-ZO-zF5"/>
+        <segue reference="OJI-ki-Muw"/>
     </inferredMetricsTieBreakers>
 </document>

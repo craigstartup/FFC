@@ -10,6 +10,7 @@
 import Foundation
 import Photos
 import AVFoundation
+import AVKit
 
 class MediaController {
     
@@ -29,6 +30,7 @@ class MediaController {
     var sessionURL: NSURL!
     var vOExporter: AVAssetExportSession!
     // Scene components
+    var s1Preview: AVPlayerItem!
     var s1Shot1: AVAsset!
     var s1Shot1Image: UIImage!
     var s1Shot2: AVAsset!
@@ -36,7 +38,8 @@ class MediaController {
     var s1Shot3: AVAsset!
     var s1Shot3Image: UIImage!
     var s1VoiceOver: AVAsset!
-
+    
+    var s2Preview: AVPlayerItem!
     var s2Shot1: AVAsset!
     var s2Shot1Image: UIImage!
     var s2Shot2: AVAsset!
@@ -44,7 +47,8 @@ class MediaController {
     var s2Shot3: AVAsset!
     var s2Shot3Image: UIImage!
     var s2VoiceOver: AVAsset!
-
+    
+    var s3Preview: AVPlayerItem!
     var s3Shot1: AVAsset!
     var s3Shot1Image: UIImage!
     var s3Shot2: AVAsset!
@@ -93,12 +97,12 @@ class MediaController {
         if firstAsset != nil && secondAsset != nil && thirdAsset != nil {
             
             // set up container to hold media tracks.
-            let mixComposition = AVMutableComposition()
+            let sceneComposition = AVMutableComposition()
             // track times
             let track1to2Time = CMTimeAdd(firstAsset.duration, secondAsset.duration)
             let totalTime = CMTimeAdd(track1to2Time, thirdAsset.duration)
             // create separate video tracks for individual adjustments before merge
-            let firstTrack = mixComposition.addMutableTrackWithMediaType(AVMediaTypeVideo,
+            let firstTrack = sceneComposition.addMutableTrackWithMediaType(AVMediaTypeVideo,
                 preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
             
             do {
@@ -111,7 +115,7 @@ class MediaController {
                 print(firstTrackError.localizedDescription)
             }
             
-            let secondTrack = mixComposition.addMutableTrackWithMediaType(AVMediaTypeVideo,
+            let secondTrack = sceneComposition.addMutableTrackWithMediaType(AVMediaTypeVideo,
                 preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
             
             do {
@@ -124,7 +128,7 @@ class MediaController {
                 print(secondTrackError.localizedDescription)
             }
             
-            let thirdTrack = mixComposition.addMutableTrackWithMediaType(AVMediaTypeVideo,
+            let thirdTrack = sceneComposition.addMutableTrackWithMediaType(AVMediaTypeVideo,
                 preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
             
             do {
@@ -151,15 +155,15 @@ class MediaController {
             let thirdInstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: thirdTrack)
             // Add individual instructions to main for execution.
             mainInstruction.layerInstructions = [firstInstruction, secondInstruction, thirdInstruction]
-            let mainComposition = AVMutableVideoComposition()
+            let mainSceneComposition = AVMutableVideoComposition()
             // Add instruction composition to main composition and set frame rate to 30 per second.
-            mainComposition.instructions = [mainInstruction]
-            mainComposition.frameDuration = CMTimeMake(1, 30)
-            mainComposition.renderSize = mixComposition.naturalSize
+            mainSceneComposition.instructions = [mainInstruction]
+            mainSceneComposition.frameDuration = CMTimeMake(1, 30)
+            mainSceneComposition.renderSize = sceneComposition.naturalSize
             // get audio
             if audioAsset != nil {
                 
-                let audioTrack: AVMutableCompositionTrack = mixComposition.addMutableTrackWithMediaType(AVMediaTypeAudio, preferredTrackID: 0)
+                let audioTrack: AVMutableCompositionTrack = sceneComposition.addMutableTrackWithMediaType(AVMediaTypeAudio, preferredTrackID: 0)
                 
                 do {
                     
@@ -182,12 +186,12 @@ class MediaController {
             let url = NSURL(fileURLWithPath: documentDirectory).URLByAppendingPathComponent("mergeVideo-\(date).mov")
             // make exporter
             let exporter = AVAssetExportSession(
-                asset: mixComposition,
+                asset: sceneComposition,
                 presetName: AVAssetExportPresetHighestQuality)
             exporter!.outputURL = url
             exporter!.outputFileType = AVFileTypeQuickTimeMovie
             exporter!.shouldOptimizeForNetworkUse = true
-            exporter!.videoComposition = mainComposition
+            exporter!.videoComposition = mainSceneComposition
             exporter!
                 .exportAsynchronouslyWithCompletionHandler() {
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in

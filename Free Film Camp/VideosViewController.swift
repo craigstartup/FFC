@@ -47,10 +47,15 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
         // retrieve or creat clips album
         fetchOptions.predicate = NSPredicate(format: "title = %@", albumTitle)
         clipsAlbumFetch = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: fetchOptions)
-        clipsAlbum = clipsAlbumFetch.firstObject as! PHAssetCollection
+        
 
         if let _: AnyObject = clipsAlbumFetch.firstObject {
-                        print("Free Film Camp Clips exists")
+            
+            clipsAlbum = clipsAlbumFetch.firstObject as! PHAssetCollection
+            print("Free Film Camp Clips exists")
+            // setup to retrieve videos from clips album
+            clipsAlbumVideosFetch = PHAsset.fetchAssetsInAssetCollection(clipsAlbum, options: nil)
+            
         } else {
             
             library.performChanges({ () -> Void in
@@ -63,8 +68,7 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
             
         }
         
-        // setup to retrieve videos from clips album
-        clipsAlbumVideosFetch = PHAsset.fetchAssetsInAssetCollection(clipsAlbum, options: nil)
+        
         
         // setup gesture recognizer
         longPress = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")
@@ -99,6 +103,7 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
                 self.videos.append(asset)
             }
         }
+        self.collectionView?.reloadData()
         
     }
     
@@ -112,7 +117,11 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
     // MARK: Collection view delegate methods
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return clipsAlbum.estimatedAssetCount + 1
+        if clipsAlbum.estimatedAssetCount > 0 {
+            return clipsAlbum.estimatedAssetCount + 1
+        } else {
+            return 1
+        }
     }
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {

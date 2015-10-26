@@ -103,7 +103,6 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
 
     }
     
-    
     @IBAction func playButtonPressed(sender: AnyObject) {
         
         if audioRecorder.recording == false {
