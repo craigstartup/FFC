@@ -24,6 +24,7 @@ class SecondSceneViewController: UIViewController {
     var vpVC = AVPlayerViewController()
     let library = PHPhotoLibrary.sharedPhotoLibrary()
     let fetchOptions = PHFetchOptions()
+    var videoPlayer: AVPlayer!
     let toAlbumTitle = "Free Film Camp Scenes"
     let audioID = "s2AudioSelectedSegue"
     let clipID = "s2ClipSelectedSegue"
@@ -42,7 +43,6 @@ class SecondSceneViewController: UIViewController {
         
 
     }
-    
     
     override func viewWillAppear(animated: Bool) {
         
@@ -94,6 +94,12 @@ class SecondSceneViewController: UIViewController {
         }
 
     }
+    
+    override func viewWillDisappear(animated: Bool) {
+        self.videoPlayer = nil
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
     
     @IBAction func selectClipOne(sender: AnyObject) {
         
@@ -192,11 +198,16 @@ class SecondSceneViewController: UIViewController {
             
             let itemToPreview = AVPlayerItem(asset: mediaToPreview)
             itemToPreview.videoComposition = mainComposition
-            MediaController.sharedMediaController.s2Preview = itemToPreview
-            let videoPlayer = AVPlayer(playerItem: itemToPreview)
+            self.videoPlayer = AVPlayer(playerItem: itemToPreview)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "donePlayingPreview:", name: AVPlayerItemDidPlayToEndTimeNotification, object: itemToPreview)
             self.vpVC.player = videoPlayer
             self.presentViewController(self.vpVC, animated: true, completion: nil)
         }
+        
+    }
+    
+    func donePlayingPreview(notification: NSNotification) {
+        
     }
     
     @IBAction func mergeMedia(sender: AnyObject) {

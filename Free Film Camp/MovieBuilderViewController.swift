@@ -22,7 +22,11 @@ class MovieBuilderViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        MediaController.sharedMediaController.prepareMovie(false)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        MediaController.sharedMediaController.moviePreview = nil 
     }
     
     
@@ -33,15 +37,13 @@ class MovieBuilderViewController: UIViewController {
     }
     
     @IBAction func makeMovie(sender: AnyObject) {
-        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveCompleted:", name: "saveComplete", object: nil)
         self.savingProgress.alpha = 1
         self.savingProgress.startAnimating()
-        MediaController.sharedMediaController.saveMovie()
+        MediaController.sharedMediaController.prepareMovie(true)
     }
     
     func saveCompleted(notification: NSNotification) {
-        
         self.savingProgress.stopAnimating()
         self.savingProgress.alpha = 0
         NSNotificationCenter.defaultCenter().removeObserver(self)
@@ -49,19 +51,9 @@ class MovieBuilderViewController: UIViewController {
     
     @IBAction func preview(sender: AnyObject) {
         
-        if MediaController.sharedMediaController.s1Preview != nil &&
-        MediaController.sharedMediaController.s2Preview != nil &&
-        MediaController.sharedMediaController.s3Preview != nil {
-            
-            var preview1: AVPlayerItem!, preview2: AVPlayerItem!, preview3: AVPlayerItem!
-            preview1 = MediaController.sharedMediaController.s1Preview
-            preview2 = MediaController.sharedMediaController.s2Preview
-            preview3 = MediaController.sharedMediaController.s3Preview
-            
-            self.previewQueue = [preview1, preview2, preview3]
-            var videoPlayer = AVQueuePlayer()
-            videoPlayer.removeAllItems()
-            videoPlayer = AVQueuePlayer(items: previewQueue)
+        if MediaController.sharedMediaController.moviePreview != nil {
+            var videoPlayer = AVPlayer()
+            videoPlayer = AVPlayer(playerItem: MediaController.sharedMediaController.moviePreview)
             self.vpVC.player = videoPlayer
             self.presentViewController(self.vpVC, animated: true, completion: nil)
         }

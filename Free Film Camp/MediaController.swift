@@ -30,7 +30,6 @@ class MediaController {
     var sessionURL: NSURL!
     var vOExporter: AVAssetExportSession!
     // Scene components
-    var s1Preview: AVPlayerItem!
     var s1Shot1: AVAsset!
     var s1Shot1Image: UIImage!
     var s1Shot2: AVAsset!
@@ -39,7 +38,6 @@ class MediaController {
     var s1Shot3Image: UIImage!
     var s1VoiceOver: AVAsset!
     
-    var s2Preview: AVPlayerItem!
     var s2Shot1: AVAsset!
     var s2Shot1Image: UIImage!
     var s2Shot2: AVAsset!
@@ -48,7 +46,6 @@ class MediaController {
     var s2Shot3Image: UIImage!
     var s2VoiceOver: AVAsset!
     
-    var s3Preview: AVPlayerItem!
     var s3Shot1: AVAsset!
     var s3Shot1Image: UIImage!
     var s3Shot2: AVAsset!
@@ -56,6 +53,9 @@ class MediaController {
     var s3Shot3: AVAsset!
     var s3Shot3Image:UIImage!
     var s3VoiceOver: AVAsset!
+    
+    // movie
+    var moviePreview: AVPlayerItem!
 
     // place holder for scene
     var newScene: PHObjectPlaceholder!
@@ -202,7 +202,7 @@ class MediaController {
     }
     
     
-    func saveMovie() {
+    func prepareMovie(save: Bool) {
         
         albumTitle = "Free Film Camp Movies"
         
@@ -259,7 +259,7 @@ class MediaController {
                             if self.vOExporter.status == AVAssetExportSessionStatus.Completed {
                                 print("Export finished")
                                 self.sessionURL = self.vOExporter.outputURL!
-                                self.finishMovie(&mixComposition, assets: assets)
+                                self.finishMovie(&mixComposition, assets: assets, save: save)
                             } else if self.vOExporter.status == AVAssetExportSessionStatus.Waiting {
                                 print("Export waiting")
                             } else if self.vOExporter.status == AVAssetExportSessionStatus.Failed {
@@ -268,13 +268,13 @@ class MediaController {
                         })
                 }
             } else {
-                self.finishMovie(&mixComposition, assets: assets)
+                self.finishMovie(&mixComposition, assets: assets, save: save)
             }
         }
     }
     
     
-    func finishMovie(inout mixComposition: AVMutableComposition, assets: [AVAsset!]) {
+    func finishMovie(inout mixComposition: AVMutableComposition, assets: [AVAsset!], save: Bool) {
         
         let cleanup: dispatch_block_t = { () -> Void in
             
@@ -341,7 +341,7 @@ class MediaController {
         //let mix = AVMutableAudioMix()
         
         
-        self.audioVoiceOverAsset? = AVAsset(URL: self.vOExporter.outputURL!)
+        self.audioVoiceOverAsset = AVAsset(URL: self.sessionURL)
         
         if self.audioVoiceOverAsset != nil {
             
@@ -359,47 +359,52 @@ class MediaController {
             }
         }
         
-        // setup to save
-        let paths: NSArray = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
+        self.moviePreview = AVPlayerItem(asset: mixComposition)
+        self.moviePreview.videoComposition = mainComposition
         
-        let documentDirectory: String = paths[0] as! String
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = .LongStyle
-        dateFormatter.timeStyle = .LongStyle
-        let date = dateFormatter.stringFromDate(NSDate())
-        let url = NSURL(fileURLWithPath: documentDirectory).URLByAppendingPathComponent("mergeVideo-\(date).mov")
-        // make exporter
-        let exporter = AVAssetExportSession(
-            asset: mixComposition,
-            presetName: AVAssetExportPresetHighestQuality)
-        exporter!.outputURL = url
-        exporter!.outputFileType = AVFileTypeQuickTimeMovie
-        exporter!.shouldOptimizeForNetworkUse = true
-        //exporter!.audioMix = mix
-        exporter!.videoComposition = mainComposition
-        exporter!
-            .exportAsynchronouslyWithCompletionHandler() {
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.exportDidFinish(exporter!)
-                })
+        if save {
+            // setup to save
+            let paths: NSArray = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
+            
+            let documentDirectory: String = paths[0] as! String
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateStyle = .LongStyle
+            dateFormatter.timeStyle = .LongStyle
+            let date = dateFormatter.stringFromDate(NSDate())
+            let url = NSURL(fileURLWithPath: documentDirectory).URLByAppendingPathComponent("mergeVideo-\(date).mov")
+            // make exporter
+            let exporter = AVAssetExportSession(
+                asset: mixComposition,
+                presetName: AVAssetExportPresetHighestQuality)
+            exporter!.outputURL = url
+            exporter!.outputFileType = AVFileTypeQuickTimeMovie
+            exporter!.shouldOptimizeForNetworkUse = true
+            //exporter!.audioMix = mix
+            exporter!.videoComposition = mainComposition
+            exporter!
+                .exportAsynchronouslyWithCompletionHandler() {
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.exportDidFinish(exporter!)
+                    })
+            }
+            self.s1Shot1 = nil
+            self.s1Shot2 = nil
+            self.s1Shot3 = nil
+            self.s1VoiceOver = nil
+            self.s2Shot1 = nil
+            self.s2Shot2 = nil
+            self.s2Shot3 = nil
+            self.s2VoiceOver = nil
+            self.s3Shot1 = nil
+            self.s3Shot2 = nil
+            self.s3Shot3 = nil
+            self.s3VoiceOver = nil
+            if vOExporter != nil {
+                cleanup()
+            }
+            self.audioVoiceOverAsset = nil
+            self.vOExporter = nil
         }
-        self.s1Shot1 = nil
-        self.s1Shot2 = nil
-        self.s1Shot3 = nil
-        self.s1VoiceOver = nil
-        self.s2Shot1 = nil
-        self.s2Shot2 = nil
-        self.s2Shot3 = nil
-        self.s2VoiceOver = nil
-        self.s3Shot1 = nil
-        self.s3Shot2 = nil
-        self.s3Shot3 = nil
-        self.s3VoiceOver = nil
-        if vOExporter != nil {
-            cleanup()
-        }
-        self.audioVoiceOverAsset = nil
-        self.vOExporter = nil
     }
     
     // MARK: Merge Helper Methods

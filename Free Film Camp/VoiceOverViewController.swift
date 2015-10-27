@@ -201,7 +201,7 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     }
     
     // TODO: Fix recording.
-    func didFinishPlayingVideo(notification: NSNotification!) {
+    func didFinishPlayingVideo(notification: NSNotification) {
         
         previewScene()
         

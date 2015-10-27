@@ -23,6 +23,7 @@ class ThirdSceneViewController: UIViewController {
     var vpVC = AVPlayerViewController()
     let library = PHPhotoLibrary.sharedPhotoLibrary()
     let fetchOptions = PHFetchOptions()
+    var videoPlayer: AVPlayer!
     var assetRequestNumber: Int!
     let clipID = "s3ClipSelectedSegue"
     let audioID = "s3AudioSelectedSegue"
@@ -88,6 +89,12 @@ class ThirdSceneViewController: UIViewController {
         }
 
     }
+    
+    override func viewWillDisappear(animated: Bool) {
+        self.videoPlayer = nil
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
     
     @IBAction func selectClipOne(sender: AnyObject) {
         
@@ -185,12 +192,18 @@ class ThirdSceneViewController: UIViewController {
             
             let itemToPreview = AVPlayerItem(asset: mediaToPreview)
             itemToPreview.videoComposition = mainComposition
-            MediaController.sharedMediaController.s3Preview = itemToPreview
-            let videoPlayer = AVPlayer(playerItem: itemToPreview)
+            self.videoPlayer = AVPlayer(playerItem: itemToPreview)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "donePlayingPreview:", name: AVPlayerItemDidPlayToEndTimeNotification, object: itemToPreview)
             self.vpVC.player = videoPlayer
             self.presentViewController(self.vpVC, animated: true, completion: nil)
         }
-
+        
+    }
+    
+    
+    
+    func donePlayingPreview(notification: NSNotification) {
+        
     }
     
     @IBAction func mergeMedia(sender: AnyObject) {
