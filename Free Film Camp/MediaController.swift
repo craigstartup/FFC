@@ -18,7 +18,7 @@ class MediaController {
         
         static let audioExportStart = "audioExportBegan"
         static let audioExportFinish = "audioExportComplete"
-        
+        static let saveFinished = "saveComplete"
     }
     
     static let sharedMediaController = MediaController()
@@ -214,56 +214,61 @@ class MediaController {
             
             let assets = [self.s1Shot1, self.s1Shot2, self.s1Shot3, self.s2Shot1, self.s2Shot2, self.s2Shot3, self.s3Shot1, self.s3Shot2, self.s3Shot3]
             
-            let voiceOvers = [self.s1VoiceOver, self.s2VoiceOver, self.s3VoiceOver]
-            
-            let audioComposition = AVMutableComposition()
-            var audioTrackTime = kCMTimeZero
-            
-            for var y = 0; y < voiceOvers.count; y++ {
+            if self.s1VoiceOver != nil && self.s2VoiceOver != nil && self.s3VoiceOver != nil {
                 
-                let audioTrack = audioComposition.addMutableTrackWithMediaType(AVMediaTypeAudio, preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
+                let voiceOvers = [self.s1VoiceOver, self.s2VoiceOver, self.s3VoiceOver]
                 
-                do {
+                let audioComposition = AVMutableComposition()
+                var audioTrackTime = kCMTimeZero
+                
+                for var y = 0; y < voiceOvers.count; y++ {
                     
-                    try audioTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, voiceOvers[y].duration), ofTrack: voiceOvers[y].tracksWithMediaType(AVMediaTypeAudio)[0],
-                        atTime: audioTrackTime)
+                    let audioTrack = audioComposition.addMutableTrackWithMediaType(AVMediaTypeAudio, preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
                     
-                } catch let audioTrackError as NSError {
-                    
-                    print(audioTrackError.localizedDescription)
-                }
-                audioTrackTime = CMTimeAdd(audioTrackTime, voiceOvers[y].duration)
-            }
-            
-            // get path
-            let dateFormatter = NSDateFormatter()
-            dateFormatter.dateStyle = .LongStyle
-            dateFormatter.timeStyle = .LongStyle
-            let date = dateFormatter.stringFromDate(NSDate())
-            let vOFilePath = NSTemporaryDirectory()
-            let url = NSURL(fileURLWithPath: vOFilePath).URLByAppendingPathComponent("vo-\(date).m4a")
-            
-            // make exporter
-            vOExporter = AVAssetExportSession(
-                asset: audioComposition,
-                presetName: AVAssetExportPresetAppleM4A)
-            vOExporter!.outputURL = url
-            vOExporter!.outputFileType = AVFileTypeAppleM4A
-            vOExporter!.shouldOptimizeForNetworkUse = true
-            vOExporter!
-                .exportAsynchronouslyWithCompletionHandler() {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    do {
                         
-                        if self.vOExporter.status == AVAssetExportSessionStatus.Completed {
-                            print("Export finished")
-                            self.sessionURL = self.vOExporter.outputURL!
-                            self.finishMovie(&mixComposition, assets: assets)
-                        } else if self.vOExporter.status == AVAssetExportSessionStatus.Waiting {
-                            print("Export waiting")
-                        } else if self.vOExporter.status == AVAssetExportSessionStatus.Failed {
-                            print("Export failure")
-                        }
-                    })
+                        try audioTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, voiceOvers[y].duration), ofTrack: voiceOvers[y].tracksWithMediaType(AVMediaTypeAudio)[0],
+                            atTime: audioTrackTime)
+                        
+                    } catch let audioTrackError as NSError {
+                        
+                        print(audioTrackError.localizedDescription)
+                    }
+                    audioTrackTime = CMTimeAdd(audioTrackTime, voiceOvers[y].duration)
+                }
+                
+                // get path
+                let dateFormatter = NSDateFormatter()
+                dateFormatter.dateStyle = .LongStyle
+                dateFormatter.timeStyle = .LongStyle
+                let date = dateFormatter.stringFromDate(NSDate())
+                let vOFilePath = NSTemporaryDirectory()
+                let url = NSURL(fileURLWithPath: vOFilePath).URLByAppendingPathComponent("vo-\(date).m4a")
+                
+                // make exporter
+                vOExporter = AVAssetExportSession(
+                    asset: audioComposition,
+                    presetName: AVAssetExportPresetAppleM4A)
+                vOExporter!.outputURL = url
+                vOExporter!.outputFileType = AVFileTypeAppleM4A
+                vOExporter!.shouldOptimizeForNetworkUse = true
+                vOExporter!
+                    .exportAsynchronouslyWithCompletionHandler() {
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            
+                            if self.vOExporter.status == AVAssetExportSessionStatus.Completed {
+                                print("Export finished")
+                                self.sessionURL = self.vOExporter.outputURL!
+                                self.finishMovie(&mixComposition, assets: assets)
+                            } else if self.vOExporter.status == AVAssetExportSessionStatus.Waiting {
+                                print("Export waiting")
+                            } else if self.vOExporter.status == AVAssetExportSessionStatus.Failed {
+                                print("Export failure")
+                            }
+                        })
+                }
+            } else {
+                self.finishMovie(&mixComposition, assets: assets)
             }
         }
     }
@@ -336,18 +341,22 @@ class MediaController {
         //let mix = AVMutableAudioMix()
         
         
-        self.audioVoiceOverAsset = AVAsset(URL: self.vOExporter.outputURL!)
-        let vOTrack = mixComposition.addMutableTrackWithMediaType(AVMediaTypeAudio,
-            preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
+        self.audioVoiceOverAsset? = AVAsset(URL: self.vOExporter.outputURL!)
         
-        do {
+        if self.audioVoiceOverAsset != nil {
             
-            try vOTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, totalTime),
-                ofTrack: self.audioVoiceOverAsset.tracksWithMediaType(AVMediaTypeAudio)[0] ,
-                atTime: kCMTimeZero)
-        } catch let firstTrackError as NSError {
+            let vOTrack = mixComposition.addMutableTrackWithMediaType(AVMediaTypeAudio,
+                preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
             
-            print(firstTrackError.localizedDescription)
+            do {
+                
+                try vOTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, totalTime),
+                    ofTrack: self.audioVoiceOverAsset.tracksWithMediaType(AVMediaTypeAudio)[0] ,
+                    atTime: kCMTimeZero)
+            } catch let firstTrackError as NSError {
+                
+                print(firstTrackError.localizedDescription)
+            }
         }
         
         // setup to save
@@ -386,7 +395,9 @@ class MediaController {
         self.s3Shot2 = nil
         self.s3Shot3 = nil
         self.s3VoiceOver = nil
-        cleanup()
+        if vOExporter != nil {
+            cleanup()
+        }
         self.audioVoiceOverAsset = nil
         self.vOExporter = nil
     }
@@ -438,8 +449,10 @@ class MediaController {
                                 if !success {
                                     
                                     print("Failed to add photo to album: %@", error?.localizedDescription)
+                                    
                                 } else {
                                     
+                                    NSNotificationCenter.defaultCenter().postNotificationName(Notifications.saveFinished, object: self)
                                     print("SUCCESS")
                                 }
                     })

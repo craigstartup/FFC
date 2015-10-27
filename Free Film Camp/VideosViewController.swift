@@ -196,8 +196,11 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
             return
         }
         let itemTouched = gestureRecognizer.locationInView(self.collectionView)
+        
         let indexPath = self.collectionView?.indexPathForItemAtPoint(itemTouched)
-        if indexPath!.row > 0 {
+        
+        if indexPath?.row > 0 {
+            
             let video = videos[(indexPath?.row)! - 1]
             manager.requestImageForAsset(video,
                 targetSize: CGSize(width: 215, height: 136),

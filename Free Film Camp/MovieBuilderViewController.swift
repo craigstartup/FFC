@@ -13,6 +13,7 @@ import AVKit
 
 class MovieBuilderViewController: UIViewController {
     
+    @IBOutlet weak var savingProgress: UIActivityIndicatorView!
     @IBOutlet weak var headshot: UIImageView!
     
     var vpVC = AVPlayerViewController()
@@ -33,7 +34,17 @@ class MovieBuilderViewController: UIViewController {
     
     @IBAction func makeMovie(sender: AnyObject) {
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveCompleted:", name: "saveComplete", object: nil)
+        self.savingProgress.alpha = 1
+        self.savingProgress.startAnimating()
         MediaController.sharedMediaController.saveMovie()
+    }
+    
+    func saveCompleted(notification: NSNotification) {
+        
+        self.savingProgress.stopAnimating()
+        self.savingProgress.alpha = 0
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     @IBAction func preview(sender: AnyObject) {

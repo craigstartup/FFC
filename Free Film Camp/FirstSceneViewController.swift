@@ -14,6 +14,7 @@ import AVKit
 
 class FirstSceneViewController: UIViewController {
 
+    @IBOutlet weak var savingProgress: UIActivityIndicatorView!
     @IBOutlet weak var shot1Button: UIButton!
     @IBOutlet weak var shot2Button: UIButton!
     @IBOutlet weak var shot3Button: UIButton!
@@ -241,10 +242,20 @@ class FirstSceneViewController: UIViewController {
     
     @IBAction func mergeMedia(sender: AnyObject) {
         
-        MediaController.sharedMediaController.saveScene(self.scene)
-        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveCompleted:", name: "saveComplete", object: nil)
+        self.savingProgress.alpha = 1
+        self.savingProgress.startAnimating()
+        self.view.alpha = 0.6
+        MediaController.sharedMediaController.saveScene(scene)
     }
     
+    func saveCompleted(notification: NSNotification) {
+        
+        self.savingProgress.stopAnimating()
+        self.savingProgress.alpha = 0
+        self.view.alpha = 1
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     

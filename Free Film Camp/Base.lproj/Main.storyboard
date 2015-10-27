@@ -525,12 +525,17 @@
                                     <action selector="selectClip3:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="IFX-k7-J6V"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="XiB-Hr-apA">
+                                <rect key="frame" x="282" y="281" width="37" height="37"/>
+                                <animations/>
+                            </activityIndicatorView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" red="0.26666666666666666" green="0.26666666666666666" blue="0.26666666666666666" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="DAY-fY-Gbz" secondAttribute="trailing" constant="-13" id="0co-sC-HsW"/>
                             <constraint firstItem="8j6-AJ-GMb" firstAttribute="leading" secondItem="jAP-bU-Obn" secondAttribute="leading" id="17R-ds-yHY"/>
+                            <constraint firstItem="XiB-Hr-apA" firstAttribute="centerX" secondItem="AUF-MU-rIf" secondAttribute="centerX" id="3tg-1I-MGz"/>
                             <constraint firstItem="Qxs-2x-Cgo" firstAttribute="leading" secondItem="T5W-V7-OTD" secondAttribute="leading" id="4yV-4q-d2p"/>
                             <constraint firstItem="bD9-Tr-f0X" firstAttribute="top" secondItem="F1y-jG-nX1" secondAttribute="top" id="5A9-Y1-WQH"/>
                             <constraint firstItem="bD9-Tr-f0X" firstAttribute="baseline" secondItem="F1y-jG-nX1" secondAttribute="firstBaseline" id="8TB-DA-A1z"/>
@@ -541,6 +546,7 @@
                             <constraint firstItem="akN-Vz-J8y" firstAttribute="leading" secondItem="DAY-fY-Gbz" secondAttribute="leading" id="AyQ-Hj-m4a"/>
                             <constraint firstItem="fpG-ck-N14" firstAttribute="centerX" secondItem="AUF-MU-rIf" secondAttribute="centerX" id="BH9-bc-cvr"/>
                             <constraint firstItem="Kbn-XP-gjL" firstAttribute="centerY" secondItem="8rW-r2-fUM" secondAttribute="centerY" id="Gib-tP-VIw"/>
+                            <constraint firstItem="XiB-Hr-apA" firstAttribute="centerY" secondItem="AUF-MU-rIf" secondAttribute="centerY" id="HeH-Kz-JRA"/>
                             <constraint firstItem="T5W-V7-OTD" firstAttribute="top" secondItem="8yL-1a-8JA" secondAttribute="bottom" constant="10" id="Ijp-FI-Cba"/>
                             <constraint firstItem="8j6-AJ-GMb" firstAttribute="top" secondItem="jAP-bU-Obn" secondAttribute="top" id="LNF-O9-hoF"/>
                             <constraint firstItem="8j6-AJ-GMb" firstAttribute="centerX" secondItem="jAP-bU-Obn" secondAttribute="centerX" id="Nfb-Vd-Ml4"/>
@@ -599,6 +605,7 @@
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
                         <outlet property="recordVoiceOverButton" destination="jAP-bU-Obn" id="UyJ-ey-yB2"/>
+                        <outlet property="savingProgress" destination="XiB-Hr-apA" id="cUy-es-viT"/>
                         <outlet property="shot1Button" destination="Qxs-2x-Cgo" id="kqj-3f-mUy"/>
                         <outlet property="shot2Button" destination="zh0-jF-OTX" id="UFa-Eb-rXk"/>
                         <outlet property="shot3Button" destination="akN-Vz-J8y" id="Og8-Kz-XBY"/>
@@ -765,6 +772,10 @@
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <activityIndicatorView opaque="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="hbg-8C-eF7">
+                                <rect key="frame" x="282" y="282" width="37" height="37"/>
+                                <animations/>
+                            </activityIndicatorView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" red="0.2666666667" green="0.2666666667" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
@@ -779,6 +790,7 @@
                             <constraint firstItem="vwC-50-eBv" firstAttribute="centerX" secondItem="Vng-Yr-9t0" secondAttribute="centerX" id="8x2-4l-781"/>
                             <constraint firstItem="VA4-im-jry" firstAttribute="bottom" secondItem="YqY-j0-TIZ" secondAttribute="bottom" id="9eF-vz-fIr"/>
                             <constraint firstItem="E3h-oT-blJ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="VA4-im-jry" secondAttribute="bottom" constant="10" id="AfJ-hM-mMG"/>
+                            <constraint firstItem="hbg-8C-eF7" firstAttribute="centerX" secondItem="Vng-Yr-9t0" secondAttribute="centerX" id="D71-cN-Lth"/>
                             <constraint firstItem="iTf-yY-qTp" firstAttribute="bottom" secondItem="a6c-yl-QbG" secondAttribute="top" id="EIc-FY-a5g"/>
                             <constraint firstItem="L4z-uE-Hle" firstAttribute="leading" secondItem="Vng-Yr-9t0" secondAttribute="leadingMargin" constant="-13" id="GtD-8f-8Re"/>
                             <constraint firstItem="aGu-cQ-eFw" firstAttribute="top" secondItem="vwC-50-eBv" secondAttribute="top" id="IDZ-gu-jn9"/>
@@ -806,6 +818,7 @@
                             <constraint firstItem="YqY-j0-TIZ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Mip-5v-DJj" secondAttribute="bottom" priority="250" constant="10" id="fRj-Kj-VkA"/>
                             <constraint firstItem="YqY-j0-TIZ" firstAttribute="centerX" secondItem="vwC-50-eBv" secondAttribute="centerX" id="gFk-CN-3XA"/>
                             <constraint firstItem="VA4-im-jry" firstAttribute="centerY" secondItem="YqY-j0-TIZ" secondAttribute="centerY" id="hXp-x0-ueD"/>
+                            <constraint firstItem="hbg-8C-eF7" firstAttribute="centerY" secondItem="Vng-Yr-9t0" secondAttribute="centerY" id="ho3-k5-o9T"/>
                             <constraint firstItem="BJv-D1-8mW" firstAttribute="leading" secondItem="TWu-jP-jbE" secondAttribute="leading" id="iEo-2Z-Wgu"/>
                             <constraint firstItem="ArW-F3-E7x" firstAttribute="top" secondItem="aGu-cQ-eFw" secondAttribute="bottom" constant="8" symbolic="YES" id="iPQ-lG-8gE"/>
                             <constraint firstItem="vwC-50-eBv" firstAttribute="leading" secondItem="GI0-A2-cm3" secondAttribute="trailing" constant="8" symbolic="YES" id="iXr-Lz-hiO"/>
@@ -834,6 +847,7 @@
                     <connections>
                         <outlet property="recordVoiceOverButton" destination="YqY-j0-TIZ" id="bqd-R2-tmY"/>
                         <outlet property="recordVoiceOverLabel" destination="VA4-im-jry" id="Av8-mI-C3k"/>
+                        <outlet property="savingProgress" destination="hbg-8C-eF7" id="NLb-yd-7if"/>
                         <outlet property="shot1Button" destination="GI0-A2-cm3" id="huQ-fR-2ly"/>
                         <outlet property="shot2Button" destination="aGu-cQ-eFw" id="QON-CV-7S0"/>
                         <outlet property="shot3Button" destination="BJv-D1-8mW" id="u42-JR-Z68"/>
@@ -999,6 +1013,10 @@
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="7Ph-RS-wMk">
+                                <rect key="frame" x="282" y="281" width="37" height="37"/>
+                                <animations/>
+                            </activityIndicatorView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" red="0.2666666667" green="0.2666666667" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
@@ -1022,6 +1040,7 @@
                             <constraint firstItem="1rO-1c-1TE" firstAttribute="trailing" secondItem="z29-YX-x1f" secondAttribute="trailing" id="OeI-ct-IxQ"/>
                             <constraint firstItem="gua-j9-9i3" firstAttribute="centerX" secondItem="BO1-rx-eMa" secondAttribute="centerX" id="PoN-Bg-0wm"/>
                             <constraint firstItem="otP-Je-oPR" firstAttribute="leading" secondItem="1rO-1c-1TE" secondAttribute="leading" id="SOd-lQ-WxA"/>
+                            <constraint firstItem="7Ph-RS-wMk" firstAttribute="centerX" secondItem="qaH-Nn-tMd" secondAttribute="centerX" id="SUF-nL-C2Y"/>
                             <constraint firstItem="otP-Je-oPR" firstAttribute="top" secondItem="dwg-le-U0j" secondAttribute="top" id="Tmj-dV-Fny"/>
                             <constraint firstItem="1rO-1c-1TE" firstAttribute="top" secondItem="ns9-S4-i3K" secondAttribute="bottom" constant="10" id="WKh-MH-5lR"/>
                             <constraint firstItem="z29-YX-x1f" firstAttribute="trailing" secondItem="wdc-jU-oZv" secondAttribute="trailing" id="Wrm-AO-HKa"/>
@@ -1043,6 +1062,7 @@
                             <constraint firstItem="BO1-rx-eMa" firstAttribute="top" relation="greaterThanOrEqual" secondItem="nra-Tr-sTb" secondAttribute="bottom" constant="5" id="qGC-ka-ogp"/>
                             <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="wdc-jU-oZv" secondAttribute="trailing" constant="-13" id="qdb-PO-9oU"/>
                             <constraint firstItem="z29-YX-x1f" firstAttribute="centerX" secondItem="wdc-jU-oZv" secondAttribute="centerX" id="r8D-Up-W3c"/>
+                            <constraint firstItem="7Ph-RS-wMk" firstAttribute="centerY" secondItem="qaH-Nn-tMd" secondAttribute="centerY" id="s8v-lg-Dbp"/>
                             <constraint firstItem="dwg-le-U0j" firstAttribute="leading" secondItem="qaH-Nn-tMd" secondAttribute="leadingMargin" constant="-13" id="sAq-aV-zxw"/>
                             <constraint firstItem="SeG-j5-p1x" firstAttribute="top" secondItem="BO1-rx-eMa" secondAttribute="top" id="sGP-yG-UaW"/>
                             <constraint firstItem="otP-Je-oPR" firstAttribute="leading" secondItem="dwg-le-U0j" secondAttribute="leading" id="sc5-ah-sj0"/>
@@ -1068,6 +1088,7 @@
                     <connections>
                         <outlet property="recordVoiceOverButton" destination="1rO-1c-1TE" id="Bse-hU-MGy"/>
                         <outlet property="recordVoiceOverLabel" destination="liu-f8-dJC" id="gUL-fF-6kD"/>
+                        <outlet property="savingProgress" destination="7Ph-RS-wMk" id="dPq-2g-UmV"/>
                         <outlet property="shot1Button" destination="otP-Je-oPR" id="Nnf-e5-ilF"/>
                         <outlet property="shot2Button" destination="SeG-j5-p1x" id="Vw1-TX-Vtu"/>
                         <outlet property="shot3Button" destination="z29-YX-x1f" id="8I0-Ub-eUs"/>
@@ -1177,11 +1198,16 @@
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <activityIndicatorView opaque="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Nsf-El-ZWS">
+                                <rect key="frame" x="282" y="281" width="37" height="37"/>
+                                <animations/>
+                            </activityIndicatorView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" red="0.2666666667" green="0.2666666667" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="No5-Ke-kJG" firstAttribute="top" secondItem="Ed0-9L-Pgb" secondAttribute="bottom" constant="8" id="0Rq-EN-wp2"/>
+                            <constraint firstItem="Nsf-El-ZWS" firstAttribute="centerY" secondItem="uCq-IG-yDm" secondAttribute="centerY" id="52e-QJ-a0B"/>
                             <constraint firstItem="arr-Ra-dhq" firstAttribute="leading" secondItem="JBA-if-M4m" secondAttribute="leading" id="5NY-fx-PHG"/>
                             <constraint firstItem="Urj-We-YDA" firstAttribute="top" relation="greaterThanOrEqual" secondItem="arr-Ra-dhq" secondAttribute="bottom" constant="10" id="5wV-1D-qoC"/>
                             <constraint firstItem="Ed0-9L-Pgb" firstAttribute="top" secondItem="fWy-Qr-7X5" secondAttribute="top" id="672-VC-v7U"/>
@@ -1208,12 +1234,14 @@
                             <constraint firstItem="JBA-if-M4m" firstAttribute="centerX" secondItem="fWy-Qr-7X5" secondAttribute="centerX" id="rah-lO-Bdh"/>
                             <constraint firstItem="arr-Ra-dhq" firstAttribute="top" secondItem="JBA-if-M4m" secondAttribute="top" id="uoY-tB-5bz"/>
                             <constraint firstItem="Urj-We-YDA" firstAttribute="leading" secondItem="p8B-dd-VND" secondAttribute="trailing" id="yUM-nl-0T7"/>
+                            <constraint firstItem="Nsf-El-ZWS" firstAttribute="centerX" secondItem="uCq-IG-yDm" secondAttribute="centerX" id="ysE-dg-Q0X"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Movie" id="hJa-W7-KNH"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
                         <outlet property="headshot" destination="fWy-Qr-7X5" id="X5B-vq-Ys6"/>
+                        <outlet property="savingProgress" destination="Nsf-El-ZWS" id="Igv-EI-d3g"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hnQ-oa-2Rr" userLabel="First Responder" sceneMemberID="firstResponder"/>
