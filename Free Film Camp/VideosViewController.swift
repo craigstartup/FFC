@@ -34,35 +34,35 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
     
     // handle segue based on presenting VC
     var segueID: String!
+    var shotNumber: Int!
     
-    // pass back selected video
+    // pass back selected video and image
     var videoAssetToPass: NSURL!
     var initialEntry = true
+    //var images = [UIImage]()
+    var videoImageToPass: UIImage!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // retrieve or creat clips album
         fetchOptions.predicate = NSPredicate(format: "title = %@", albumTitle)
         clipsAlbumFetch = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: fetchOptions)
-        clipsAlbum = clipsAlbumFetch.firstObject as! PHAssetCollection
-
+        
         if let _: AnyObject = clipsAlbumFetch.firstObject {
-                        print("Free Film Camp Clips exists")
-        } else {
+            clipsAlbum = clipsAlbumFetch.firstObject as! PHAssetCollection
+            print("Free Film Camp Clips exists")
+            // setup to retrieve videos from clips album
+            clipsAlbumVideosFetch = PHAsset.fetchAssetsInAssetCollection(clipsAlbum, options: nil)
             
+        } else {
             library.performChanges({ () -> Void in
-                PHAssetCollectionChangeRequest.creationRequestForAssetCollectionWithTitle(albumTitle)
+                PHAssetCollectionChangeRequest.creationRequestForAssetCollectionWithTitle(self.albumTitle)
                 }) { (success: Bool, error: NSError?) -> Void in
                     if !success {
                         print(error!.localizedDescription)
                     }
             }
-            
         }
-        
-        // setup to retrieve videos from clips album
-        clipsAlbumVideosFetch = PHAsset.fetchAssetsInAssetCollection(clipsAlbum, options: nil)
         
         // setup gesture recognizer
         longPress = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")
@@ -90,52 +90,47 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
     }
     
     override func viewWillAppear(animated: Bool) {
-        
         self.navigationController?.navigationBarHidden = false
+        self.videos = [PHAsset]()
+        
         clipsAlbumVideosFetch.enumerateObjectsUsingBlock { (object, _, _) in
             if let asset = object as? PHAsset {
                 self.videos.append(asset)
             }
         }
-        
+        self.collectionView?.reloadData()
     }
     
-    
-    
     @IBAction func cameraUnwind(unwindSegue: UIStoryboardSegue) {
-        
-        
+        self.performSegueWithIdentifier(self.segueID, sender: self)
     }
     
     // MARK: Collection view delegate methods
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        return clipsAlbum.estimatedAssetCount + 1
+        if clipsAlbum.estimatedAssetCount > 0 {
+            return clipsAlbum.estimatedAssetCount + 1
+        } else {
+            return 1
+        }
     }
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        
         if indexPath.item == 0 {
-            
             let cameraCell = collectionView.dequeueReusableCellWithReuseIdentifier("cameraCell", forIndexPath: indexPath)
             return cameraCell
         } else {
-            
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! VideoLibraryCell
-            cell.backgroundColor = UIColor.blueColor()
             
             if cell.tag != 0 {
-                
                 manager.cancelImageRequest(PHImageRequestID(cell.tag))
             }
-            
             let video = videos[indexPath.row - 1]
-            
             cell.tag = Int(manager.requestImageForAsset(video,
-                targetSize: CGSize(width: 140, height: 140),
+                targetSize: CGSize(width: 215, height: 136),
                 contentMode: .AspectFill,
                 options: nil) { (result, _) -> Void in
                     cell.imageView.image = result
+                    //self.images.append(result!)
                 })
             return cell
         }
@@ -144,14 +139,10 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
     
     // MARK: Media selection methods
     func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
-        
         if gestureRecognizer.state == UIGestureRecognizerState.Began {
-            
             self.longItem = gestureRecognizer.locationInView(self.collectionView)
             timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "endLongPress:", userInfo: nil, repeats: false)
-            
         } else if gestureRecognizer.state == UIGestureRecognizerState.Ended {
-            
             self.timer.invalidate()
             self.timer = nil
             self.longItem = nil
@@ -159,15 +150,12 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
     }
     
     func endLongPress(timer: NSTimer!) {
-        
         let indexPath = self.collectionView?.indexPathForItemAtPoint(self.longItem)
         var videoPlayer: AVPlayer!
         if indexPath!.row > 0 {
             let video = videos[(indexPath?.row)! - 1]
             manager.requestPlayerItemForVideo(video, options: nil) { (playerItem, info) -> Void in
-                
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    
                     videoPlayer = AVPlayer(playerItem: playerItem!)
                     self.vpVC.player = videoPlayer
                     self.presentViewController(self.vpVC, animated: true, completion: nil)
@@ -180,19 +168,22 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
     func handleTap(gestureRecognizer: UITapGestureRecognizer) {
         print("TAP")
         if gestureRecognizer.state != UIGestureRecognizerState.Ended {
-            
             return
         }
         let itemTouched = gestureRecognizer.locationInView(self.collectionView)
         let indexPath = self.collectionView?.indexPathForItemAtPoint(itemTouched)
-        if indexPath!.row > 0 {
+        
+        if indexPath?.row > 0 {
             let video = videos[(indexPath?.row)! - 1]
+            manager.requestImageForAsset(video,
+                targetSize: CGSize(width: 215, height: 136),
+                contentMode: .AspectFill,
+                options: nil) { (result, _) -> Void in
+                    self.videoImageToPass = result!
+            }
             manager.requestAVAssetForVideo(video, options: nil) { (videoAsset, audioMix, info) -> Void in
-                
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    
                     if (videoAsset?.isKindOfClass(AVURLAsset) != nil) {
-                        
                         let url = videoAsset as! AVURLAsset
                         self.videoAssetToPass = url.URL
                         self.performSegueWithIdentifier(self.segueID, sender: self)
@@ -204,25 +195,24 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
     
     // MARK: Segue methods
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        
         if segue.identifier == "s1ClipSelectedSegue" {
-            
             let scene1BuilderVC = segue.destinationViewController as! FirstSceneViewController
             scene1BuilderVC.selectedVideoAsset = self.videoAssetToPass
+            scene1BuilderVC.selectedVideoImage = self.videoImageToPass
         } else if segue.identifier == "s2ClipSelectedSegue" {
-            
             let scene2BuilderVC = segue.destinationViewController as! SecondSceneViewController
             scene2BuilderVC.selectedVideoAsset = self.videoAssetToPass
+            scene2BuilderVC.selectedVideoImage = self.videoImageToPass
         } else if segue.identifier == "s3ClipSelectedSegue" {
-            
             let scene3BuilderVC = segue.destinationViewController as! ThirdSceneViewController
             scene3BuilderVC.selectedVideoAsset = self.videoAssetToPass
+            scene3BuilderVC.selectedVideoImage = self.videoImageToPass
         } else if segue.identifier == "pickingShot" {
-            
             let cameraVC = segue.destinationViewController as! CameraViewController
             cameraVC.pickingShot = true
+            cameraVC.scene = self.segueID
+            cameraVC.shotNumber = self.shotNumber
         }
-
     }
     
     override func didReceiveMemoryWarning() {

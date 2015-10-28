@@ -8,16 +8,25 @@
 
 import UIKit
 import Photos
+import AVKit
 
 
 class MovieBuilderViewController: UIViewController {
     
+    @IBOutlet weak var savingProgress: UIActivityIndicatorView!
     @IBOutlet weak var headshot: UIImageView!
+    
+    var vpVC = AVPlayerViewController()
+    var previewQueue = [AVPlayerItem]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        MediaController.sharedMediaController.prepareMovie(false)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        MediaController.sharedMediaController.moviePreview = nil 
     }
     
     
@@ -28,12 +37,28 @@ class MovieBuilderViewController: UIViewController {
     }
     
     @IBAction func makeMovie(sender: AnyObject) {
-        
-        MediaController.sharedMediaController.saveMovie()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveCompleted:", name: "saveComplete", object: nil)
+        self.savingProgress.alpha = 1
+        self.savingProgress.startAnimating()
+        self.view.alpha = 0.6
+        MediaController.sharedMediaController.prepareMovie(true)
+    }
+    
+    func saveCompleted(notification: NSNotification) {
+        self.savingProgress.stopAnimating()
+        self.savingProgress.alpha = 0
+        self.view.alpha = 1
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     @IBAction func preview(sender: AnyObject) {
         
+        if MediaController.sharedMediaController.moviePreview != nil {
+            var videoPlayer = AVPlayer()
+            videoPlayer = AVPlayer(playerItem: MediaController.sharedMediaController.moviePreview)
+            self.vpVC.player = videoPlayer
+            self.presentViewController(self.vpVC, animated: true, completion: nil)
+        }
     }
     
    
