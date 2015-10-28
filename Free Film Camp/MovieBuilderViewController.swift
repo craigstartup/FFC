@@ -40,12 +40,14 @@ class MovieBuilderViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveCompleted:", name: "saveComplete", object: nil)
         self.savingProgress.alpha = 1
         self.savingProgress.startAnimating()
+        self.view.alpha = 0.6
         MediaController.sharedMediaController.prepareMovie(true)
     }
     
     func saveCompleted(notification: NSNotification) {
         self.savingProgress.stopAnimating()
         self.savingProgress.alpha = 0
+        self.view.alpha = 1
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     

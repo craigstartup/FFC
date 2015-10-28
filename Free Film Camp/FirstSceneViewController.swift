@@ -238,6 +238,7 @@ class FirstSceneViewController: UIViewController {
         if segue.identifier == "s1SelectClip" {
             let destinationVC = segue.destinationViewController as! VideosViewController
             destinationVC.segueID = self.clipID
+            destinationVC.shotNumber = self.assetRequestNumber
         } else if segue.identifier == "s1SelectAudio" {
             let destinationVC = segue.destinationViewController as! VoiceOverViewController
             destinationVC.segueID = self.audioID

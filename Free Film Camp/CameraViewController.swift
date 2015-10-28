@@ -36,11 +36,18 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     var backgroundRecordingID: UIBackgroundTaskIdentifier!
     // video storage
     let library = PHPhotoLibrary.sharedPhotoLibrary()
+    var toAlbum: PHFetchResult!
     let fetchOptions = PHFetchOptions()
+    var albumVideosFetch: PHFetchResult!
     let toAlbumTitle = "Free Film Camp Clips"
     var newClip: PHObjectPlaceholder!
+    var video: PHAsset!
+    var shotAsset: AVURLAsset!
+    var shotImage: UIImage!
     
     var pickingShot = false
+    var shotNumber: Int!
+    var scene: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,7 +75,8 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         self.cameraView.layer.addSublayer(preview)
         // set up album for recorded clips
         fetchOptions.predicate = NSPredicate(format: "title = %@", toAlbumTitle)
-        let toAlbum = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: fetchOptions)
+        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "startDate", ascending: true)]
+        self.toAlbum = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: fetchOptions)
         
         if let _: AnyObject = toAlbum.firstObject {
             
@@ -81,10 +89,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                         print(error!.localizedDescription)
                     }
             }
-            
         }
-        // setup progress bar 
-        
     }
     
     
@@ -217,9 +222,8 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                             if !success {
                                 
                                 print("Failed to save to photos: %@", error?.localizedDescription)
+                                cleanup()
                             }
-                            
-                            cleanup()
                     })
                     
                     // save movie to correct album
@@ -234,15 +238,10 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                         albumChangeRequest?.addAssets([self.newClip])
                         
                         }, completionHandler: { (success: Bool, error: NSError?) -> Void in
-                            
                             if !success {
-                                
                                 print("Failed to add photo to album: %@", error?.localizedDescription)
                             }
-                            
-                            cleanup()
                     })
-                    
                 } else {
                     
                     cleanup()
@@ -265,12 +264,31 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     
     
     @IBAction func cancelCamera(sender: AnyObject) {
+        self.albumVideosFetch = PHAsset.fetchAssetsInAssetCollection(toAlbum.firstObject as! PHAssetCollection, options: nil)
+        self.video = self.albumVideosFetch.firstObject as! PHAsset
         
-        if self.pickingShot == true {
+        if self.pickingShot == true && self.video != nil {
+            let manager = PHImageManager()
+            manager.requestImageForAsset(self.video,
+                targetSize: CGSize(width: 215, height: 136),
+                contentMode: .AspectFill,
+                options: nil) { (result, _) -> Void in
+                    self.shotImage = result!
+            }
+            manager.requestAVAssetForVideo(self.video, options: nil) { (videoAsset, audioMix, info) -> Void in
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    if (videoAsset?.isKindOfClass(AVURLAsset) != nil) {
+                        let url = videoAsset as! AVURLAsset
+                        self.shotAsset = url
+                        self.performSegueWithIdentifier("cameraUnwindSegue", sender: self)
+                    }
+                })
+            }
+
             
-            self.performSegueWithIdentifier("cameraUnwindSegue", sender: self)
+        } else {
+            self.dismissViewControllerAnimated(true, completion: nil)
         }
-        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBAction func shotConfirmed(sender: AnyObject) {
@@ -296,8 +314,9 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         
         if segue.identifier == "cameraUnwindSegue" {
             
-            //let videosVC = segue.destinationViewController as! VideosViewController
-            
+            let videosVC = segue.destinationViewController as! VideosViewController
+            videosVC.videoAssetToPass = self.shotAsset.URL
+            videosVC.videoImageToPass = self.shotImage
         }
     }
     
