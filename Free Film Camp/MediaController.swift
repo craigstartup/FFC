@@ -209,10 +209,10 @@ class MediaController {
         if self.s1Shot1 != nil && s1Shot2 != nil && s1Shot3 != nil &&
         self.s2Shot1 != nil && s2Shot2 != nil && s2Shot3 != nil &&
         self.s3Shot1 != nil && s3Shot2 != nil && s3Shot3 != nil {
-            
+            let bumper = AVAsset(URL: NSBundle.mainBundle().URLForResource("Bumper_3 sec", withExtension: "mp4")!)
             var mixComposition = AVMutableComposition()
             
-            let assets = [self.s1Shot1, self.s1Shot2, self.s1Shot3, self.s2Shot1, self.s2Shot2, self.s2Shot3, self.s3Shot1, self.s3Shot2, self.s3Shot3]
+            let assets = [self.s1Shot1, self.s1Shot2, self.s1Shot3, self.s2Shot1, self.s2Shot2, self.s2Shot3, self.s3Shot1, self.s3Shot2, self.s3Shot3, bumper]
             
             if self.s1VoiceOver != nil && self.s2VoiceOver != nil && self.s3VoiceOver != nil {
                 
@@ -341,10 +341,10 @@ class MediaController {
         //let mix = AVMutableAudioMix()
         
         
-        self.audioVoiceOverAsset = AVAsset(URL: self.sessionURL)
         
-        if self.audioVoiceOverAsset != nil {
-            
+        
+        if self.sessionURL != nil {
+            self.audioVoiceOverAsset = AVAsset(URL: self.sessionURL)
             let vOTrack = mixComposition.addMutableTrackWithMediaType(AVMediaTypeAudio,
                 preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
             

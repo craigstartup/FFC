@@ -36,7 +36,7 @@ class ThirdSceneViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.navigationItem.leftBarButtonItem = nil 
+        self.navigationItem.hidesBackButton = true
     }
     
     override func viewWillAppear(animated: Bool) {

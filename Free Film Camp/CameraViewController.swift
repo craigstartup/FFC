@@ -129,6 +129,8 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         flipCameraButton.userInteractionEnabled = false
         clipsView.alpha = 0
         clipsView.userInteractionEnabled = false
+        cancelButton.alpha = 0
+        cancelButton.enabled = false
        
         
         // record for 3 seconds to file
@@ -157,8 +159,6 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                 self.videoForFileOutput.stopRecording()
             }
         }
-
-        
     }
     
     
@@ -257,8 +257,10 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             
             self.recordButton.enabled = true
             self.recordButton.alpha = 1
+            self.cancelButton.alpha = 1
+            self.cancelButton.enabled = true
         }
-        
+        self.cancelButton.setImage(UIImage(named: "Check"), forState: UIControlState.Normal)
         print("End recording")
     }
     

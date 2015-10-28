@@ -22,6 +22,7 @@ class MovieBuilderViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         MediaController.sharedMediaController.prepareMovie(false)
+        self.navigationItem.hidesBackButton = true
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -38,9 +39,12 @@ class MovieBuilderViewController: UIViewController {
     }
     
     @IBAction func addHeadshot(sender: AnyObject) {
+        
     }
 
     @IBAction func addMusic(sender: AnyObject) {
+        
+        
     }
     
     @IBAction func makeMovie(sender: AnyObject) {
