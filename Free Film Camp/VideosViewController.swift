@@ -87,10 +87,6 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
             alert.addAction(action)
             self.presentViewController(alert, animated: true, completion: nil)
         }
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        self.navigationController?.navigationBarHidden = false
         self.videos = [PHAsset]()
         
         clipsAlbumVideosFetch.enumerateObjectsUsingBlock { (object, _, _) in
@@ -99,8 +95,12 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
             }
         }
         self.collectionView?.reloadData()
+
     }
     
+    override func viewWillAppear(animated: Bool) {
+        self.navigationController?.navigationBarHidden = false
+    }
     @IBAction func cameraUnwind(unwindSegue: UIStoryboardSegue) {
         self.performSegueWithIdentifier(self.segueID, sender: self)
     }
