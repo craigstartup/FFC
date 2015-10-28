@@ -40,13 +40,12 @@ class SecondSceneViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-
+        self.navigationController?.navigationItem.leftBarButtonItem = nil 
     }
     
     override func viewWillAppear(animated: Bool) {
-        
         self.navigationController?.setNavigationBarHidden(false, animated: false)
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "Scene2"), forBarMetrics: UIBarMetrics.Default)
         
         if assetRequestNumber != nil {
             
@@ -100,6 +99,9 @@ class SecondSceneViewController: UIViewController {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
+    @IBAction func swipeBack(sender: AnyObject) {
+        self.navigationController?.popViewControllerAnimated(true)
+    }
     
     @IBAction func selectClipOne(sender: AnyObject) {
         

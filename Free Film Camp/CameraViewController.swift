@@ -287,7 +287,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
 
             
         } else {
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.navigationController?.popViewControllerAnimated(true)
         }
     }
     

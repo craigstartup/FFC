@@ -77,6 +77,7 @@ class FirstSceneViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: false)
+         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "Scene1"), forBarMetrics: .Default)
         
         if assetRequestNumber != nil {
             if self.assetRequestNumber == 1 {
