@@ -233,10 +233,9 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     
     
     @IBAction func cancelCamera(sender: AnyObject) {
-        let shotFetch = PHAsset.fetchAssetsInAssetCollection(self.shots.firstObject as! PHAssetCollection, options: nil)
-        self.video = shotFetch.firstObject as! PHAsset
-        
         if self.pickingShot == true && self.video != nil {
+            let shotFetch = PHAsset.fetchAssetsInAssetCollection(self.shots.firstObject as! PHAssetCollection, options: nil)
+            self.video = shotFetch.firstObject as! PHAsset
             let manager = PHImageManager()
             manager.requestImageForAsset(self.video,
                 targetSize: CGSize(width: 215, height: 136),
