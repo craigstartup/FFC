@@ -48,7 +48,11 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // TODO: AVCaptureDeviceFocusMode
+        do{
+            try self.camera.lockForConfiguration()
+        } catch let configError as NSError {
+            print(configError.localizedDescription)
+        }
         self.navigationController?.navigationBarHidden = true
         // session setup
         videoCapture.sessionPreset = AVCaptureSessionPreset1280x720
@@ -85,6 +89,11 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     }
 
     @IBAction func record(sender: AnyObject) {
+        
+        if camera.isFocusModeSupported(.Locked) {
+            camera.focusMode = .Locked
+        }
+        
         videoForFileOutput.maxRecordedDuration = maxVideoTime
         // disable and hide buttons
         recordButton.alpha = 0
@@ -130,6 +139,9 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     }
     
     func captureOutput(captureOutput: AVCaptureFileOutput!, didFinishRecordingToOutputFileAtURL outputFileURL: NSURL!, fromConnections connections: [AnyObject]!, error: NSError!) {
+        if camera.isFocusModeSupported(.ContinuousAutoFocus) {
+            camera.focusMode = .ContinuousAutoFocus
+        }
         // prepare cleanup function to reset recording file for next recording
         let currentBackgroundRecordingID = self.backgroundRecordingID
         self.backgroundRecordingID = UIBackgroundTaskInvalid

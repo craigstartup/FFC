@@ -202,12 +202,13 @@ class MediaController {
     
     
     func prepareMovie(save: Bool) {
-        
         albumTitle = "Free Film Camp Movies"
-        
         if self.s1Shot1 != nil && s1Shot2 != nil && s1Shot3 != nil &&
         self.s2Shot1 != nil && s2Shot2 != nil && s2Shot3 != nil &&
         self.s3Shot1 != nil && s3Shot2 != nil && s3Shot3 != nil {
+            defer {
+                self.moviePreview = nil
+            }
             let bumper = AVAsset(URL: NSBundle.mainBundle().URLForResource("Bumper_3 sec", withExtension: "mp4")!)
             var mixComposition = AVMutableComposition()
             
@@ -445,7 +446,6 @@ class MediaController {
                     
                     // save movie to correct album
                     PHPhotoLibrary.sharedPhotoLibrary().performChanges({ () -> Void in
-                        
                         // add to Free Film Camp album
                         let fetchOptions = PHFetchOptions()
                         fetchOptions.predicate = NSPredicate(format: "title = %@", self.albumTitle)
@@ -455,19 +455,24 @@ class MediaController {
                         albumChangeRequest?.addAssets([self.newScene])
                         
                         }, completionHandler: { (success: Bool, error: NSError?) -> Void in
-                                if !success {
-                                    print("Failed to add photo to album: %@", error?.localizedDescription)
-                                } else {
-                                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                        NSNotificationCenter.defaultCenter().postNotificationName(Notifications.saveFinished, object: self)
-                                    })
-                                    print("SUCCESS")
-                                }
+                            if !success {
+                                print("Failed to add photo to album: %@", error?.localizedDescription)
+                                
+                            } else {
+                              
+                                print("SUCCESS")
+                            }
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                NSNotificationCenter.defaultCenter().postNotificationName(Notifications.saveFinished, object: self)
+                            })
                     })
                 }
             })
         } else {
             print("SESSION STATUS NOT COMPLETED")
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                NSNotificationCenter.defaultCenter().postNotificationName(Notifications.saveFinished, object: self)
+            })
         }
     }
 }

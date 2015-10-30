@@ -16,6 +16,7 @@ class MovieBuilderViewController: UIViewController {
     @IBOutlet weak var savingProgress: UIActivityIndicatorView!
     @IBOutlet weak var headshot: UIImageView!
     
+    var videoPlayer: AVPlayer!
     var vpVC = AVPlayerViewController()
     var previewQueue = [AVPlayerItem]()
 
@@ -49,6 +50,8 @@ class MovieBuilderViewController: UIViewController {
     }
     
     @IBAction func makeMovie(sender: AnyObject) {
+        self.vpVC.player = nil
+        self.videoPlayer = nil
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveCompleted:", name: "saveComplete", object: nil)
         self.savingProgress.alpha = 1
         self.savingProgress.startAnimating()
@@ -64,10 +67,8 @@ class MovieBuilderViewController: UIViewController {
     }
     
     @IBAction func preview(sender: AnyObject) {
-        
         if MediaController.sharedMediaController.moviePreview != nil {
-            var videoPlayer = AVPlayer()
-            videoPlayer = AVPlayer(playerItem: MediaController.sharedMediaController.moviePreview)
+            self.videoPlayer = AVPlayer(playerItem: MediaController.sharedMediaController.moviePreview)
             self.vpVC.player = videoPlayer
             self.presentViewController(self.vpVC, animated: true, completion: nil)
         }
