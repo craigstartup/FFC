@@ -190,7 +190,6 @@ class MediaController {
                 presetName: AVAssetExportPresetHighestQuality)
             exporter!.outputURL = url
             exporter!.outputFileType = AVFileTypeQuickTimeMovie
-            exporter!.shouldOptimizeForNetworkUse = true
             exporter!.videoComposition = mainSceneComposition
             exporter!
                 .exportAsynchronouslyWithCompletionHandler() {
@@ -378,7 +377,6 @@ class MediaController {
                 presetName: AVAssetExportPresetHighestQuality)
             exporter!.outputURL = url
             exporter!.outputFileType = AVFileTypeQuickTimeMovie
-            exporter!.shouldOptimizeForNetworkUse = true
             //exporter!.audioMix = mix
             exporter!.videoComposition = mainComposition
             exporter!
@@ -390,14 +388,23 @@ class MediaController {
             self.s1Shot1 = nil
             self.s1Shot2 = nil
             self.s1Shot3 = nil
+            self.s1Shot1Image = nil
+            self.s1Shot2Image = nil
+            self.s1Shot3Image = nil
             self.s1VoiceOver = nil
             self.s2Shot1 = nil
             self.s2Shot2 = nil
             self.s2Shot3 = nil
+            self.s2Shot1Image = nil
+            self.s2Shot2Image = nil
+            self.s2Shot3Image = nil
             self.s2VoiceOver = nil
             self.s3Shot1 = nil
             self.s3Shot2 = nil
             self.s3Shot3 = nil
+            self.s3Shot1Image = nil
+            self.s3Shot2Image = nil
+            self.s3Shot3Image = nil
             self.s3VoiceOver = nil
             if vOExporter != nil {
                 cleanup()
@@ -409,8 +416,6 @@ class MediaController {
     
     // MARK: Merge Helper Methods
     func exportDidFinish(session:AVAssetExportSession) {
-        
-        assert(session.status == AVAssetExportSessionStatus.Completed, "Session status not completed")
         
         if session.status == AVAssetExportSessionStatus.Completed {
             
@@ -450,19 +455,19 @@ class MediaController {
                         albumChangeRequest?.addAssets([self.newScene])
                         
                         }, completionHandler: { (success: Bool, error: NSError?) -> Void in
-                                
                                 if !success {
-                                    
                                     print("Failed to add photo to album: %@", error?.localizedDescription)
-                                    
                                 } else {
-                                    
-                                    NSNotificationCenter.defaultCenter().postNotificationName(Notifications.saveFinished, object: self)
+                                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                        NSNotificationCenter.defaultCenter().postNotificationName(Notifications.saveFinished, object: self)
+                                    })
                                     print("SUCCESS")
                                 }
                     })
                 }
             })
+        } else {
+            print("SESSION STATUS NOT COMPLETED")
         }
     }
 }

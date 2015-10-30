@@ -88,10 +88,11 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
             self.presentViewController(alert, animated: true, completion: nil)
         }
         self.videos = [PHAsset]()
-        
-        clipsAlbumVideosFetch.enumerateObjectsUsingBlock { (object, _, _) in
-            if let asset = object as? PHAsset {
-                self.videos.append(asset)
+        if self.clipsAlbumVideosFetch != nil {
+            clipsAlbumVideosFetch.enumerateObjectsUsingBlock { (object, _, _) in
+                if let asset = object as? PHAsset {
+                    self.videos.append(asset)
+                }
             }
         }
         self.collectionView?.reloadData()

@@ -23,11 +23,9 @@ class FirstSceneViewController: UIViewController {
     
     var vpVC = AVPlayerViewController()
     let library = PHPhotoLibrary.sharedPhotoLibrary()
-    let sceneFetchOptions = PHFetchOptions()
-    let movieFetchOptions = PHFetchOptions()
+    
     var videoPlayer: AVPlayer!
-    let toAlbumTitle = "Free Film Camp Scenes"
-    let movieAlbumTitle = "Free Film Camp Movies"
+    
     let clipID = "s1ClipSelectedSegue"
     let audioID = "s1AudioSelectedSegue"
     var assetRequestNumber: Int!
@@ -39,45 +37,15 @@ class FirstSceneViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // set up album for recorded scenes and movies
-        self.sceneFetchOptions.predicate = NSPredicate(format: "title = %@", self.toAlbumTitle)
-        let toAlbum = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: self.sceneFetchOptions)
-        
-        if let _: AnyObject = toAlbum.firstObject {
-            print("Free Film Camp Scenes exists")
-        } else {
-            
-            library.performChanges({ () -> Void in
-                PHAssetCollectionChangeRequest.creationRequestForAssetCollectionWithTitle(self.toAlbumTitle)
-                
-                }) { (success: Bool, error: NSError?) -> Void in
-                    if !success {
-                        print(error!.localizedDescription)
-                    }
             }
-            
-        }
-        
-        self.movieFetchOptions.predicate = NSPredicate(format: "title = %@", self.movieAlbumTitle)
-        let movieAlbum = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: self.movieFetchOptions)
-        
-        if let _: AnyObject = movieAlbum.firstObject {
-            print("Free Film Camp Movies exists")
-        } else {
-            library.performChanges({ () -> Void in
-                PHAssetCollectionChangeRequest.creationRequestForAssetCollectionWithTitle(self.movieAlbumTitle)
-                }) { (success: Bool, error: NSError?) -> Void in
-                    if !success {
-                        print(error!.localizedDescription)
-                    }
-            }
-        }
-    }
-    
     
     override func viewWillAppear(animated: Bool) {
+        defer {
+            self.assetRequestNumber = nil
+            self.selectedVideoImage = nil
+        }
         self.navigationController?.setNavigationBarHidden(false, animated: false)
-         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "Scene1"), forBarMetrics: .Default)
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "Scene1"), forBarMetrics: .Default)
         
         if assetRequestNumber != nil {
             if self.assetRequestNumber == 1 {
@@ -118,7 +86,6 @@ class FirstSceneViewController: UIViewController {
     
     override func viewWillDisappear(animated: Bool) {
         self.videoPlayer = nil
-        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
     @IBAction func selectClipOne(sender: AnyObject) {
@@ -208,16 +175,10 @@ class FirstSceneViewController: UIViewController {
                 let itemToPreview = AVPlayerItem(asset: mediaToPreview)
                 itemToPreview.videoComposition = mainComposition
                 self.videoPlayer = AVPlayer(playerItem: itemToPreview)
-                NSNotificationCenter.defaultCenter().addObserver(self, selector: "donePlayingPreview:", name: AVPlayerItemDidPlayToEndTimeNotification, object: itemToPreview)
                 self.vpVC.player = videoPlayer
                 self.presentViewController(self.vpVC, animated: true, completion: nil)
         }
 
-    }
-    
-    func donePlayingPreview(notification: NSNotification) {
-        
-        
     }
     
     @IBAction func mergeMedia(sender: AnyObject) {
@@ -248,6 +209,9 @@ class FirstSceneViewController: UIViewController {
     
     // MARK: unwind segues
     @IBAction func s1ClipUnwindSegue(unwindSegue: UIStoryboardSegue) {
+        defer{
+            self.selectedVideoAsset = nil
+        }
         if assetRequestNumber == 1 {
             MediaController.sharedMediaController.s1Shot1 = AVAsset(URL: self.selectedVideoAsset)
         } else if assetRequestNumber == 2 {
@@ -259,6 +223,7 @@ class FirstSceneViewController: UIViewController {
     
     @IBAction func s1AudioUnwindSegue(unwindSegue: UIStoryboardSegue){
         MediaController.sharedMediaController.s1VoiceOver = self.audioAsset
+        self.audioAsset = nil
     }
     
     

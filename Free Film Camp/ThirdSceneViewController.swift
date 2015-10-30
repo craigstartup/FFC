@@ -40,24 +40,20 @@ class ThirdSceneViewController: UIViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-        
+        defer {
+            self.assetRequestNumber = nil
+            self.selectedVideoImage = nil
+        }
         self.navigationController?.setNavigationBarHidden(false, animated: false)
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "Scene3"), forBarMetrics: .Default)
+        
         if assetRequestNumber != nil {
-            
             if self.assetRequestNumber == 1 {
-                
                 MediaController.sharedMediaController.s3Shot1Image = self.selectedVideoImage
-                
             } else if self.assetRequestNumber == 2 {
-                
                 MediaController.sharedMediaController.s3Shot2Image = self.selectedVideoImage
-                
-                
             } else if self.assetRequestNumber == 3 {
-                
                 MediaController.sharedMediaController.s3Shot3Image = self.selectedVideoImage
-                
             }
         }
         
@@ -83,16 +79,13 @@ class ThirdSceneViewController: UIViewController {
         }
         
         if MediaController.sharedMediaController.s3VoiceOver != nil {
-            
             let check = UIImage(named: "Check")
             self.recordVoiceOverButton.setImage(check, forState: UIControlState.Normal)
         }
-
     }
     
     override func viewWillDisappear(animated: Bool) {
         self.videoPlayer = nil
-        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
     @IBAction func swipeBack(sender: AnyObject) {
@@ -100,20 +93,16 @@ class ThirdSceneViewController: UIViewController {
     }
     
     @IBAction func selectClipOne(sender: AnyObject) {
-        
         self.assetRequestNumber = 1
         self.performSegueWithIdentifier("s3SelectClip", sender: self)
-        
     }
     
     @IBAction func selectClipTwo(sender: AnyObject) {
-        
         self.assetRequestNumber = 2
         self.performSegueWithIdentifier("s3SelectClip", sender: self)
     }
     
     @IBAction func selectClip3(sender: AnyObject) {
-        
         self.assetRequestNumber = 3
         self.performSegueWithIdentifier("s3SelectClip", sender: self)
     }
@@ -122,9 +111,7 @@ class ThirdSceneViewController: UIViewController {
     }
     
     @IBAction func previewSelection(sender: AnyObject) {
-        
         var firstAsset: AVAsset!, secondAsset: AVAsset!, thirdAsset: AVAsset!, voiceOverAsset: AVAsset!
-        
         firstAsset = MediaController.sharedMediaController.s3Shot1
         secondAsset = MediaController.sharedMediaController.s3Shot2
         thirdAsset  = MediaController.sharedMediaController.s3Shot3
@@ -132,14 +119,11 @@ class ThirdSceneViewController: UIViewController {
         var timeCursor = kCMTimeZero
         
         if firstAsset != nil && secondAsset != nil && thirdAsset != nil {
-            
             let assets = [firstAsset, secondAsset, thirdAsset]
             var tracks = [AVMutableCompositionTrack]()
             let mediaToPreview = AVMutableComposition()
             
-            
             for item in assets {
-                
                 let videoTrack: AVMutableCompositionTrack = mediaToPreview.addMutableTrackWithMediaType(AVMediaTypeVideo, preferredTrackID: kCMPersistentTrackID_Invalid)
                 
                 do {
@@ -158,12 +142,10 @@ class ThirdSceneViewController: UIViewController {
             
             let mainInstruction = AVMutableVideoCompositionInstruction()
             mainInstruction.timeRange = CMTimeRangeMake(kCMTimeZero, timeCursor)
-            
             var instructions = [AVMutableVideoCompositionLayerInstruction]()
             var instructionTime: CMTime = kCMTimeZero
             // Create seperate instructions for each track.
             for var i = 0; i < tracks.count; i++ {
-                
                 let instruction = AVMutableVideoCompositionLayerInstruction(assetTrack: tracks[i])
                 instructionTime = CMTimeAdd(instructionTime, assets[i].duration)
                 instruction.setOpacity(0.0, atTime: instructionTime)
@@ -179,16 +161,12 @@ class ThirdSceneViewController: UIViewController {
             mainComposition.renderSize = mediaToPreview.naturalSize
             
             if voiceOverAsset != nil {
-                
                 let voiceOverTrack: AVMutableCompositionTrack = mediaToPreview.addMutableTrackWithMediaType(AVMediaTypeAudio, preferredTrackID: kCMPersistentTrackID_Invalid)
                 
                 do {
-                    
                     try voiceOverTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, timeCursor), ofTrack: voiceOverAsset.tracksWithMediaType(AVMediaTypeAudio)[0] ,
                         atTime: kCMTimeZero)
-                    
                 } catch let audioTrackError as NSError{
-                    
                     print(audioTrackError.localizedDescription)
                 }
             }
@@ -196,21 +174,11 @@ class ThirdSceneViewController: UIViewController {
             let itemToPreview = AVPlayerItem(asset: mediaToPreview)
             itemToPreview.videoComposition = mainComposition
             self.videoPlayer = AVPlayer(playerItem: itemToPreview)
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "donePlayingPreview:", name: AVPlayerItemDidPlayToEndTimeNotification, object: itemToPreview)
-            self.vpVC.player = videoPlayer
             self.presentViewController(self.vpVC, animated: true, completion: nil)
         }
-        
-    }
-    
-    
-    
-    func donePlayingPreview(notification: NSNotification) {
-        
     }
     
     @IBAction func mergeMedia(sender: AnyObject) {
-        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveCompleted:", name: "saveComplete", object: nil)
         self.savingProgress.alpha = 1
         self.savingProgress.startAnimating()
@@ -219,21 +187,17 @@ class ThirdSceneViewController: UIViewController {
     }
     
     func saveCompleted(notification: NSNotification) {
-        
         self.savingProgress.stopAnimating()
         self.savingProgress.alpha = 0
         self.view.alpha = 1
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MediaController.Notifications.saveFinished, object: nil)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        
         if segue.identifier == "s3SelectClip" {
-            
             let destinationVC = segue.destinationViewController as! VideosViewController
             destinationVC.segueID = self.clipID
         } else if segue.identifier == "s3SelectAudio" {
-            
             let destinationVC = segue.destinationViewController as! VoiceOverViewController
             destinationVC.segueID = self.audioID
         }
@@ -241,24 +205,23 @@ class ThirdSceneViewController: UIViewController {
     
     // MARK: unwind segues
     @IBAction func s3ClipUnwindSegue(unwindSegue: UIStoryboardSegue) {
+        defer {
+            self.selectedVideoAsset = nil
+        }
         
         if assetRequestNumber == 1 {
-            
             MediaController.sharedMediaController.s3Shot1 = AVAsset(URL: self.selectedVideoAsset)
         } else if assetRequestNumber == 2 {
-            
             MediaController.sharedMediaController.s3Shot2 = AVAsset(URL: self.selectedVideoAsset)
         } else if assetRequestNumber == 3 {
-            
             MediaController.sharedMediaController.s3Shot3 = AVAsset(URL: self.selectedVideoAsset)
         }
     }
     
     @IBAction func s3AudioUnwindSegue(unwindSegue: UIStoryboardSegue){
-        
         MediaController.sharedMediaController.s3VoiceOver = self.audioAsset
+        self.audioAsset = nil
     }
-    
         
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

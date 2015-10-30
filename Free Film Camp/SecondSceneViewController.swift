@@ -44,24 +44,20 @@ class SecondSceneViewController: UIViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
+        defer {
+            self.assetRequestNumber = nil
+            self.selectedVideoImage = nil
+        }
         self.navigationController?.setNavigationBarHidden(false, animated: false)
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "Scene2"), forBarMetrics: UIBarMetrics.Default)
-        
+     
         if assetRequestNumber != nil {
-            
             if self.assetRequestNumber == 1 {
-                
                 MediaController.sharedMediaController.s2Shot1Image = self.selectedVideoImage
-                
             } else if self.assetRequestNumber == 2 {
-                
                 MediaController.sharedMediaController.s2Shot2Image = self.selectedVideoImage
-                
-                
             } else if self.assetRequestNumber == 3 {
-                
                 MediaController.sharedMediaController.s2Shot3Image = self.selectedVideoImage
-                
             }
         }
         
@@ -87,11 +83,9 @@ class SecondSceneViewController: UIViewController {
         }
         
         if MediaController.sharedMediaController.s2VoiceOver != nil {
-            
             let check = UIImage(named: "Check")
             self.recordVoiceOverButton.setImage(check, forState: UIControlState.Normal)
         }
-
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -121,15 +115,13 @@ class SecondSceneViewController: UIViewController {
         self.assetRequestNumber = 3
         self.performSegueWithIdentifier("s2SelectClip", sender: self)
     }
-    
+    // record voiceover
     @IBAction func record(sender: AnyObject) {
         
     }
     
     @IBAction func previewSelection(sender: AnyObject) {
-        
         var firstAsset: AVAsset!, secondAsset: AVAsset!, thirdAsset: AVAsset!, voiceOverAsset: AVAsset!
-        
         firstAsset = MediaController.sharedMediaController.s2Shot1
         secondAsset = MediaController.sharedMediaController.s2Shot2
         thirdAsset  = MediaController.sharedMediaController.s2Shot3
@@ -137,38 +129,30 @@ class SecondSceneViewController: UIViewController {
         var timeCursor = kCMTimeZero
         
         if firstAsset != nil && secondAsset != nil && thirdAsset != nil {
-            
             let assets = [firstAsset, secondAsset, thirdAsset]
             var tracks = [AVMutableCompositionTrack]()
             let mediaToPreview = AVMutableComposition()
             
-            
             for item in assets {
-                
                 let videoTrack: AVMutableCompositionTrack = mediaToPreview.addMutableTrackWithMediaType(AVMediaTypeVideo, preferredTrackID: kCMPersistentTrackID_Invalid)
                 
                 do {
-                    
                     try videoTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, item.duration), ofTrack: item.tracksWithMediaType(AVMediaTypeVideo)[0],
                         atTime: timeCursor)
                     
                 } catch let audioTrackError as NSError{
-                    
                     print(audioTrackError.localizedDescription)
                 }
                 timeCursor = CMTimeAdd(timeCursor, item.duration)
                 tracks.append(videoTrack)
             }
             
-            
             let mainInstruction = AVMutableVideoCompositionInstruction()
             mainInstruction.timeRange = CMTimeRangeMake(kCMTimeZero, timeCursor)
-            
             var instructions = [AVMutableVideoCompositionLayerInstruction]()
             var instructionTime: CMTime = kCMTimeZero
             // Create seperate instructions for each track.
             for var i = 0; i < tracks.count; i++ {
-                
                 let instruction = AVMutableVideoCompositionLayerInstruction(assetTrack: tracks[i])
                 instructionTime = CMTimeAdd(instructionTime, assets[i].duration)
                 instruction.setOpacity(0.0, atTime: instructionTime)
@@ -184,16 +168,11 @@ class SecondSceneViewController: UIViewController {
             mainComposition.renderSize = mediaToPreview.naturalSize
             
             if voiceOverAsset != nil {
-                
                 let voiceOverTrack: AVMutableCompositionTrack = mediaToPreview.addMutableTrackWithMediaType(AVMediaTypeAudio, preferredTrackID: kCMPersistentTrackID_Invalid)
-                
                 do {
-                    
                     try voiceOverTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, timeCursor), ofTrack: voiceOverAsset.tracksWithMediaType(AVMediaTypeAudio)[0] ,
                         atTime: kCMTimeZero)
-                    
                 } catch let audioTrackError as NSError{
-                    
                     print(audioTrackError.localizedDescription)
                 }
             }
@@ -205,16 +184,10 @@ class SecondSceneViewController: UIViewController {
             self.vpVC.player = videoPlayer
             self.presentViewController(self.vpVC, animated: true, completion: nil)
         }
-        
-    }
-    
-    func donePlayingPreview(notification: NSNotification) {
-        
     }
     
     @IBAction func mergeMedia(sender: AnyObject) {
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveCompleted:", name: "saveComplete", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveCompleted:", name: MediaController.Notifications.saveFinished, object: nil)
         self.savingProgress.alpha = 1
         self.savingProgress.startAnimating()
         self.view.alpha = 0.7
@@ -222,43 +195,38 @@ class SecondSceneViewController: UIViewController {
     }
     
     func saveCompleted(notification: NSNotification) {
-        
         self.savingProgress.stopAnimating()
         self.savingProgress.alpha = 0
         self.view.alpha = 1
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MediaController.Notifications.saveFinished, object: nil)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        
         if segue.identifier == "s2SelectClip" {
-            
             let destinationVC = segue.destinationViewController as! VideosViewController
             destinationVC.segueID = self.clipID
         } else if segue.identifier == "s2SelectAudio" {
-            
             let destinationVC = segue.destinationViewController as! VoiceOverViewController
             destinationVC.segueID = self.audioID
         }
     }
     // MARK: unwind segues
     @IBAction func s2ClipUnwindSegue(unwindSegue: UIStoryboardSegue) {
-        
+        defer {
+            self.selectedVideoAsset = nil
+        }
         if assetRequestNumber == 1 {
-            
             MediaController.sharedMediaController.s2Shot1 = AVAsset(URL: self.selectedVideoAsset)
         } else if assetRequestNumber == 2 {
-            
             MediaController.sharedMediaController.s2Shot2 = AVAsset(URL: self.selectedVideoAsset)
         } else if assetRequestNumber == 3 {
-            
             MediaController.sharedMediaController.s2Shot3 = AVAsset(URL: self.selectedVideoAsset)
         }
     }
     
     @IBAction func s2AudioUnwindSegue(unwindSegue: UIStoryboardSegue){
-        
         MediaController.sharedMediaController.s2VoiceOver = self.audioAsset
+        self.audioAsset = nil
     }
     
     
