@@ -181,7 +181,6 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
             
             let assets = [firstAsset, secondAsset, thirdAsset]
             var shots = [AVPlayerItem]()
-            
 
             for item in assets {
                 

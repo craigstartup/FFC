@@ -209,15 +209,17 @@ class FirstSceneViewController: UIViewController {
     
     // MARK: unwind segues
     @IBAction func s1ClipUnwindSegue(unwindSegue: UIStoryboardSegue) {
-        defer{
+        defer {
             self.selectedVideoAsset = nil
         }
-        if assetRequestNumber == 1 {
-            MediaController.sharedMediaController.s1Shot1? = AVAsset(URL: self.selectedVideoAsset)
-        } else if assetRequestNumber == 2 {
-            MediaController.sharedMediaController.s1Shot2? = AVAsset(URL: self.selectedVideoAsset)
-        } else if assetRequestNumber == 3 {
-            MediaController.sharedMediaController.s1Shot3? = AVAsset(URL: self.selectedVideoAsset)
+        if self.selectedVideoAsset != nil {
+            if assetRequestNumber == 1 {
+                MediaController.sharedMediaController.s1Shot1 = AVAsset(URL: self.selectedVideoAsset)
+            } else if assetRequestNumber == 2 {
+                MediaController.sharedMediaController.s1Shot2 = AVAsset(URL: self.selectedVideoAsset)
+            } else if assetRequestNumber == 3 {
+                MediaController.sharedMediaController.s1Shot3 = AVAsset(URL: self.selectedVideoAsset)
+            }
         }
     }
     
