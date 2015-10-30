@@ -233,8 +233,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     
     
     @IBAction func cancelCamera(sender: AnyObject) {
-        
-        if self.pickingShot == true && self.shots != nil {
+        if self.pickingShot && self.shots != nil {
             let shotFetch = PHAsset.fetchAssetsInAssetCollection(self.shots.firstObject as! PHAssetCollection, options: nil)
             self.video = shotFetch.firstObject as! PHAsset
             let manager = PHImageManager()
@@ -253,9 +252,10 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                     }
                 })
             }
-
-            
         } else {
+            if pickingShot{
+                self.performSegueWithIdentifier("cameraUnwindSegue", sender: self)
+            }
             self.navigationController?.popViewControllerAnimated(true)
         }
     }
@@ -284,8 +284,10 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         if segue.identifier == "cameraUnwindSegue" {
             
             let videosVC = segue.destinationViewController as! VideosViewController
+            if self.shotAsset != nil && self.shotAsset != nil {
             videosVC.videoAssetToPass = self.shotAsset.URL
             videosVC.videoImageToPass = self.shotImage
+            }
         }
     }
     

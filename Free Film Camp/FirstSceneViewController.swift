@@ -213,11 +213,11 @@ class FirstSceneViewController: UIViewController {
             self.selectedVideoAsset = nil
         }
         if assetRequestNumber == 1 {
-            MediaController.sharedMediaController.s1Shot1 = AVAsset(URL: self.selectedVideoAsset)
+            MediaController.sharedMediaController.s1Shot1? = AVAsset(URL: self.selectedVideoAsset)
         } else if assetRequestNumber == 2 {
-            MediaController.sharedMediaController.s1Shot2 = AVAsset(URL: self.selectedVideoAsset)
+            MediaController.sharedMediaController.s1Shot2? = AVAsset(URL: self.selectedVideoAsset)
         } else if assetRequestNumber == 3 {
-            MediaController.sharedMediaController.s1Shot3 = AVAsset(URL: self.selectedVideoAsset)
+            MediaController.sharedMediaController.s1Shot3? = AVAsset(URL: self.selectedVideoAsset)
         }
     }
     
