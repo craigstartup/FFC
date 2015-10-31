@@ -22,6 +22,7 @@ class MediaController {
     }
     
     static let sharedMediaController = MediaController()
+    private init() {}
     
     let library = PHPhotoLibrary.sharedPhotoLibrary()
     let comCenter = NSNotificationCenter.defaultCenter()

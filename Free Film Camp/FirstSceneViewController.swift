@@ -84,7 +84,7 @@ class FirstSceneViewController: UIViewController {
         }
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewDidDisappear(animated: Bool) {
         self.videoPlayer = nil
     }
 
