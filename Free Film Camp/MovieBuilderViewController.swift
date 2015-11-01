@@ -16,6 +16,7 @@ class MovieBuilderViewController: UIViewController {
     @IBOutlet weak var savingProgress: UIActivityIndicatorView!
     @IBOutlet weak var headshot: UIImageView!
     
+    var videoPlayer: AVPlayer!
     var vpVC = AVPlayerViewController()
     var previewQueue = [AVPlayerItem]()
 
@@ -29,6 +30,7 @@ class MovieBuilderViewController: UIViewController {
         self.navigationController?.setNavigationBarHidden(false, animated: false)
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "Movie"), forBarMetrics: .Default)
     }
+    
     override func viewWillDisappear(animated: Bool) {
         MediaController.sharedMediaController.moviePreview = nil 
     }
@@ -48,7 +50,10 @@ class MovieBuilderViewController: UIViewController {
     }
     
     @IBAction func makeMovie(sender: AnyObject) {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveCompleted:", name: "saveComplete", object: nil)
+        self.vpVC.player = nil
+        self.videoPlayer = nil
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveCompleted:", name: MediaController.Notifications.saveMovieFinished, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveFailed", name: MediaController.Notifications.saveMovieFailed, object: nil)
         self.savingProgress.alpha = 1
         self.savingProgress.startAnimating()
         self.view.alpha = 0.6
@@ -59,14 +64,31 @@ class MovieBuilderViewController: UIViewController {
         self.savingProgress.stopAnimating()
         self.savingProgress.alpha = 0
         self.view.alpha = 1
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MediaController.Notifications.saveMovieFinished, object: nil)
+        let alertSuccess = UIAlertController(title: "Success", message: "Movie saved to Photos!", preferredStyle: .Alert)
+        let okAction = UIAlertAction(title: "Thanks!", style: .Default) { (action) -> Void in
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
+        alertSuccess.addAction(okAction)
+        self.presentViewController(alertSuccess, animated: true, completion: nil)
+    }
+    
+    func saveFailed(notification: NSNotification) {
+        self.savingProgress.stopAnimating()
+        self.savingProgress.alpha = 0
+        self.view.alpha = 1
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MediaController.Notifications.saveMovieFailed, object: nil)
+        let alertFailure = UIAlertController(title: "Failure", message: "Movie failed to save. Re-select media and try again", preferredStyle: .Alert)
+        let okAction = UIAlertAction(title: "Thanks!", style: .Default) { (action) -> Void in
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
+        alertFailure.addAction(okAction)
+        self.presentViewController(alertFailure, animated: true, completion: nil)
     }
     
     @IBAction func preview(sender: AnyObject) {
-        
         if MediaController.sharedMediaController.moviePreview != nil {
-            var videoPlayer = AVPlayer()
-            videoPlayer = AVPlayer(playerItem: MediaController.sharedMediaController.moviePreview)
+            self.videoPlayer = AVPlayer(playerItem: MediaController.sharedMediaController.moviePreview)
             self.vpVC.player = videoPlayer
             self.presentViewController(self.vpVC, animated: true, completion: nil)
         }

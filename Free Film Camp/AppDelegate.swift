@@ -18,12 +18,70 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        let scenesFetchOptions = PHFetchOptions()
+        let moviesFetchOptions = PHFetchOptions()
+        let clipsFetchOptions = PHFetchOptions()
+        var clipsAlbum: PHFetchResult!
+        var scenesAlbum: PHFetchResult!
+        var moviesAlbum: PHFetchResult!
+        let clipsAlbumTitle = "Free Film Camp Clips"
+        let scenesAlbumTitle = "Free Film Camp Scenes"
+        let moviesAlbumTitle = "Free Film Camp Movies"
+        
+        
         PHPhotoLibrary.requestAuthorization { (status) -> Void in
             if status == PHAuthorizationStatus.Authorized {
+                // set up album for recorded clips
+                clipsFetchOptions.predicate = NSPredicate(format: "title = %@", clipsAlbumTitle)
+                clipsAlbum = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: clipsFetchOptions)
                 
+                if let _: AnyObject = clipsAlbum.firstObject {
+                    
+                } else {
+                    
+                    PHPhotoLibrary.sharedPhotoLibrary().performChanges({ () -> Void in
+                        PHAssetCollectionChangeRequest.creationRequestForAssetCollectionWithTitle(clipsAlbumTitle)
+                        }) { (success: Bool, error: NSError?) -> Void in
+                            if !success {
+                                print(error!.localizedDescription)
+                            }
+                    }
+                }
+
+                // set up album for recorded scenes and movies
+                scenesFetchOptions.predicate = NSPredicate(format: "title = %@", scenesAlbumTitle)
+                scenesAlbum = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: scenesFetchOptions)
+                
+                if let _: AnyObject = scenesAlbum.firstObject {
+                    
+                } else {
+                    
+                    PHPhotoLibrary.sharedPhotoLibrary().performChanges({ () -> Void in
+                        PHAssetCollectionChangeRequest.creationRequestForAssetCollectionWithTitle(scenesAlbumTitle)
+                        }) { (success: Bool, error: NSError?) -> Void in
+                            if !success {
+                                print(error!.localizedDescription)
+                            }
+                    }
+                }
+
+                moviesFetchOptions.predicate = NSPredicate(format: "title = %@", moviesAlbumTitle)
+                moviesAlbum = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: moviesFetchOptions)
+                
+                if let _: AnyObject = moviesAlbum.firstObject {
+                    
+                } else {
+                    
+                    PHPhotoLibrary.sharedPhotoLibrary().performChanges({ () -> Void in
+                        PHAssetCollectionChangeRequest.creationRequestForAssetCollectionWithTitle(moviesAlbumTitle)
+                        }) { (success: Bool, error: NSError?) -> Void in
+                            if !success {
+                                print(error!.localizedDescription)
+                            }
+                    }
+                }
             }
         }
-
         return true
     }
 

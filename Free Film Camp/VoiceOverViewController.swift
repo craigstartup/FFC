@@ -82,6 +82,11 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         }
     }
     
+    override func viewDidDisappear(animated: Bool) {
+        self.videoPlayer = nil
+        self.audioPlayer = nil
+        self.audioRecorder = nil
+    }
     
     @IBAction func recordButtonPressed(sender: AnyObject) {
         
@@ -181,7 +186,6 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
             
             let assets = [firstAsset, secondAsset, thirdAsset]
             var shots = [AVPlayerItem]()
-            
 
             for item in assets {
                 
