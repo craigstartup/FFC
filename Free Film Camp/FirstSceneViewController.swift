@@ -11,7 +11,6 @@ import Photos
 import AVFoundation
 import AVKit
 
-
 class FirstSceneViewController: UIViewController {
 
     @IBOutlet weak var savingProgress: UIActivityIndicatorView!
@@ -178,11 +177,11 @@ class FirstSceneViewController: UIViewController {
                 self.vpVC.player = videoPlayer
                 self.presentViewController(self.vpVC, animated: true, completion: nil)
         }
-
     }
     
     @IBAction func mergeMedia(sender: AnyObject) {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveCompleted:", name: "saveComplete", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveCompleted:", name: MediaController.Notifications.saveSceneFinished, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveFailed", name: MediaController.Notifications.saveSceneFailed, object: nil)
         self.savingProgress.alpha = 1
         self.savingProgress.startAnimating()
         self.view.alpha = 0.6
@@ -193,7 +192,26 @@ class FirstSceneViewController: UIViewController {
         self.savingProgress.stopAnimating()
         self.savingProgress.alpha = 0
         self.view.alpha = 1
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: "saveCompleted", object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MediaController.Notifications.saveSceneFinished, object: nil)
+        let alertSuccess = UIAlertController(title: "Success", message: "Scene saved to Photos!", preferredStyle: .Alert)
+        let okAction = UIAlertAction(title: "Thanks!", style: .Default) { (action) -> Void in
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
+        alertSuccess.addAction(okAction)
+        self.presentViewController(alertSuccess, animated: true, completion: nil)
+    }
+    
+    func saveFailed(notification: NSNotification) {
+        self.savingProgress.stopAnimating()
+        self.savingProgress.alpha = 0
+        self.view.alpha = 1
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MediaController.Notifications.saveSceneFailed, object: nil)
+        let alertFailure = UIAlertController(title: "Failure", message: "Scene failed to save. Re-select media and try again", preferredStyle: .Alert)
+        let okAction = UIAlertAction(title: "Thanks!", style: .Default) { (action) -> Void in
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
+        alertFailure.addAction(okAction)
+        self.presentViewController(alertFailure, animated: true, completion: nil)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -227,9 +245,6 @@ class FirstSceneViewController: UIViewController {
         MediaController.sharedMediaController.s1VoiceOver = self.audioAsset
         self.audioAsset = nil
     }
-    
-    
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
