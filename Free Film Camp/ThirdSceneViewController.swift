@@ -40,13 +40,12 @@ class ThirdSceneViewController: UIViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
         defer {
             self.assetRequestNumber = nil
             self.selectedVideoImage = nil
         }
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "Scene3"), forBarMetrics: .Default)
-        
+            
         if assetRequestNumber != nil {
             if self.assetRequestNumber == 1 {
                 MediaController.sharedMediaController.s3Shot1Image = self.selectedVideoImage

@@ -27,8 +27,7 @@ class MovieBuilderViewController: UIViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "Movie"), forBarMetrics: .Default)
+        self.navigationController?.navigationBarHidden = true
     }
     
     override func viewWillDisappear(animated: Bool) {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="VaU-F1-wSE">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="FaC-O6-ufg">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
@@ -40,7 +40,7 @@
                                             <inset key="contentEdgeInsets" minX="55" minY="-3" maxX="0.0" maxY="0.0"/>
                                             <state key="normal" title="Camera" image="Camera"/>
                                             <connections>
-                                                <segue destination="KtM-ME-n2y" kind="presentation" identifier="pickingShot" id="nYQ-Mx-U5W"/>
+                                                <segue destination="KtM-ME-n2y" kind="show" identifier="pickingShot" id="nYQ-Mx-U5W"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -87,9 +87,8 @@
                         </connections>
                     </collectionView>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="vZL-5H-ESU">
-                        <barButtonItem key="rightBarButtonItem" systemItem="camera" id="rgM-WJ-KKe"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="vZL-5H-ESU"/>
+                    <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <segue destination="HDm-P7-dyQ" kind="unwind" identifier="s1ClipSelectedSegue" unwindAction="s1ClipUnwindSegue:" id="yuw-o5-Dvg"/>
                         <segue destination="HDm-P7-dyQ" kind="unwind" identifier="s2ClipSelectedSegue" unwindAction="s2ClipUnwindSegue:" id="jcf-wP-DEE"/>
@@ -99,7 +98,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yhe-FW-yes" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="HDm-P7-dyQ" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2110" y="-527"/>
+            <point key="canvasLocation" x="2104" y="-527"/>
         </scene>
         <!--Voice Over-->
         <scene sceneID="Q77-QL-bxb">
@@ -175,6 +174,7 @@
                             <constraint firstItem="zfb-Yi-cGw" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Fyg-ug-AMe" secondAttribute="leadingMargin" id="u4i-rf-bt3"/>
                         </constraints>
                     </view>
+                    <nil key="simulatedTopBarMetrics"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
                         <outlet property="doneButton" destination="tiy-FS-viV" id="5PU-Ib-c2r"/>
@@ -349,27 +349,6 @@
             </objects>
             <point key="canvasLocation" x="762" y="-527"/>
         </scene>
-        <!--Scene Builder-->
-        <scene sceneID="b65-73-awy">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="VaU-F1-wSE" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Scene Builder" id="rcI-Pc-U2R"/>
-                    <toolbarItems/>
-                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="h3b-6F-uf8">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="Rxg-ar-8Jr" kind="relationship" relationship="rootViewController" id="vm0-eK-h9V"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Bfg-gl-mUW" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="396" y="-1491"/>
-        </scene>
         <!--Scene 1-->
         <scene sceneID="A32-Sa-mTl">
             <objects>
@@ -466,7 +445,7 @@
                                 </state>
                                 <connections>
                                     <action selector="record:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="wKf-er-BFm"/>
-                                    <segue destination="t2l-7N-cdU" kind="presentation" identifier="s1SelectAudio" id="bJ2-dg-x9E"/>
+                                    <segue destination="t2l-7N-cdU" kind="show" identifier="s1SelectAudio" id="bJ2-dg-x9E"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shot 1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8rW-r2-fUM">
@@ -587,6 +566,7 @@
                         </connections>
                     </view>
                     <navigationItem key="navigationItem" id="guB-Hm-mWJ"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
                         <outlet property="recordVoiceOverButton" destination="jAP-bU-Obn" id="UyJ-ey-yB2"/>
@@ -595,22 +575,18 @@
                         <outlet property="shot2Button" destination="zh0-jF-OTX" id="UFa-Eb-rXk"/>
                         <outlet property="shot3Button" destination="akN-Vz-J8y" id="Og8-Kz-XBY"/>
                         <outlet property="voiceOverLabel" destination="8j6-AJ-GMb" id="jxO-Oa-XJu"/>
-                        <segue destination="4to-zB-zdm" kind="presentation" identifier="s1SelectClip" id="CH1-X3-ObO"/>
+                        <segue destination="4to-zB-zdm" kind="show" identifier="s1SelectClip" id="CH1-X3-ObO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vaJ-dB-DbI" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <swipeGestureRecognizer direction="left" id="id6-Vn-qod">
-                    <connections>
-                        <segue destination="MQa-Na-cfN" kind="show" id="IFO-h0-ixa"/>
-                    </connections>
-                </swipeGestureRecognizer>
+                <swipeGestureRecognizer direction="left" id="id6-Vn-qod"/>
                 <swipeGestureRecognizer direction="down" id="AXV-It-inU">
                     <connections>
                         <segue destination="KtM-ME-n2y" kind="show" id="3ga-tB-TbH"/>
                     </connections>
                 </swipeGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1130" y="-1491"/>
+            <point key="canvasLocation" x="1942" y="-1491"/>
         </scene>
         <!--Scene 3-->
         <scene sceneID="QAh-32-7GB">
@@ -716,7 +692,7 @@
                                 </state>
                                 <connections>
                                     <action selector="record:" destination="qVt-sA-xLt" eventType="touchUpInside" id="8Vs-XK-zaG"/>
-                                    <segue destination="t2l-7N-cdU" kind="presentation" identifier="s3SelectAudio" id="LiM-u3-3jo"/>
+                                    <segue destination="t2l-7N-cdU" kind="show" identifier="s3SelectAudio" id="LiM-u3-3jo"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shot 1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mip-5v-DJj">
@@ -838,22 +814,135 @@
                         <outlet property="shot1Button" destination="GI0-A2-cm3" id="huQ-fR-2ly"/>
                         <outlet property="shot2Button" destination="aGu-cQ-eFw" id="QON-CV-7S0"/>
                         <outlet property="shot3Button" destination="BJv-D1-8mW" id="u42-JR-Z68"/>
-                        <segue destination="4to-zB-zdm" kind="presentation" identifier="s3SelectClip" id="pbY-XE-sGo"/>
+                        <segue destination="4to-zB-zdm" kind="show" identifier="s3SelectClip" id="pbY-XE-sGo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1pr-sw-Kyq" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <swipeGestureRecognizer direction="left" id="KDI-ws-vEU">
-                    <connections>
-                        <segue destination="fje-F2-EuG" kind="show" id="SX3-HQ-JBu"/>
-                    </connections>
-                </swipeGestureRecognizer>
+                <swipeGestureRecognizer direction="left" id="KDI-ws-vEU"/>
                 <swipeGestureRecognizer direction="right" id="QWu-vS-Vsv">
                     <connections>
                         <action selector="swipeBack:" destination="qVt-sA-xLt" id="uuJ-2w-2ax"/>
                     </connections>
                 </swipeGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2431" y="-1491"/>
+            <point key="canvasLocation" x="3243" y="-1491"/>
+        </scene>
+        <!--Views-->
+        <scene sceneID="uCU-OV-YKk">
+            <objects>
+                <viewController title="Views" id="FaC-O6-ufg" customClass="SelectionViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Qny-YC-xRj"/>
+                        <viewControllerLayoutGuide type="bottom" id="WzA-Mv-cPQ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="mSE-z2-Ciy">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="wqg-Vo-gs4" userLabel="Custom Tab Bar">
+                                <rect key="frame" x="7" y="28" width="586" height="44"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XTz-rw-392">
+                                        <rect key="frame" x="0.0" y="0.0" width="124" height="44"/>
+                                        <animations/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <color key="tintColor" red="0.60392156860000001" green="0.60392156860000001" blue="0.60392156860000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Scene 1">
+                                            <color key="titleColor" red="0.60392156860000001" green="0.60392156860000001" blue="0.60392156860000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <state key="selected">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="scene1Selected:" destination="FaC-O6-ufg" eventType="touchUpInside" id="Pdf-Nd-rf6"/>
+                                            <segue destination="bxp-Vz-92L" kind="custom" identifier="scene1VC" customClass="SelectionSegue" customModule="Free_Film_Camp" customModuleProvider="target" id="BQi-3i-9Ar"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hAP-7c-QFO">
+                                        <rect key="frame" x="154" y="0.0" width="124" height="44"/>
+                                        <animations/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <color key="tintColor" red="0.60392156860000001" green="0.60392156860000001" blue="0.60392156860000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Scene 2">
+                                            <color key="titleColor" red="0.60392156860000001" green="0.60392156860000001" blue="0.60392156860000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <state key="selected">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="scene2Selected:" destination="FaC-O6-ufg" eventType="touchUpInside" id="utT-B5-xNz"/>
+                                            <segue destination="MQa-Na-cfN" kind="custom" identifier="scene2VC" customClass="SelectionSegue" customModule="Free_Film_Camp" customModuleProvider="target" id="9eF-UD-4ro"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ef7-TS-I84">
+                                        <rect key="frame" x="308" y="0.0" width="124" height="44"/>
+                                        <animations/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <color key="tintColor" red="0.60392156860000001" green="0.60392156860000001" blue="0.60392156860000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Scene 3">
+                                            <color key="titleColor" red="0.60392156860000001" green="0.60392156860000001" blue="0.60392156860000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <state key="selected">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="scene3Selected:" destination="FaC-O6-ufg" eventType="touchUpInside" id="Be5-kt-RLo"/>
+                                            <segue destination="qVt-sA-xLt" kind="custom" identifier="scene3VC" customClass="SelectionSegue" customModule="Free_Film_Camp" customModuleProvider="target" id="HQD-jf-Xbe"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RWq-0a-jkN">
+                                        <rect key="frame" x="462" y="0.0" width="124" height="44"/>
+                                        <animations/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <color key="tintColor" red="0.60392156860000001" green="0.60392156860000001" blue="0.60392156860000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Movie">
+                                            <color key="titleColor" red="0.60392156860000001" green="0.60392156860000001" blue="0.60392156860000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <state key="selected">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="makeMovieSelected:" destination="FaC-O6-ufg" eventType="touchUpInside" id="Erj-DV-3w1"/>
+                                            <segue destination="fje-F2-EuG" kind="custom" identifier="movieVC" customClass="SelectionSegue" customModule="Free_Film_Camp" customModuleProvider="target" id="mCV-jm-cQJ"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <animations/>
+                                <color key="backgroundColor" red="0.60392156860000001" green="0.60392156860000001" blue="0.60392156860000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="bjL-Mz-waa"/>
+                                </constraints>
+                            </stackView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4di-OV-td5" userLabel="Views View">
+                                <rect key="frame" x="0.0" y="72" width="600" height="528"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" red="0.20392156862745098" green="0.20392156862745098" blue="0.20392156862745098" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="4di-OV-td5" firstAttribute="leading" secondItem="mSE-z2-Ciy" secondAttribute="leadingMargin" constant="-20" id="JRG-nA-3ap"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="wqg-Vo-gs4" secondAttribute="trailing" constant="-13" id="Wkj-A7-ciC"/>
+                            <constraint firstItem="wqg-Vo-gs4" firstAttribute="leading" secondItem="mSE-z2-Ciy" secondAttribute="leadingMargin" constant="-13" id="cAc-px-T7U"/>
+                            <constraint firstItem="WzA-Mv-cPQ" firstAttribute="top" secondItem="4di-OV-td5" secondAttribute="bottom" id="cRN-3m-1cX"/>
+                            <constraint firstItem="wqg-Vo-gs4" firstAttribute="top" secondItem="Qny-YC-xRj" secondAttribute="bottom" constant="8" id="ek8-Kw-yIz"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="4di-OV-td5" secondAttribute="trailing" constant="-20" id="evZ-xl-GHg"/>
+                            <constraint firstItem="4di-OV-td5" firstAttribute="top" secondItem="wqg-Vo-gs4" secondAttribute="bottom" id="vFU-zy-yrF"/>
+                        </constraints>
+                    </view>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+                    <connections>
+                        <outlet property="viewsView" destination="4di-OV-td5" id="die-fh-FRO"/>
+                        <outletCollection property="buttons" destination="XTz-rw-392" collectionClass="NSMutableArray" id="dBq-dX-Hap"/>
+                        <outletCollection property="buttons" destination="hAP-7c-QFO" collectionClass="NSMutableArray" id="GVX-Oi-UAy"/>
+                        <outletCollection property="buttons" destination="ef7-TS-I84" collectionClass="NSMutableArray" id="IBk-b6-JwA"/>
+                        <outletCollection property="buttons" destination="RWq-0a-jkN" collectionClass="NSMutableArray" id="PFO-k5-4Jt"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mKR-GH-JXH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2104" y="-2208"/>
         </scene>
         <!--Scene 2-->
         <scene sceneID="hhK-99-qLa">
@@ -959,7 +1048,7 @@
                                 </state>
                                 <connections>
                                     <action selector="record:" destination="MQa-Na-cfN" eventType="touchUpInside" id="e2H-O0-fMr"/>
-                                    <segue destination="t2l-7N-cdU" kind="presentation" identifier="s2SelectAudio" id="QIo-ZO-zF5"/>
+                                    <segue destination="t2l-7N-cdU" kind="show" identifier="s2SelectAudio" id="QIo-ZO-zF5"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shot 1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9n7-wB-NrU">
@@ -1081,22 +1170,18 @@
                         <outlet property="shot1Button" destination="otP-Je-oPR" id="Nnf-e5-ilF"/>
                         <outlet property="shot2Button" destination="SeG-j5-p1x" id="Vw1-TX-Vtu"/>
                         <outlet property="shot3Button" destination="z29-YX-x1f" id="8I0-Ub-eUs"/>
-                        <segue destination="4to-zB-zdm" kind="presentation" identifier="s2SelectClip" id="OJI-ki-Muw"/>
+                        <segue destination="4to-zB-zdm" kind="show" identifier="s2SelectClip" id="OJI-ki-Muw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6mm-S1-srK" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <swipeGestureRecognizer direction="left" id="g5v-Fa-Teb">
-                    <connections>
-                        <segue destination="qVt-sA-xLt" kind="show" id="7MX-gE-6pG"/>
-                    </connections>
-                </swipeGestureRecognizer>
+                <swipeGestureRecognizer direction="left" id="g5v-Fa-Teb"/>
                 <swipeGestureRecognizer direction="right" id="eNJ-EX-Khh">
                     <connections>
                         <action selector="swipeBack:" destination="MQa-Na-cfN" id="4Nd-iM-pYQ"/>
                     </connections>
                 </swipeGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1780" y="-1491"/>
+            <point key="canvasLocation" x="2592" y="-1491"/>
         </scene>
         <!--Movie-->
         <scene sceneID="Ul7-oZ-ylA">
@@ -1150,6 +1235,7 @@
                             <constraint firstItem="Nsf-El-ZWS" firstAttribute="centerY" secondItem="uCq-IG-yDm" secondAttribute="centerY" id="52e-QJ-a0B"/>
                             <constraint firstItem="p8B-dd-VND" firstAttribute="bottom" secondItem="Ueq-ek-GNU" secondAttribute="top" id="IfD-tq-po9"/>
                             <constraint firstItem="p8B-dd-VND" firstAttribute="top" secondItem="Urj-We-YDA" secondAttribute="top" id="MHq-op-ixy"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Urj-We-YDA" secondAttribute="trailing" constant="-13" id="Ojl-Fi-ItK"/>
                             <constraint firstItem="p8B-dd-VND" firstAttribute="firstBaseline" secondItem="Urj-We-YDA" secondAttribute="baseline" id="TRL-pU-ms0"/>
                             <constraint firstItem="Urj-We-YDA" firstAttribute="width" secondItem="p8B-dd-VND" secondAttribute="width" id="VD7-9L-XNo"/>
                             <constraint firstItem="p8B-dd-VND" firstAttribute="leading" secondItem="uCq-IG-yDm" secondAttribute="leadingMargin" constant="-13" id="c6u-mu-q39"/>
@@ -1176,7 +1262,7 @@
                     </connections>
                 </swipeGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="3117" y="-1491"/>
+            <point key="canvasLocation" x="3891" y="-1491"/>
         </scene>
         <!--Movie-->
         <scene sceneID="wfA-fu-7se">
@@ -1330,18 +1416,37 @@
                     </connections>
                 </swipeGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="3868" y="-1504"/>
+            <point key="canvasLocation" x="4620" y="-1491"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="VOM-Dx-8iY">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="bxp-Vz-92L" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="qhq-42-PZa">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Rxg-ar-8Jr" kind="relationship" relationship="rootViewController" id="MeJ-Xo-4T8"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xNt-fL-XGk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1130" y="-1491"/>
         </scene>
     </scenes>
     <resources>
-        <image name="Camera" width="100" height="82"/>
+        <image name="Camera" width="30" height="30"/>
         <image name="camera_cancel_btn_36" width="40" height="40"/>
         <image name="camera_record_btn_70" width="60" height="60"/>
         <image name="plus_white_69" width="60" height="60"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="nYQ-Mx-U5W"/>
         <segue reference="CH1-X3-ObO"/>
         <segue reference="bJ2-dg-x9E"/>
+        <segue reference="3ga-tB-TbH"/>
     </inferredMetricsTieBreakers>
 </document>

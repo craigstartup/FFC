@@ -43,8 +43,7 @@ class FirstSceneViewController: UIViewController {
             self.assetRequestNumber = nil
             self.selectedVideoImage = nil
         }
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "Scene1"), forBarMetrics: .Default)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
         
         if assetRequestNumber != nil {
             if self.assetRequestNumber == 1 {
@@ -128,7 +127,6 @@ class FirstSceneViewController: UIViewController {
                 
                 for item in assets {
                     let videoTrack: AVMutableCompositionTrack = mediaToPreview.addMutableTrackWithMediaType(AVMediaTypeVideo, preferredTrackID: kCMPersistentTrackID_Invalid)
-                    
                     do {
                         try videoTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, item.duration), ofTrack: item.tracksWithMediaType(AVMediaTypeVideo)[0],
                             atTime: timeCursor)

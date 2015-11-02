@@ -44,12 +44,11 @@ class SecondSceneViewController: UIViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
         defer {
             self.assetRequestNumber = nil
             self.selectedVideoImage = nil
         }
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "Scene2"), forBarMetrics: UIBarMetrics.Default)
      
         if assetRequestNumber != nil {
             if self.assetRequestNumber == 1 {
@@ -135,11 +134,9 @@ class SecondSceneViewController: UIViewController {
             
             for item in assets {
                 let videoTrack: AVMutableCompositionTrack = mediaToPreview.addMutableTrackWithMediaType(AVMediaTypeVideo, preferredTrackID: kCMPersistentTrackID_Invalid)
-                
                 do {
                     try videoTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, item.duration), ofTrack: item.tracksWithMediaType(AVMediaTypeVideo)[0],
                         atTime: timeCursor)
-                    
                 } catch let audioTrackError as NSError{
                     print(audioTrackError.localizedDescription)
                 }

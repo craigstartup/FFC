@@ -210,7 +210,6 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                             }
                     })
                 } else {
-                    
                     cleanup()
                 }
             })
@@ -256,7 +255,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             if pickingShot{
                 self.performSegueWithIdentifier("cameraUnwindSegue", sender: self)
             }
-            self.navigationController?.popViewControllerAnimated(true)
+            self.dismissViewControllerAnimated(true, completion: nil)
         }
     }
     
