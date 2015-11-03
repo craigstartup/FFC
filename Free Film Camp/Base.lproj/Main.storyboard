@@ -32,13 +32,13 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n40-zf-h2S">
-                                            <rect key="frame" x="-2" y="-1" width="219" height="138"/>
+                                            <rect key="frame" x="19" y="14" width="178" height="108"/>
                                             <animations/>
                                             <constraints>
-                                                <constraint firstAttribute="width" secondItem="n40-zf-h2S" secondAttribute="height" multiplier="107:77" constant="26.012987012987026" id="IPz-DY-LbS"/>
+                                                <constraint firstAttribute="width" secondItem="n40-zf-h2S" secondAttribute="height" multiplier="107:77" constant="27.233766233766232" id="IPz-DY-LbS"/>
                                             </constraints>
                                             <inset key="contentEdgeInsets" minX="55" minY="-3" maxX="0.0" maxY="0.0"/>
-                                            <state key="normal" title="Camera" image="Camera"/>
+                                            <state key="normal" title="Camera" image="videoCameraThumb"/>
                                             <connections>
                                                 <segue destination="KtM-ME-n2y" kind="presentation" identifier="pickingShot" id="nYQ-Mx-U5W"/>
                                             </connections>
@@ -1147,6 +1147,7 @@
                         <color key="backgroundColor" red="0.2666666667" green="0.2666666667" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="Urj-We-YDA" secondAttribute="trailing" constant="-13" id="0ZA-LF-mlW"/>
                             <constraint firstItem="Nsf-El-ZWS" firstAttribute="centerY" secondItem="uCq-IG-yDm" secondAttribute="centerY" id="52e-QJ-a0B"/>
                             <constraint firstItem="p8B-dd-VND" firstAttribute="bottom" secondItem="Ueq-ek-GNU" secondAttribute="top" id="IfD-tq-po9"/>
                             <constraint firstItem="p8B-dd-VND" firstAttribute="top" secondItem="Urj-We-YDA" secondAttribute="top" id="MHq-op-ixy"/>
@@ -1334,14 +1335,14 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Camera" width="100" height="82"/>
         <image name="camera_cancel_btn_36" width="40" height="40"/>
         <image name="camera_record_btn_70" width="60" height="60"/>
         <image name="plus_white_69" width="60" height="60"/>
+        <image name="videoCameraThumb" width="60" height="60"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="nYQ-Mx-U5W"/>
         <segue reference="CH1-X3-ObO"/>
         <segue reference="bJ2-dg-x9E"/>
+        <segue reference="3ga-tB-TbH"/>
     </inferredMetricsTieBreakers>
 </document>
