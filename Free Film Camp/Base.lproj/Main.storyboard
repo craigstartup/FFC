@@ -43,6 +43,18 @@
                                                 <segue destination="KtM-ME-n2y" kind="show" identifier="pickingShot" id="nYQ-Mx-U5W"/>
                                             </connections>
                                         </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cg5-Eu-nXN">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="50" id="TiT-bR-wec"/>
+                                                <constraint firstAttribute="height" constant="50" id="XYb-R4-QIw"/>
+                                            </constraints>
+                                            <state key="normal" image="camera_cancel_btn_36"/>
+                                            <connections>
+                                                <action selector="cancelledSelection:" destination="4to-zB-zdm" eventType="touchUpInside" id="pzk-mr-Mqa"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <animations/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -50,6 +62,8 @@
                                 <animations/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
+                                    <constraint firstItem="cg5-Eu-nXN" firstAttribute="leading" secondItem="2Ky-zQ-wWE" secondAttribute="leadingMargin" constant="-8" id="5Ck-qe-xfz"/>
+                                    <constraint firstItem="cg5-Eu-nXN" firstAttribute="top" secondItem="2Ky-zQ-wWE" secondAttribute="topMargin" constant="-8" id="A7C-3v-7wb"/>
                                     <constraint firstItem="n40-zf-h2S" firstAttribute="centerY" secondItem="2Ky-zQ-wWE" secondAttribute="centerY" id="aIJ-af-f3E"/>
                                     <constraint firstItem="n40-zf-h2S" firstAttribute="centerX" secondItem="2Ky-zQ-wWE" secondAttribute="centerX" id="ivR-mU-Lhp"/>
                                 </constraints>
@@ -98,7 +112,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yhe-FW-yes" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="HDm-P7-dyQ" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2104" y="-527"/>
+            <point key="canvasLocation" x="2918" y="-615"/>
         </scene>
         <!--Voice Over-->
         <scene sceneID="Q77-QL-bxb">
@@ -189,7 +203,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6FB-dL-6WS" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="g3f-9f-LiE" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1458" y="-527"/>
+            <point key="canvasLocation" x="2264" y="-615"/>
         </scene>
         <!--Camera-->
         <scene sceneID="pL7-Jn-MB5">
@@ -347,7 +361,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HtI-cw-RDb" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="IJT-rK-ouy" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="762" y="-527"/>
+            <point key="canvasLocation" x="1574" y="-615"/>
         </scene>
         <!--Scene 1-->
         <scene sceneID="A32-Sa-mTl">
@@ -580,11 +594,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vaJ-dB-DbI" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <swipeGestureRecognizer direction="left" id="id6-Vn-qod"/>
-                <swipeGestureRecognizer direction="down" id="AXV-It-inU">
-                    <connections>
-                        <segue destination="KtM-ME-n2y" kind="show" id="3ga-tB-TbH"/>
-                    </connections>
-                </swipeGestureRecognizer>
+                <swipeGestureRecognizer direction="down" id="AXV-It-inU"/>
             </objects>
             <point key="canvasLocation" x="1942" y="-1491"/>
         </scene>
@@ -839,34 +849,50 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="wqg-Vo-gs4" userLabel="Custom Tab Bar">
-                                <rect key="frame" x="7" y="28" width="586" height="44"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4di-OV-td5" userLabel="Views View">
+                                <rect key="frame" x="0.0" y="72" width="600" height="528"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7sG-Di-f3a">
+                                <rect key="frame" x="0.0" y="28" width="60" height="44"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="59u-ey-wWk"/>
+                                </constraints>
+                                <state key="normal" image="videoCamera"/>
+                                <connections>
+                                    <segue destination="KtM-ME-n2y" kind="show" identifier="cameraVC" id="Kwf-ZU-F8K"/>
+                                </connections>
+                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="wqg-Vo-gs4" userLabel="Custom Tab Bar">
+                                <rect key="frame" x="68" y="28" width="532" height="44"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XTz-rw-392">
-                                        <rect key="frame" x="0.0" y="0.0" width="124" height="44"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="114" height="44"/>
                                         <animations/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <color key="tintColor" red="0.60392156860000001" green="0.60392156860000001" blue="0.60392156860000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="Scene 1">
                                             <color key="titleColor" red="0.60392156860000001" green="0.60392156860000001" blue="0.60392156860000001" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
-                                        <state key="selected">
+                                        <state key="selected" title="Scene 1" backgroundImage="arrow_right_200x45 (2)">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
                                             <action selector="scene1Selected:" destination="FaC-O6-ufg" eventType="touchUpInside" id="Pdf-Nd-rf6"/>
-                                            <segue destination="bxp-Vz-92L" kind="custom" identifier="scene1VC" customClass="SelectionSegue" customModule="Free_Film_Camp" customModuleProvider="target" id="BQi-3i-9Ar"/>
+                                            <segue destination="Rxg-ar-8Jr" kind="custom" identifier="scene1VC" customClass="SelectionSegue" customModule="Free_Film_Camp" customModuleProvider="target" id="brD-of-Jaw"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hAP-7c-QFO">
-                                        <rect key="frame" x="154" y="0.0" width="124" height="44"/>
+                                        <rect key="frame" x="139" y="0.0" width="115" height="44"/>
                                         <animations/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <color key="tintColor" red="0.60392156860000001" green="0.60392156860000001" blue="0.60392156860000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="Scene 2">
                                             <color key="titleColor" red="0.60392156860000001" green="0.60392156860000001" blue="0.60392156860000001" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
-                                        <state key="selected">
+                                        <state key="selected" backgroundImage="arrow_right_200x45 (2)">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -875,14 +901,14 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ef7-TS-I84">
-                                        <rect key="frame" x="308" y="0.0" width="124" height="44"/>
+                                        <rect key="frame" x="279" y="0.0" width="114" height="44"/>
                                         <animations/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <color key="tintColor" red="0.60392156860000001" green="0.60392156860000001" blue="0.60392156860000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="Scene 3">
                                             <color key="titleColor" red="0.60392156860000001" green="0.60392156860000001" blue="0.60392156860000001" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
-                                        <state key="selected">
+                                        <state key="selected" backgroundImage="arrow_right_200x45 (2)">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -891,14 +917,14 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RWq-0a-jkN">
-                                        <rect key="frame" x="462" y="0.0" width="124" height="44"/>
+                                        <rect key="frame" x="418" y="0.0" width="114" height="44"/>
                                         <animations/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <color key="tintColor" red="0.60392156860000001" green="0.60392156860000001" blue="0.60392156860000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="Movie">
                                             <color key="titleColor" red="0.60392156860000001" green="0.60392156860000001" blue="0.60392156860000001" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
-                                        <state key="selected">
+                                        <state key="selected" backgroundImage="arrow_right_200x45 (2)">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -913,21 +939,19 @@
                                     <constraint firstAttribute="height" constant="44" id="bjL-Mz-waa"/>
                                 </constraints>
                             </stackView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4di-OV-td5" userLabel="Views View">
-                                <rect key="frame" x="0.0" y="72" width="600" height="528"/>
-                                <animations/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
                         </subviews>
                         <animations/>
-                        <color key="backgroundColor" red="0.20392156862745098" green="0.20392156862745098" blue="0.20392156862745098" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.2666666667" green="0.2666666667" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="wqg-Vo-gs4" secondAttribute="trailing" constant="-20" id="4GI-Kw-sIu"/>
+                            <constraint firstItem="wqg-Vo-gs4" firstAttribute="leading" secondItem="7sG-Di-f3a" secondAttribute="trailing" constant="8" id="5rD-ne-qMx"/>
+                            <constraint firstItem="7sG-Di-f3a" firstAttribute="leading" secondItem="mSE-z2-Ciy" secondAttribute="leadingMargin" constant="-20" id="CsI-8Y-NoS"/>
+                            <constraint firstItem="7sG-Di-f3a" firstAttribute="top" secondItem="Qny-YC-xRj" secondAttribute="bottom" constant="8" id="IDD-nL-axM"/>
                             <constraint firstItem="4di-OV-td5" firstAttribute="leading" secondItem="mSE-z2-Ciy" secondAttribute="leadingMargin" constant="-20" id="JRG-nA-3ap"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="wqg-Vo-gs4" secondAttribute="trailing" constant="-13" id="Wkj-A7-ciC"/>
-                            <constraint firstItem="wqg-Vo-gs4" firstAttribute="leading" secondItem="mSE-z2-Ciy" secondAttribute="leadingMargin" constant="-13" id="cAc-px-T7U"/>
                             <constraint firstItem="WzA-Mv-cPQ" firstAttribute="top" secondItem="4di-OV-td5" secondAttribute="bottom" id="cRN-3m-1cX"/>
                             <constraint firstItem="wqg-Vo-gs4" firstAttribute="top" secondItem="Qny-YC-xRj" secondAttribute="bottom" constant="8" id="ek8-Kw-yIz"/>
                             <constraint firstAttribute="trailingMargin" secondItem="4di-OV-td5" secondAttribute="trailing" constant="-20" id="evZ-xl-GHg"/>
+                            <constraint firstItem="4di-OV-td5" firstAttribute="top" secondItem="7sG-Di-f3a" secondAttribute="bottom" id="nQV-7q-0zq"/>
                             <constraint firstItem="4di-OV-td5" firstAttribute="top" secondItem="wqg-Vo-gs4" secondAttribute="bottom" id="vFU-zy-yrF"/>
                         </constraints>
                     </view>
@@ -942,7 +966,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mKR-GH-JXH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2104" y="-2208"/>
+            <point key="canvasLocation" x="2918" y="-2233"/>
         </scene>
         <!--Scene 2-->
         <scene sceneID="hhK-99-qLa">
@@ -1419,36 +1443,18 @@
             </objects>
             <point key="canvasLocation" x="4620" y="-1491"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="VOM-Dx-8iY">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="bxp-Vz-92L" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="qhq-42-PZa">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="Rxg-ar-8Jr" kind="relationship" relationship="rootViewController" id="MeJ-Xo-4T8"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="xNt-fL-XGk" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1130" y="-1491"/>
-        </scene>
     </scenes>
     <resources>
-        <image name="Camera" width="30" height="30"/>
+        <image name="arrow_right_200x45 (2)" width="114" height="44"/>
         <image name="camera_cancel_btn_36" width="40" height="40"/>
         <image name="camera_record_btn_70" width="60" height="60"/>
         <image name="plus_white_69" width="60" height="60"/>
+        <image name="videoCamera" width="40" height="40"/>
         <image name="videoCameraThumb" width="60" height="60"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="CH1-X3-ObO"/>
-        <segue reference="bJ2-dg-x9E"/>
-        <segue reference="3ga-tB-TbH"/>
+        <segue reference="Kwf-ZU-F8K"/>
+        <segue reference="OJI-ki-Muw"/>
+        <segue reference="QIo-ZO-zF5"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -194,6 +194,10 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
         }
     }
     
+    @IBAction func cancelledSelection(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     // MARK: Segue methods
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "s1ClipSelectedSegue" {
