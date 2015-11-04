@@ -43,7 +43,8 @@ class FirstSceneViewController: UIViewController {
             self.assetRequestNumber = nil
             self.selectedVideoImage = nil
         }
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        self.navigationController?.navigationBarHidden = true
+        self.navigationController?.navigationBar.translucent = true
         
         if assetRequestNumber != nil {
             if self.assetRequestNumber == 1 {

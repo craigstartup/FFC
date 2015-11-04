@@ -95,14 +95,11 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
                 }
             }
         }
-        self.collectionView?.reloadData()
-
+        self.navigationController?.navigationBarHidden = true
+        self.navigationController?.navigationBar.translucent = true
     }
     
-    override func viewWillAppear(animated: Bool) {
-        self.navigationController?.navigationBarHidden = false
-    }
-    @IBAction func cameraUnwind(unwindSegue: UIStoryboardSegue) {
+       @IBAction func cameraUnwind(unwindSegue: UIStoryboardSegue) {
         self.performSegueWithIdentifier(self.segueID, sender: self)
     }
     
