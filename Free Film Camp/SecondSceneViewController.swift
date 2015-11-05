@@ -179,7 +179,8 @@ class SecondSceneViewController: UIViewController {
             self.videoPlayer = AVPlayer(playerItem: itemToPreview)
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "donePlayingPreview:", name: AVPlayerItemDidPlayToEndTimeNotification, object: itemToPreview)
             self.vpVC.player = videoPlayer
-            self.navigationController?.pushViewController(vpVC, animated: true)
+            vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
+            presentViewController(vpVC, animated: true, completion: nil)
         }
     }
     

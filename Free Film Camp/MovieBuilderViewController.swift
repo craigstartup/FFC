@@ -89,7 +89,8 @@ class MovieBuilderViewController: UIViewController {
         if MediaController.sharedMediaController.moviePreview != nil {
             self.videoPlayer = AVPlayer(playerItem: MediaController.sharedMediaController.moviePreview)
             self.vpVC.player = videoPlayer
-            self.navigationController?.pushViewController(vpVC, animated: true)
+            vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
+            presentViewController(vpVC, animated: true, completion: nil)
         }
     }
     

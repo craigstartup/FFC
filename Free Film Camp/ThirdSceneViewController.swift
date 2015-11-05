@@ -173,7 +173,8 @@ class ThirdSceneViewController: UIViewController {
             let itemToPreview = AVPlayerItem(asset: mediaToPreview)
             itemToPreview.videoComposition = mainComposition
             self.videoPlayer = AVPlayer(playerItem: itemToPreview)
-            self.navigationController?.pushViewController(vpVC, animated: true)
+            vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
+            presentViewController(vpVC, animated: true, completion: nil)
         }
     }
     
