@@ -229,18 +229,22 @@ class SecondSceneViewController: UIViewController {
         defer {
             self.selectedVideoAsset = nil
         }
-        if assetRequestNumber == 1 {
-            MediaController.sharedMediaController.s2Shot1 = AVAsset(URL: self.selectedVideoAsset)
-        } else if assetRequestNumber == 2 {
-            MediaController.sharedMediaController.s2Shot2 = AVAsset(URL: self.selectedVideoAsset)
-        } else if assetRequestNumber == 3 {
-            MediaController.sharedMediaController.s2Shot3 = AVAsset(URL: self.selectedVideoAsset)
+        if self.selectedVideoAsset != nil {
+            if assetRequestNumber == 1 {
+                MediaController.sharedMediaController.s2Shot1 = AVAsset(URL: self.selectedVideoAsset)
+            } else if assetRequestNumber == 2 {
+                MediaController.sharedMediaController.s2Shot2 = AVAsset(URL: self.selectedVideoAsset)
+            } else if assetRequestNumber == 3 {
+                MediaController.sharedMediaController.s2Shot3 = AVAsset(URL: self.selectedVideoAsset)
+            }
         }
     }
     
     @IBAction func s2AudioUnwindSegue(unwindSegue: UIStoryboardSegue){
-        MediaController.sharedMediaController.s2VoiceOver = self.audioAsset
-        self.audioAsset = nil
+        if self.audioAsset != nil {
+            MediaController.sharedMediaController.s2VoiceOver = self.audioAsset
+            self.audioAsset = nil
+        }
     }
     
     

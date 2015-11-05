@@ -242,8 +242,10 @@ class FirstSceneViewController: UIViewController {
     }
     
     @IBAction func s1AudioUnwindSegue(unwindSegue: UIStoryboardSegue){
-        MediaController.sharedMediaController.s1VoiceOver = self.audioAsset
-        self.audioAsset = nil
+        if self.audioAsset != nil {
+            MediaController.sharedMediaController.s1VoiceOver = self.audioAsset
+            self.audioAsset = nil
+        }
     }
     
     override func didReceiveMemoryWarning() {

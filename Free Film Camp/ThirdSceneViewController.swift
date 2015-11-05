@@ -224,19 +224,22 @@ class ThirdSceneViewController: UIViewController {
         defer {
             self.selectedVideoAsset = nil
         }
-        
-        if assetRequestNumber == 1 {
-            MediaController.sharedMediaController.s3Shot1 = AVAsset(URL: self.selectedVideoAsset)
-        } else if assetRequestNumber == 2 {
-            MediaController.sharedMediaController.s3Shot2 = AVAsset(URL: self.selectedVideoAsset)
-        } else if assetRequestNumber == 3 {
-            MediaController.sharedMediaController.s3Shot3 = AVAsset(URL: self.selectedVideoAsset)
+        if self.selectedVideoAsset != nil {
+            if assetRequestNumber == 1 {
+                MediaController.sharedMediaController.s3Shot1 = AVAsset(URL: self.selectedVideoAsset)
+            } else if assetRequestNumber == 2 {
+                MediaController.sharedMediaController.s3Shot2 = AVAsset(URL: self.selectedVideoAsset)
+            } else if assetRequestNumber == 3 {
+                MediaController.sharedMediaController.s3Shot3 = AVAsset(URL: self.selectedVideoAsset)
+            }
         }
     }
     
     @IBAction func s3AudioUnwindSegue(unwindSegue: UIStoryboardSegue){
+        if self.audioAsset != nil {
         MediaController.sharedMediaController.s3VoiceOver = self.audioAsset
         self.audioAsset = nil
+        }
     }
         
     override func didReceiveMemoryWarning() {
