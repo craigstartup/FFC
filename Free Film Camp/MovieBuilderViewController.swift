@@ -34,11 +34,6 @@ class MovieBuilderViewController: UIViewController {
         MediaController.sharedMediaController.moviePreview = nil 
     }
     
-    
-    @IBAction func swipeBack(sender: AnyObject) {
-        self.navigationController?.popViewControllerAnimated(true)
-    }
-    
     @IBAction func addHeadshot(sender: AnyObject) {
         
     }

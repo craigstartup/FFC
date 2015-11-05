@@ -86,10 +86,6 @@ class ThirdSceneViewController: UIViewController {
     override func viewWillDisappear(animated: Bool) {
         self.videoPlayer = nil
     }
-
-    @IBAction func swipeBack(sender: AnyObject) {
-        self.navigationController?.popViewControllerAnimated(true)
-    }
     
     @IBAction func selectClipOne(sender: AnyObject) {
         self.assetRequestNumber = 1

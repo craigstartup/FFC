@@ -12,6 +12,8 @@ class SelectionViewController: UIViewController {
     var currentViewController: UIViewController!
     @IBOutlet weak var viewsView: UIView!
     @IBOutlet var buttons: Array<UIButton>!
+    let segueIDS = ["scene1VC", "scene2VC", "scene3VC", "movieVC"]
+    var lastSegue: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,10 +43,25 @@ class SelectionViewController: UIViewController {
         currentViewController.viewDidDisappear(animated)
     }
     
+    @IBAction func swipedLeft(sender: AnyObject) {
+        if self.lastSegue != segueIDS.last {
+            let segueToPerform = (segueIDS.indexOf(self.lastSegue)! + 1)
+            self.performSegueWithIdentifier(segueIDS[segueToPerform], sender: self.buttons[segueToPerform])
+        }
+    }
+    
+    @IBAction func swipedRight(sender: AnyObject) {
+        if self.lastSegue != segueIDS.first {
+            let segueToPerform = (segueIDS.indexOf(self.lastSegue)! - 1)
+            self.performSegueWithIdentifier(segueIDS[segueToPerform], sender: self.buttons[segueToPerform])
+        }
+    }
+    
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let segueIDS = ["scene1VC", "scene2VC", "scene3VC", "movieVC"]
-        if segueIDS.contains(segue.identifier!) {
-            for button in buttons {
+        if self.segueIDS.contains(segue.identifier!) {
+            self.lastSegue = segue.identifier
+            for button in self.buttons {
                 button.selected = false
             }
             let senderButton = sender as! UIButton

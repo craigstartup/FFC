@@ -91,10 +91,6 @@ class SecondSceneViewController: UIViewController {
         self.videoPlayer = nil
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
-
-    @IBAction func swipeBack(sender: AnyObject) {
-        self.navigationController?.popViewControllerAnimated(true)
-    }
     
     @IBAction func selectClipOne(sender: AnyObject) {
         

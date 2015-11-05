@@ -569,10 +569,6 @@
                             <constraint firstItem="8rW-r2-fUM" firstAttribute="top" secondItem="Qxs-2x-Cgo" secondAttribute="bottom" constant="8" symbolic="YES" id="z91-Fw-A8n"/>
                             <constraint firstItem="Kbn-XP-gjL" firstAttribute="centerX" secondItem="fpG-ck-N14" secondAttribute="centerX" id="zaZ-UA-0r2"/>
                         </constraints>
-                        <connections>
-                            <outletCollection property="gestureRecognizers" destination="id6-Vn-qod" appends="YES" id="PHa-fU-TeC"/>
-                            <outletCollection property="gestureRecognizers" destination="AXV-It-inU" appends="YES" id="9bX-DF-Q0I"/>
-                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="guB-Hm-mWJ"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
@@ -589,8 +585,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vaJ-dB-DbI" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <swipeGestureRecognizer direction="left" id="id6-Vn-qod"/>
-                <swipeGestureRecognizer direction="down" id="AXV-It-inU"/>
             </objects>
             <point key="canvasLocation" x="2782" y="-1441"/>
         </scene>
@@ -813,10 +807,6 @@
                             <constraint firstItem="1xc-IB-6te" firstAttribute="centerY" secondItem="Mip-5v-DJj" secondAttribute="centerY" id="wFr-K0-1do"/>
                             <constraint firstItem="aGu-cQ-eFw" firstAttribute="top" secondItem="L4z-uE-Hle" secondAttribute="top" id="xFx-Xb-3tw"/>
                         </constraints>
-                        <connections>
-                            <outletCollection property="gestureRecognizers" destination="KDI-ws-vEU" appends="YES" id="E0O-by-dYe"/>
-                            <outletCollection property="gestureRecognizers" destination="QWu-vS-Vsv" appends="YES" id="lPb-na-OYS"/>
-                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="T0e-kf-Qkm"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
@@ -833,12 +823,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1pr-sw-Kyq" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <swipeGestureRecognizer direction="left" id="KDI-ws-vEU"/>
-                <swipeGestureRecognizer direction="right" id="QWu-vS-Vsv">
-                    <connections>
-                        <action selector="swipeBack:" destination="qVt-sA-xLt" id="uuJ-2w-2ax"/>
-                    </connections>
-                </swipeGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="4094" y="-1441"/>
         </scene>
@@ -854,7 +838,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" distribution="fillEqually" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="wqg-Vo-gs4" userLabel="Custom Tab Bar">
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="wqg-Vo-gs4" userLabel="Custom Tab Bar">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XTz-rw-392">
@@ -923,13 +907,14 @@
                                     <constraint firstAttribute="height" constant="44" id="2g1-Eu-ZUP"/>
                                 </constraints>
                             </stackView>
-                            <containerView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NQa-Jb-N57">
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NQa-Jb-N57">
                                 <rect key="frame" x="0.0" y="43" width="600" height="557"/>
                                 <animations/>
                             </containerView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="NQa-Jb-N57" firstAttribute="leading" secondItem="mSE-z2-Ciy" secondAttribute="leadingMargin" constant="-20" id="9SZ-m7-rux"/>
                             <constraint firstItem="WzA-Mv-cPQ" firstAttribute="top" secondItem="NQa-Jb-N57" secondAttribute="bottom" id="Z43-hW-JPk"/>
@@ -939,6 +924,10 @@
                             <constraint firstAttribute="trailingMargin" secondItem="wqg-Vo-gs4" secondAttribute="trailing" constant="-20" id="lfH-BB-ZNQ"/>
                             <constraint firstItem="NQa-Jb-N57" firstAttribute="top" secondItem="wqg-Vo-gs4" secondAttribute="bottom" constant="-1" id="oOG-ZO-iWJ"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="32Q-qX-lyO" appends="YES" id="url-Id-sWb"/>
+                            <outletCollection property="gestureRecognizers" destination="nmU-AY-cfr" appends="YES" id="Wy5-vj-V4p"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="DZh-7X-CLG"/>
                     <nil key="simulatedStatusBarMetrics"/>
@@ -951,6 +940,16 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mKR-GH-JXH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="left" id="32Q-qX-lyO">
+                    <connections>
+                        <action selector="swipedLeft:" destination="FaC-O6-ufg" id="waF-Zw-gNT"/>
+                    </connections>
+                </swipeGestureRecognizer>
+                <swipeGestureRecognizer direction="right" id="nmU-AY-cfr">
+                    <connections>
+                        <action selector="swipedRight:" destination="FaC-O6-ufg" id="c9b-b7-dwi"/>
+                    </connections>
+                </swipeGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="3730" y="-2233"/>
         </scene>
@@ -1173,10 +1172,6 @@
                             <constraint firstItem="FZH-T0-bh8" firstAttribute="top" secondItem="aJ6-bM-jPu" secondAttribute="bottom" id="y5X-Zk-KFX"/>
                             <constraint firstItem="SeG-j5-p1x" firstAttribute="leading" secondItem="BO1-rx-eMa" secondAttribute="leading" id="yn9-oa-YhE"/>
                         </constraints>
-                        <connections>
-                            <outletCollection property="gestureRecognizers" destination="g5v-Fa-Teb" appends="YES" id="z4N-a6-apq"/>
-                            <outletCollection property="gestureRecognizers" destination="eNJ-EX-Khh" appends="YES" id="3R8-E6-You"/>
-                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="yU3-vA-QhU"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
@@ -1193,12 +1188,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6mm-S1-srK" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <swipeGestureRecognizer direction="left" id="g5v-Fa-Teb"/>
-                <swipeGestureRecognizer direction="right" id="eNJ-EX-Khh">
-                    <connections>
-                        <action selector="swipeBack:" destination="MQa-Na-cfN" id="4Nd-iM-pYQ"/>
-                    </connections>
-                </swipeGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="3432" y="-1441"/>
         </scene>
@@ -1263,9 +1252,6 @@
                             <constraint firstItem="Urj-We-YDA" firstAttribute="leading" secondItem="p8B-dd-VND" secondAttribute="trailing" id="yUM-nl-0T7"/>
                             <constraint firstItem="Nsf-El-ZWS" firstAttribute="centerX" secondItem="uCq-IG-yDm" secondAttribute="centerX" id="ysE-dg-Q0X"/>
                         </constraints>
-                        <connections>
-                            <outletCollection property="gestureRecognizers" destination="OuX-U6-H9D" appends="YES" id="aQk-Qa-CFk"/>
-                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="hJa-W7-KNH"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
@@ -1276,11 +1262,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hnQ-oa-2Rr" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <swipeGestureRecognizer direction="right" id="OuX-U6-H9D">
-                    <connections>
-                        <action selector="swipeBack:" destination="fje-F2-EuG" id="TVh-lH-pnX"/>
-                    </connections>
-                </swipeGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="4747" y="-1441"/>
         </scene>
@@ -1416,9 +1397,6 @@
                             <constraint firstItem="63o-kp-xcj" firstAttribute="centerX" secondItem="luh-9t-3vg" secondAttribute="centerX" id="vSb-va-q0U"/>
                             <constraint firstItem="HHk-71-Usd" firstAttribute="leading" secondItem="63o-kp-xcj" secondAttribute="leading" id="yxT-mg-j0n"/>
                         </constraints>
-                        <connections>
-                            <outletCollection property="gestureRecognizers" destination="ShD-P3-BSk" appends="YES" id="6ah-vY-8Lw"/>
-                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="NyZ-BF-ncG"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
@@ -1430,11 +1408,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E3Y-Cf-f7u" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <swipeGestureRecognizer direction="right" id="ShD-P3-BSk">
-                    <connections>
-                        <action selector="swipeBack:" destination="3yR-tX-d7H" id="JYV-4n-ppI"/>
-                    </connections>
-                </swipeGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="5672" y="-1459"/>
         </scene>
@@ -1526,8 +1499,8 @@
         <image name="plus_white_69" width="60" height="60"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="LiM-u3-3jo"/>
-        <segue reference="pbY-XE-sGo"/>
+        <segue reference="OJI-ki-Muw"/>
+        <segue reference="QIo-ZO-zF5"/>
         <segue reference="b0o-N2-YB4"/>
     </inferredMetricsTieBreakers>
 </document>
