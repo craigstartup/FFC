@@ -89,7 +89,7 @@ class MovieBuilderViewController: UIViewController {
         if MediaController.sharedMediaController.moviePreview != nil {
             self.videoPlayer = AVPlayer(playerItem: MediaController.sharedMediaController.moviePreview)
             self.vpVC.player = videoPlayer
-            self.presentViewController(self.vpVC, animated: true, completion: nil)
+            self.navigationController?.pushViewController(vpVC, animated: true)
         }
     }
     

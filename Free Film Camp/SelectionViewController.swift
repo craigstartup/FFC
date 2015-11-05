@@ -16,23 +16,30 @@ class SelectionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         if self.buttons.count > 0 {
-         self.performSegueWithIdentifier("scene1VC", sender: self.buttons[0])
+            self.performSegueWithIdentifier("scene1VC", sender: self.buttons[0])
         }
-        
+        self.navigationController?.navigationBarHidden = true
     }
     
-
-    @IBAction func scene1Selected(sender: AnyObject) {
-    }
-    @IBAction func scene2Selected(sender: AnyObject) {
-    }
-    @IBAction func scene3Selected(sender: AnyObject) {
-    }
-    @IBAction func makeMovieSelected(sender: AnyObject) {
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        currentViewController.viewWillAppear(animated)
     }
     
-
-
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        currentViewController.viewWillDisappear(animated)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        currentViewController.viewDidAppear(animated)
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        currentViewController.viewDidDisappear(animated)
+    }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let segueIDS = ["scene1VC", "scene2VC", "scene3VC", "movieVC"]

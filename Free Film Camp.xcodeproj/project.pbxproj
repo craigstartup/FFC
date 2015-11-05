@@ -191,6 +191,8 @@
 		8CA57D9A1BC254C60016762A /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				8C0712EE1BE6D4F600CC909E /* SelectionViewController.swift */,
+				8C0712F01BE6ECF600CC909E /* SelectionSegue.swift */,
 				8CA57D9F1BC258990016762A /* FirstSceneViewController.swift */,
 				8C84DEF21BCCD13000984B63 /* SecondSceneViewController.swift */,
 				8C84DEF41BCCD15D00984B63 /* ThirdSceneViewController.swift */,
@@ -200,8 +202,6 @@
 				8CA57DA91BC4D4C50016762A /* VideosViewController.swift */,
 				8C5E51CC1BC7AD3B0028CBAA /* TheatreViewController.swift */,
 				8C4B70591BCD7BBE00E54C5E /* MediaController.swift */,
-				8C0712EE1BE6D4F600CC909E /* SelectionViewController.swift */,
-				8C0712F01BE6ECF600CC909E /* SelectionSegue.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";

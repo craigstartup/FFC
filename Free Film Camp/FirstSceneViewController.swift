@@ -174,7 +174,8 @@ class FirstSceneViewController: UIViewController {
                 itemToPreview.videoComposition = mainComposition
                 self.videoPlayer = AVPlayer(playerItem: itemToPreview)
                 self.vpVC.player = videoPlayer
-                self.presentViewController(self.vpVC, animated: true, completion: nil)
+                vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
+                presentViewController(vpVC, animated: true, completion: nil)
         }
     }
     

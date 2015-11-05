@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="FaC-O6-ufg">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="rhL-xS-VmO">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
@@ -40,19 +40,7 @@
                                             <inset key="contentEdgeInsets" minX="55" minY="-3" maxX="0.0" maxY="0.0"/>
                                             <state key="normal" title="Camera" image="Camera"/>
                                             <connections>
-                                                <segue destination="KtM-ME-n2y" kind="show" identifier="pickingShot" id="nYQ-Mx-U5W"/>
-                                            </connections>
-                                        </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cg5-Eu-nXN">
-                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                            <animations/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="50" id="TiT-bR-wec"/>
-                                                <constraint firstAttribute="height" constant="50" id="XYb-R4-QIw"/>
-                                            </constraints>
-                                            <state key="normal" image="camera_cancel_btn_36"/>
-                                            <connections>
-                                                <action selector="cancelledSelection:" destination="4to-zB-zdm" eventType="touchUpInside" id="pzk-mr-Mqa"/>
+                                                <segue destination="KtM-ME-n2y" kind="presentation" identifier="pickingShot" modalPresentationStyle="overFullScreen" id="nYQ-Mx-U5W"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -62,8 +50,6 @@
                                 <animations/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstItem="cg5-Eu-nXN" firstAttribute="leading" secondItem="2Ky-zQ-wWE" secondAttribute="leadingMargin" constant="-8" id="5Ck-qe-xfz"/>
-                                    <constraint firstItem="cg5-Eu-nXN" firstAttribute="top" secondItem="2Ky-zQ-wWE" secondAttribute="topMargin" constant="-8" id="A7C-3v-7wb"/>
                                     <constraint firstItem="n40-zf-h2S" firstAttribute="centerY" secondItem="2Ky-zQ-wWE" secondAttribute="centerY" id="aIJ-af-f3E"/>
                                     <constraint firstItem="n40-zf-h2S" firstAttribute="centerX" secondItem="2Ky-zQ-wWE" secondAttribute="centerX" id="ivR-mU-Lhp"/>
                                 </constraints>
@@ -101,6 +87,7 @@
                         </connections>
                     </collectionView>
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="L9T-1Q-1t3"/>
                     <connections>
                         <segue destination="HDm-P7-dyQ" kind="unwind" identifier="s1ClipSelectedSegue" unwindAction="s1ClipUnwindSegue:" id="yuw-o5-Dvg"/>
                         <segue destination="HDm-P7-dyQ" kind="unwind" identifier="s2ClipSelectedSegue" unwindAction="s2ClipUnwindSegue:" id="jcf-wP-DEE"/>
@@ -186,6 +173,7 @@
                             <constraint firstItem="zfb-Yi-cGw" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Fyg-ug-AMe" secondAttribute="leadingMargin" id="u4i-rf-bt3"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="bgm-vV-XIk"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
                         <outlet property="doneButton" destination="tiy-FS-viV" id="5PU-Ib-c2r"/>
@@ -490,11 +478,12 @@
                                         <rect key="frame" x="0.0" y="0.0" width="195" height="60"/>
                                         <animations/>
                                         <color key="backgroundColor" red="0.95290798610000005" green="0.95290798610000005" blue="0.95290798610000005" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title=" Camera" image="Camera Button">
                                             <color key="titleColor" red="0.20392156859999999" green="0.20392156859999999" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <segue destination="KtM-ME-n2y" kind="show" id="xrw-gC-d5d"/>
+                                            <segue destination="KtM-ME-n2y" kind="presentation" modalPresentationStyle="overFullScreen" id="xrw-gC-d5d"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bD9-Tr-f0X">
@@ -733,11 +722,12 @@
                                         <rect key="frame" x="0.0" y="0.0" width="195" height="60"/>
                                         <animations/>
                                         <color key="backgroundColor" red="0.95290798610000005" green="0.95290798610000005" blue="0.95290798610000005" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title=" Camera" image="Camera Button">
                                             <color key="titleColor" red="0.20392156859999999" green="0.20392156859999999" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <segue destination="KtM-ME-n2y" kind="show" id="cEB-DX-16M"/>
+                                            <segue destination="KtM-ME-n2y" kind="presentation" modalPresentationStyle="overFullScreen" id="cEB-DX-16M"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iTf-yY-qTp">
@@ -864,7 +854,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="wqg-Vo-gs4" userLabel="Custom Tab Bar">
+                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" distribution="fillEqually" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="wqg-Vo-gs4" userLabel="Custom Tab Bar">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XTz-rw-392">
@@ -879,7 +869,6 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="scene1Selected:" destination="FaC-O6-ufg" eventType="touchUpInside" id="Pdf-Nd-rf6"/>
                                             <segue destination="Qbw-F3-IXq" kind="custom" identifier="scene1VC" customClass="SelectionSegue" customModule="Free_Film_Camp" customModuleProvider="target" id="brD-of-Jaw"/>
                                         </connections>
                                     </button>
@@ -895,7 +884,6 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="scene2Selected:" destination="FaC-O6-ufg" eventType="touchUpInside" id="utT-B5-xNz"/>
                                             <segue destination="vEx-4O-GJ2" kind="custom" identifier="scene2VC" customClass="SelectionSegue" customModule="Free_Film_Camp" customModuleProvider="target" id="9eF-UD-4ro"/>
                                         </connections>
                                     </button>
@@ -911,7 +899,6 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="scene3Selected:" destination="FaC-O6-ufg" eventType="touchUpInside" id="Be5-kt-RLo"/>
                                             <segue destination="COO-Dc-MgF" kind="custom" identifier="scene3VC" customClass="SelectionSegue" customModule="Free_Film_Camp" customModuleProvider="target" id="HQD-jf-Xbe"/>
                                         </connections>
                                     </button>
@@ -927,7 +914,6 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="makeMovieSelected:" destination="FaC-O6-ufg" eventType="touchUpInside" id="Erj-DV-3w1"/>
                                             <segue destination="fje-F2-EuG" kind="custom" identifier="movieVC" customClass="SelectionSegue" customModule="Free_Film_Camp" customModuleProvider="target" id="mCV-jm-cQJ"/>
                                         </connections>
                                     </button>
@@ -937,7 +923,7 @@
                                     <constraint firstAttribute="height" constant="44" id="2g1-Eu-ZUP"/>
                                 </constraints>
                             </stackView>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NQa-Jb-N57">
+                            <containerView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NQa-Jb-N57">
                                 <rect key="frame" x="0.0" y="43" width="600" height="557"/>
                                 <animations/>
                             </containerView>
@@ -954,6 +940,7 @@
                             <constraint firstItem="NQa-Jb-N57" firstAttribute="top" secondItem="wqg-Vo-gs4" secondAttribute="bottom" constant="-1" id="oOG-ZO-iWJ"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="DZh-7X-CLG"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
                         <outlet property="viewsView" destination="NQa-Jb-N57" id="dGA-dZ-ysj"/>
@@ -965,7 +952,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mKR-GH-JXH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2918" y="-2233"/>
+            <point key="canvasLocation" x="3730" y="-2233"/>
         </scene>
         <!--Scene 2-->
         <scene sceneID="hhK-99-qLa">
@@ -1100,7 +1087,7 @@
                                             <color key="titleColor" red="0.20392156859999999" green="0.20392156859999999" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <segue destination="KtM-ME-n2y" kind="show" id="b0o-N2-YB4"/>
+                                            <segue destination="KtM-ME-n2y" kind="presentation" modalPresentationStyle="overFullScreen" id="b0o-N2-YB4"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="klb-xz-Kse">
@@ -1508,6 +1495,27 @@
             </objects>
             <point key="canvasLocation" x="4066" y="-1477"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="7qO-tv-IyL">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="rhL-xS-VmO" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="eEK-D1-HAD">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="FaC-O6-ufg" kind="relationship" relationship="rootViewController" id="iMH-l9-woz"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nga-Bd-G1Z" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2918" y="-2233"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Camera" width="60" height="60"/>
@@ -1518,8 +1526,8 @@
         <image name="plus_white_69" width="60" height="60"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="cEB-DX-16M"/>
-        <segue reference="pbY-XE-sGo"/>
         <segue reference="LiM-u3-3jo"/>
+        <segue reference="pbY-XE-sGo"/>
+        <segue reference="b0o-N2-YB4"/>
     </inferredMetricsTieBreakers>
 </document>

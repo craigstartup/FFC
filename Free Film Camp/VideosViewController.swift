@@ -156,7 +156,7 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     videoPlayer = AVPlayer(playerItem: playerItem!)
                     self.vpVC.player = videoPlayer
-                    self.presentViewController(self.vpVC, animated: true, completion: nil)
+                    self.navigationController?.pushViewController(self.vpVC, animated: true)
                 })
             }
         }
