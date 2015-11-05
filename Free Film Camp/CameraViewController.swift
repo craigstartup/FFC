@@ -30,7 +30,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     let videoForFileOutput = AVCaptureMovieFileOutput()
     var preview: AVCaptureVideoPreviewLayer!
     var maxVideoTime = CMTime(seconds: 3, preferredTimescale: 1)
-    let progress = NSTimer()
+    var progress: NSTimer!
     // background queue
     var sessionQueue: dispatch_queue_t!
     var backgroundRecordingID: UIBackgroundTaskIdentifier!
@@ -41,7 +41,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     var shots: PHFetchResult!
     var shotAsset: AVURLAsset!
     var shotImage: UIImage!
-    
+    // logic data
     var pickingShot = false
     var shotNumber: Int!
     var scene: String!
@@ -53,6 +53,8 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         } catch let configError as NSError {
             print(configError.localizedDescription)
         }
+        self.progressBar.alpha = 0
+        self.progressBar.progress = 0
         self.navigationController?.navigationBarHidden = true
         // session setup
         videoCapture.sessionPreset = AVCaptureSessionPreset1280x720
@@ -77,6 +79,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         if preview.connection.supportsVideoOrientation {
             preview.connection.videoOrientation = AVCaptureVideoOrientation.LandscapeRight
         }
+        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -86,15 +89,21 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     override func viewDidDisappear(animated: Bool) {
         self.pickingShot = false
         videoCapture.stopRunning()
+        self.progress = nil 
+    }
+    
+    func updateProgress() {
+        self.progressBar.progress += 0.01
     }
 
     @IBAction func record(sender: AnyObject) {
-        
         if camera.isFocusModeSupported(.Locked) {
             camera.focusMode = .Locked
         }
-        
         videoForFileOutput.maxRecordedDuration = maxVideoTime
+        // set up progress view for recording time
+        self.progressBar.alpha = 1
+        self.progress = NSTimer.scheduledTimerWithTimeInterval(0.03, target: self, selector: "updateProgress", userInfo: nil, repeats: true)
         // disable and hide buttons
         recordButton.alpha = 0
         recordButton.enabled = false
@@ -139,6 +148,10 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     }
     
     func captureOutput(captureOutput: AVCaptureFileOutput!, didFinishRecordingToOutputFileAtURL outputFileURL: NSURL!, fromConnections connections: [AnyObject]!, error: NSError!) {
+        // reset progress
+        self.progressBar.progress = 0.0
+        self.progressBar.alpha = 0
+        self.progress.invalidate()
         if camera.isFocusModeSupported(.ContinuousAutoFocus) {
             camera.focusMode = .ContinuousAutoFocus
         }
@@ -160,9 +173,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         
         // handle success or failure of previous recording
         var success = true
-        
         if (error != nil) {
-            
             print("Did Finish Recording:",error.localizedDescription)
             success = error.userInfo[AVErrorRecordingSuccessfullyFinishedKey] as! Bool
         }
@@ -230,7 +241,6 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         print("End recording")
     }
     
-    
     @IBAction func cancelCamera(sender: AnyObject) {
         if self.pickingShot && self.shots != nil {
             let shotFetch = PHAsset.fetchAssetsInAssetCollection(self.shots.firstObject as! PHAssetCollection, options: nil)
@@ -257,12 +267,6 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             }
             self.dismissViewControllerAnimated(true, completion: nil)
         }
-    }
-    
-    @IBAction func shotConfirmed(sender: AnyObject) {
-        
-        self.presentingViewController?.dismissViewControllerAnimated(false, completion: nil)
-        
     }
     
     @IBAction func flipCamera(sender: AnyObject) {
