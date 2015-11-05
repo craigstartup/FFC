@@ -56,21 +56,24 @@ class FirstSceneViewController: UIViewController {
             }
         }
         
-        if MediaController.sharedMediaController.s1Shot1Image != nil {
+        if MediaController.sharedMediaController.s1Shot1Image != nil &&
+        MediaController.sharedMediaController.s1Shot1 != nil {
             self.shot1Button.setImage(MediaController.sharedMediaController.s1Shot1Image, forState: UIControlState.Normal)
             self.shot1Button.imageView!.contentMode = UIViewContentMode.ScaleToFill
             self.shot1Button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Fill
             self.shot1Button.contentVerticalAlignment = UIControlContentVerticalAlignment.Fill
         }
         
-        if MediaController.sharedMediaController.s1Shot2Image != nil {
+        if MediaController.sharedMediaController.s1Shot2Image != nil &&
+        MediaController.sharedMediaController.s1Shot2 != nil {
             self.shot2Button.setImage(MediaController.sharedMediaController.s1Shot2Image, forState: UIControlState.Normal)
             self.shot2Button.imageView!.contentMode = UIViewContentMode.ScaleToFill
             self.shot2Button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Fill
             self.shot2Button.contentVerticalAlignment = UIControlContentVerticalAlignment.Fill
         }
         
-        if MediaController.sharedMediaController.s1Shot3Image != nil {
+        if MediaController.sharedMediaController.s1Shot3Image != nil &&
+        MediaController.sharedMediaController.s1Shot3 != nil {
             self.shot3Button.setImage(MediaController.sharedMediaController.s1Shot3Image, forState: UIControlState.Normal)
             self.shot3Button.imageView!.contentMode = UIViewContentMode.ScaleToFill
             self.shot3Button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Fill
@@ -85,6 +88,7 @@ class FirstSceneViewController: UIViewController {
     
     override func viewDidDisappear(animated: Bool) {
         self.videoPlayer = nil
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
     @IBAction func selectClipOne(sender: AnyObject) {

@@ -60,21 +60,24 @@ class SecondSceneViewController: UIViewController {
             }
         }
         
-        if MediaController.sharedMediaController.s2Shot1Image != nil {
+        if MediaController.sharedMediaController.s2Shot1Image != nil &&
+        MediaController.sharedMediaController.s2Shot1 != nil {
             self.shot1Button.setImage(MediaController.sharedMediaController.s2Shot1Image, forState: UIControlState.Normal)
             self.shot1Button.imageView!.contentMode = UIViewContentMode.ScaleToFill
             self.shot1Button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Fill
             self.shot1Button.contentVerticalAlignment = UIControlContentVerticalAlignment.Fill
         }
         
-        if MediaController.sharedMediaController.s2Shot2Image != nil {
+        if MediaController.sharedMediaController.s2Shot2Image != nil &&
+        MediaController.sharedMediaController.s2Shot2 != nil {
             self.shot2Button.setImage(MediaController.sharedMediaController.s2Shot2Image, forState: UIControlState.Normal)
             self.shot2Button.imageView!.contentMode = UIViewContentMode.ScaleToFill
             self.shot2Button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Fill
             self.shot2Button.contentVerticalAlignment = UIControlContentVerticalAlignment.Fill
         }
         
-        if MediaController.sharedMediaController.s2Shot3Image != nil {
+        if MediaController.sharedMediaController.s2Shot3Image != nil &&
+        MediaController.sharedMediaController.s2Shot3 != nil {
             self.shot3Button.setImage(MediaController.sharedMediaController.s2Shot3Image, forState: UIControlState.Normal)
             self.shot3Button.imageView!.contentMode = UIViewContentMode.ScaleToFill
             self.shot3Button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Fill
@@ -93,20 +96,17 @@ class SecondSceneViewController: UIViewController {
     }
     
     @IBAction func selectClipOne(sender: AnyObject) {
-        
         self.assetRequestNumber = 1
         self.performSegueWithIdentifier("s2SelectClip", sender: self)
         
     }
     
     @IBAction func selectClipTwo(sender: AnyObject) {
-        
         self.assetRequestNumber = 2
         self.performSegueWithIdentifier("s2SelectClip", sender: self)
     }
     
     @IBAction func selectClip3(sender: AnyObject) {
-        
         self.assetRequestNumber = 3
         self.performSegueWithIdentifier("s2SelectClip", sender: self)
     }
@@ -117,9 +117,9 @@ class SecondSceneViewController: UIViewController {
     
     @IBAction func previewSelection(sender: AnyObject) {
         var firstAsset: AVAsset!, secondAsset: AVAsset!, thirdAsset: AVAsset!, voiceOverAsset: AVAsset!
-        firstAsset = MediaController.sharedMediaController.s2Shot1
-        secondAsset = MediaController.sharedMediaController.s2Shot2
-        thirdAsset  = MediaController.sharedMediaController.s2Shot3
+        firstAsset     = MediaController.sharedMediaController.s2Shot1
+        secondAsset    = MediaController.sharedMediaController.s2Shot2
+        thirdAsset     = MediaController.sharedMediaController.s2Shot3
         voiceOverAsset = MediaController.sharedMediaController.s2VoiceOver
         var timeCursor = kCMTimeZero
         
@@ -173,7 +173,6 @@ class SecondSceneViewController: UIViewController {
             let itemToPreview = AVPlayerItem(asset: mediaToPreview)
             itemToPreview.videoComposition = mainComposition
             self.videoPlayer = AVPlayer(playerItem: itemToPreview)
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "donePlayingPreview:", name: AVPlayerItemDidPlayToEndTimeNotification, object: itemToPreview)
             self.vpVC.player = videoPlayer
             vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
             presentViewController(vpVC, animated: true, completion: nil)
