@@ -132,8 +132,10 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
             cell.playMusicTrackButton.alpha = 0
             cell.playMusicTrackButton.enabled = false
             cell.trackCheck.alpha = 0
-            self.audioPlayer.stop()
-            self.audioPlayer = nil
+            if audioPlayer != nil {
+                self.audioPlayer.stop()
+                self.audioPlayer = nil
+            }
         }
     }
     
