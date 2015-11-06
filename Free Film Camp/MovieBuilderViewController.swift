@@ -11,19 +11,21 @@ import Photos
 import AVKit
 
 
-class MovieBuilderViewController: UIViewController {
-    
+class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var savingProgress: UIActivityIndicatorView!
-    @IBOutlet weak var headshot: UIImageView!
-    
+    @IBOutlet weak var tableView: UITableView!
     var videoPlayer: AVPlayer!
     var vpVC = AVPlayerViewController()
+    var audioPlayer: AVAudioPlayer!
+    var audioFileURL: NSURL!
+    var currentCell: NSIndexPath!
     var previewQueue = [AVPlayerItem]()
+    let musicFileNames = ["Believe in your dreams", "Sounds like fun", "Youve got mail"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        MediaController.sharedMediaController.prepareMovie(false)
-        self.navigationItem.hidesBackButton = true
+        tableView.delegate = self
+        tableView.dataSource = self
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -34,14 +36,6 @@ class MovieBuilderViewController: UIViewController {
         MediaController.sharedMediaController.moviePreview = nil 
     }
     
-    @IBAction func addHeadshot(sender: AnyObject) {
-        
-    }
-
-    @IBAction func addMusic(sender: AnyObject) {
-        
-        
-    }
     
     @IBAction func makeMovie(sender: AnyObject) {
         self.vpVC.player = nil
@@ -81,14 +75,88 @@ class MovieBuilderViewController: UIViewController {
     }
     
     @IBAction func preview(sender: AnyObject) {
+        MediaController.sharedMediaController.prepareMovie(false)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "firePreview:", name: MediaController.Notifications.previewReady, object: nil)
+        self.savingProgress.alpha = 1
+        self.savingProgress.startAnimating()
+    }
+    
+    func firePreview(notification: NSNotification) {
         if MediaController.sharedMediaController.moviePreview != nil {
+            self.savingProgress.stopAnimating()
+            self.savingProgress.alpha = 0
             self.videoPlayer = AVPlayer(playerItem: MediaController.sharedMediaController.moviePreview)
             self.vpVC.player = videoPlayer
             vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
             presentViewController(vpVC, animated: true, completion: nil)
         }
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MediaController.Notifications.previewReady, object: nil)
+    }
+    // MARK: Tableview methods
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.musicFileNames.count + 1
+    }
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("musicCell")! as! MusicCell
+        cell.playMusicTrackButton.alpha = 0
+        cell.playMusicTrackButton.enabled = false
+        cell.trackCheck.alpha = 0
+        if indexPath.row < musicFileNames.count {
+            cell.cellTitle.text = self.musicFileNames[indexPath.row]
+            cell.playMusicTrackButton.tag = indexPath.row
+            cell.playMusicTrackButton.addTarget(self, action: "playMusicForCell", forControlEvents: UIControlEvents.TouchUpInside)
+            return cell
+        } else {
+            cell.cellTitle.text = "None"
+            return cell
+        }
     }
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        print("selected")
+        let cell = tableView.cellForRowAtIndexPath(indexPath) as! MusicCell
+        self.currentCell = indexPath
+        if indexPath.row < musicFileNames.count {
+            cell.playMusicTrackButton.alpha = 1
+            cell.playMusicTrackButton.enabled = true
+            cell.trackCheck.alpha = 1
+            MediaController.sharedMediaController.musicTrack = AVAsset(URL: NSBundle.mainBundle().URLForResource(self.musicFileNames[indexPath.row], withExtension: "mp3")!)
+            self.audioFileURL = NSBundle.mainBundle().URLForResource(self.musicFileNames[indexPath.row], withExtension: "mp3")
+        }
+    }
+    
+    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+        print("deselected")
+        let cell = tableView.cellForRowAtIndexPath(indexPath) as! MusicCell
+        if indexPath.row < musicFileNames.count {
+            cell.playMusicTrackButton.alpha = 0
+            cell.playMusicTrackButton.enabled = false
+            cell.trackCheck.alpha = 0
+            self.audioPlayer.stop()
+            self.audioPlayer = nil
+        }
+    }
+    
+    func playMusicForCell() {
+        print("MUSIC!!!!!!!!!")
+        let cell = tableView.cellForRowAtIndexPath(self.currentCell) as! MusicCell
+        if self.audioPlayer == nil {
+            do {
+                try self.audioPlayer = AVAudioPlayer(contentsOfURL: self.audioFileURL)
+            } catch let audioError as NSError {
+                print(audioError.localizedDescription)
+            }
+        }
+        if audioPlayer.playing == true {
+            cell.playMusicTrackButton.setTitle("Play", forState: UIControlState.Selected)
+            audioPlayer.stop()
+        } else if audioPlayer.playing == false{
+            cell.playMusicTrackButton.setTitle("Stop", forState: UIControlState.Selected)
+            self.audioPlayer.play()
+        }
+        
+        
+    }
    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

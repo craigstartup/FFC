@@ -22,6 +22,7 @@ class MediaController {
         static let saveSceneFailed   = "saveMovieFailed"
         static let saveMovieFinished = "saveMovieComplete"
         static let saveMovieFailed   = "saveMovieFailed"
+        static let previewReady      = "previewPrepped"
         
     }
     
@@ -33,6 +34,8 @@ class MediaController {
     var audioVoiceOverAsset: AVAsset!
     var sessionURL: NSURL!
     var vOExporter: AVAssetExportSession!
+    // music track
+    var musicTrack: AVAsset!
     // Scene components
     var s1Shot1: AVAsset!
     var s1Shot1Image: UIImage!
@@ -311,9 +314,18 @@ class MediaController {
             }
         }
         
+        if self.musicTrack != nil {
+            let mTrack = mixComposition.addMutableTrackWithMediaType(AVMediaTypeAudio, preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
+            do {
+                try mTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, totalTime), ofTrack: self.musicTrack.tracksWithMediaType(AVMediaTypeAudio)[0], atTime: kCMTimeZero)
+            } catch let musicTrackError as NSError {
+                print(musicTrackError.localizedDescription)
+            }
+        }
+        
         self.moviePreview = AVPlayerItem(asset: mixComposition)
         self.moviePreview.videoComposition = mainComposition
-        
+        NSNotificationCenter.defaultCenter().postNotificationName(Notifications.previewReady, object: self)
         if save {
             // setup to save
             let paths: NSArray = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
@@ -361,6 +373,7 @@ class MediaController {
             if vOExporter != nil {
                 cleanup()
             }
+            self.musicTrack = nil 
             self.audioVoiceOverAsset = nil
             self.vOExporter = nil
         }

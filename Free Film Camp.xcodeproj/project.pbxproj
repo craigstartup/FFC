@@ -10,6 +10,7 @@
 		8C0712EF1BE6D4F600CC909E /* SelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0712EE1BE6D4F600CC909E /* SelectionViewController.swift */; };
 		8C0712F11BE6ECF600CC909E /* SelectionSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0712F01BE6ECF600CC909E /* SelectionSegue.swift */; };
 		8C42D08D1BEC115A00A5B718 /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C42D08C1BEC115A00A5B718 /* Scene.swift */; };
+		8C42D0911BEC80E500A5B718 /* MusicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C42D0901BEC80E500A5B718 /* MusicCell.swift */; };
 		8C4B705A1BCD7BBE00E54C5E /* MediaController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4B70591BCD7BBE00E54C5E /* MediaController.swift */; };
 		8C5E51CD1BC7AD3B0028CBAA /* TheatreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5E51CC1BC7AD3B0028CBAA /* TheatreViewController.swift */; };
 		8C5E51D11BC7B2840028CBAA /* TheatreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5E51D01BC7B2840028CBAA /* TheatreCell.swift */; };
@@ -29,13 +30,10 @@
 		8CA57DAA1BC4D4C50016762A /* VideosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA57DA91BC4D4C50016762A /* VideosViewController.swift */; };
 		8CA57DE91BC5F0710016762A /* VideoLibraryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA57DE81BC5F0710016762A /* VideoLibraryCell.swift */; };
 		8CBF277F1BC78A3A00EEFA27 /* VoiceOverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBF277E1BC78A3A00EEFA27 /* VoiceOverViewController.swift */; };
-		8CF664A31BE0E05900BC88EA /* Believe in your dreams_30 sec.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8CF6649C1BE0E05800BC88EA /* Believe in your dreams_30 sec.mp3 */; };
-		8CF664A41BE0E05900BC88EA /* Believe in your dreams_30 sec.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8CF6649D1BE0E05800BC88EA /* Believe in your dreams_30 sec.wav */; };
+		8CF664A31BE0E05900BC88EA /* Believe in your dreams.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8CF6649C1BE0E05800BC88EA /* Believe in your dreams.mp3 */; };
 		8CF664A51BE0E05900BC88EA /* Bumper_3 sec.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 8CF6649E1BE0E05800BC88EA /* Bumper_3 sec.mp4 */; };
-		8CF664A61BE0E05900BC88EA /* Sounds like fun_30 sec.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8CF6649F1BE0E05800BC88EA /* Sounds like fun_30 sec.mp3 */; };
-		8CF664A71BE0E05900BC88EA /* Sounds like fun_30 sec.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8CF664A01BE0E05800BC88EA /* Sounds like fun_30 sec.wav */; };
-		8CF664A81BE0E05900BC88EA /* Youve got mail_30 sec.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8CF664A11BE0E05800BC88EA /* Youve got mail_30 sec.mp3 */; };
-		8CF664A91BE0E05900BC88EA /* Youve got mail_30 sec.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8CF664A21BE0E05800BC88EA /* Youve got mail_30 sec.wav */; };
+		8CF664A61BE0E05900BC88EA /* Sounds like fun.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8CF6649F1BE0E05800BC88EA /* Sounds like fun.mp3 */; };
+		8CF664A81BE0E05900BC88EA /* Youve got mail.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8CF664A11BE0E05800BC88EA /* Youve got mail.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +57,7 @@
 		8C0712EE1BE6D4F600CC909E /* SelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionViewController.swift; sourceTree = "<group>"; };
 		8C0712F01BE6ECF600CC909E /* SelectionSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionSegue.swift; sourceTree = "<group>"; };
 		8C42D08C1BEC115A00A5B718 /* Scene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
+		8C42D0901BEC80E500A5B718 /* MusicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicCell.swift; sourceTree = "<group>"; };
 		8C4B70591BCD7BBE00E54C5E /* MediaController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaController.swift; sourceTree = "<group>"; };
 		8C4B705B1BCFFCD400E54C5E /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = MyPlayground.playground; path = "Free Film Camp/MyPlayground.playground"; sourceTree = "<group>"; };
 		8C5E51CC1BC7AD3B0028CBAA /* TheatreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TheatreViewController.swift; sourceTree = "<group>"; };
@@ -85,13 +84,10 @@
 		8CA57DA91BC4D4C50016762A /* VideosViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideosViewController.swift; sourceTree = "<group>"; };
 		8CA57DE81BC5F0710016762A /* VideoLibraryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoLibraryCell.swift; sourceTree = "<group>"; };
 		8CBF277E1BC78A3A00EEFA27 /* VoiceOverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceOverViewController.swift; sourceTree = "<group>"; };
-		8CF6649C1BE0E05800BC88EA /* Believe in your dreams_30 sec.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Believe in your dreams_30 sec.mp3"; sourceTree = "<group>"; };
-		8CF6649D1BE0E05800BC88EA /* Believe in your dreams_30 sec.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Believe in your dreams_30 sec.wav"; sourceTree = "<group>"; };
+		8CF6649C1BE0E05800BC88EA /* Believe in your dreams.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Believe in your dreams.mp3"; sourceTree = "<group>"; };
 		8CF6649E1BE0E05800BC88EA /* Bumper_3 sec.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Bumper_3 sec.mp4"; sourceTree = "<group>"; };
-		8CF6649F1BE0E05800BC88EA /* Sounds like fun_30 sec.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Sounds like fun_30 sec.mp3"; sourceTree = "<group>"; };
-		8CF664A01BE0E05800BC88EA /* Sounds like fun_30 sec.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Sounds like fun_30 sec.wav"; sourceTree = "<group>"; };
-		8CF664A11BE0E05800BC88EA /* Youve got mail_30 sec.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Youve got mail_30 sec.mp3"; sourceTree = "<group>"; };
-		8CF664A21BE0E05800BC88EA /* Youve got mail_30 sec.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Youve got mail_30 sec.wav"; sourceTree = "<group>"; };
+		8CF6649F1BE0E05800BC88EA /* Sounds like fun.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Sounds like fun.mp3"; sourceTree = "<group>"; };
+		8CF664A11BE0E05800BC88EA /* Youve got mail.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Youve got mail.mp3"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,12 +118,9 @@
 		8C42D08B1BEC0B6E00A5B718 /* music */ = {
 			isa = PBXGroup;
 			children = (
-				8CF6649C1BE0E05800BC88EA /* Believe in your dreams_30 sec.mp3 */,
-				8CF6649D1BE0E05800BC88EA /* Believe in your dreams_30 sec.wav */,
-				8CF6649F1BE0E05800BC88EA /* Sounds like fun_30 sec.mp3 */,
-				8CF664A01BE0E05800BC88EA /* Sounds like fun_30 sec.wav */,
-				8CF664A11BE0E05800BC88EA /* Youve got mail_30 sec.mp3 */,
-				8CF664A21BE0E05800BC88EA /* Youve got mail_30 sec.wav */,
+				8CF6649C1BE0E05800BC88EA /* Believe in your dreams.mp3 */,
+				8CF6649F1BE0E05800BC88EA /* Sounds like fun.mp3 */,
+				8CF664A11BE0E05800BC88EA /* Youve got mail.mp3 */,
 			);
 			name = music;
 			sourceTree = "<group>";
@@ -158,7 +151,6 @@
 			isa = PBXGroup;
 			children = (
 				8CF6649B1BE0DFA800BC88EA /* Supporting Files */,
-				8CA57D9A1BC254C60016762A /* Controller */,
 				8CA57D991BC254BE0016762A /* Model */,
 				8CA57D981BC254B50016762A /* View */,
 			);
@@ -191,6 +183,8 @@
 				8CA57D711BC252EA0016762A /* Assets.xcassets */,
 				8CA57DE81BC5F0710016762A /* VideoLibraryCell.swift */,
 				8C5E51D01BC7B2840028CBAA /* TheatreCell.swift */,
+				8C42D0901BEC80E500A5B718 /* MusicCell.swift */,
+				8CA57D9A1BC254C60016762A /* Controller */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -339,15 +333,12 @@
 			files = (
 				8C6456B21BD580B700B5CE11 /* .gitignore in Resources */,
 				8CA57D751BC252EA0016762A /* LaunchScreen.storyboard in Resources */,
-				8CF664A31BE0E05900BC88EA /* Believe in your dreams_30 sec.mp3 in Resources */,
-				8CF664A91BE0E05900BC88EA /* Youve got mail_30 sec.wav in Resources */,
+				8CF664A31BE0E05900BC88EA /* Believe in your dreams.mp3 in Resources */,
 				8CF664A51BE0E05900BC88EA /* Bumper_3 sec.mp4 in Resources */,
 				8CA57D721BC252EA0016762A /* Assets.xcassets in Resources */,
-				8CF664A41BE0E05900BC88EA /* Believe in your dreams_30 sec.wav in Resources */,
 				8CA57D6D1BC252EA0016762A /* Main.storyboard in Resources */,
-				8CF664A81BE0E05900BC88EA /* Youve got mail_30 sec.mp3 in Resources */,
-				8CF664A71BE0E05900BC88EA /* Sounds like fun_30 sec.wav in Resources */,
-				8CF664A61BE0E05900BC88EA /* Sounds like fun_30 sec.mp3 in Resources */,
+				8CF664A81BE0E05900BC88EA /* Youve got mail.mp3 in Resources */,
+				8CF664A61BE0E05900BC88EA /* Sounds like fun.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,6 +372,7 @@
 				8C4B705A1BCD7BBE00E54C5E /* MediaController.swift in Sources */,
 				8CA57D701BC252EA0016762A /* Free_Film_Camp.xcdatamodeld in Sources */,
 				8CA57DA01BC258990016762A /* FirstSceneViewController.swift in Sources */,
+				8C42D0911BEC80E500A5B718 /* MusicCell.swift in Sources */,
 				8CA57DAA1BC4D4C50016762A /* VideosViewController.swift in Sources */,
 				8C5E51D11BC7B2840028CBAA /* TheatreCell.swift in Sources */,
 				8CA57D681BC252EA0016762A /* AppDelegate.swift in Sources */,
