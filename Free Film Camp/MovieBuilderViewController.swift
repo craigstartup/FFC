@@ -140,7 +140,6 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
     }
     
     func playMusicForCell() {
-        print("MUSIC!!!!!!!!!")
         let cell = tableView.cellForRowAtIndexPath(self.currentCell) as! MusicCell
         if self.audioPlayer == nil {
             do {
@@ -156,8 +155,6 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
             cell.playMusicTrackButton.setTitle("Stop", forState: UIControlState.Selected)
             self.audioPlayer.play()
         }
-        
-        
     }
    
     override func didReceiveMemoryWarning() {

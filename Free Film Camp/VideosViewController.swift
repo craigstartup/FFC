@@ -129,10 +129,11 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
                 options: nil) { (result, _) -> Void in
                     cell.imageView.image = result
                     //self.images.append(result!)
-                })
+            })
+            cell.destroyClipButton.tag = indexPath.row
+            cell.destroyClipButton.addTarget(self, action: "destroyClip", forControlEvents: UIControlEvents.TouchUpInside)
             return cell
         }
-        
     }
     
     // MARK: Media selection methods
@@ -192,8 +193,24 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
         }
     }
     
-    @IBAction func cancelledSelection(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    func destroyClip() {
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            let destructionAlert = UIAlertController(title: "Confirm?", message: "Do you wish to delete this clip from Photos and the app?", preferredStyle: UIAlertControllerStyle.ActionSheet)
+            let confirm = UIAlertAction(title: "Yes", style: .Destructive) { (confirm) -> Void in
+                print("DESTROYED")
+                
+                
+                
+                
+                
+            }
+            let cancel = UIAlertAction(title: "No", style: .Cancel) { (cancel) -> Void in
+                self.dismissViewControllerAnimated(true, completion: nil)
+            }
+            destructionAlert.addAction(confirm)
+            destructionAlert.addAction(cancel)
+            self.presentViewController(destructionAlert, animated: true, completion: nil)
+        }
     }
     
     // MARK: Segue methods

@@ -65,6 +65,15 @@
                                             <rect key="frame" x="0.0" y="0.0" width="215" height="136"/>
                                             <animations/>
                                         </imageView>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j3a-ju-Rrw">
+                                            <rect key="frame" x="175" y="0.0" width="40" height="40"/>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="40" id="E0r-xn-Uox"/>
+                                                <constraint firstAttribute="height" constant="40" id="gAk-8Q-pxZ"/>
+                                            </constraints>
+                                            <state key="normal" image="camera_cancel_btn_36"/>
+                                        </button>
                                     </subviews>
                                     <animations/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -73,10 +82,13 @@
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="Erb-wg-flO" secondAttribute="bottom" id="Q8j-qX-3Xc"/>
                                     <constraint firstAttribute="trailing" secondItem="Erb-wg-flO" secondAttribute="trailing" id="S63-69-S31"/>
+                                    <constraint firstItem="j3a-ju-Rrw" firstAttribute="top" secondItem="Erb-wg-flO" secondAttribute="top" id="TMi-kI-hxA"/>
                                     <constraint firstItem="Erb-wg-flO" firstAttribute="leading" secondItem="haP-B8-Tyq" secondAttribute="leading" id="UMZ-sF-bAx"/>
+                                    <constraint firstItem="j3a-ju-Rrw" firstAttribute="trailing" secondItem="Erb-wg-flO" secondAttribute="trailing" id="UzY-op-JMa"/>
                                     <constraint firstItem="Erb-wg-flO" firstAttribute="top" secondItem="haP-B8-Tyq" secondAttribute="top" id="YzC-QT-oR0"/>
                                 </constraints>
                                 <connections>
+                                    <outlet property="destroyClipButton" destination="j3a-ju-Rrw" id="81M-r8-xIr"/>
                                     <outlet property="imageView" destination="Erb-wg-flO" id="bwy-a1-Lqr"/>
                                 </connections>
                             </collectionViewCell>
@@ -1654,8 +1666,8 @@
         <image name="plus_white_69" width="60" height="60"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="pbY-XE-sGo"/>
-        <segue reference="LiM-u3-3jo"/>
-        <segue reference="cEB-DX-16M"/>
+        <segue reference="QIo-ZO-zF5"/>
+        <segue reference="OJI-ki-Muw"/>
+        <segue reference="nYQ-Mx-U5W"/>
     </inferredMetricsTieBreakers>
 </document>
