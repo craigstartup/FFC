@@ -426,7 +426,7 @@
                                     <color key="titleShadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="record:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="wKf-er-BFm"/>
+                                    <action selector="recordVoiceOver:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="8Ia-IL-Nf8"/>
                                     <segue destination="t2l-7N-cdU" kind="show" identifier="s1SelectAudio" id="bJ2-dg-x9E"/>
                                 </connections>
                             </button>
@@ -643,7 +643,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
-                        <outlet property="recordVoiceOverButton" destination="jAP-bU-Obn" id="UyJ-ey-yB2"/>
+                        <outlet property="recordVoiceOverButton" destination="jAP-bU-Obn" id="vwk-4h-SjZ"/>
                         <outlet property="savingProgress" destination="XiB-Hr-apA" id="cUy-es-viT"/>
                         <outlet property="shot1Button" destination="Qxs-2x-Cgo" id="kqj-3f-mUy"/>
                         <outlet property="shot2Button" destination="zh0-jF-OTX" id="UFa-Eb-rXk"/>

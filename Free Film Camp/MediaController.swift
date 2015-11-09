@@ -44,6 +44,7 @@ class MediaController {
     var s1Shot3: AVAsset!
     var s1Shot3Image: UIImage!
     var s1VoiceOver: AVAsset!
+    var s1Images = [UIImage]()
     
     var s2Shot1: AVAsset!
     var s2Shot1Image: UIImage!
