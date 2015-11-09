@@ -17,6 +17,7 @@ class FirstSceneViewController: UIViewController {
     @IBOutlet weak var shot1Button: UIButton!
     @IBOutlet weak var shot2Button: UIButton!
     @IBOutlet weak var shot3Button: UIButton!
+    @IBOutlet var removeMediaButtons: Array<UIButton>!
     @IBOutlet weak var recordVoiceOverButton: UIButton!
     @IBOutlet weak var voiceOverLabel: UILabel!
     
@@ -36,7 +37,11 @@ class FirstSceneViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-            }
+        for button in removeMediaButtons {
+            button.alpha = 0
+            button.enabled = false
+        }
+    }
     
     override func viewWillAppear(animated: Bool) {
         defer {
@@ -95,6 +100,8 @@ class FirstSceneViewController: UIViewController {
         MediaController.sharedMediaController.s1Shot1 = nil
         self.selectedVideoAsset = nil
         self.assetRequestNumber = 1
+        self.removeMediaButtons[0].alpha = 1
+        self.removeMediaButtons[0].enabled = true
         self.performSegueWithIdentifier("s1SelectClip", sender: self)
     }
     
@@ -110,6 +117,21 @@ class FirstSceneViewController: UIViewController {
         self.selectedVideoAsset = nil
         self.assetRequestNumber = 3
         self.performSegueWithIdentifier("s1SelectClip", sender: self)
+    }
+    
+    @IBAction func removeMedia(sender: AnyObject) {
+        switch(sender.tag) {
+        case 1:
+            MediaController.sharedMediaController.s1Shot1Image = nil
+            self.removeMediaButtons[0].alpha = 0
+            self.shot1Button.imageView!.image = nil
+            self.shot1Button.contentVerticalAlignment = UIControlContentVerticalAlignment.Center
+            self.shot1Button.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
+            self.shot1Button.setImage(UIImage(named: "plus_white_69"), forState: UIControlState.Normal)
+            default:
+            print("DEFAULT!")
+        }
+        
     }
     
     @IBAction func record(sender: AnyObject) {
@@ -191,7 +213,7 @@ class FirstSceneViewController: UIViewController {
         self.view.alpha = 0.6
         MediaController.sharedMediaController.saveScene(scene)
     }
-    
+    // MARK: save notifications
     func saveCompleted(notification: NSNotification) {
         self.savingProgress.stopAnimating()
         self.savingProgress.alpha = 0
@@ -217,7 +239,7 @@ class FirstSceneViewController: UIViewController {
         alertFailure.addAction(okAction)
         self.presentViewController(alertFailure, animated: true, completion: nil)
     }
-    
+    // MARK: segue methods
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "s1SelectClip" {
             let destinationVC = segue.destinationViewController as! VideosViewController
@@ -229,7 +251,6 @@ class FirstSceneViewController: UIViewController {
         }
     }
     
-    // MARK: unwind segues
     @IBAction func s1ClipUnwindSegue(unwindSegue: UIStoryboardSegue) {
         defer {
             self.selectedVideoAsset = nil
