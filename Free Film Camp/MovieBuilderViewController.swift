@@ -27,17 +27,11 @@ class MovieBuilderViewController: UIViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "Movie"), forBarMetrics: .Default)
+        self.navigationController?.navigationBarHidden = true
     }
     
     override func viewWillDisappear(animated: Bool) {
         MediaController.sharedMediaController.moviePreview = nil 
-    }
-    
-    
-    @IBAction func swipeBack(sender: AnyObject) {
-        self.navigationController?.popViewControllerAnimated(true)
     }
     
     @IBAction func addHeadshot(sender: AnyObject) {
@@ -90,7 +84,8 @@ class MovieBuilderViewController: UIViewController {
         if MediaController.sharedMediaController.moviePreview != nil {
             self.videoPlayer = AVPlayer(playerItem: MediaController.sharedMediaController.moviePreview)
             self.vpVC.player = videoPlayer
-            self.presentViewController(self.vpVC, animated: true, completion: nil)
+            vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
+            presentViewController(vpVC, animated: true, completion: nil)
         }
     }
     

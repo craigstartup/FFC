@@ -43,8 +43,8 @@ class FirstSceneViewController: UIViewController {
             self.assetRequestNumber = nil
             self.selectedVideoImage = nil
         }
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "Scene1"), forBarMetrics: .Default)
+        self.navigationController?.navigationBarHidden = true
+        self.navigationController?.navigationBar.translucent = true
         
         if assetRequestNumber != nil {
             if self.assetRequestNumber == 1 {
@@ -56,21 +56,24 @@ class FirstSceneViewController: UIViewController {
             }
         }
         
-        if MediaController.sharedMediaController.s1Shot1Image != nil {
+        if MediaController.sharedMediaController.s1Shot1Image != nil &&
+        MediaController.sharedMediaController.s1Shot1 != nil {
             self.shot1Button.setImage(MediaController.sharedMediaController.s1Shot1Image, forState: UIControlState.Normal)
             self.shot1Button.imageView!.contentMode = UIViewContentMode.ScaleToFill
             self.shot1Button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Fill
             self.shot1Button.contentVerticalAlignment = UIControlContentVerticalAlignment.Fill
         }
         
-        if MediaController.sharedMediaController.s1Shot2Image != nil {
+        if MediaController.sharedMediaController.s1Shot2Image != nil &&
+        MediaController.sharedMediaController.s1Shot2 != nil {
             self.shot2Button.setImage(MediaController.sharedMediaController.s1Shot2Image, forState: UIControlState.Normal)
             self.shot2Button.imageView!.contentMode = UIViewContentMode.ScaleToFill
             self.shot2Button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Fill
             self.shot2Button.contentVerticalAlignment = UIControlContentVerticalAlignment.Fill
         }
         
-        if MediaController.sharedMediaController.s1Shot3Image != nil {
+        if MediaController.sharedMediaController.s1Shot3Image != nil &&
+        MediaController.sharedMediaController.s1Shot3 != nil {
             self.shot3Button.setImage(MediaController.sharedMediaController.s1Shot3Image, forState: UIControlState.Normal)
             self.shot3Button.imageView!.contentMode = UIViewContentMode.ScaleToFill
             self.shot3Button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Fill
@@ -85,6 +88,7 @@ class FirstSceneViewController: UIViewController {
     
     override func viewDidDisappear(animated: Bool) {
         self.videoPlayer = nil
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
     @IBAction func selectClipOne(sender: AnyObject) {
@@ -128,7 +132,6 @@ class FirstSceneViewController: UIViewController {
                 
                 for item in assets {
                     let videoTrack: AVMutableCompositionTrack = mediaToPreview.addMutableTrackWithMediaType(AVMediaTypeVideo, preferredTrackID: kCMPersistentTrackID_Invalid)
-                    
                     do {
                         try videoTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, item.duration), ofTrack: item.tracksWithMediaType(AVMediaTypeVideo)[0],
                             atTime: timeCursor)
@@ -175,7 +178,8 @@ class FirstSceneViewController: UIViewController {
                 itemToPreview.videoComposition = mainComposition
                 self.videoPlayer = AVPlayer(playerItem: itemToPreview)
                 self.vpVC.player = videoPlayer
-                self.presentViewController(self.vpVC, animated: true, completion: nil)
+                vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
+                presentViewController(vpVC, animated: true, completion: nil)
         }
     }
     
@@ -242,8 +246,10 @@ class FirstSceneViewController: UIViewController {
     }
     
     @IBAction func s1AudioUnwindSegue(unwindSegue: UIStoryboardSegue){
-        MediaController.sharedMediaController.s1VoiceOver = self.audioAsset
-        self.audioAsset = nil
+        if self.audioAsset != nil {
+            MediaController.sharedMediaController.s1VoiceOver = self.audioAsset
+            self.audioAsset = nil
+        }
     }
     
     override func didReceiveMemoryWarning() {

@@ -29,7 +29,6 @@ class MediaController {
     private init() {}
     
     let library = PHPhotoLibrary.sharedPhotoLibrary()
-    let comCenter = NSNotificationCenter.defaultCenter()
     // Main voiceover
     var audioVoiceOverAsset: AVAsset!
     var sessionURL: NSURL!
@@ -64,11 +63,6 @@ class MediaController {
 
     // place holder for scene
     var newScene: PHObjectPlaceholder!
-    
-    //Scenes
-    var scene1: AVAsset!
-    var scene2: AVAsset!
-    var scene3: AVAsset!
     
     var albumTitle = "Free Film Camp Clips"
     

@@ -95,14 +95,11 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
                 }
             }
         }
-        self.collectionView?.reloadData()
-
+        self.navigationController?.navigationBarHidden = true
+        self.navigationController?.navigationBar.translucent = true
     }
     
-    override func viewWillAppear(animated: Bool) {
-        self.navigationController?.navigationBarHidden = false
-    }
-    @IBAction func cameraUnwind(unwindSegue: UIStoryboardSegue) {
+       @IBAction func cameraUnwind(unwindSegue: UIStoryboardSegue) {
         self.performSegueWithIdentifier(self.segueID, sender: self)
     }
     
@@ -159,6 +156,7 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     videoPlayer = AVPlayer(playerItem: playerItem!)
                     self.vpVC.player = videoPlayer
+                    self.vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
                     self.presentViewController(self.vpVC, animated: true, completion: nil)
                 })
             }
@@ -192,6 +190,10 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
                 })
             }
         }
+    }
+    
+    @IBAction func cancelledSelection(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     // MARK: Segue methods

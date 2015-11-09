@@ -40,13 +40,12 @@ class ThirdSceneViewController: UIViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
         defer {
             self.assetRequestNumber = nil
             self.selectedVideoImage = nil
         }
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "Scene3"), forBarMetrics: .Default)
-        
+            
         if assetRequestNumber != nil {
             if self.assetRequestNumber == 1 {
                 MediaController.sharedMediaController.s3Shot1Image = self.selectedVideoImage
@@ -57,21 +56,24 @@ class ThirdSceneViewController: UIViewController {
             }
         }
         
-        if MediaController.sharedMediaController.s3Shot1Image != nil {
+        if MediaController.sharedMediaController.s3Shot1Image != nil &&
+        MediaController.sharedMediaController.s3Shot1 != nil {
             self.shot1Button.setImage(MediaController.sharedMediaController.s3Shot1Image, forState: UIControlState.Normal)
             self.shot1Button.imageView!.contentMode = UIViewContentMode.ScaleToFill
             self.shot1Button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Fill
             self.shot1Button.contentVerticalAlignment = UIControlContentVerticalAlignment.Fill
         }
         
-        if MediaController.sharedMediaController.s3Shot2Image != nil {
+        if MediaController.sharedMediaController.s3Shot2Image != nil &&
+        MediaController.sharedMediaController.s3Shot2 != nil {
             self.shot2Button.setImage(MediaController.sharedMediaController.s3Shot2Image, forState: UIControlState.Normal)
             self.shot2Button.imageView!.contentMode = UIViewContentMode.ScaleToFill
             self.shot2Button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Fill
             self.shot2Button.contentVerticalAlignment = UIControlContentVerticalAlignment.Fill
         }
         
-        if MediaController.sharedMediaController.s3Shot3Image != nil {
+        if MediaController.sharedMediaController.s3Shot3Image != nil &&
+        MediaController.sharedMediaController.s3Shot3 != nil {
             self.shot3Button.setImage(MediaController.sharedMediaController.s3Shot3Image, forState: UIControlState.Normal)
             self.shot3Button.imageView!.contentMode = UIViewContentMode.ScaleToFill
             self.shot3Button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Fill
@@ -86,10 +88,7 @@ class ThirdSceneViewController: UIViewController {
     
     override func viewWillDisappear(animated: Bool) {
         self.videoPlayer = nil
-    }
-
-    @IBAction func swipeBack(sender: AnyObject) {
-        self.navigationController?.popViewControllerAnimated(true)
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     @IBAction func selectClipOne(sender: AnyObject) {
@@ -112,9 +111,9 @@ class ThirdSceneViewController: UIViewController {
     
     @IBAction func previewSelection(sender: AnyObject) {
         var firstAsset: AVAsset!, secondAsset: AVAsset!, thirdAsset: AVAsset!, voiceOverAsset: AVAsset!
-        firstAsset = MediaController.sharedMediaController.s3Shot1
-        secondAsset = MediaController.sharedMediaController.s3Shot2
-        thirdAsset  = MediaController.sharedMediaController.s3Shot3
+        firstAsset     = MediaController.sharedMediaController.s3Shot1
+        secondAsset    = MediaController.sharedMediaController.s3Shot2
+        thirdAsset     = MediaController.sharedMediaController.s3Shot3
         voiceOverAsset = MediaController.sharedMediaController.s3VoiceOver
         var timeCursor = kCMTimeZero
         
@@ -123,25 +122,23 @@ class ThirdSceneViewController: UIViewController {
             var tracks = [AVMutableCompositionTrack]()
             let mediaToPreview = AVMutableComposition()
             
+            
             for item in assets {
                 let videoTrack: AVMutableCompositionTrack = mediaToPreview.addMutableTrackWithMediaType(AVMediaTypeVideo, preferredTrackID: kCMPersistentTrackID_Invalid)
-                
                 do {
-                    
                     try videoTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, item.duration), ofTrack: item.tracksWithMediaType(AVMediaTypeVideo)[0],
                         atTime: timeCursor)
                     
                 } catch let audioTrackError as NSError{
-                    
                     print(audioTrackError.localizedDescription)
                 }
                 timeCursor = CMTimeAdd(timeCursor, item.duration)
                 tracks.append(videoTrack)
             }
             
-            
             let mainInstruction = AVMutableVideoCompositionInstruction()
             mainInstruction.timeRange = CMTimeRangeMake(kCMTimeZero, timeCursor)
+            
             var instructions = [AVMutableVideoCompositionLayerInstruction]()
             var instructionTime: CMTime = kCMTimeZero
             // Create seperate instructions for each track.
@@ -159,22 +156,23 @@ class ThirdSceneViewController: UIViewController {
             mainComposition.instructions = [mainInstruction]
             mainComposition.frameDuration = CMTimeMake(1, 30)
             mainComposition.renderSize = mediaToPreview.naturalSize
-            
             if voiceOverAsset != nil {
                 let voiceOverTrack: AVMutableCompositionTrack = mediaToPreview.addMutableTrackWithMediaType(AVMediaTypeAudio, preferredTrackID: kCMPersistentTrackID_Invalid)
                 
                 do {
                     try voiceOverTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, timeCursor), ofTrack: voiceOverAsset.tracksWithMediaType(AVMediaTypeAudio)[0] ,
                         atTime: kCMTimeZero)
+                    
                 } catch let audioTrackError as NSError{
                     print(audioTrackError.localizedDescription)
                 }
             }
-            
             let itemToPreview = AVPlayerItem(asset: mediaToPreview)
             itemToPreview.videoComposition = mainComposition
             self.videoPlayer = AVPlayer(playerItem: itemToPreview)
-            self.presentViewController(self.vpVC, animated: true, completion: nil)
+            self.vpVC.player = videoPlayer
+            vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
+            presentViewController(vpVC, animated: true, completion: nil)
         }
     }
     
@@ -228,19 +226,22 @@ class ThirdSceneViewController: UIViewController {
         defer {
             self.selectedVideoAsset = nil
         }
-        
-        if assetRequestNumber == 1 {
-            MediaController.sharedMediaController.s3Shot1 = AVAsset(URL: self.selectedVideoAsset)
-        } else if assetRequestNumber == 2 {
-            MediaController.sharedMediaController.s3Shot2 = AVAsset(URL: self.selectedVideoAsset)
-        } else if assetRequestNumber == 3 {
-            MediaController.sharedMediaController.s3Shot3 = AVAsset(URL: self.selectedVideoAsset)
+        if self.selectedVideoAsset != nil {
+            if assetRequestNumber == 1 {
+                MediaController.sharedMediaController.s3Shot1 = AVAsset(URL: self.selectedVideoAsset)
+            } else if assetRequestNumber == 2 {
+                MediaController.sharedMediaController.s3Shot2 = AVAsset(URL: self.selectedVideoAsset)
+            } else if assetRequestNumber == 3 {
+                MediaController.sharedMediaController.s3Shot3 = AVAsset(URL: self.selectedVideoAsset)
+            }
         }
     }
     
     @IBAction func s3AudioUnwindSegue(unwindSegue: UIStoryboardSegue){
+        if self.audioAsset != nil {
         MediaController.sharedMediaController.s3VoiceOver = self.audioAsset
         self.audioAsset = nil
+        }
     }
         
     override func didReceiveMemoryWarning() {

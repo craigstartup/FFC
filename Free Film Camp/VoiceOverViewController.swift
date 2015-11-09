@@ -12,6 +12,7 @@ import Photos
 
 class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDelegate {
     
+    @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var recordButton: UIButton!
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var doneButton: UIButton!
@@ -22,6 +23,7 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     var playerLayer: AVPlayerLayer!
     var audioRecorder: AVAudioRecorder!
     var audioAssetToPass: AVAsset!
+    var progress: NSTimer!
     
     var segueID: String!
     
@@ -29,7 +31,9 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        // setup progress bar
+        progressBar.alpha = 0
+        progressBar.progress = 0
         // set up voice recorder
         // TODO: Cleanup temp files.
         let dateFormatter = NSDateFormatter()
@@ -70,7 +74,6 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     }
     
     override func viewDidAppear(animated: Bool) {
-        
         // set up initial button states
         playButton.enabled = false
         playButton.alpha = 0.4
@@ -88,11 +91,16 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         self.audioRecorder = nil
     }
     
+    func updateProgress() {
+        self.progressBar.progress += 0.001
+    }
+    
     @IBAction func recordButtonPressed(sender: AnyObject) {
-        
+        // set up progress view for recording time
+        self.progressBar.alpha = 1
+        self.progress = NSTimer.scheduledTimerWithTimeInterval(0.009, target: self, selector: "updateProgress", userInfo: nil, repeats: true)
         self.hasRecorded = true
         if self.audioPlayer?.playing == true {
-            
             self.audioPlayer.stop()
         }
         if self.audioRecorder.recording == false {
@@ -105,7 +113,6 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
             self.audioRecorder.recordForDuration(9.0)
             self.videoPlayer.play()
         }
-
     }
     
     @IBAction func playButtonPressed(sender: AnyObject) {
@@ -206,9 +213,10 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     
     // TODO: Fix recording.
     func didFinishPlayingVideo(notification: NSNotification) {
-        
+        self.progressBar.progress = 0.0
+        self.progressBar.alpha = 0
+        self.progress.invalidate()
         previewScene()
-        
     }
     
     func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
@@ -220,7 +228,6 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     
     
     func audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer, error: NSError?) {
-        
         print("Audio Play Decode Error")
     }
     
