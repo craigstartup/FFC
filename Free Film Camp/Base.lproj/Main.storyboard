@@ -733,7 +733,7 @@
                                 </constraints>
                                 <state key="normal" image="plus_white_69"/>
                                 <connections>
-                                    <action selector="record:" destination="qVt-sA-xLt" eventType="touchUpInside" id="8Vs-XK-zaG"/>
+                                    <action selector="recordVoiceOver:" destination="qVt-sA-xLt" eventType="touchUpInside" id="uO9-QJ-Kct"/>
                                     <segue destination="t2l-7N-cdU" kind="show" identifier="s3SelectAudio" id="LiM-u3-3jo"/>
                                 </connections>
                             </button>
@@ -823,41 +823,53 @@
                                 </subviews>
                                 <animations/>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HuB-qc-wSP">
-                                <rect key="frame" x="175" y="74" width="22" height="22"/>
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HuB-qc-wSP">
+                                <rect key="frame" x="157" y="74" width="40" height="40"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="22" id="H51-XK-u5v"/>
-                                    <constraint firstAttribute="height" constant="22" id="h9R-FD-pIf"/>
+                                    <constraint firstAttribute="width" constant="40" id="H51-XK-u5v"/>
+                                    <constraint firstAttribute="height" constant="40" id="h9R-FD-pIf"/>
                                 </constraints>
-                                <state key="normal" image="button 20"/>
+                                <state key="normal" image="camera_cancel_btn_36"/>
+                                <connections>
+                                    <action selector="removeMedia:" destination="qVt-sA-xLt" eventType="touchUpInside" id="B26-x6-vFz"/>
+                                </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1AL-Oy-8oo">
-                                <rect key="frame" x="373" y="74" width="22" height="22"/>
+                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1AL-Oy-8oo">
+                                <rect key="frame" x="355" y="74" width="40" height="40"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="22" id="89E-ha-y3S"/>
-                                    <constraint firstAttribute="width" constant="22" id="aqt-KM-ixJ"/>
+                                    <constraint firstAttribute="height" constant="40" id="89E-ha-y3S"/>
+                                    <constraint firstAttribute="width" constant="40" id="aqt-KM-ixJ"/>
                                 </constraints>
-                                <state key="normal" image="button 20"/>
+                                <state key="normal" image="camera_cancel_btn_36"/>
+                                <connections>
+                                    <action selector="removeMedia:" destination="qVt-sA-xLt" eventType="touchUpInside" id="9Ec-Ri-bEF"/>
+                                </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kCI-fT-vPg">
-                                <rect key="frame" x="571" y="74" width="22" height="22"/>
+                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kCI-fT-vPg">
+                                <rect key="frame" x="553" y="74" width="40" height="40"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="22" id="088-ij-RGs"/>
-                                    <constraint firstAttribute="height" constant="22" id="Fm4-7l-HWf"/>
+                                    <constraint firstAttribute="width" constant="40" id="088-ij-RGs"/>
+                                    <constraint firstAttribute="height" constant="40" id="Fm4-7l-HWf"/>
                                 </constraints>
-                                <state key="normal" image="button 20"/>
+                                <state key="normal" image="camera_cancel_btn_36"/>
+                                <connections>
+                                    <action selector="removeMedia:" destination="qVt-sA-xLt" eventType="touchUpInside" id="OZL-hW-ubd"/>
+                                </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mYo-2P-UEe">
-                                <rect key="frame" x="571" y="232" width="22" height="22"/>
+                            <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mYo-2P-UEe">
+                                <rect key="frame" x="553" y="232" width="40" height="40"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="22" id="R2P-yY-f1C"/>
-                                    <constraint firstAttribute="height" constant="22" id="Wtu-kM-dVa"/>
+                                    <constraint firstAttribute="width" constant="40" id="R2P-yY-f1C"/>
+                                    <constraint firstAttribute="height" constant="40" id="Wtu-kM-dVa"/>
                                 </constraints>
-                                <state key="normal" image="button 20"/>
+                                <state key="normal" image="camera_cancel_btn_36"/>
+                                <connections>
+                                    <action selector="removeMedia:" destination="qVt-sA-xLt" eventType="touchUpInside" id="K82-5g-Skg"/>
+                                </connections>
                             </button>
                         </subviews>
                         <animations/>
@@ -935,6 +947,10 @@
                         <outlet property="shot1Button" destination="GI0-A2-cm3" id="huQ-fR-2ly"/>
                         <outlet property="shot2Button" destination="aGu-cQ-eFw" id="QON-CV-7S0"/>
                         <outlet property="shot3Button" destination="BJv-D1-8mW" id="u42-JR-Z68"/>
+                        <outletCollection property="removeMediaButtons" destination="HuB-qc-wSP" collectionClass="NSMutableArray" id="b6d-MA-Iu2"/>
+                        <outletCollection property="removeMediaButtons" destination="1AL-Oy-8oo" collectionClass="NSMutableArray" id="Npq-I9-hPE"/>
+                        <outletCollection property="removeMediaButtons" destination="kCI-fT-vPg" collectionClass="NSMutableArray" id="KLS-Mt-lI8"/>
+                        <outletCollection property="removeMediaButtons" destination="mYo-2P-UEe" collectionClass="NSMutableArray" id="kvs-6k-CV6"/>
                         <segue destination="4to-zB-zdm" kind="show" identifier="s3SelectClip" id="pbY-XE-sGo"/>
                     </connections>
                 </viewController>
@@ -1142,7 +1158,7 @@
                                 </constraints>
                                 <state key="normal" image="plus_white_69"/>
                                 <connections>
-                                    <action selector="record:" destination="MQa-Na-cfN" eventType="touchUpInside" id="e2H-O0-fMr"/>
+                                    <action selector="recordVoiceOver:" destination="MQa-Na-cfN" eventType="touchUpInside" id="A7w-BL-dZD"/>
                                     <segue destination="t2l-7N-cdU" kind="show" identifier="s2SelectAudio" id="QIo-ZO-zF5"/>
                                 </connections>
                             </button>
@@ -1232,41 +1248,53 @@
                                 </subviews>
                                 <animations/>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N3Q-dX-TOv">
-                                <rect key="frame" x="373" y="74" width="22" height="22"/>
+                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N3Q-dX-TOv">
+                                <rect key="frame" x="355" y="74" width="40" height="40"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="22" id="fhg-oh-Qsd"/>
-                                    <constraint firstAttribute="width" constant="22" id="wOh-7e-uVh"/>
+                                    <constraint firstAttribute="height" constant="40" id="fhg-oh-Qsd"/>
+                                    <constraint firstAttribute="width" constant="40" id="wOh-7e-uVh"/>
                                 </constraints>
-                                <state key="normal" image="button 20"/>
+                                <state key="normal" image="camera_cancel_btn_36"/>
+                                <connections>
+                                    <action selector="removeMedia:" destination="MQa-Na-cfN" eventType="touchUpInside" id="Wf8-Zu-Djp"/>
+                                </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btr-tx-hXa">
-                                <rect key="frame" x="175" y="74" width="22" height="22"/>
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btr-tx-hXa">
+                                <rect key="frame" x="157" y="74" width="40" height="40"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="22" id="8q9-lp-SGo"/>
-                                    <constraint firstAttribute="width" constant="22" id="wV9-sY-vvq"/>
+                                    <constraint firstAttribute="height" constant="40" id="8q9-lp-SGo"/>
+                                    <constraint firstAttribute="width" constant="40" id="wV9-sY-vvq"/>
                                 </constraints>
-                                <state key="normal" image="button 20"/>
+                                <state key="normal" image="camera_cancel_btn_36"/>
+                                <connections>
+                                    <action selector="removeMedia:" destination="MQa-Na-cfN" eventType="touchUpInside" id="1i0-HE-lB9"/>
+                                </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lup-cN-J5m">
-                                <rect key="frame" x="571" y="74" width="22" height="22"/>
+                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lup-cN-J5m">
+                                <rect key="frame" x="553" y="74" width="40" height="40"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="22" id="Hoe-jc-jZB"/>
-                                    <constraint firstAttribute="width" constant="22" id="yFC-eO-bnE"/>
+                                    <constraint firstAttribute="height" constant="40" id="Hoe-jc-jZB"/>
+                                    <constraint firstAttribute="width" constant="40" id="yFC-eO-bnE"/>
                                 </constraints>
-                                <state key="normal" image="button 20"/>
+                                <state key="normal" image="camera_cancel_btn_36"/>
+                                <connections>
+                                    <action selector="removeMedia:" destination="MQa-Na-cfN" eventType="touchUpInside" id="wHX-2A-psi"/>
+                                </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NnO-cg-PdX">
-                                <rect key="frame" x="571" y="232" width="22" height="22"/>
+                            <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NnO-cg-PdX">
+                                <rect key="frame" x="553" y="232" width="40" height="40"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="22" id="EVZ-35-WDJ"/>
-                                    <constraint firstAttribute="width" constant="22" id="pws-k9-uAl"/>
+                                    <constraint firstAttribute="height" constant="40" id="EVZ-35-WDJ"/>
+                                    <constraint firstAttribute="width" constant="40" id="pws-k9-uAl"/>
                                 </constraints>
-                                <state key="normal" image="button 20"/>
+                                <state key="normal" image="camera_cancel_btn_36"/>
+                                <connections>
+                                    <action selector="removeMedia:" destination="MQa-Na-cfN" eventType="touchUpInside" id="xby-TI-uuy"/>
+                                </connections>
                             </button>
                         </subviews>
                         <animations/>
@@ -1344,6 +1372,10 @@
                         <outlet property="shot1Button" destination="otP-Je-oPR" id="Nnf-e5-ilF"/>
                         <outlet property="shot2Button" destination="SeG-j5-p1x" id="Vw1-TX-Vtu"/>
                         <outlet property="shot3Button" destination="z29-YX-x1f" id="8I0-Ub-eUs"/>
+                        <outletCollection property="removeMediaButtons" destination="btr-tx-hXa" collectionClass="NSMutableArray" id="Hls-3y-Tl4"/>
+                        <outletCollection property="removeMediaButtons" destination="N3Q-dX-TOv" collectionClass="NSMutableArray" id="aRD-v3-TTC"/>
+                        <outletCollection property="removeMediaButtons" destination="Lup-cN-J5m" collectionClass="NSMutableArray" id="5V0-0W-f8e"/>
+                        <outletCollection property="removeMediaButtons" destination="NnO-cg-PdX" collectionClass="NSMutableArray" id="Szs-wJ-GQx"/>
                         <segue destination="4to-zB-zdm" kind="show" identifier="s2SelectClip" id="OJI-ki-Muw"/>
                     </connections>
                 </viewController>
@@ -1617,14 +1649,13 @@
         <image name="Camera Button" width="45" height="45"/>
         <image name="Check" width="60" height="60"/>
         <image name="arrow_right_200x45 (2)" width="114" height="44"/>
-        <image name="button 20" width="20" height="20"/>
         <image name="camera_cancel_btn_36" width="40" height="40"/>
         <image name="camera_record_btn_70" width="60" height="60"/>
         <image name="plus_white_69" width="60" height="60"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="CH1-X3-ObO"/>
-        <segue reference="xrw-gC-d5d"/>
-        <segue reference="bJ2-dg-x9E"/>
+        <segue reference="pbY-XE-sGo"/>
+        <segue reference="LiM-u3-3jo"/>
+        <segue reference="cEB-DX-16M"/>
     </inferredMetricsTieBreakers>
 </document>
