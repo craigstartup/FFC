@@ -131,7 +131,7 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
                     //self.images.append(result!)
             })
             cell.destroyClipButton.tag = indexPath.row
-            cell.destroyClipButton.addTarget(self, action: "destroyClip", forControlEvents: UIControlEvents.TouchUpInside)
+            cell.destroyClipButton.addTarget(self, action: "destroyClip:", forControlEvents: UIControlEvents.TouchUpInside)
             return cell
         }
     }
@@ -193,23 +193,27 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
         }
     }
     
-    func destroyClip() {
+    func destroyClip(sender: UIButton) {
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
-            let destructionAlert = UIAlertController(title: "Confirm?", message: "Do you wish to delete this clip from Photos and the app?", preferredStyle: UIAlertControllerStyle.ActionSheet)
-            let confirm = UIAlertAction(title: "Yes", style: .Destructive) { (confirm) -> Void in
-                print("DESTROYED")
-                
-                
-                
-                
-                
-            }
-            let cancel = UIAlertAction(title: "No", style: .Cancel) { (cancel) -> Void in
-                self.dismissViewControllerAnimated(true, completion: nil)
-            }
-            destructionAlert.addAction(confirm)
-            destructionAlert.addAction(cancel)
-            self.presentViewController(destructionAlert, animated: true, completion: nil)
+            print("DESTROYED")
+            print(sender.tag)
+            PHPhotoLibrary.sharedPhotoLibrary().performChanges({ () -> Void in
+                if self.videos[sender.tag - 1].canPerformEditOperation(PHAssetEditOperation.Delete){
+                    let target = self.videos[sender.tag - 1]
+                    PHAssetChangeRequest.deleteAssets([target])
+                }
+                }, completionHandler: { (success, error) -> Void in
+                    if success {
+                        print("DESTROYED")
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.videos.removeAtIndex(sender.tag - 1)
+                        self.collectionView?.reloadData()
+                    })
+                        
+                    } else if error != nil {
+                        print(error?.localizedDescription)
+                    }
+            })
         }
     }
     
