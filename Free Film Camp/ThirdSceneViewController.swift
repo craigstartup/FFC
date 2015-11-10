@@ -233,7 +233,7 @@ class ThirdSceneViewController: UIViewController {
     
     @IBAction func mergeMedia(sender: AnyObject) {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveCompleted:", name: MediaController.Notifications.saveSceneFinished, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveFailed", name: MediaController.Notifications.saveSceneFailed, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveFailed:", name: MediaController.Notifications.saveSceneFailed, object: nil)
         self.savingProgress.alpha = 1
         self.savingProgress.startAnimating()
         self.view.alpha = 0.6
