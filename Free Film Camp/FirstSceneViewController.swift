@@ -17,6 +17,7 @@ class FirstSceneViewController: UIViewController {
     @IBOutlet weak var shot1Button: UIButton!
     @IBOutlet weak var shot2Button: UIButton!
     @IBOutlet weak var shot3Button: UIButton!
+    @IBOutlet var removeMediaButtons: Array<UIButton>!
     @IBOutlet weak var recordVoiceOverButton: UIButton!
     @IBOutlet weak var voiceOverLabel: UILabel!
     
@@ -36,7 +37,11 @@ class FirstSceneViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-            }
+        for button in removeMediaButtons {
+            button.alpha = 0
+            button.enabled = false
+        }
+    }
     
     override func viewWillAppear(animated: Bool) {
         defer {
@@ -62,6 +67,8 @@ class FirstSceneViewController: UIViewController {
             self.shot1Button.imageView!.contentMode = UIViewContentMode.ScaleToFill
             self.shot1Button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Fill
             self.shot1Button.contentVerticalAlignment = UIControlContentVerticalAlignment.Fill
+            self.removeMediaButtons[0].alpha = 1
+            self.removeMediaButtons[0].enabled = true
         }
         
         if MediaController.sharedMediaController.s1Shot2Image != nil &&
@@ -70,6 +77,8 @@ class FirstSceneViewController: UIViewController {
             self.shot2Button.imageView!.contentMode = UIViewContentMode.ScaleToFill
             self.shot2Button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Fill
             self.shot2Button.contentVerticalAlignment = UIControlContentVerticalAlignment.Fill
+            self.removeMediaButtons[1].alpha = 1
+            self.removeMediaButtons[1].enabled = true
         }
         
         if MediaController.sharedMediaController.s1Shot3Image != nil &&
@@ -78,11 +87,15 @@ class FirstSceneViewController: UIViewController {
             self.shot3Button.imageView!.contentMode = UIViewContentMode.ScaleToFill
             self.shot3Button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Fill
             self.shot3Button.contentVerticalAlignment = UIControlContentVerticalAlignment.Fill
+            self.removeMediaButtons[2].alpha = 1
+            self.removeMediaButtons[2].enabled = true
         }
         
         if MediaController.sharedMediaController.s1VoiceOver != nil {
             let check = UIImage(named: "Check")
             self.recordVoiceOverButton.setImage(check, forState: UIControlState.Normal)
+            self.removeMediaButtons[3].alpha = 1
+            self.removeMediaButtons[3].enabled = true
         }
     }
     
@@ -95,6 +108,8 @@ class FirstSceneViewController: UIViewController {
         MediaController.sharedMediaController.s1Shot1 = nil
         self.selectedVideoAsset = nil
         self.assetRequestNumber = 1
+        self.removeMediaButtons[0].alpha = 1
+        self.removeMediaButtons[0].enabled = true
         self.performSegueWithIdentifier("s1SelectClip", sender: self)
     }
     
@@ -102,6 +117,8 @@ class FirstSceneViewController: UIViewController {
         MediaController.sharedMediaController.s1Shot2 = nil
         self.selectedVideoAsset = nil
         self.assetRequestNumber = 2
+        self.removeMediaButtons[1].alpha = 1
+        self.removeMediaButtons[1].enabled = true
         self.performSegueWithIdentifier("s1SelectClip", sender: self)
     }
     
@@ -109,11 +126,57 @@ class FirstSceneViewController: UIViewController {
         MediaController.sharedMediaController.s1Shot3 = nil
         self.selectedVideoAsset = nil
         self.assetRequestNumber = 3
+        self.removeMediaButtons[2].alpha = 1
+        self.removeMediaButtons[2].enabled = true
         self.performSegueWithIdentifier("s1SelectClip", sender: self)
     }
     
-    @IBAction func record(sender: AnyObject) {
-
+    @IBAction func recordVoiceOver(sender: AnyObject) {
+        MediaController.sharedMediaController.s1VoiceOver = nil
+        self.audioAsset = nil
+        self.removeMediaButtons[3].alpha = 1
+        self.removeMediaButtons[3].enabled = true
+    }
+    
+    
+    @IBAction func removeMedia(sender: AnyObject) {
+        
+        switch(sender.tag) {
+        case 1:
+            MediaController.sharedMediaController.s1Shot1Image = nil
+            MediaController.sharedMediaController.s1Shot1 = nil
+            self.removeMediaButtons[sender.tag - 1].alpha = 0
+            self.shot1Button.contentVerticalAlignment = UIControlContentVerticalAlignment.Center
+            self.shot1Button.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
+            self.shot1Button.setImage(UIImage(named: "plus_white_69"), forState: UIControlState.Normal)
+            break
+        case 2:
+            MediaController.sharedMediaController.s1Shot2Image = nil
+            MediaController.sharedMediaController.s1Shot2 = nil
+            self.removeMediaButtons[sender.tag - 1].alpha = 0
+            self.shot2Button.contentVerticalAlignment = UIControlContentVerticalAlignment.Center
+            self.shot2Button.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
+            self.shot2Button.setImage(UIImage(named: "plus_white_69"), forState: UIControlState.Normal)
+            break
+        case 3:
+            MediaController.sharedMediaController.s1Shot3Image = nil
+            MediaController.sharedMediaController.s1Shot3 = nil
+            self.removeMediaButtons[sender.tag - 1].alpha = 0
+            self.shot3Button.contentVerticalAlignment = UIControlContentVerticalAlignment.Center
+            self.shot3Button.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
+            self.shot3Button.setImage(UIImage(named: "plus_white_69"), forState: UIControlState.Normal)
+            break
+        case 4:
+            MediaController.sharedMediaController.s1VoiceOver = nil
+            self.removeMediaButtons[sender.tag - 1].alpha = 0
+            self.recordVoiceOverButton.imageView!.image = nil
+            self.recordVoiceOverButton.contentVerticalAlignment = UIControlContentVerticalAlignment.Center
+            self.recordVoiceOverButton.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
+            self.recordVoiceOverButton.setImage(UIImage(named: "plus_white_69"), forState: UIControlState.Normal)
+            break
+        default:
+            print("DEFAULT!")
+        }
     }
     
     @IBAction func previewSelection(sender: AnyObject) {
@@ -191,7 +254,7 @@ class FirstSceneViewController: UIViewController {
         self.view.alpha = 0.6
         MediaController.sharedMediaController.saveScene(scene)
     }
-    
+    // MARK: save notifications
     func saveCompleted(notification: NSNotification) {
         self.savingProgress.stopAnimating()
         self.savingProgress.alpha = 0
@@ -217,7 +280,7 @@ class FirstSceneViewController: UIViewController {
         alertFailure.addAction(okAction)
         self.presentViewController(alertFailure, animated: true, completion: nil)
     }
-    
+    // MARK: segue methods
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "s1SelectClip" {
             let destinationVC = segue.destinationViewController as! VideosViewController
@@ -229,7 +292,6 @@ class FirstSceneViewController: UIViewController {
         }
     }
     
-    // MARK: unwind segues
     @IBAction func s1ClipUnwindSegue(unwindSegue: UIStoryboardSegue) {
         defer {
             self.selectedVideoAsset = nil

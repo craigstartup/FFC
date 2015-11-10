@@ -129,10 +129,11 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
                 options: nil) { (result, _) -> Void in
                     cell.imageView.image = result
                     //self.images.append(result!)
-                })
+            })
+            cell.destroyClipButton.tag = indexPath.row
+            cell.destroyClipButton.addTarget(self, action: "destroyClip:", forControlEvents: UIControlEvents.TouchUpInside)
             return cell
         }
-        
     }
     
     // MARK: Media selection methods
@@ -192,8 +193,28 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
         }
     }
     
-    @IBAction func cancelledSelection(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    func destroyClip(sender: UIButton) {
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            print("DESTROYED")
+            print(sender.tag)
+            PHPhotoLibrary.sharedPhotoLibrary().performChanges({ () -> Void in
+                if self.videos[sender.tag - 1].canPerformEditOperation(PHAssetEditOperation.Delete){
+                    let target = self.videos[sender.tag - 1]
+                    PHAssetChangeRequest.deleteAssets([target])
+                }
+                }, completionHandler: { (success, error) -> Void in
+                    if success {
+                        print("DESTROYED")
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.videos.removeAtIndex(sender.tag - 1)
+                        self.collectionView?.reloadData()
+                    })
+                        
+                    } else if error != nil {
+                        print(error?.localizedDescription)
+                    }
+            })
+        }
     }
     
     // MARK: Segue methods

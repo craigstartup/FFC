@@ -25,7 +25,9 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     @IBOutlet weak var confirmShotButton: UIButton!
     // camera components
     let videoCapture = AVCaptureSession()
-    let camera = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
+    var devices = AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
+    var camera: AVCaptureDevice!
+    var selfieCam: AVCaptureDevice!
     let videoPreviewOutput = AVCaptureVideoDataOutput()
     let videoForFileOutput = AVCaptureMovieFileOutput()
     var preview: AVCaptureVideoPreviewLayer!
@@ -48,8 +50,20 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        for device in self.devices {
+            if device.hasMediaType(AVMediaTypeVideo) && device.position == AVCaptureDevicePosition.Front {
+                self.selfieCam = device as! AVCaptureDevice
+            } else if device.hasMediaType(AVMediaTypeVideo) && device.position == AVCaptureDevicePosition.Back {
+                self.camera = device as! AVCaptureDevice
+            }
+        }
         do{
             try self.camera.lockForConfiguration()
+        } catch let configError as NSError {
+            print(configError.localizedDescription)
+        }
+        do{
+            try self.selfieCam.lockForConfiguration()
         } catch let configError as NSError {
             print(configError.localizedDescription)
         }
@@ -62,7 +76,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         sessionQueue = dispatch_queue_create("session queue", DISPATCH_QUEUE_SERIAL)
         // add device as input to session.
         do {
-            let input = try AVCaptureDeviceInput(device: camera)
+            let input = try AVCaptureDeviceInput(device: self.camera)
             videoCapture.addInput(input)
         } catch let captureError as NSError {
             print(captureError.localizedDescription)
@@ -111,8 +125,6 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         recordTimeButton.userInteractionEnabled = false
         flipCameraButton.alpha = 0
         flipCameraButton.userInteractionEnabled = false
-        clipsView.alpha = 0
-        clipsView.userInteractionEnabled = false
         cancelButton.alpha = 0
         cancelButton.enabled = false
         
@@ -180,25 +192,18 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         
         // save file to Photos.
         if success {
-            
             // check if authorized to save to photos
             PHPhotoLibrary.requestAuthorization({ (status:PHAuthorizationStatus) -> Void in
-                
                 if status == PHAuthorizationStatus.Authorized {
-                    
                     // move movie to Photos library
                     PHPhotoLibrary.sharedPhotoLibrary().performChanges({ () -> Void in
-                        
                         let options = PHAssetResourceCreationOptions()
                         options.shouldMoveFile = true
                         let photosChangeRequest = PHAssetCreationRequest.creationRequestForAsset()
                         photosChangeRequest.addResourceWithType(PHAssetResourceType.Video, fileURL: outputFileURL, options: options)
                         self.newClip = photosChangeRequest.placeholderForCreatedAsset
-                        
                         }, completionHandler: { (success: Bool, error: NSError?) -> Void in
-                            
                             if !success {
-                                
                                 print("Failed to save to photos: %@", error?.localizedDescription)
                                 cleanup()
                             }
@@ -262,7 +267,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                 })
             }
         } else {
-            if pickingShot{
+            if pickingShot {
                 self.performSegueWithIdentifier("cameraUnwindSegue", sender: self)
             }
             self.dismissViewControllerAnimated(true, completion: nil)
@@ -270,9 +275,25 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     }
     
     @IBAction func flipCamera(sender: AnyObject) {
-        
-        
-        
+        self.videoCapture.beginConfiguration()
+        let currentDevice = self.videoCapture.inputs.first as! AVCaptureDeviceInput
+        var newDevice: AVCaptureDevice!
+        defer {
+            newDevice = nil 
+        }
+        if currentDevice.device.position == AVCaptureDevicePosition.Back {
+            newDevice = self.selfieCam
+        } else if currentDevice.device.position == AVCaptureDevicePosition.Front {
+            newDevice = self.camera
+        }
+        self.videoCapture.removeInput(currentDevice)
+        do {
+            let input = try AVCaptureDeviceInput(device: newDevice)
+            videoCapture.addInput(input)
+        } catch let captureError as NSError {
+            print(captureError.localizedDescription)
+        }
+        self.videoCapture.commitConfiguration()
     }
     
     
