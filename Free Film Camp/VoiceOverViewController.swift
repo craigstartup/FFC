@@ -42,6 +42,7 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         let date = dateFormatter.stringFromDate(NSDate())
         let soundFilePath = NSTemporaryDirectory()
         let url = NSURL(fileURLWithPath: soundFilePath).URLByAppendingPathComponent("sound-\(date).caf")
+        MediaController.sharedMediaController.tempPaths.append(url)
         let recordSettings =
         [AVEncoderAudioQualityKey: AVAudioQuality.Min.rawValue,
             AVEncoderBitRateKey: 16,
@@ -138,11 +139,9 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     
     
     @IBAction func doneButtonPressed(sender: AnyObject) {
-        
         if hasRecorded {
         self.audioAssetToPass = AVAsset(URL: (audioRecorder?.url)!)
         }
-        
         self.performSegueWithIdentifier(self.segueID, sender: self)
     }
     
@@ -211,7 +210,6 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
 
     }
     
-    // TODO: Fix recording.
     func didFinishPlayingVideo(notification: NSNotification) {
         self.progressBar.progress = 0.0
         self.progressBar.alpha = 0

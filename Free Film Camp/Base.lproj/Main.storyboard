@@ -1390,10 +1390,6 @@
                                     <action selector="preview:" destination="fje-F2-EuG" eventType="touchUpInside" id="YT1-Kd-ndS"/>
                                 </connections>
                             </button>
-                            <activityIndicatorView opaque="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Nsf-El-ZWS">
-                                <rect key="frame" x="282" y="281" width="37" height="37"/>
-                                <animations/>
-                            </activityIndicatorView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="80" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="rPv-Lt-ha7">
                                 <rect key="frame" x="7" y="126" width="586" height="406"/>
                                 <animations/>
@@ -1493,6 +1489,10 @@
                                     <constraint firstAttribute="height" constant="46" id="h93-gh-cMQ"/>
                                 </constraints>
                             </view>
+                            <activityIndicatorView opaque="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Nsf-El-ZWS">
+                                <rect key="frame" x="282" y="281" width="37" height="37"/>
+                                <animations/>
+                            </activityIndicatorView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" red="0.2666666667" green="0.2666666667" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>

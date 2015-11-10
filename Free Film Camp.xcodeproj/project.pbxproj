@@ -130,6 +130,7 @@
 			children = (
 				8C4B705B1BCFFCD400E54C5E /* MyPlayground.playground */,
 				8C6456B11BD580B700B5CE11 /* .gitignore */,
+				8CF6649B1BE0DFA800BC88EA /* Supporting Files */,
 				8CA57D661BC252EA0016762A /* Free Film Camp */,
 				8CA57D7E1BC252EB0016762A /* Free Film CampTests */,
 				8CA57D891BC252EB0016762A /* Free Film CampUITests */,
@@ -151,7 +152,6 @@
 			isa = PBXGroup;
 			children = (
 				8CA57D9A1BC254C60016762A /* Controller */,
-				8CF6649B1BE0DFA800BC88EA /* Supporting Files */,
 				8CA57D991BC254BE0016762A /* Model */,
 				8CA57D981BC254B50016762A /* View */,
 			);
@@ -225,6 +225,7 @@
 				8CA57D671BC252EA0016762A /* AppDelegate.swift */,
 			);
 			name = "Supporting Files";
+			path = "Free Film Camp";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

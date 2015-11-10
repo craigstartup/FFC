@@ -62,6 +62,8 @@ class MediaController {
     var s3Shot3Image:UIImage!
     var s3VoiceOver: AVAsset!
     
+    // temp cleanup
+    var tempPaths = [NSURL]()
     // movie
     var moviePreview: AVPlayerItem!
 
@@ -72,7 +74,7 @@ class MediaController {
     
     func saveScene(scene: Int) {
         var firstAsset: AVAsset!, secondAsset: AVAsset!, thirdAsset: AVAsset!, audioAsset: AVAsset!
-        
+
         self.albumTitle = "Free Film Camp Scenes"
         switch (scene) {
         case 1:
@@ -182,6 +184,7 @@ class MediaController {
                     })
             }
         }
+    NSNotificationCenter.defaultCenter().postNotificationName(Notifications.saveSceneFailed, object: self)
     }
     
     
@@ -219,6 +222,7 @@ class MediaController {
                 let date = dateFormatter.stringFromDate(NSDate())
                 let vOFilePath = NSTemporaryDirectory()
                 let url = NSURL(fileURLWithPath: vOFilePath).URLByAppendingPathComponent("vo-\(date).m4a")
+                MediaController.sharedMediaController.tempPaths.append(url)
                 // make exporter
                 vOExporter = AVAssetExportSession(
                     asset: audioComposition,
@@ -245,18 +249,12 @@ class MediaController {
                 self.finishMovie(&mixComposition, assets: assets, save: save)
             }
         }
+    NSNotificationCenter.defaultCenter().postNotificationName(Notifications.previewReady, object: self)
+    NSNotificationCenter.defaultCenter().postNotificationName(Notifications.saveMovieFailed, object: self)
     }
     
     
     func finishMovie(inout mixComposition: AVMutableComposition, assets: [AVAsset!], save: Bool) {
-        let cleanup: dispatch_block_t = { () -> Void in
-            do {
-                try NSFileManager.defaultManager().removeItemAtURL(self.vOExporter.outputURL!)
-            } catch let fileError as NSError {
-                
-                print(fileError.localizedDescription)
-            }
-        }
 
         var totalTime: CMTime = kCMTimeZero
         
@@ -371,9 +369,6 @@ class MediaController {
             self.s3Shot2Image = nil
             self.s3Shot3Image = nil
             self.s3VoiceOver = nil
-            if vOExporter != nil {
-                cleanup()
-            }
             self.musicTrack = nil 
             self.audioVoiceOverAsset = nil
             self.vOExporter = nil
@@ -395,9 +390,11 @@ class MediaController {
                         photosChangeRequest.addResourceWithType(PHAssetResourceType.Video, fileURL: outputURL, options: options)
                         self.newScene = photosChangeRequest.placeholderForCreatedAsset
                     }, completionHandler: { (success: Bool, error: NSError?) -> Void in
-                            if !success {
-                                print("Failed to save to photos: %@", error?.localizedDescription)
-                            }
+                        if !success {
+                            print("Failed to save to photos: %@", error?.localizedDescription)
+                        } else if success {
+                            self.destroyTemp()
+                        }
                     })
                     
                     // save movie to correct album
@@ -434,6 +431,19 @@ class MediaController {
                     NSNotificationCenter.defaultCenter().postNotificationName(Notifications.saveSceneFailed, object: self)
                 }
             })
+        }
+    }
+    
+    func destroyTemp() {
+        for temp in self.tempPaths {
+            let cleanup: dispatch_block_t = { () -> Void in
+                do {
+                    try NSFileManager.defaultManager().removeItemAtURL(temp)
+                } catch let fileError as NSError {
+                    print(fileError.localizedDescription)
+                }
+            }
+            cleanup()
         }
     }
 }

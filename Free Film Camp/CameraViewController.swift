@@ -230,7 +230,6 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                 }
             })
         } else {
-            
             cleanup()
         }
         

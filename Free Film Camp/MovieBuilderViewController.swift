@@ -41,7 +41,7 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
         self.vpVC.player = nil
         self.videoPlayer = nil
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveCompleted:", name: MediaController.Notifications.saveMovieFinished, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveFailed", name: MediaController.Notifications.saveMovieFailed, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveFailed:", name: MediaController.Notifications.saveMovieFailed, object: nil)
         self.savingProgress.alpha = 1
         self.savingProgress.startAnimating()
         self.view.alpha = 0.6
@@ -75,16 +75,23 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
     }
     
     @IBAction func preview(sender: AnyObject) {
-        MediaController.sharedMediaController.prepareMovie(false)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "firePreview:", name: MediaController.Notifications.previewReady, object: nil)
+        
+        if self.audioPlayer != nil {
+            self.audioPlayer.stop()
+        }
+       
         self.savingProgress.alpha = 1
         self.savingProgress.startAnimating()
+        self.view.alpha = 0.6
+        MediaController.sharedMediaController.prepareMovie(false)
     }
     
     func firePreview(notification: NSNotification) {
+        self.savingProgress.stopAnimating()
+        self.savingProgress.alpha = 0
+        self.view.alpha = 1
         if MediaController.sharedMediaController.moviePreview != nil {
-            self.savingProgress.stopAnimating()
-            self.savingProgress.alpha = 0
             self.videoPlayer = AVPlayer(playerItem: MediaController.sharedMediaController.moviePreview)
             self.vpVC.player = videoPlayer
             vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
