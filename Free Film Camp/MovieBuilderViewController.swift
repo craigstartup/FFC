@@ -115,6 +115,7 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         print("selected")
         let cell = tableView.cellForRowAtIndexPath(indexPath) as! MusicCell
+        cell.playMusicTrackButton.setTitle("Play", forState: UIControlState.Selected)
         self.currentCell = indexPath
         if indexPath.row < musicFileNames.count {
             cell.playMusicTrackButton.alpha = 1
@@ -127,7 +128,14 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
     
     func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
         print("deselected")
-        let cell = tableView.cellForRowAtIndexPath(indexPath) as! MusicCell
+        guard let cell = tableView.cellForRowAtIndexPath(indexPath) as! MusicCell? else {
+            if audioPlayer != nil {
+                self.audioPlayer.stop()
+                self.audioPlayer = nil
+            }
+            return print("no cell")
+        }
+        cell.playMusicTrackButton.setTitle("Play", forState: UIControlState.Selected)
         if indexPath.row < musicFileNames.count {
             cell.playMusicTrackButton.alpha = 0
             cell.playMusicTrackButton.enabled = false
@@ -137,6 +145,7 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
                 self.audioPlayer = nil
             }
         }
+        self.currentCell = nil
     }
     
     func playMusicForCell() {

@@ -150,6 +150,7 @@
 		8CA57D661BC252EA0016762A /* Free Film Camp */ = {
 			isa = PBXGroup;
 			children = (
+				8CA57D9A1BC254C60016762A /* Controller */,
 				8CF6649B1BE0DFA800BC88EA /* Supporting Files */,
 				8CA57D991BC254BE0016762A /* Model */,
 				8CA57D981BC254B50016762A /* View */,
@@ -184,7 +185,6 @@
 				8CA57DE81BC5F0710016762A /* VideoLibraryCell.swift */,
 				8C5E51D01BC7B2840028CBAA /* TheatreCell.swift */,
 				8C42D0901BEC80E500A5B718 /* MusicCell.swift */,
-				8CA57D9A1BC254C60016762A /* Controller */,
 			);
 			name = View;
 			sourceTree = "<group>";
