@@ -11,7 +11,7 @@
         <!--Video View-->
         <scene sceneID="R3q-qt-yrF">
             <objects>
-                <collectionViewController storyboardIdentifier="videoVC" title="Video View" id="4to-zB-zdm" customClass="VideosViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController restorationIdentifier="videosVCRID" storyboardIdentifier="videoVC" title="Video View" id="4to-zB-zdm" customClass="VideosViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="Vjp-tg-RBq">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -114,7 +114,7 @@
         <!--Voice Over-->
         <scene sceneID="Q77-QL-bxb">
             <objects>
-                <viewController storyboardIdentifier="voiceOverVC" title="Voice Over" id="t2l-7N-cdU" customClass="VoiceOverViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="voiceOverVCRID" storyboardIdentifier="voiceOverVC" title="Voice Over" id="t2l-7N-cdU" customClass="VoiceOverViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jb1-rH-8Ql"/>
                         <viewControllerLayoutGuide type="bottom" id="I6K-8R-b3A"/>
@@ -216,7 +216,7 @@
         <!--Camera-->
         <scene sceneID="pL7-Jn-MB5">
             <objects>
-                <viewController title="Camera" id="KtM-ME-n2y" customClass="CameraViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="cameraVCRID" title="Camera" id="KtM-ME-n2y" customClass="CameraViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="BG8-UZ-oCb"/>
                         <viewControllerLayoutGuide type="bottom" id="D3s-mU-XgP"/>
@@ -330,7 +330,7 @@
         <!--Scene 1-->
         <scene sceneID="A32-Sa-mTl">
             <objects>
-                <viewController title="Scene 1" modalTransitionStyle="flipHorizontal" id="Rxg-ar-8Jr" customClass="FirstSceneViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="scene1VCRID" title="Scene 1" modalTransitionStyle="flipHorizontal" id="Rxg-ar-8Jr" customClass="FirstSceneViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="8yL-1a-8JA"/>
                         <viewControllerLayoutGuide type="bottom" id="aaJ-mr-5ah"/>
@@ -630,7 +630,7 @@
         <!--Scene 3-->
         <scene sceneID="QAh-32-7GB">
             <objects>
-                <viewController title="Scene 3" modalTransitionStyle="flipHorizontal" id="qVt-sA-xLt" customClass="ThirdSceneViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="scene3VCRID" title="Scene 3" modalTransitionStyle="flipHorizontal" id="qVt-sA-xLt" customClass="ThirdSceneViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="j0q-4g-UPM"/>
                         <viewControllerLayoutGuide type="bottom" id="a6c-yl-QbG"/>
@@ -928,7 +928,7 @@
         <!--Views-->
         <scene sceneID="uCU-OV-YKk">
             <objects>
-                <viewController title="Views" id="FaC-O6-ufg" customClass="SelectionViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="selectionVCRID" title="Views" id="FaC-O6-ufg" customClass="SelectionViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Qny-YC-xRj"/>
                         <viewControllerLayoutGuide type="bottom" id="WzA-Mv-cPQ"/>
@@ -1055,7 +1055,7 @@
         <!--Scene 2-->
         <scene sceneID="hhK-99-qLa">
             <objects>
-                <viewController title="Scene 2" modalTransitionStyle="flipHorizontal" id="MQa-Na-cfN" customClass="SecondSceneViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="scene2VCRID" title="Scene 2" modalTransitionStyle="flipHorizontal" id="MQa-Na-cfN" customClass="SecondSceneViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="nra-Tr-sTb"/>
                         <viewControllerLayoutGuide type="bottom" id="FZH-T0-bh8"/>
@@ -1353,7 +1353,7 @@
         <!--Movie-->
         <scene sceneID="Ul7-oZ-ylA">
             <objects>
-                <viewController title="Movie" modalTransitionStyle="flipHorizontal" id="fje-F2-EuG" customClass="MovieBuilderViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="movieVCRID" title="Movie" modalTransitionStyle="flipHorizontal" id="fje-F2-EuG" customClass="MovieBuilderViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="GsR-Xa-Yfa"/>
                         <viewControllerLayoutGuide type="bottom" id="Ueq-ek-GNU"/>
@@ -1622,8 +1622,8 @@
         <image name="plus_white_69" width="60" height="60"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="QIo-ZO-zF5"/>
-        <segue reference="OJI-ki-Muw"/>
+        <segue reference="pbY-XE-sGo"/>
+        <segue reference="LiM-u3-3jo"/>
         <segue reference="nYQ-Mx-U5W"/>
     </inferredMetricsTieBreakers>
 </document>
