@@ -14,6 +14,7 @@ import AVKit
 class FirstSceneViewController: UIViewController {
 
     @IBOutlet weak var savingProgress: UIActivityIndicatorView!
+    @IBOutlet var shotButtons: Array<UIButton>!
     @IBOutlet weak var shot1Button: UIButton!
     @IBOutlet weak var shot2Button: UIButton!
     @IBOutlet weak var shot3Button: UIButton!
@@ -41,6 +42,8 @@ class FirstSceneViewController: UIViewController {
             button.alpha = 0
             button.enabled = false
         }
+        
+        MediaController.sharedMediaController.scene1 = Scene(shotVideos: [nil,nil,nil], shotImages: [nil,nil,nil], voiceOver: nil)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -53,45 +56,28 @@ class FirstSceneViewController: UIViewController {
         
         if assetRequestNumber != nil {
             if self.assetRequestNumber == 1 {
-                MediaController.sharedMediaController.s1Shot1Image = self.selectedVideoImage
+                MediaController.sharedMediaController.scene1.shotImages![0] = self.selectedVideoImage
             } else if self.assetRequestNumber == 2 {
-                MediaController.sharedMediaController.s1Shot2Image = self.selectedVideoImage
+                MediaController.sharedMediaController.scene1.shotImages![1] = self.selectedVideoImage
             } else if self.assetRequestNumber == 3 {
-                MediaController.sharedMediaController.s1Shot3Image = self.selectedVideoImage
+                MediaController.sharedMediaController.scene1.shotImages![2] = self.selectedVideoImage
             }
         }
         
-        if MediaController.sharedMediaController.s1Shot1Image != nil &&
-        MediaController.sharedMediaController.s1Shot1 != nil {
-            self.shot1Button.setImage(MediaController.sharedMediaController.s1Shot1Image, forState: UIControlState.Normal)
-            self.shot1Button.imageView!.contentMode = UIViewContentMode.ScaleToFill
-            self.shot1Button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Fill
-            self.shot1Button.contentVerticalAlignment = UIControlContentVerticalAlignment.Fill
-            self.removeMediaButtons[0].alpha = 1
-            self.removeMediaButtons[0].enabled = true
+        for var i = 0; i < self.shotButtons.count; i++ {
+            let images = MediaController.sharedMediaController.scene1.shotImages
+            let videos = MediaController.sharedMediaController.scene1.shotVideos
+            if images![i] != nil && videos![i] != nil {
+                self.shotButtons[i].setImage(images![i], forState: UIControlState.Normal)
+                self.shotButtons[i].imageView!.contentMode = UIViewContentMode.ScaleToFill
+                self.shotButtons[i].contentHorizontalAlignment = UIControlContentHorizontalAlignment.Fill
+                self.shotButtons[i].contentVerticalAlignment = UIControlContentVerticalAlignment.Fill
+                self.removeMediaButtons[i].alpha = 1
+                self.removeMediaButtons[i].enabled = true
+            }
         }
         
-        if MediaController.sharedMediaController.s1Shot2Image != nil &&
-        MediaController.sharedMediaController.s1Shot2 != nil {
-            self.shot2Button.setImage(MediaController.sharedMediaController.s1Shot2Image, forState: UIControlState.Normal)
-            self.shot2Button.imageView!.contentMode = UIViewContentMode.ScaleToFill
-            self.shot2Button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Fill
-            self.shot2Button.contentVerticalAlignment = UIControlContentVerticalAlignment.Fill
-            self.removeMediaButtons[1].alpha = 1
-            self.removeMediaButtons[1].enabled = true
-        }
-        
-        if MediaController.sharedMediaController.s1Shot3Image != nil &&
-        MediaController.sharedMediaController.s1Shot3 != nil {
-            self.shot3Button.setImage(MediaController.sharedMediaController.s1Shot3Image, forState: UIControlState.Normal)
-            self.shot3Button.imageView!.contentMode = UIViewContentMode.ScaleToFill
-            self.shot3Button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Fill
-            self.shot3Button.contentVerticalAlignment = UIControlContentVerticalAlignment.Fill
-            self.removeMediaButtons[2].alpha = 1
-            self.removeMediaButtons[2].enabled = true
-        }
-        
-        if MediaController.sharedMediaController.s1VoiceOver != nil {
+        if MediaController.sharedMediaController.scene1.voiceOver != nil {
             let check = UIImage(named: "Check")
             self.recordVoiceOverButton.setImage(check, forState: UIControlState.Normal)
             self.removeMediaButtons[3].alpha = 1
@@ -103,147 +89,88 @@ class FirstSceneViewController: UIViewController {
         self.videoPlayer = nil
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
-
-    @IBAction func selectClipOne(sender: AnyObject) {
-        MediaController.sharedMediaController.s1Shot1 = nil
+    
+    @IBAction func selectClip(sender: UIButton) {
         self.selectedVideoAsset = nil
-        self.assetRequestNumber = 1
-        self.removeMediaButtons[0].alpha = 1
-        self.removeMediaButtons[0].enabled = true
+        self.assetRequestNumber = sender.tag
+        self.removeMediaButtons[sender.tag - 1].alpha = 1
+        self.removeMediaButtons[sender.tag - 1].enabled = true
         self.performSegueWithIdentifier("s1SelectClip", sender: self)
     }
-    
-    @IBAction func selectClipTwo(sender: AnyObject) {
-        MediaController.sharedMediaController.s1Shot2 = nil
-        self.selectedVideoAsset = nil
-        self.assetRequestNumber = 2
-        self.removeMediaButtons[1].alpha = 1
-        self.removeMediaButtons[1].enabled = true
-        self.performSegueWithIdentifier("s1SelectClip", sender: self)
-    }
-    
-    @IBAction func selectClip3(sender: AnyObject) {
-        MediaController.sharedMediaController.s1Shot3 = nil
-        self.selectedVideoAsset = nil
-        self.assetRequestNumber = 3
-        self.removeMediaButtons[2].alpha = 1
-        self.removeMediaButtons[2].enabled = true
-        self.performSegueWithIdentifier("s1SelectClip", sender: self)
-    }
-    
-    @IBAction func recordVoiceOver(sender: AnyObject) {
-        MediaController.sharedMediaController.s1VoiceOver = nil
-        self.audioAsset = nil
-        self.removeMediaButtons[3].alpha = 1
-        self.removeMediaButtons[3].enabled = true
-    }
-    
     
     @IBAction func removeMedia(sender: AnyObject) {
-        
-        switch(sender.tag) {
-        case 1:
-            MediaController.sharedMediaController.s1Shot1Image = nil
-            MediaController.sharedMediaController.s1Shot1 = nil
-            self.removeMediaButtons[sender.tag - 1].alpha = 0
-            self.shot1Button.contentVerticalAlignment = UIControlContentVerticalAlignment.Center
-            self.shot1Button.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
-            self.shot1Button.setImage(UIImage(named: "plus_white_69"), forState: UIControlState.Normal)
-            break
-        case 2:
-            MediaController.sharedMediaController.s1Shot2Image = nil
-            MediaController.sharedMediaController.s1Shot2 = nil
-            self.removeMediaButtons[sender.tag - 1].alpha = 0
-            self.shot2Button.contentVerticalAlignment = UIControlContentVerticalAlignment.Center
-            self.shot2Button.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
-            self.shot2Button.setImage(UIImage(named: "plus_white_69"), forState: UIControlState.Normal)
-            break
-        case 3:
-            MediaController.sharedMediaController.s1Shot3Image = nil
-            MediaController.sharedMediaController.s1Shot3 = nil
-            self.removeMediaButtons[sender.tag - 1].alpha = 0
-            self.shot3Button.contentVerticalAlignment = UIControlContentVerticalAlignment.Center
-            self.shot3Button.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
-            self.shot3Button.setImage(UIImage(named: "plus_white_69"), forState: UIControlState.Normal)
-            break
-        case 4:
-            MediaController.sharedMediaController.s1VoiceOver = nil
-            self.removeMediaButtons[sender.tag - 1].alpha = 0
-            self.recordVoiceOverButton.imageView!.image = nil
-            self.recordVoiceOverButton.contentVerticalAlignment = UIControlContentVerticalAlignment.Center
-            self.recordVoiceOverButton.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
-            self.recordVoiceOverButton.setImage(UIImage(named: "plus_white_69"), forState: UIControlState.Normal)
-            break
-        default:
-            print("DEFAULT!")
-        }
+        MediaController.sharedMediaController.scene1.shotVideos![sender.tag - 1] = nil
+        self.removeMediaButtons[sender.tag - 1].alpha = 0
+        self.shotButtons[sender.tag - 1].contentVerticalAlignment = UIControlContentVerticalAlignment.Center
+        self.shotButtons[sender.tag - 1].imageView?.contentMode = UIViewContentMode.ScaleAspectFit
+        self.shotButtons[sender.tag - 1].setImage(UIImage(named: "plus_white_69"), forState: UIControlState.Normal)
     }
     
     @IBAction func previewSelection(sender: AnyObject) {
         var firstAsset: AVAsset!, secondAsset: AVAsset!, thirdAsset: AVAsset!, voiceOverAsset: AVAsset!
-                firstAsset = MediaController.sharedMediaController.s1Shot1
-                secondAsset = MediaController.sharedMediaController.s1Shot2
-                thirdAsset  = MediaController.sharedMediaController.s1Shot3
-                voiceOverAsset = MediaController.sharedMediaController.s1VoiceOver
-                var timeCursor = kCMTimeZero
+        firstAsset = MediaController.sharedMediaController.scene1.shotVideos![0]
+        secondAsset = MediaController.sharedMediaController.scene1.shotVideos![1]
+        thirdAsset  = MediaController.sharedMediaController.scene1.shotVideos![2]
+        audioAsset? = MediaController.sharedMediaController.scene1.voiceOver!
+        var timeCursor = kCMTimeZero
         
-            if firstAsset != nil && secondAsset != nil && thirdAsset != nil {
-                let assets = [firstAsset, secondAsset, thirdAsset]
-                var tracks = [AVMutableCompositionTrack]()
-                let mediaToPreview = AVMutableComposition()
-                
-                
-                for item in assets {
-                    let videoTrack: AVMutableCompositionTrack = mediaToPreview.addMutableTrackWithMediaType(AVMediaTypeVideo, preferredTrackID: kCMPersistentTrackID_Invalid)
-                    do {
-                        try videoTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, item.duration), ofTrack: item.tracksWithMediaType(AVMediaTypeVideo)[0],
-                            atTime: timeCursor)
-                        
-                    } catch let audioTrackError as NSError{
-                        print(audioTrackError.localizedDescription)
-                    }
-                    timeCursor = CMTimeAdd(timeCursor, item.duration)
-                    tracks.append(videoTrack)
-                }
-                
-                let mainInstruction = AVMutableVideoCompositionInstruction()
-                mainInstruction.timeRange = CMTimeRangeMake(kCMTimeZero, timeCursor)
-                
-                var instructions = [AVMutableVideoCompositionLayerInstruction]()
-                var instructionTime: CMTime = kCMTimeZero
-                // Create seperate instructions for each track.
-                for var i = 0; i < tracks.count; i++ {
-                    let instruction = AVMutableVideoCompositionLayerInstruction(assetTrack: tracks[i])
-                    instructionTime = CMTimeAdd(instructionTime, assets[i].duration)
-                    instruction.setOpacity(0.0, atTime: instructionTime)
-                    instructions.append(instruction)
-                }
-                
-                // Add individual instructions to main for execution.
-                mainInstruction.layerInstructions = instructions
-                let mainComposition = AVMutableVideoComposition()
-                // Add instruction composition to main composition and set frame rate to 30 per second.
-                mainComposition.instructions = [mainInstruction]
-                mainComposition.frameDuration = CMTimeMake(1, 30)
-                mainComposition.renderSize = mediaToPreview.naturalSize
-                if voiceOverAsset != nil {
-                    let voiceOverTrack: AVMutableCompositionTrack = mediaToPreview.addMutableTrackWithMediaType(AVMediaTypeAudio, preferredTrackID: kCMPersistentTrackID_Invalid)
+        if firstAsset != nil && secondAsset != nil && thirdAsset != nil {
+            let assets = [firstAsset, secondAsset, thirdAsset]
+            var tracks = [AVMutableCompositionTrack]()
+            let mediaToPreview = AVMutableComposition()
+            
+            
+            for item in assets {
+                let videoTrack: AVMutableCompositionTrack = mediaToPreview.addMutableTrackWithMediaType(AVMediaTypeVideo, preferredTrackID: kCMPersistentTrackID_Invalid)
+                do {
+                    try videoTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, item.duration), ofTrack: item.tracksWithMediaType(AVMediaTypeVideo)[0],
+                        atTime: timeCursor)
                     
-                    do {
-                        try voiceOverTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, timeCursor), ofTrack: voiceOverAsset.tracksWithMediaType(AVMediaTypeAudio)[0] ,
-                            atTime: kCMTimeZero)
-                        
-                    } catch let audioTrackError as NSError{
-                        print(audioTrackError.localizedDescription)
-                    }
+                } catch let audioTrackError as NSError{
+                    print(audioTrackError.localizedDescription)
                 }
-                let itemToPreview = AVPlayerItem(asset: mediaToPreview)
-                itemToPreview.videoComposition = mainComposition
-                self.videoPlayer = AVPlayer(playerItem: itemToPreview)
-                self.vpVC.player = videoPlayer
-                vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
-                presentViewController(vpVC, animated: true, completion: nil)
-        }
+                timeCursor = CMTimeAdd(timeCursor, item.duration)
+                tracks.append(videoTrack)
+            }
+            
+            let mainInstruction = AVMutableVideoCompositionInstruction()
+            mainInstruction.timeRange = CMTimeRangeMake(kCMTimeZero, timeCursor)
+            
+            var instructions = [AVMutableVideoCompositionLayerInstruction]()
+            var instructionTime: CMTime = kCMTimeZero
+            // Create seperate instructions for each track.
+            for var i = 0; i < tracks.count; i++ {
+                let instruction = AVMutableVideoCompositionLayerInstruction(assetTrack: tracks[i])
+                instructionTime = CMTimeAdd(instructionTime, assets[i].duration)
+                instruction.setOpacity(0.0, atTime: instructionTime)
+                instructions.append(instruction)
+            }
+            
+            // Add individual instructions to main for execution.
+            mainInstruction.layerInstructions = instructions
+            let mainComposition = AVMutableVideoComposition()
+            // Add instruction composition to main composition and set frame rate to 30 per second.
+            mainComposition.instructions = [mainInstruction]
+            mainComposition.frameDuration = CMTimeMake(1, 30)
+            mainComposition.renderSize = mediaToPreview.naturalSize
+            if voiceOverAsset != nil {
+                let voiceOverTrack: AVMutableCompositionTrack = mediaToPreview.addMutableTrackWithMediaType(AVMediaTypeAudio, preferredTrackID: kCMPersistentTrackID_Invalid)
+                
+                do {
+                    try voiceOverTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, timeCursor), ofTrack: voiceOverAsset.tracksWithMediaType(AVMediaTypeAudio)[0] ,
+                        atTime: kCMTimeZero)
+                    
+                } catch let audioTrackError as NSError{
+                    print(audioTrackError.localizedDescription)
+                }
+            }
+            let itemToPreview = AVPlayerItem(asset: mediaToPreview)
+            itemToPreview.videoComposition = mainComposition
+            self.videoPlayer = AVPlayer(playerItem: itemToPreview)
+            self.vpVC.player = videoPlayer
+            vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
+            presentViewController(vpVC, animated: true, completion: nil)
+    }
     }
     
     @IBAction func mergeMedia(sender: AnyObject) {
@@ -297,19 +224,13 @@ class FirstSceneViewController: UIViewController {
             self.selectedVideoAsset = nil
         }
         if self.selectedVideoAsset != nil {
-            if assetRequestNumber == 1 {
-                MediaController.sharedMediaController.s1Shot1 = AVAsset(URL: self.selectedVideoAsset)
-            } else if assetRequestNumber == 2 {
-                MediaController.sharedMediaController.s1Shot2 = AVAsset(URL: self.selectedVideoAsset)
-            } else if assetRequestNumber == 3 {
-                MediaController.sharedMediaController.s1Shot3 = AVAsset(URL: self.selectedVideoAsset)
-            }
+            MediaController.sharedMediaController.scene1.shotVideos![assetRequestNumber - 1] = AVAsset(URL: self.selectedVideoAsset)
         }
     }
     
     @IBAction func s1AudioUnwindSegue(unwindSegue: UIStoryboardSegue){
         if self.audioAsset != nil {
-            MediaController.sharedMediaController.s1VoiceOver = self.audioAsset
+            MediaController.sharedMediaController.scene1.voiceOver = self.audioAsset
             self.audioAsset = nil
         }
     }

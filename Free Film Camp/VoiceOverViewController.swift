@@ -169,11 +169,9 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         var firstAsset: AVAsset!, secondAsset: AVAsset!, thirdAsset: AVAsset!
         
         if self.segueID == "s1AudioSelectedSegue" {
-            
-            firstAsset = MediaController.sharedMediaController.s1Shot1
-            secondAsset = MediaController.sharedMediaController.s1Shot2
-            thirdAsset  = MediaController.sharedMediaController.s1Shot3
-            
+            firstAsset  = MediaController.sharedMediaController.scene1.shotVideos?[0]
+            secondAsset = MediaController.sharedMediaController.scene1.shotVideos?[1]
+            thirdAsset  = MediaController.sharedMediaController.scene1.shotVideos?[2]
         } else if self.segueID == "s2AudioSelectedSegue" {
             
             firstAsset = MediaController.sharedMediaController.s2Shot1
