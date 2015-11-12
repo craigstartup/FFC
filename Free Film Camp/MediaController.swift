@@ -37,7 +37,7 @@ class MediaController {
     // music track
     var musicTrack: AVAsset!
     // Scene components
-    var scene1: Scene!
+    var scenes = [Scene]()
     
     var s2Shot1: AVAsset!
     var s2Shot1Image: UIImage!
@@ -71,10 +71,10 @@ class MediaController {
         self.albumTitle = "Free Film Camp Scenes"
         switch (scene) {
         case 1:
-            firstAsset  = scene1.shotVideos?[0]
-            secondAsset = scene1.shotVideos?[1]
-            thirdAsset  = scene1.shotVideos?[2]
-            audioAsset = scene1.voiceOver!
+            firstAsset  = AVAsset(URL: scenes[0].shotVideos[0])
+            secondAsset = AVAsset(URL: scenes[0].shotVideos[1])
+            thirdAsset  = AVAsset(URL: scenes[0].shotVideos[2])
+            audioAsset  = AVAsset(URL: scenes[0].voiceOver!)
         case 2:
             firstAsset = self.s2Shot1
             secondAsset = self.s2Shot2
@@ -438,5 +438,17 @@ class MediaController {
             }
             cleanup()
         }
+    }
+    
+    // MARK: NSCoding
+    func saveScenes() {
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(scenes, toFile: Scene.ArchiveURL.path!)
+        if !isSuccessfulSave {
+            print("FAILED TO SAVE")
+        }
+    }
+    
+    func loadScenes() throws -> [Scene]?{
+        return NSKeyedUnarchiver.unarchiveObjectWithFile(Scene.ArchiveURL.path!) as? [Scene]
     }
 }

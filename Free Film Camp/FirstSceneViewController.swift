@@ -34,7 +34,7 @@ class FirstSceneViewController: UIViewController {
     
     var selectedVideoAsset: NSURL!
     var selectedVideoImage: UIImage!
-    var audioAsset: AVAsset!
+    var audioAsset: NSURL!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,8 +42,15 @@ class FirstSceneViewController: UIViewController {
             button.alpha = 0
             button.enabled = false
         }
-        
-        MediaController.sharedMediaController.scene1 = Scene(shotVideos: [nil,nil,nil], shotImages: [nil,nil,nil], voiceOver: nil)
+        do {
+            try MediaController.sharedMediaController.scenes += MediaController.sharedMediaController.loadScenes()!
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
+        if MediaController.sharedMediaController.scenes.isEmpty {
+            let scene1 = Scene(shotVideos: [NSURL](), shotImages: [UIImage](), voiceOver: nil)
+            MediaController.sharedMediaController.scenes.append(scene1)
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -55,20 +62,14 @@ class FirstSceneViewController: UIViewController {
         self.navigationController?.navigationBar.translucent = true
         
         if assetRequestNumber != nil {
-            if self.assetRequestNumber == 1 {
-                MediaController.sharedMediaController.scene1.shotImages![0] = self.selectedVideoImage
-            } else if self.assetRequestNumber == 2 {
-                MediaController.sharedMediaController.scene1.shotImages![1] = self.selectedVideoImage
-            } else if self.assetRequestNumber == 3 {
-                MediaController.sharedMediaController.scene1.shotImages![2] = self.selectedVideoImage
-            }
+            MediaController.sharedMediaController.scenes[0].shotImages.insert(self.selectedVideoImage, atIndex: assetRequestNumber - 1)
+            MediaController.sharedMediaController.saveScenes()
         }
-        
+        // TODO: Fix adding images when nil
         for var i = 0; i < self.shotButtons.count; i++ {
-            let images = MediaController.sharedMediaController.scene1.shotImages
-            let videos = MediaController.sharedMediaController.scene1.shotVideos
-            if images![i] != nil && videos![i] != nil {
-                self.shotButtons[i].setImage(images![i], forState: UIControlState.Normal)
+            let images = MediaController.sharedMediaController.scenes[0].shotImages
+            if images.count > i {
+                self.shotButtons[i].setImage(images[i], forState: UIControlState.Normal)
                 self.shotButtons[i].imageView!.contentMode = UIViewContentMode.ScaleToFill
                 self.shotButtons[i].contentHorizontalAlignment = UIControlContentHorizontalAlignment.Fill
                 self.shotButtons[i].contentVerticalAlignment = UIControlContentVerticalAlignment.Fill
@@ -77,7 +78,7 @@ class FirstSceneViewController: UIViewController {
             }
         }
         
-        if MediaController.sharedMediaController.scene1.voiceOver != nil {
+        if MediaController.sharedMediaController.scenes[0].voiceOver != nil {
             let check = UIImage(named: "Check")
             self.recordVoiceOverButton.setImage(check, forState: UIControlState.Normal)
             self.removeMediaButtons[3].alpha = 1
@@ -99,7 +100,7 @@ class FirstSceneViewController: UIViewController {
     }
     
     @IBAction func removeMedia(sender: AnyObject) {
-        MediaController.sharedMediaController.scene1.shotVideos![sender.tag - 1] = nil
+        MediaController.sharedMediaController.scenes[0].shotVideos.removeAtIndex(sender.tag - 1)
         self.removeMediaButtons[sender.tag - 1].alpha = 0
         self.shotButtons[sender.tag - 1].contentVerticalAlignment = UIControlContentVerticalAlignment.Center
         self.shotButtons[sender.tag - 1].imageView?.contentMode = UIViewContentMode.ScaleAspectFit
@@ -108,10 +109,10 @@ class FirstSceneViewController: UIViewController {
     
     @IBAction func previewSelection(sender: AnyObject) {
         var firstAsset: AVAsset!, secondAsset: AVAsset!, thirdAsset: AVAsset!, voiceOverAsset: AVAsset!
-        firstAsset = MediaController.sharedMediaController.scene1.shotVideos![0]
-        secondAsset = MediaController.sharedMediaController.scene1.shotVideos![1]
-        thirdAsset  = MediaController.sharedMediaController.scene1.shotVideos![2]
-        audioAsset? = MediaController.sharedMediaController.scene1.voiceOver!
+        firstAsset = AVAsset(URL: MediaController.sharedMediaController.scenes[0].shotVideos[0])
+        secondAsset = AVAsset(URL: MediaController.sharedMediaController.scenes[0].shotVideos[1])
+        thirdAsset  = AVAsset(URL: MediaController.sharedMediaController.scenes[0].shotVideos[2])
+        voiceOverAsset? = AVAsset(URL: MediaController.sharedMediaController.scenes[0].voiceOver!)
         var timeCursor = kCMTimeZero
         
         if firstAsset != nil && secondAsset != nil && thirdAsset != nil {
@@ -181,7 +182,7 @@ class FirstSceneViewController: UIViewController {
         self.view.alpha = 0.6
         MediaController.sharedMediaController.saveScene(scene)
     }
-    // MARK: save notifications
+    // MARK: Save notifications
     func saveCompleted(notification: NSNotification) {
         self.savingProgress.stopAnimating()
         self.savingProgress.alpha = 0
@@ -224,31 +225,22 @@ class FirstSceneViewController: UIViewController {
             self.selectedVideoAsset = nil
         }
         if self.selectedVideoAsset != nil {
-            MediaController.sharedMediaController.scene1.shotVideos![assetRequestNumber - 1] = AVAsset(URL: self.selectedVideoAsset)
+            MediaController.sharedMediaController.scenes[0].shotVideos.insert(self.selectedVideoAsset!, atIndex: assetRequestNumber - 1)
+            //MediaController.sharedMediaController.saveScenes()
         }
     }
     
     @IBAction func s1AudioUnwindSegue(unwindSegue: UIStoryboardSegue){
         if self.audioAsset != nil {
-            MediaController.sharedMediaController.scene1.voiceOver = self.audioAsset
+            MediaController.sharedMediaController.scenes[0].voiceOver! = self.audioAsset!
             self.audioAsset = nil
+            MediaController.sharedMediaController.saveScenes()
         }
     }
     
+        
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

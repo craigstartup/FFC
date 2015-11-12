@@ -22,7 +22,8 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     var videoPlayer: AVQueuePlayer!
     var playerLayer: AVPlayerLayer!
     var audioRecorder: AVAudioRecorder!
-    var audioAssetToPass: AVAsset!
+    var audioAssetToPass: AVURLAsset!
+    var testAudioToPass: NSURL!
     var progress: NSTimer!
     
     var segueID: String!
@@ -48,26 +49,20 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
             AVEncoderBitRateKey: 16,
             AVNumberOfChannelsKey: 2,
             AVSampleRateKey: 44100.0]
-        
         do {
-            
             let audioSession = AVAudioSession.sharedInstance()
             try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker)
         } catch let error as NSError {
-            
             print("audioSession error: \(error.localizedDescription)")
         }
         
         do {
             try self.audioRecorder = AVAudioRecorder(URL: url, settings: recordSettings as! [String : AnyObject])
             audioRecorder?.prepareToRecord()
-            
         } catch let error as NSError {
-            
             print("audioSession error: \(error.localizedDescription)")
         }
         self.audioRecorder.delegate = self
-        
     }
     
     override func viewWillLayoutSubviews() {
@@ -140,7 +135,8 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     
     @IBAction func doneButtonPressed(sender: AnyObject) {
         if hasRecorded {
-        self.audioAssetToPass = AVAsset(URL: (audioRecorder?.url)!)
+            self.audioAssetToPass = AVURLAsset(URL: (audioRecorder?.url)!)
+            self.testAudioToPass = audioRecorder.url
         }
         self.performSegueWithIdentifier(self.segueID, sender: self)
     }
@@ -149,15 +145,12 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if self.audioAssetToPass != nil {
             if segue.identifier == "s1AudioSelectedSegue" {
-                
                 let scene1BuilderVC = segue.destinationViewController as! FirstSceneViewController
-                scene1BuilderVC.audioAsset = self.audioAssetToPass
+                scene1BuilderVC.audioAsset = self.testAudioToPass
             } else if segue.identifier == "s2AudioSelectedSegue" {
-                
                 let scene2BuilderVC = segue.destinationViewController as! SecondSceneViewController
                 scene2BuilderVC.audioAsset = self.audioAssetToPass
             } else if segue.identifier == "s3AudioSelectedSegue" {
-                
                 let scene3BuilderVC = segue.destinationViewController as! ThirdSceneViewController
                 scene3BuilderVC.audioAsset = self.audioAssetToPass
             }
@@ -169,9 +162,9 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         var firstAsset: AVAsset!, secondAsset: AVAsset!, thirdAsset: AVAsset!
         
         if self.segueID == "s1AudioSelectedSegue" {
-            firstAsset  = MediaController.sharedMediaController.scene1.shotVideos?[0]
-            secondAsset = MediaController.sharedMediaController.scene1.shotVideos?[1]
-            thirdAsset  = MediaController.sharedMediaController.scene1.shotVideos?[2]
+            firstAsset  = AVAsset(URL: MediaController.sharedMediaController.scenes[0].shotVideos[0])
+            secondAsset = AVAsset(URL: MediaController.sharedMediaController.scenes[0].shotVideos[1])
+            thirdAsset  = AVAsset(URL: MediaController.sharedMediaController.scenes[0].shotVideos[2])
         } else if self.segueID == "s2AudioSelectedSegue" {
             
             firstAsset = MediaController.sharedMediaController.s2Shot1
