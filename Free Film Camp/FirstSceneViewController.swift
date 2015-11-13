@@ -35,6 +35,9 @@ class FirstSceneViewController: UIViewController {
     var selectedVideoAsset: NSURL!
     var selectedVideoImage: UIImage!
     var audioAsset: NSURL!
+    // placeholder
+    let defaultImage = UIImage(named: "plus_white_69")
+    let defaultURL = NSURL(string: "placeholder")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,8 +51,8 @@ class FirstSceneViewController: UIViewController {
             print(error.localizedDescription)
         }
         if MediaController.sharedMediaController.scenes.isEmpty {
-            let scene1 = Scene(shotVideos: [NSURL](), shotImages: [UIImage](), voiceOver: nil)
-            MediaController.sharedMediaController.scenes.append(scene1)
+            let scene1 = Scene(shotVideos: Array(count: 3, repeatedValue: defaultURL), shotImages: Array(count: 3, repeatedValue: defaultImage), voiceOver: nil)
+            MediaController.sharedMediaController.scenes.append(scene1!)
         }
     }
     
@@ -59,22 +62,22 @@ class FirstSceneViewController: UIViewController {
             self.selectedVideoImage = nil
         }
         self.navigationController?.navigationBarHidden = true
-        self.navigationController?.navigationBar.translucent = true
         
         if assetRequestNumber != nil {
             MediaController.sharedMediaController.scenes[0].shotImages.insert(self.selectedVideoImage, atIndex: assetRequestNumber - 1)
             MediaController.sharedMediaController.saveScenes()
         }
         // TODO: Fix adding images when nil
-        for var i = 0; i < self.shotButtons.count; i++ {
+        for var i = 0; i < self.shotButtons.count ; i++ {
             let images = MediaController.sharedMediaController.scenes[0].shotImages
-            if images.count > i {
+            if images.count > i && images[i] != nil {
                 self.shotButtons[i].setImage(images[i], forState: UIControlState.Normal)
-                self.shotButtons[i].imageView!.contentMode = UIViewContentMode.ScaleToFill
-                self.shotButtons[i].contentHorizontalAlignment = UIControlContentHorizontalAlignment.Fill
-                self.shotButtons[i].contentVerticalAlignment = UIControlContentVerticalAlignment.Fill
-                self.removeMediaButtons[i].alpha = 1
-                self.removeMediaButtons[i].enabled = true
+                self.shotButtons[i].imageView!.contentMode = UIViewContentMode.ScaleAspectFit
+                self.shotButtons[i].contentVerticalAlignment = UIControlContentVerticalAlignment.Center
+                if shotButtons[i].imageView!.image == defaultImage {
+                    self.removeMediaButtons[i].alpha = 1
+                    self.removeMediaButtons[i].enabled = true
+                }
             }
         }
         
@@ -100,11 +103,12 @@ class FirstSceneViewController: UIViewController {
     }
     
     @IBAction func removeMedia(sender: AnyObject) {
-        MediaController.sharedMediaController.scenes[0].shotVideos.removeAtIndex(sender.tag - 1)
+        MediaController.sharedMediaController.scenes[0].shotVideos[sender.tag - 1] = NSURL(string: "placeHolder")
+        MediaController.sharedMediaController.scenes[0].shotImages[sender.tag - 1] = UIImage(named: "plus_white_69")
         self.removeMediaButtons[sender.tag - 1].alpha = 0
         self.shotButtons[sender.tag - 1].contentVerticalAlignment = UIControlContentVerticalAlignment.Center
         self.shotButtons[sender.tag - 1].imageView?.contentMode = UIViewContentMode.ScaleAspectFit
-        self.shotButtons[sender.tag - 1].setImage(UIImage(named: "plus_white_69"), forState: UIControlState.Normal)
+        self.shotButtons[sender.tag - 1].setImage(MediaController.sharedMediaController.scenes[0].shotImages[sender.tag - 1], forState: UIControlState.Normal)
     }
     
     @IBAction func previewSelection(sender: AnyObject) {

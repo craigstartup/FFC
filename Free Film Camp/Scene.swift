@@ -7,11 +7,12 @@
 //
 
 import UIKit
+import AVFoundation
 
 class Scene: NSObject, NSCoding {
     // MARK: Properties
-    var shotVideos: [NSURL]
-    var shotImages: [UIImage]
+    var shotVideos: [NSURL!]
+    var shotImages: [UIImage!]
     var voiceOver: NSURL?
     // MARK: Archiving paths
     static let DocumentsDirectory = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
@@ -23,7 +24,7 @@ class Scene: NSObject, NSCoding {
         static let voiceOverKey = "keyForVoiceOver"
     }
     // MARK: Initialization
-    init(shotVideos: [NSURL], shotImages: [UIImage], voiceOver: NSURL?) {
+    init?(shotVideos: [NSURL!], shotImages: [UIImage!], voiceOver: NSURL?) {
         // Initialize stored properties
         self.shotVideos = shotVideos
         self.shotImages = shotImages
@@ -39,8 +40,8 @@ class Scene: NSObject, NSCoding {
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
-        let shotVideos = aDecoder.decodeObjectForKey(PropertyKey.shotVideosKey) as! [NSURL]
-        let shotImages = aDecoder.decodeObjectForKey(PropertyKey.shotImagesKey) as! [UIImage]
+        let shotVideos = aDecoder.decodeObjectForKey(PropertyKey.shotVideosKey) as! [NSURL!]
+        let shotImages = aDecoder.decodeObjectForKey(PropertyKey.shotImagesKey) as! [UIImage!]
         let voiceOver = aDecoder.decodeObjectForKey(PropertyKey.voiceOverKey) as? NSURL
         
         self.init(shotVideos: shotVideos, shotImages: shotImages, voiceOver: voiceOver)
