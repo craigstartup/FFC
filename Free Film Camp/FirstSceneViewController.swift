@@ -46,7 +46,7 @@ class FirstSceneViewController: UIViewController {
             button.enabled = false
         }
         do {
-            try MediaController.sharedMediaController.scenes += MediaController.sharedMediaController.loadScenes()!
+            try MediaController.sharedMediaController.scenes = MediaController.sharedMediaController.loadScenes()!
         } catch let error as NSError {
             print(error.localizedDescription)
         }
@@ -60,21 +60,23 @@ class FirstSceneViewController: UIViewController {
         defer {
             self.assetRequestNumber = nil
             self.selectedVideoImage = nil
+            self.selectedVideoAsset = nil
         }
         self.navigationController?.navigationBarHidden = true
         
         if assetRequestNumber != nil {
-            MediaController.sharedMediaController.scenes[0].shotImages.insert(self.selectedVideoImage, atIndex: assetRequestNumber - 1)
+            MediaController.sharedMediaController.scenes[0].shotImages[assetRequestNumber - 1] = self.selectedVideoImage
+            MediaController.sharedMediaController.scenes[0].shotVideos[assetRequestNumber - 1] = self.selectedVideoAsset
             MediaController.sharedMediaController.saveScenes()
         }
-        // TODO: Fix adding images when nil
+        
         for var i = 0; i < self.shotButtons.count ; i++ {
             let images = MediaController.sharedMediaController.scenes[0].shotImages
             if images.count > i && images[i] != nil {
                 self.shotButtons[i].setImage(images[i], forState: UIControlState.Normal)
                 self.shotButtons[i].imageView!.contentMode = UIViewContentMode.ScaleAspectFit
                 self.shotButtons[i].contentVerticalAlignment = UIControlContentVerticalAlignment.Center
-                if shotButtons[i].imageView!.image == defaultImage {
+                if shotButtons[i].currentImage != defaultImage {
                     self.removeMediaButtons[i].alpha = 1
                     self.removeMediaButtons[i].enabled = true
                 }
@@ -103,12 +105,13 @@ class FirstSceneViewController: UIViewController {
     }
     
     @IBAction func removeMedia(sender: AnyObject) {
-        MediaController.sharedMediaController.scenes[0].shotVideos[sender.tag - 1] = NSURL(string: "placeHolder")
-        MediaController.sharedMediaController.scenes[0].shotImages[sender.tag - 1] = UIImage(named: "plus_white_69")
+        MediaController.sharedMediaController.scenes[0].shotVideos[sender.tag - 1] = self.defaultURL
+        MediaController.sharedMediaController.scenes[0].shotImages[sender.tag - 1] = self.defaultImage
         self.removeMediaButtons[sender.tag - 1].alpha = 0
         self.shotButtons[sender.tag - 1].contentVerticalAlignment = UIControlContentVerticalAlignment.Center
         self.shotButtons[sender.tag - 1].imageView?.contentMode = UIViewContentMode.ScaleAspectFit
         self.shotButtons[sender.tag - 1].setImage(MediaController.sharedMediaController.scenes[0].shotImages[sender.tag - 1], forState: UIControlState.Normal)
+        MediaController.sharedMediaController.saveScenes()
     }
     
     @IBAction func previewSelection(sender: AnyObject) {
@@ -225,13 +228,7 @@ class FirstSceneViewController: UIViewController {
     }
     
     @IBAction func s1ClipUnwindSegue(unwindSegue: UIStoryboardSegue) {
-        defer {
-            self.selectedVideoAsset = nil
-        }
-        if self.selectedVideoAsset != nil {
-            MediaController.sharedMediaController.scenes[0].shotVideos.insert(self.selectedVideoAsset!, atIndex: assetRequestNumber - 1)
-            //MediaController.sharedMediaController.saveScenes()
-        }
+  
     }
     
     @IBAction func s1AudioUnwindSegue(unwindSegue: UIStoryboardSegue){
