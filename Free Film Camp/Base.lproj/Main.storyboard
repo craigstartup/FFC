@@ -393,7 +393,7 @@
                                     <color key="titleShadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="recordVoiceOver:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="8Ia-IL-Nf8"/>
+                                    <action selector="recordVoiceOver:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="pJo-Cd-YuG"/>
                                     <segue destination="t2l-7N-cdU" kind="show" identifier="s1SelectAudio" id="bJ2-dg-x9E"/>
                                 </connections>
                             </button>
@@ -443,7 +443,7 @@
                                 <color key="backgroundColor" red="0.5725490196078431" green="0.5725490196078431" blue="0.5725490196078431" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" image="plus_white_69"/>
                                 <connections>
-                                    <action selector="selectClip:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="Cmw-1d-JfY"/>
+                                    <action selector="selectClip:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="6MG-Q8-W9f"/>
                                 </connections>
                             </button>
                             <activityIndicatorView opaque="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="XiB-Hr-apA">

@@ -12,12 +12,9 @@ import AVFoundation
 import AVKit
 
 class FirstSceneViewController: UIViewController {
-
+    // MARK: Properties
     @IBOutlet weak var savingProgress: UIActivityIndicatorView!
     @IBOutlet var shotButtons: Array<UIButton>!
-    @IBOutlet weak var shot1Button: UIButton!
-    @IBOutlet weak var shot2Button: UIButton!
-    @IBOutlet weak var shot3Button: UIButton!
     @IBOutlet var removeMediaButtons: Array<UIButton>!
     @IBOutlet weak var recordVoiceOverButton: UIButton!
     @IBOutlet weak var voiceOverLabel: UILabel!
@@ -30,30 +27,29 @@ class FirstSceneViewController: UIViewController {
     let clipID = "s1ClipSelectedSegue"
     let audioID = "s1AudioSelectedSegue"
     var assetRequestNumber: Int!
-    var scene = 1
+    var scene: Scene!
     
     var selectedVideoAsset: NSURL!
     var selectedVideoImage: UIImage!
     var audioAsset: NSURL!
-    // placeholder
+    // placeholder values
     let defaultImage = UIImage(named: "plus_white_69")
     let defaultURL = NSURL(string: "placeholder")
-    
+    // MARK: View Life Cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         for button in removeMediaButtons {
             button.alpha = 0
             button.enabled = false
         }
-        do {
-            try MediaController.sharedMediaController.scenes = MediaController.sharedMediaController.loadScenes()!
-        } catch let error as NSError {
-            print(error.localizedDescription)
+        guard let scenes = MediaController.sharedMediaController.loadScenes() else {
+            for _ in 0..<3 {
+                let scene = Scene(shotVideos: Array(count: 3, repeatedValue: defaultURL!), shotImages: Array(count: 3, repeatedValue: defaultImage!), voiceOver: defaultURL!)
+                MediaController.sharedMediaController.scenes.append(scene!)
+            }
+            return
         }
-        if MediaController.sharedMediaController.scenes.isEmpty {
-            let scene1 = Scene(shotVideos: Array(count: 3, repeatedValue: defaultURL), shotImages: Array(count: 3, repeatedValue: defaultImage), voiceOver: nil)
-            MediaController.sharedMediaController.scenes.append(scene1!)
-        }
+        MediaController.sharedMediaController.scenes = scenes
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -63,16 +59,18 @@ class FirstSceneViewController: UIViewController {
             self.selectedVideoAsset = nil
         }
         self.navigationController?.navigationBarHidden = true
+        self.scene = MediaController.sharedMediaController.scenes[0]
         
         if assetRequestNumber != nil {
-            MediaController.sharedMediaController.scenes[0].shotImages[assetRequestNumber - 1] = self.selectedVideoImage
-            MediaController.sharedMediaController.scenes[0].shotVideos[assetRequestNumber - 1] = self.selectedVideoAsset
+            self.scene.shotImages[assetRequestNumber - 1] = self.selectedVideoImage
+            self.scene.shotVideos[assetRequestNumber - 1] = self.selectedVideoAsset
             MediaController.sharedMediaController.saveScenes()
         }
         
         for var i = 0; i < self.shotButtons.count ; i++ {
-            let images = MediaController.sharedMediaController.scenes[0].shotImages
-            if images.count > i && images[i] != nil {
+            let images = self.scene.shotImages
+            let videos = self.scene.shotVideos
+            if images.count > i && videos[i] != self.defaultURL {
                 self.shotButtons[i].setImage(images[i], forState: UIControlState.Normal)
                 self.shotButtons[i].imageView!.contentMode = UIViewContentMode.ScaleAspectFit
                 self.shotButtons[i].contentVerticalAlignment = UIControlContentVerticalAlignment.Center
@@ -83,7 +81,7 @@ class FirstSceneViewController: UIViewController {
             }
         }
         
-        if MediaController.sharedMediaController.scenes[0].voiceOver != nil {
+        if self.scene.voiceOver != defaultURL {
             let check = UIImage(named: "Check")
             self.recordVoiceOverButton.setImage(check, forState: UIControlState.Normal)
             self.removeMediaButtons[3].alpha = 1
@@ -96,6 +94,7 @@ class FirstSceneViewController: UIViewController {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
+    // MARK: Button Actions
     @IBAction func selectClip(sender: UIButton) {
         self.selectedVideoAsset = nil
         self.assetRequestNumber = sender.tag
@@ -105,21 +104,42 @@ class FirstSceneViewController: UIViewController {
     }
     
     @IBAction func removeMedia(sender: AnyObject) {
-        MediaController.sharedMediaController.scenes[0].shotVideos[sender.tag - 1] = self.defaultURL
-        MediaController.sharedMediaController.scenes[0].shotImages[sender.tag - 1] = self.defaultImage
+        if sender.tag < 4 {
+            self.scene.shotVideos[sender.tag - 1] = self.defaultURL!
+            self.scene.shotImages[sender.tag - 1] = self.defaultImage!
+            self.shotButtons[sender.tag - 1].contentVerticalAlignment = UIControlContentVerticalAlignment.Center
+            self.shotButtons[sender.tag - 1].imageView?.contentMode = UIViewContentMode.ScaleAspectFit
+            self.shotButtons[sender.tag - 1].setImage(self.scene.shotImages[sender.tag - 1], forState: UIControlState.Normal)
+        } else if sender.tag == 4 {
+            self.recordVoiceOverButton.contentVerticalAlignment = UIControlContentVerticalAlignment.Center
+            self.recordVoiceOverButton.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
+            self.recordVoiceOverButton.setImage(self.defaultImage, forState: UIControlState.Normal)
+            self.scene.voiceOver = self.defaultURL!
+        }
+        
         self.removeMediaButtons[sender.tag - 1].alpha = 0
-        self.shotButtons[sender.tag - 1].contentVerticalAlignment = UIControlContentVerticalAlignment.Center
-        self.shotButtons[sender.tag - 1].imageView?.contentMode = UIViewContentMode.ScaleAspectFit
-        self.shotButtons[sender.tag - 1].setImage(MediaController.sharedMediaController.scenes[0].shotImages[sender.tag - 1], forState: UIControlState.Normal)
+        self.removeMediaButtons[sender.tag - 1].enabled = false
         MediaController.sharedMediaController.saveScenes()
+    }
+    
+    @IBAction func recordVoiceOver(sender: AnyObject) {
+        scene.voiceOver = defaultURL!
+        self.audioAsset = nil
+        self.removeMediaButtons[3].alpha = 1
+        self.removeMediaButtons[3].enabled = true
     }
     
     @IBAction func previewSelection(sender: AnyObject) {
         var firstAsset: AVAsset!, secondAsset: AVAsset!, thirdAsset: AVAsset!, voiceOverAsset: AVAsset!
-        firstAsset = AVAsset(URL: MediaController.sharedMediaController.scenes[0].shotVideos[0])
-        secondAsset = AVAsset(URL: MediaController.sharedMediaController.scenes[0].shotVideos[1])
-        thirdAsset  = AVAsset(URL: MediaController.sharedMediaController.scenes[0].shotVideos[2])
-        voiceOverAsset? = AVAsset(URL: MediaController.sharedMediaController.scenes[0].voiceOver!)
+        firstAsset = AVAsset(URL: self.scene.shotVideos[0])
+        secondAsset = AVAsset(URL: self.scene.shotVideos[1])
+        thirdAsset  = AVAsset(URL: self.scene.shotVideos[2])
+        if self.scene.voiceOver != self.defaultURL {
+            voiceOverAsset = AVAsset(URL: self.scene.voiceOver)
+            voiceOverAsset.loadValuesAsynchronouslyForKeys(["tracks", "duration"], completionHandler: { () -> Void in
+                print("loaded")
+            })
+        }
         var timeCursor = kCMTimeZero
         
         if firstAsset != nil && secondAsset != nil && thirdAsset != nil {
@@ -163,13 +183,14 @@ class FirstSceneViewController: UIViewController {
             mainComposition.renderSize = mediaToPreview.naturalSize
             if voiceOverAsset != nil {
                 let voiceOverTrack: AVMutableCompositionTrack = mediaToPreview.addMutableTrackWithMediaType(AVMediaTypeAudio, preferredTrackID: kCMPersistentTrackID_Invalid)
-                
-                do {
-                    try voiceOverTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, timeCursor), ofTrack: voiceOverAsset.tracksWithMediaType(AVMediaTypeAudio)[0] ,
-                        atTime: kCMTimeZero)
-                    
-                } catch let audioTrackError as NSError{
-                    print(audioTrackError.localizedDescription)
+                if !voiceOverAsset.tracks.isEmpty {
+                    do {
+                        try voiceOverTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, timeCursor), ofTrack: voiceOverAsset!.tracksWithMediaType(AVMediaTypeAudio)[0] ,
+                            atTime: kCMTimeZero)
+                        
+                    } catch let audioTrackError as NSError{
+                        print(audioTrackError.localizedDescription)
+                    }
                 }
             }
             let itemToPreview = AVPlayerItem(asset: mediaToPreview)
@@ -178,7 +199,7 @@ class FirstSceneViewController: UIViewController {
             self.vpVC.player = videoPlayer
             vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
             presentViewController(vpVC, animated: true, completion: nil)
-    }
+        }
     }
     
     @IBAction func mergeMedia(sender: AnyObject) {
@@ -187,13 +208,14 @@ class FirstSceneViewController: UIViewController {
         self.savingProgress.alpha = 1
         self.savingProgress.startAnimating()
         self.view.alpha = 0.6
-        MediaController.sharedMediaController.saveScene(scene)
+        MediaController.sharedMediaController.prepareMedia([self.scene], movie: false, save: true)
     }
     // MARK: Save notifications
     func saveCompleted(notification: NSNotification) {
         self.savingProgress.stopAnimating()
         self.savingProgress.alpha = 0
         self.view.alpha = 1
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MediaController.Notifications.saveSceneFailed, object: nil)
         NSNotificationCenter.defaultCenter().removeObserver(self, name: MediaController.Notifications.saveSceneFinished, object: nil)
         let alertSuccess = UIAlertController(title: "Success", message: "Scene saved to Photos!", preferredStyle: .Alert)
         let okAction = UIAlertAction(title: "Thanks!", style: .Default) { (action) -> Void in
@@ -207,6 +229,7 @@ class FirstSceneViewController: UIViewController {
         self.savingProgress.stopAnimating()
         self.savingProgress.alpha = 0
         self.view.alpha = 1
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MediaController.Notifications.saveSceneFinished, object: nil)
         NSNotificationCenter.defaultCenter().removeObserver(self, name: MediaController.Notifications.saveSceneFailed, object: nil)
         let alertFailure = UIAlertController(title: "Failure", message: "Scene failed to save. Re-select media and try again", preferredStyle: .Alert)
         let okAction = UIAlertAction(title: "Thanks!", style: .Default) { (action) -> Void in
@@ -228,18 +251,18 @@ class FirstSceneViewController: UIViewController {
     }
     
     @IBAction func s1ClipUnwindSegue(unwindSegue: UIStoryboardSegue) {
-  
+        
     }
     
     @IBAction func s1AudioUnwindSegue(unwindSegue: UIStoryboardSegue){
         if self.audioAsset != nil {
-            MediaController.sharedMediaController.scenes[0].voiceOver! = self.audioAsset!
-            self.audioAsset = nil
-            MediaController.sharedMediaController.saveScenes()
+            
+            self.scene.voiceOver = self.audioAsset
+            //MediaController.sharedMediaController.saveScenes()
         }
     }
     
-        
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
