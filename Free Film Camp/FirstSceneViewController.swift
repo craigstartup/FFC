@@ -130,72 +130,9 @@ class FirstSceneViewController: UIViewController {
     }
     
     @IBAction func previewSelection(sender: AnyObject) {
-        var firstAsset: AVAsset!, secondAsset: AVAsset!, thirdAsset: AVAsset!, voiceOverAsset: AVAsset!
-        firstAsset = AVAsset(URL: self.scene.shotVideos[0])
-        secondAsset = AVAsset(URL: self.scene.shotVideos[1])
-        thirdAsset  = AVAsset(URL: self.scene.shotVideos[2])
-        if self.scene.voiceOver != self.defaultURL {
-            voiceOverAsset = AVAsset(URL: self.scene.voiceOver)
-            voiceOverAsset.loadValuesAsynchronouslyForKeys(["tracks", "duration"], completionHandler: { () -> Void in
-                print("loaded")
-            })
-        }
-        var timeCursor = kCMTimeZero
-        
-        if firstAsset != nil && secondAsset != nil && thirdAsset != nil {
-            let assets = [firstAsset, secondAsset, thirdAsset]
-            var tracks = [AVMutableCompositionTrack]()
-            let mediaToPreview = AVMutableComposition()
-            
-            
-            for item in assets {
-                let videoTrack: AVMutableCompositionTrack = mediaToPreview.addMutableTrackWithMediaType(AVMediaTypeVideo, preferredTrackID: kCMPersistentTrackID_Invalid)
-                do {
-                    try videoTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, item.duration), ofTrack: item.tracksWithMediaType(AVMediaTypeVideo)[0],
-                        atTime: timeCursor)
-                    
-                } catch let audioTrackError as NSError{
-                    print(audioTrackError.localizedDescription)
-                }
-                timeCursor = CMTimeAdd(timeCursor, item.duration)
-                tracks.append(videoTrack)
-            }
-            
-            let mainInstruction = AVMutableVideoCompositionInstruction()
-            mainInstruction.timeRange = CMTimeRangeMake(kCMTimeZero, timeCursor)
-            
-            var instructions = [AVMutableVideoCompositionLayerInstruction]()
-            var instructionTime: CMTime = kCMTimeZero
-            // Create seperate instructions for each track.
-            for var i = 0; i < tracks.count; i++ {
-                let instruction = AVMutableVideoCompositionLayerInstruction(assetTrack: tracks[i])
-                instructionTime = CMTimeAdd(instructionTime, assets[i].duration)
-                instruction.setOpacity(0.0, atTime: instructionTime)
-                instructions.append(instruction)
-            }
-            
-            // Add individual instructions to main for execution.
-            mainInstruction.layerInstructions = instructions
-            let mainComposition = AVMutableVideoComposition()
-            // Add instruction composition to main composition and set frame rate to 30 per second.
-            mainComposition.instructions = [mainInstruction]
-            mainComposition.frameDuration = CMTimeMake(1, 30)
-            mainComposition.renderSize = mediaToPreview.naturalSize
-            if voiceOverAsset != nil {
-                let voiceOverTrack: AVMutableCompositionTrack = mediaToPreview.addMutableTrackWithMediaType(AVMediaTypeAudio, preferredTrackID: kCMPersistentTrackID_Invalid)
-                if !voiceOverAsset.tracks.isEmpty {
-                    do {
-                        try voiceOverTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, timeCursor), ofTrack: voiceOverAsset!.tracksWithMediaType(AVMediaTypeAudio)[0] ,
-                            atTime: kCMTimeZero)
-                        
-                    } catch let audioTrackError as NSError{
-                        print(audioTrackError.localizedDescription)
-                    }
-                }
-            }
-            let itemToPreview = AVPlayerItem(asset: mediaToPreview)
-            itemToPreview.videoComposition = mainComposition
-            self.videoPlayer = AVPlayer(playerItem: itemToPreview)
+        MediaController.sharedMediaController.prepareMedia([self.scene], movie: false, save: false)
+        if let preview = MediaController.sharedMediaController.preview {
+            self.videoPlayer = AVPlayer(playerItem: preview)
             self.vpVC.player = videoPlayer
             vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
             presentViewController(vpVC, animated: true, completion: nil)

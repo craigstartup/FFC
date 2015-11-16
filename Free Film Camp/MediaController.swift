@@ -33,6 +33,7 @@ class MediaController {
     // Media components
     var scenes = [Scene]()
     var musicTrack: AVURLAsset!
+    var preview: AVPlayerItem!
     // temp cleanup
     var tempPaths = [NSURL]()
 
@@ -62,7 +63,7 @@ class MediaController {
             videoAssets.append(bumper)
             self.getMovieVoiceOver(voiceOverAssets, videoAssets: videoAssets, save: save)
         } else if !movie {
-            self.composeMedia(videoAssets, voiceOverAssets: voiceOverAssets, movieVoiceOver: nil, movie: movie, save: save)
+           self.preview = self.composeMedia(videoAssets, voiceOverAssets: voiceOverAssets, movieVoiceOver: nil, movie: movie, save: save)
         }
     }
     
@@ -195,7 +196,7 @@ class MediaController {
                     if vOExporter!.status == AVAssetExportSessionStatus.Completed {
                         print("Export finished")
                         let movieVoiceOver = AVURLAsset(URL: (vOExporter?.outputURL)!)
-                        self.composeMedia(videoAssets, voiceOverAssets: voiceOvers, movieVoiceOver: movieVoiceOver, movie: true, save: save)
+                        self.preview = self.composeMedia(videoAssets, voiceOverAssets: voiceOvers, movieVoiceOver: movieVoiceOver, movie: true, save: save)
                     } else if vOExporter!.status == AVAssetExportSessionStatus.Waiting {
                         print("Export waiting")
                     } else if vOExporter!.status == AVAssetExportSessionStatus.Failed {
