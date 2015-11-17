@@ -158,14 +158,14 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if self.audioAssetToPass != nil {
             if segue.identifier == "s1AudioSelectedSegue" {
-                let scene1BuilderVC = segue.destinationViewController as! FirstSceneViewController
+                let scene1BuilderVC = segue.destinationViewController as! SceneViewController
                 scene1BuilderVC.audioAsset = self.testAudioToPass
             } else if segue.identifier == "s2AudioSelectedSegue" {
-                let scene2BuilderVC = segue.destinationViewController as! SecondSceneViewController
-                scene2BuilderVC.audioAsset = self.audioAssetToPass
+                let scene2BuilderVC = segue.destinationViewController as! SceneViewController
+                scene2BuilderVC.audioAsset = self.testAudioToPass
             } else if segue.identifier == "s3AudioSelectedSegue" {
-                let scene3BuilderVC = segue.destinationViewController as! ThirdSceneViewController
-                scene3BuilderVC.audioAsset = self.audioAssetToPass
+                let scene3BuilderVC = segue.destinationViewController as! SceneViewController
+                scene3BuilderVC.audioAsset = self.testAudioToPass
             }
         }
     }
@@ -178,13 +178,14 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
             secondAsset = AVAsset(URL: MediaController.sharedMediaController.scenes[0].shotVideos[1])
             thirdAsset  = AVAsset(URL: MediaController.sharedMediaController.scenes[0].shotVideos[2])
         } else if self.segueID == "s2AudioSelectedSegue" {
-            firstAsset = MediaController.sharedMediaController.s2Shot1
-            secondAsset = MediaController.sharedMediaController.s2Shot2
-            thirdAsset  = MediaController.sharedMediaController.s2Shot3
+            firstAsset  = AVAsset(URL: MediaController.sharedMediaController.scenes[1].shotVideos[0])
+            secondAsset = AVAsset(URL: MediaController.sharedMediaController.scenes[1].shotVideos[1])
+            thirdAsset  = AVAsset(URL: MediaController.sharedMediaController.scenes[1].shotVideos[2])
         } else if self.segueID == "s3AudioSelectedSegue" {
-            firstAsset = MediaController.sharedMediaController.s3Shot1
-            secondAsset = MediaController.sharedMediaController.s3Shot2
-            thirdAsset  = MediaController.sharedMediaController.s3Shot3
+            firstAsset  = AVAsset(URL: MediaController.sharedMediaController.scenes[2].shotVideos[0])
+            secondAsset = AVAsset(URL: MediaController.sharedMediaController.scenes[2].shotVideos[1])
+            thirdAsset  = AVAsset(URL: MediaController.sharedMediaController.scenes[2].shotVideos[2])
+
         }
         
         if firstAsset != nil && secondAsset != nil && thirdAsset != nil {

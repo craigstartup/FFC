@@ -69,6 +69,11 @@ class MediaController {
     
     
     func composeMedia(videoAssets: [AVURLAsset], voiceOverAssets: [AVURLAsset], movieVoiceOver: AVURLAsset?, movie: Bool, save: Bool) -> AVPlayerItem? {
+        // Get total time for movie assets.
+        var totalTime: CMTime = kCMTimeZero
+        for time in videoAssets {
+            totalTime = CMTimeAdd(totalTime, time.duration)
+        }
         // Compose assets into a scene or movie.
         let mixComposition = AVMutableComposition()
         var tracks = [AVMutableCompositionTrack]()
@@ -76,9 +81,8 @@ class MediaController {
         
         // create instructions for each track
         let mainInstruction = AVMutableVideoCompositionInstruction()
-        mainInstruction.timeRange = CMTimeRangeMake(kCMTimeZero, tracksTime)
+        mainInstruction.timeRange = CMTimeRangeMake(kCMTimeZero, totalTime)
         var instructions = [AVMutableVideoCompositionLayerInstruction]()
-        var instructionTime: CMTime = kCMTimeZero
         
         // Video
         for videoAsset in videoAssets {
@@ -93,14 +97,15 @@ class MediaController {
             } catch let firstTrackError as NSError {
                 print(firstTrackError.localizedDescription)
             }
-            tracksTime = CMTimeAdd(tracksTime, videoAsset.duration)
-            tracks.append(track)
             
+            tracks.append(track)
+            tracksTime = CMTimeAdd(tracksTime, videoAsset.duration)
             // creat instructions for each track
             let instruction = AVMutableVideoCompositionLayerInstruction(assetTrack: track)
-            instructionTime = CMTimeAdd(instructionTime, videoAsset.duration)
-            instruction.setOpacity(0.0, atTime: instructionTime)
+            instruction.setOpacity(0.0, atTime: tracksTime)
             instructions.append(instruction)
+            
+            
         }
         
         // Add individual instructions to main for execution.
@@ -115,12 +120,14 @@ class MediaController {
         // process audio for each set of videos(scene) if present or not movie
         if movieVoiceOver == nil {
             for voiceOverAsset in voiceOverAssets {
-                let audioTrack: AVMutableCompositionTrack = mixComposition.addMutableTrackWithMediaType(AVMediaTypeAudio, preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
-                do { // TODO: Possibly adjust tracks time to be more comprehensive.
-                    try audioTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, tracksTime), ofTrack: voiceOverAsset.tracksWithMediaType(AVMediaTypeAudio)[0] ,
-                        atTime: kCMTimeZero)
-                } catch let audioTrackError as NSError{
-                    print(audioTrackError.localizedDescription)
+                if !voiceOverAsset.tracks.isEmpty {
+                    let audioTrack: AVMutableCompositionTrack = mixComposition.addMutableTrackWithMediaType(AVMediaTypeAudio, preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
+                    do { // TODO: Possibly adjust tracks time to be more comprehensive.
+                        try audioTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, tracksTime), ofTrack: voiceOverAsset.tracksWithMediaType(AVMediaTypeAudio)[0] ,
+                            atTime: kCMTimeZero)
+                    } catch let audioTrackError as NSError{
+                        print(audioTrackError.localizedDescription)
+                    }
                 }
             }
         } else {

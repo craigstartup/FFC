@@ -220,15 +220,15 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
     // MARK: Segue methods
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "s1ClipSelectedSegue" {
-            let scene1BuilderVC = segue.destinationViewController as! FirstSceneViewController
+            let scene1BuilderVC = segue.destinationViewController as! SceneViewController
             scene1BuilderVC.selectedVideoAsset = self.videoAssetToPass
             scene1BuilderVC.selectedVideoImage = self.videoImageToPass
         } else if segue.identifier == "s2ClipSelectedSegue" {
-            let scene2BuilderVC = segue.destinationViewController as! SecondSceneViewController
+            let scene2BuilderVC = segue.destinationViewController as! SceneViewController
             scene2BuilderVC.selectedVideoAsset = self.videoAssetToPass
             scene2BuilderVC.selectedVideoImage = self.videoImageToPass
         } else if segue.identifier == "s3ClipSelectedSegue" {
-            let scene3BuilderVC = segue.destinationViewController as! ThirdSceneViewController
+            let scene3BuilderVC = segue.destinationViewController as! SceneViewController
             scene3BuilderVC.selectedVideoAsset = self.videoAssetToPass
             scene3BuilderVC.selectedVideoImage = self.videoImageToPass
         } else if segue.identifier == "pickingShot" {

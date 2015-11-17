@@ -11,21 +11,35 @@ import Photos
 import AVFoundation
 import AVKit
 
-class FirstSceneViewController: UIViewController {
+class SceneViewController: UIViewController {
     // MARK: Properties
     @IBOutlet weak var savingProgress: UIActivityIndicatorView!
-    @IBOutlet var shotButtons: Array<UIButton>!
-    @IBOutlet var removeMediaButtons: Array<UIButton>!
-    @IBOutlet weak var recordVoiceOverButton: UIButton!
-    @IBOutlet weak var voiceOverLabel: UILabel!
+    @IBOutlet var scene1Buttons: Array<UIButton>!
+    @IBOutlet var scene2Buttons: Array<UIButton>!
+    @IBOutlet var scene3Buttons: Array<UIButton>!
+    
+    @IBOutlet var scene1RemoveMediaButtons: Array<UIButton>!
+    @IBOutlet var scene2RemoveMediaButtons: Array<UIButton>!
+    @IBOutlet var scene3RemoveMediaButtons: Array<UIButton>!
+    
+    var sceneButtons = [[[UIButton]?]]()
+    
+    //Button types
+    let ADD_BUTTONS = 0
+    let DESTROY_BUTTONS = 1
+    let SHOT1 = 0, SHOT2 = 1, SHOT3 = 2, VOICEOVER = 3
     
     var vpVC = AVPlayerViewController()
     let library = PHPhotoLibrary.sharedPhotoLibrary()
     
     var videoPlayer: AVPlayer!
     
-    let clipID = "s1ClipSelectedSegue"
-    let audioID = "s1AudioSelectedSegue"
+    // Scene specific identifiers
+    var shotSelectedSegueID:       String!
+    var voiceOverSelectedSegueID:  String!
+    var selectingShotSegueID:      String!
+    var selectingVoiceOverSegueID: String!
+    var sceneNumber:        Int!
     var assetRequestNumber: Int!
     var scene: Scene!
     
@@ -35,22 +49,48 @@ class FirstSceneViewController: UIViewController {
     // placeholder values
     let defaultImage = UIImage(named: "plus_white_69")
     let defaultURL = NSURL(string: "placeholder")
+    
     // MARK: View Life Cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        for button in removeMediaButtons {
-            button.alpha = 0
-            button.enabled = false
+        
+        switch(self.restorationIdentifier!) {
+        case "scene1":
+            self.shotSelectedSegueID = "s1ClipSelectedSegue"
+            self.voiceOverSelectedSegueID = "s1AudioSelectedSegue"
+            self.selectingShotSegueID = "s1SelectClip"
+            self.selectingVoiceOverSegueID = "s1SelectAudio"
+            self.sceneNumber = 0
+            break
+        case "scene2":
+            self.shotSelectedSegueID = "s2ClipSelectedSegue"
+            self.voiceOverSelectedSegueID = "s2AudioSelectedSegue"
+            self.selectingShotSegueID = "s2SelectClip"
+            self.selectingVoiceOverSegueID = "s2SelectAudio"
+            self.sceneNumber = 1
+            break
+        case "scene3":
+            self.shotSelectedSegueID = "s3ClipSelectedSegue"
+            self.voiceOverSelectedSegueID = "s3AudioSelectedSegue"
+            self.selectingShotSegueID = "s3SelectClip"
+            self.selectingVoiceOverSegueID = "s3SelectAudio"
+            self.sceneNumber = 2
+            break
+        default:
+            print("NO MATCH")
         }
-        guard let scenes = MediaController.sharedMediaController.loadScenes() else {
-            for _ in 0..<3 {
-                let scene = Scene(shotVideos: Array(count: 3, repeatedValue: defaultURL!), shotImages: Array(count: 3, repeatedValue: defaultImage!), voiceOver: defaultURL!)
-                MediaController.sharedMediaController.scenes.append(scene!)
+        if MediaController.sharedMediaController.scenes.isEmpty {
+            guard let scenes = MediaController.sharedMediaController.loadScenes() else {
+                for _ in 0..<3 {
+                    let scene = Scene(shotVideos: Array(count: 3, repeatedValue: defaultURL!), shotImages: Array(count: 3, repeatedValue: defaultImage!), voiceOver: defaultURL!)
+                    MediaController.sharedMediaController.scenes.append(scene!)
+                }
+                return
             }
-            return
+            MediaController.sharedMediaController.scenes = scenes
         }
-        MediaController.sharedMediaController.scenes = scenes
     }
+    
     
     override func viewWillAppear(animated: Bool) {
         defer {
@@ -58,8 +98,16 @@ class FirstSceneViewController: UIViewController {
             self.selectedVideoImage = nil
             self.selectedVideoAsset = nil
         }
+        
+        self.sceneButtons = [[self.scene1Buttons, self.scene1RemoveMediaButtons],[self.scene2Buttons, self.scene2RemoveMediaButtons], [self.scene3Buttons, self.scene3RemoveMediaButtons]]
+        
+        for button in self.sceneButtons[self.sceneNumber][DESTROY_BUTTONS]! {
+            button.alpha = 0
+            button.enabled = false
+        }
+        
         self.navigationController?.navigationBarHidden = true
-        self.scene = MediaController.sharedMediaController.scenes[0]
+        self.scene = MediaController.sharedMediaController.scenes[sceneNumber]
         
         if assetRequestNumber != nil {
             self.scene.shotImages[assetRequestNumber - 1] = self.selectedVideoImage
@@ -67,25 +115,25 @@ class FirstSceneViewController: UIViewController {
             MediaController.sharedMediaController.saveScenes()
         }
         
-        for var i = 0; i < self.shotButtons.count ; i++ {
+        for var i = 0; i < self.sceneButtons.count ; i++ {
             let images = self.scene.shotImages
             let videos = self.scene.shotVideos
             if images.count > i && videos[i] != self.defaultURL {
-                self.shotButtons[i].setImage(images[i], forState: UIControlState.Normal)
-                self.shotButtons[i].imageView!.contentMode = UIViewContentMode.ScaleAspectFit
-                self.shotButtons[i].contentVerticalAlignment = UIControlContentVerticalAlignment.Center
-                if shotButtons[i].currentImage != defaultImage {
-                    self.removeMediaButtons[i].alpha = 1
-                    self.removeMediaButtons[i].enabled = true
+                self.sceneButtons[sceneNumber][ADD_BUTTONS]![i].setImage(images[i], forState: UIControlState.Normal)
+                self.sceneButtons[sceneNumber][ADD_BUTTONS]![i].contentMode = UIViewContentMode.ScaleAspectFit
+                self.sceneButtons[sceneNumber][ADD_BUTTONS]![i].contentVerticalAlignment = UIControlContentVerticalAlignment.Center
+                if self.sceneButtons[sceneNumber][ADD_BUTTONS]![i].currentImage != defaultImage {
+                    self.sceneButtons[sceneNumber][DESTROY_BUTTONS]![i].alpha = 1
+                    self.sceneButtons[sceneNumber][DESTROY_BUTTONS]![i].enabled = true
                 }
             }
         }
         
         if self.scene.voiceOver != defaultURL {
             let check = UIImage(named: "Check")
-            self.recordVoiceOverButton.setImage(check, forState: UIControlState.Normal)
-            self.removeMediaButtons[3].alpha = 1
-            self.removeMediaButtons[3].enabled = true
+            self.sceneButtons[self.sceneNumber!][ADD_BUTTONS]![VOICEOVER].setImage(check, forState: UIControlState.Normal)
+            self.sceneButtons[self.sceneNumber][DESTROY_BUTTONS]![VOICEOVER].alpha = 1
+            self.sceneButtons[self.sceneNumber][DESTROY_BUTTONS]![VOICEOVER].enabled = true
         }
     }
     
@@ -95,39 +143,44 @@ class FirstSceneViewController: UIViewController {
     }
     
     // MARK: Button Actions
-    @IBAction func selectClip(sender: UIButton) {
+    @IBAction func selectMedia(sender: UIButton) {
         self.selectedVideoAsset = nil
         self.assetRequestNumber = sender.tag
-        self.removeMediaButtons[sender.tag - 1].alpha = 1
-        self.removeMediaButtons[sender.tag - 1].enabled = true
-        self.performSegueWithIdentifier("s1SelectClip", sender: self)
+        self.sceneButtons[self.sceneNumber][DESTROY_BUTTONS]![sender.tag - 1].alpha = 1
+        self.sceneButtons[self.sceneNumber][DESTROY_BUTTONS]![sender.tag - 1].enabled = true
+        self.performSegueWithIdentifier(self.selectingShotSegueID, sender: self)
+        
+        //TODO: Voiceoverbutton pressed
+        scene.voiceOver = defaultURL!
+        self.audioAsset = nil
+        self.sceneButtons[self.sceneNumber][DESTROY_BUTTONS]![VOICEOVER].alpha = 1
+        self.sceneButtons[self.sceneNumber][DESTROY_BUTTONS]![VOICEOVER].enabled = true
     }
+    
     
     @IBAction func removeMedia(sender: AnyObject) {
         if sender.tag < 4 {
             self.scene.shotVideos[sender.tag - 1] = self.defaultURL!
             self.scene.shotImages[sender.tag - 1] = self.defaultImage!
-            self.shotButtons[sender.tag - 1].contentVerticalAlignment = UIControlContentVerticalAlignment.Center
-            self.shotButtons[sender.tag - 1].imageView?.contentMode = UIViewContentMode.ScaleAspectFit
-            self.shotButtons[sender.tag - 1].setImage(self.scene.shotImages[sender.tag - 1], forState: UIControlState.Normal)
+            self.sceneButtons[self.sceneNumber][ADD_BUTTONS]![sender.tag - 1].contentVerticalAlignment = UIControlContentVerticalAlignment.Center
+            self.sceneButtons[self.sceneNumber][ADD_BUTTONS]![sender.tag - 1].imageView?.contentMode = UIViewContentMode.ScaleAspectFit
+            self.sceneButtons[self.sceneNumber][ADD_BUTTONS]![sender.tag - 1].setImage(self.scene.shotImages[sender.tag - 1], forState: UIControlState.Normal)
         } else if sender.tag == 4 {
-            self.recordVoiceOverButton.contentVerticalAlignment = UIControlContentVerticalAlignment.Center
-            self.recordVoiceOverButton.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
-            self.recordVoiceOverButton.setImage(self.defaultImage, forState: UIControlState.Normal)
+            self.sceneButtons[self.sceneNumber][ADD_BUTTONS]![VOICEOVER].contentVerticalAlignment = UIControlContentVerticalAlignment.Center
+            self.sceneButtons[self.sceneNumber][ADD_BUTTONS]![VOICEOVER].imageView?.contentMode = UIViewContentMode.ScaleAspectFit
+            self.sceneButtons[self.sceneNumber][ADD_BUTTONS]![VOICEOVER].setImage(self.defaultImage, forState: UIControlState.Normal)
             self.scene.voiceOver = self.defaultURL!
         }
-        
-        self.removeMediaButtons[sender.tag - 1].alpha = 0
-        self.removeMediaButtons[sender.tag - 1].enabled = false
+        self.sceneButtons[self.sceneNumber][DESTROY_BUTTONS]![sender.tag - 1].alpha = 0
+        self.sceneButtons[self.sceneNumber][DESTROY_BUTTONS]![sender.tag - 1].enabled = false
         MediaController.sharedMediaController.saveScenes()
     }
     
+    
     @IBAction func recordVoiceOver(sender: AnyObject) {
-        scene.voiceOver = defaultURL!
-        self.audioAsset = nil
-        self.removeMediaButtons[3].alpha = 1
-        self.removeMediaButtons[3].enabled = true
+        
     }
+    
     
     @IBAction func previewSelection(sender: AnyObject) {
         MediaController.sharedMediaController.prepareMedia([self.scene], movie: false, save: false)
@@ -139,7 +192,8 @@ class FirstSceneViewController: UIViewController {
         }
     }
     
-    @IBAction func mergeMedia(sender: AnyObject) {
+    
+    @IBAction func saveScene(sender: AnyObject) {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveCompleted:", name: MediaController.Notifications.saveSceneFinished, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveFailed:", name: MediaController.Notifications.saveSceneFailed, object: nil)
         self.savingProgress.alpha = 1
@@ -177,13 +231,13 @@ class FirstSceneViewController: UIViewController {
     }
     // MARK: segue methods
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "s1SelectClip" {
+        if segue.identifier == selectingShotSegueID {
             let destinationVC = segue.destinationViewController as! VideosViewController
-            destinationVC.segueID = self.clipID
+            destinationVC.segueID = self.shotSelectedSegueID
             destinationVC.shotNumber = self.assetRequestNumber
-        } else if segue.identifier == "s1SelectAudio" {
+        } else if segue.identifier == self.selectingVoiceOverSegueID {
             let destinationVC = segue.destinationViewController as! VoiceOverViewController
-            destinationVC.segueID = self.audioID
+            destinationVC.segueID = self.voiceOverSelectedSegueID
         }
     }
     

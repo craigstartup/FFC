@@ -33,7 +33,7 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
     }
     
     override func viewWillDisappear(animated: Bool) {
-        MediaController.sharedMediaController.moviePreview = nil 
+        MediaController.sharedMediaController.preview = nil
     }
     
     
@@ -91,8 +91,8 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
         self.savingProgress.stopAnimating()
         self.savingProgress.alpha = 0
         self.view.alpha = 1
-        if MediaController.sharedMediaController.moviePreview != nil {
-            self.videoPlayer = AVPlayer(playerItem: MediaController.sharedMediaController.moviePreview)
+        if MediaController.sharedMediaController.preview != nil {
+            self.videoPlayer = AVPlayer(playerItem: MediaController.sharedMediaController.preview)
             self.vpVC.player = videoPlayer
             vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
             presentViewController(vpVC, animated: true, completion: nil)
@@ -128,7 +128,7 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
             cell.playMusicTrackButton.alpha = 1
             cell.playMusicTrackButton.enabled = true
             cell.trackCheck.alpha = 1
-            MediaController.sharedMediaController.musicTrack = AVAsset(URL: NSBundle.mainBundle().URLForResource(self.musicFileNames[indexPath.row], withExtension: "mp3")!)
+            MediaController.sharedMediaController.musicTrack = AVURLAsset(URL: NSBundle.mainBundle().URLForResource(self.musicFileNames[indexPath.row], withExtension: "mp3")!)
             self.audioFileURL = NSBundle.mainBundle().URLForResource(self.musicFileNames[indexPath.row], withExtension: "mp3")
         }
     }

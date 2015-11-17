@@ -17,3 +17,6 @@ var video = AVAsset(URL: url)
 video.tracks
 let defaultURL = NSURL(string: "placeholder")
 defaultURL?.absoluteString
+
+var testerArray = [[[1,2,3,4],[5,4,3,2]],[[1,2,2,3],[2,3,4,5]],[[4,2,1,2],[2,3,4,5]]]
+testerArray[0][1][3]
