@@ -109,7 +109,7 @@ class SceneViewController: UIViewController {
         self.navigationController?.navigationBarHidden = true
         self.scene = MediaController.sharedMediaController.scenes[sceneNumber]
         
-        if assetRequestNumber != nil {
+        if assetRequestNumber != nil && self.selectedVideoAsset != nil && self.selectedVideoImage != nil {
             self.scene.shotImages[assetRequestNumber - 1] = self.selectedVideoImage
             self.scene.shotVideos[assetRequestNumber - 1] = self.selectedVideoAsset
             MediaController.sharedMediaController.saveScenes()
@@ -144,17 +144,19 @@ class SceneViewController: UIViewController {
     
     // MARK: Button Actions
     @IBAction func selectMedia(sender: UIButton) {
-        self.selectedVideoAsset = nil
         self.assetRequestNumber = sender.tag
-        self.sceneButtons[self.sceneNumber][DESTROY_BUTTONS]![sender.tag - 1].alpha = 1
-        self.sceneButtons[self.sceneNumber][DESTROY_BUTTONS]![sender.tag - 1].enabled = true
-        self.performSegueWithIdentifier(self.selectingShotSegueID, sender: self)
+        let buttonPressed = sender.tag - 1
         
-        //TODO: Voiceoverbutton pressed
-        scene.voiceOver = defaultURL!
-        self.audioAsset = nil
-        self.sceneButtons[self.sceneNumber][DESTROY_BUTTONS]![VOICEOVER].alpha = 1
-        self.sceneButtons[self.sceneNumber][DESTROY_BUTTONS]![VOICEOVER].enabled = true
+        self.sceneButtons[self.sceneNumber][DESTROY_BUTTONS]![buttonPressed].alpha = 1
+        self.sceneButtons[self.sceneNumber][DESTROY_BUTTONS]![buttonPressed].enabled = true
+        
+        if buttonPressed > SHOT3 {
+            scene.voiceOver = defaultURL!
+            self.audioAsset = nil
+        } else {
+            self.selectedVideoAsset = nil
+            self.performSegueWithIdentifier(self.selectingShotSegueID, sender: self)
+        }
     }
     
     
@@ -246,6 +248,34 @@ class SceneViewController: UIViewController {
     }
     
     @IBAction func s1AudioUnwindSegue(unwindSegue: UIStoryboardSegue){
+        if self.audioAsset != nil {
+            
+            self.scene.voiceOver = self.audioAsset
+            //MediaController.sharedMediaController.saveScenes()
+        }
+    }
+    
+    
+    @IBAction func s2ClipUnwindSegue(unwindSegue: UIStoryboardSegue) {
+        
+    }
+    
+    
+    @IBAction func s2AudioUnwindSegue(unwindSegue: UIStoryboardSegue){
+        if self.audioAsset != nil {
+            
+            self.scene.voiceOver = self.audioAsset
+            //MediaController.sharedMediaController.saveScenes()
+        }
+    }
+    
+    
+    @IBAction func s3ClipUnwindSegue(unwindSegue: UIStoryboardSegue) {
+        
+    }
+    
+    
+    @IBAction func s3AudioUnwindSegue(unwindSegue: UIStoryboardSegue){
         if self.audioAsset != nil {
             
             self.scene.voiceOver = self.audioAsset

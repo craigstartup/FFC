@@ -237,7 +237,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Free Film Camp/VoiceOverViewController.swift"
@@ -285,7 +285,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Free Film Camp/MediaController.swift"
@@ -301,7 +301,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Free Film Camp/MediaController.swift"
@@ -314,14 +314,14 @@
             landmarkType = "5">
             <Locations>
                <Location
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "Free_Film_Camp.MediaController.(exportDidFinish (Free_Film_Camp.MediaController) -&gt; (__ObjC.AVAssetExportSession, type : Swift.String) -&gt; ()).(closure #1)"
                   moduleName = "Free Film Camp"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/E-M-Powered/Documents/Projects/Free%20Film%20Camp/Free%20Film%20Camp/MediaController.swift"
-                  timestampString = "469442833.1033"
+                  timestampString = "469491355.263939"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "250"
@@ -329,14 +329,14 @@
                   offsetFromSymbolStart = "172">
                </Location>
                <Location
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "Free_Film_Camp.MediaController.(exportDidFinish (Free_Film_Camp.MediaController) -&gt; (__ObjC.AVAssetExportSession, type : Swift.String) -&gt; ()).(closure #1).(closure #1)"
                   moduleName = "Free Film Camp"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/E-M-Powered/Documents/Projects/Free%20Film%20Camp/Free%20Film%20Camp/MediaController.swift"
-                  timestampString = "469442833.103716"
+                  timestampString = "469491355.264447"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "251"
@@ -349,7 +349,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Free Film Camp/MediaController.swift"
@@ -365,7 +365,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Free Film Camp/MediaController.swift"
@@ -378,14 +378,14 @@
             landmarkType = "5">
             <Locations>
                <Location
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "Free_Film_Camp.MediaController.(exportDidFinish (Free_Film_Camp.MediaController) -&gt; (__ObjC.AVAssetExportSession, type : Swift.String) -&gt; ()).(closure #1)"
                   moduleName = "Free Film Camp"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/E-M-Powered/Documents/Projects/Free%20Film%20Camp/Free%20Film%20Camp/MediaController.swift"
-                  timestampString = "469442833.107381"
+                  timestampString = "469491355.268764"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "265"
@@ -393,14 +393,14 @@
                   offsetFromSymbolStart = "756">
                </Location>
                <Location
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "Free_Film_Camp.MediaController.(exportDidFinish (Free_Film_Camp.MediaController) -&gt; (__ObjC.AVAssetExportSession, type : Swift.String) -&gt; ()).(closure #1).(closure #3)"
                   moduleName = "Free Film Camp"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/E-M-Powered/Documents/Projects/Free%20Film%20Camp/Free%20Film%20Camp/MediaController.swift"
-                  timestampString = "469442833.107704"
+                  timestampString = "469491355.269085"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "267"
@@ -413,7 +413,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Free Film Camp/MediaController.swift"
@@ -429,7 +429,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Free Film Camp/VoiceOverViewController.swift"
@@ -445,33 +445,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Free Film Camp/SceneViewController.swift"
-            timestampString = "469442777.596605"
+            timestampString = "469491354.201544"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "232"
-            endingLineNumber = "232"
+            startingLineNumber = "234"
+            endingLineNumber = "234"
             landmarkName = "SceneViewController"
             landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Free Film Camp/SceneViewController.swift"
-            timestampString = "469442777.596605"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "186"
-            endingLineNumber = "186"
-            landmarkName = "previewSelection(_:)"
-            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -525,7 +509,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Free Film Camp/MediaController.swift"
@@ -541,7 +525,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Free Film Camp/MediaController.swift"
@@ -557,7 +541,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Free Film Camp/SceneViewController.swift"
@@ -573,7 +557,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Free Film Camp/VideosViewController.swift"
@@ -583,6 +567,22 @@
             startingLineNumber = "169"
             endingLineNumber = "169"
             landmarkName = "handleTap(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Free Film Camp/SceneViewController.swift"
+            timestampString = "469491642.153518"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "164"
+            endingLineNumber = "164"
+            landmarkName = "removeMedia(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

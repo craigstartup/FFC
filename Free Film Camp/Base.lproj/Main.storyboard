@@ -390,7 +390,7 @@
                                     <action selector="selectMedia:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="mQ8-jZ-8fd"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jAP-bU-Obn" userLabel="Record Voiceover">
+                            <button opaque="NO" tag="4" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jAP-bU-Obn" userLabel="Record Voiceover">
                                 <rect key="frame" x="7" y="232" width="586" height="60"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.5725490196078431" green="0.5725490196078431" blue="0.5725490196078431" alpha="1" colorSpace="calibratedRGB"/>
@@ -1087,7 +1087,7 @@
                                     <constraint firstAttribute="width" secondItem="BO1-rx-eMa" secondAttribute="height" multiplier="190:111" id="EdV-JC-Axm"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SeG-j5-p1x" userLabel="Shot 2">
+                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SeG-j5-p1x" userLabel="Shot 2">
                                 <rect key="frame" x="205" y="74" width="190" height="111"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.57254901960000004" green="0.57254901960000004" blue="0.57254901960000004" alpha="1" colorSpace="calibratedRGB"/>
@@ -1104,7 +1104,7 @@
                                     <constraint firstAttribute="width" secondItem="wdc-jU-oZv" secondAttribute="height" multiplier="190:111" id="Bx6-RT-Ho1"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z29-YX-x1f" userLabel="Shot 3">
+                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z29-YX-x1f" userLabel="Shot 3">
                                 <rect key="frame" x="403" y="74" width="190" height="111"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.57254901960000004" green="0.57254901960000004" blue="0.57254901960000004" alpha="1" colorSpace="calibratedRGB"/>
@@ -1113,7 +1113,7 @@
                                     <action selector="selectMedia:" destination="MQa-Na-cfN" eventType="touchUpInside" id="KVO-ff-ARe"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1rO-1c-1TE" userLabel="Record Voiceover">
+                            <button opaque="NO" tag="4" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1rO-1c-1TE" userLabel="Record Voiceover">
                                 <rect key="frame" x="7" y="232" width="586" height="60"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.57254901960000004" green="0.57254901960000004" blue="0.57254901960000004" alpha="1" colorSpace="calibratedRGB"/>
@@ -1221,6 +1221,9 @@
                                     <constraint firstAttribute="width" constant="40" id="wOh-7e-uVh"/>
                                 </constraints>
                                 <state key="normal" image="camera_cancel_btn_36"/>
+                                <connections>
+                                    <action selector="removeMedia:" destination="MQa-Na-cfN" eventType="touchUpInside" id="KnI-Z2-IUx"/>
+                                </connections>
                             </button>
                             <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btr-tx-hXa" userLabel="Destroy Shot 1">
                                 <rect key="frame" x="157" y="74" width="40" height="40"/>
@@ -1616,8 +1619,8 @@
         <image name="plus_white_69" width="60" height="60"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="bJ2-dg-x9E"/>
-        <segue reference="CH1-X3-ObO"/>
-        <segue reference="xrw-gC-d5d"/>
+        <segue reference="cEB-DX-16M"/>
+        <segue reference="LiM-u3-3jo"/>
+        <segue reference="pbY-XE-sGo"/>
     </inferredMetricsTieBreakers>
 </document>
