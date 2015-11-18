@@ -65,7 +65,11 @@ class MediaController {
         if movie {
             let bumper = AVURLAsset(URL: NSBundle.mainBundle().URLForResource("Bumper_3 sec", withExtension: "mp4")!)
             videoAssets.append(bumper)
-            self.getMovieVoiceOver(voiceOverAssets, videoAssets: videoAssets, save: save)
+            if !voiceOverAssets[1].tracks.isEmpty {
+                self.getMovieVoiceOver(voiceOverAssets, videoAssets: videoAssets, save: save)
+            } else {
+                self.composeMedia(videoAssets, voiceOverAssets: voiceOverAssets, movieVoiceOver: nil, movie: true, save: save)
+            }
         } else if !movie {
             self.composeMedia(videoAssets, voiceOverAssets: voiceOverAssets, movieVoiceOver: nil, movie: movie, save: save)
         }
@@ -110,7 +114,6 @@ class MediaController {
         vOExporter!.shouldOptimizeForNetworkUse = true
         vOExporter!
             .exportAsynchronouslyWithCompletionHandler() {
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     // TODO: Handle nil.
                     if vOExporter!.status == AVAssetExportSessionStatus.Completed {
                         print("Export finished")
@@ -122,14 +125,13 @@ class MediaController {
                         print("Export failure")
                         self.composeMedia(videoAssets, voiceOverAssets: voiceOvers, movieVoiceOver: nil, movie: true, save: save)
                     }
-                })
         }
     }
 
     
     func composeMedia(videoAssets: [AVURLAsset], voiceOverAssets: [AVURLAsset], movieVoiceOver: AVURLAsset?, movie: Bool, save: Bool) {
         defer {
-            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.previewReady, object: self)
+                NSNotificationCenter.defaultCenter().postNotificationName(Notifications.previewReady, object: self)
         }
         
         // Get total time for movie assets.

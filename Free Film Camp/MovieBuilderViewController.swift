@@ -95,11 +95,11 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
     
     
     func firePreview(notification: NSNotification) {
-        self.savingProgress.stopAnimating()
-        self.savingProgress.alpha = 0
-        self.view.alpha = 1
         if MediaController.sharedMediaController.preview != nil {
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.savingProgress.stopAnimating()
+                self.savingProgress.alpha = 0
+                self.view.alpha = 1
                 self.videoPlayer = AVPlayer(playerItem: MediaController.sharedMediaController.preview)
                 self.vpVC.player = self.videoPlayer
                 self.vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
