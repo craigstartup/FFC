@@ -93,6 +93,7 @@ class SceneViewController: UIViewController {
     
     
     override func viewWillAppear(animated: Bool) {
+        MediaController.sharedMediaController.albumTitle = MediaController.Albums.scenes
         defer {
             self.assetRequestNumber = nil
             self.selectedVideoImage = nil
@@ -136,6 +137,7 @@ class SceneViewController: UIViewController {
             self.sceneButtons[self.sceneNumber][DESTROY_BUTTONS]![VOICEOVER].enabled = true
         }
     }
+    
     
     override func viewDidDisappear(animated: Bool) {
         self.videoPlayer = nil

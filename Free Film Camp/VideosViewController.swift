@@ -53,7 +53,6 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
             print("Free Film Camp Clips exists")
             // setup to retrieve videos from clips album
             clipsAlbumVideosFetch = PHAsset.fetchAssetsInAssetCollection(clipsAlbum, options: nil)
-            
         } else {
             library.performChanges({ () -> Void in
                 PHAssetCollectionChangeRequest.creationRequestForAssetCollectionWithTitle(self.albumTitle)
@@ -87,6 +86,7 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
             alert.addAction(action)
             self.presentViewController(alert, animated: true, completion: nil)
         }
+        
         self.videos = [PHAsset]()
         if self.clipsAlbumVideosFetch != nil {
             clipsAlbumVideosFetch.enumerateObjectsUsingBlock { (object, _, _) in

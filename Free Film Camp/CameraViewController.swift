@@ -97,6 +97,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     }
     
     override func viewWillAppear(animated: Bool) {
+        MediaController.sharedMediaController.albumTitle = MediaController.Albums.shots
         videoCapture.startRunning()
     }
     

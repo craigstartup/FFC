@@ -15,7 +15,6 @@ import AVKit
 class MediaController {
     
     enum Notifications {
-        
         static let audioExportStart  = "audioExportBegan"
         static let audioExportFinish = "audioExportComplete"
         static let saveSceneFinished = "saveSceneComplete"
@@ -26,9 +25,16 @@ class MediaController {
         
     }
     
+    enum Albums {
+        static let shots = "Free Film Camp Clips"
+        static let scenes = "Free Film Camp Scenes"
+        static let movies = "Free Film Camp Movies"
+    }
+    
     static let sharedMediaController = MediaController()
     private init() {}
     
+    var albumTitle: String!
     let library = PHPhotoLibrary.sharedPhotoLibrary()
     // Media components
     var scenes = [Scene]()
@@ -39,8 +45,6 @@ class MediaController {
 
     // place holder for scene
     var newScene: PHObjectPlaceholder!
-    
-    var albumTitle = "Free Film Camp Clips"
     
     // MARK: Media methods
     func prepareMedia(media: [Scene]?, movie: Bool, save: Bool) {
