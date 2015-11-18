@@ -27,7 +27,6 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     var progress: NSTimer!
     
     var segueID: String!
-    
     var hasRecorded = false
     
     override func viewDidLoad() {
@@ -199,7 +198,7 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
             
             self.videoPlayer = AVQueuePlayer(items: shots)
             self.playerLayer = AVPlayerLayer(player: self.videoPlayer)
-            // TODO: self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
+            self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "didFinishPlayingVideo:", name: AVPlayerItemDidPlayToEndTimeNotification, object: self.videoPlayer.items().last)
             self.videoPreviewLayer.layer.addSublayer(playerLayer)
             self.playerLayer.frame = self.videoPreviewLayer.bounds

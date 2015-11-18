@@ -12,6 +12,7 @@ import AVKit
 
 
 class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    // MARK: Properties
     @IBOutlet weak var savingProgress: UIActivityIndicatorView!
     @IBOutlet weak var tableView: UITableView!
     var videoPlayer: AVPlayer!
@@ -21,8 +22,8 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
     var currentCell: NSIndexPath!
     var previewQueue = [AVPlayerItem]()
     let musicFileNames = ["Believe in your dreams", "Sounds like fun", "Youve got mail"]
-    let scenes = MediaController.sharedMediaController.scenes
 
+    // MARK: View lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
@@ -47,9 +48,10 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
         self.savingProgress.alpha = 1
         self.savingProgress.startAnimating()
         self.view.alpha = 0.6
-        MediaController.sharedMediaController.prepareMedia(self.scenes, movie: true, save: true)
+        MediaController.sharedMediaController.prepareMedia(MediaController.sharedMediaController.scenes, movie: true, save: true)
     }
     
+    // MARK: Notification handlers
     func saveCompleted(notification: NSNotification) {
         self.savingProgress.stopAnimating()
         self.savingProgress.alpha = 0
@@ -62,6 +64,7 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
         alertSuccess.addAction(okAction)
         self.presentViewController(alertSuccess, animated: true, completion: nil)
     }
+    
     
     func saveFailed(notification: NSNotification) {
         self.savingProgress.stopAnimating()
@@ -76,7 +79,7 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
         self.presentViewController(alertFailure, animated: true, completion: nil)
     }
     
-    
+    // MARK: Preview methods
     @IBAction func preview(sender: AnyObject) {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "firePreview:", name: MediaController.Notifications.previewReady, object: nil)
         
@@ -87,7 +90,7 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
         self.savingProgress.alpha = 1
         self.savingProgress.startAnimating()
         self.view.alpha = 0.6
-        MediaController.sharedMediaController.prepareMedia(self.scenes, movie: true, save: false)
+        MediaController.sharedMediaController.prepareMedia(MediaController.sharedMediaController.scenes, movie: true, save: false)
     }
     
     
@@ -103,6 +106,7 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
         }
         NSNotificationCenter.defaultCenter().removeObserver(self, name: MediaController.Notifications.previewReady, object: nil)
     }
+    
     // MARK: Tableview methods
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.musicFileNames.count + 1
@@ -124,7 +128,6 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        print("selected")
         let cell = tableView.cellForRowAtIndexPath(indexPath) as! MusicCell
         cell.playMusicTrackButton.setTitle("Play", forState: UIControlState.Selected)
         self.currentCell = indexPath
@@ -134,6 +137,9 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
             cell.trackCheck.alpha = 1
             MediaController.sharedMediaController.musicTrack = AVURLAsset(URL: NSBundle.mainBundle().URLForResource(self.musicFileNames[indexPath.row], withExtension: "mp3")!)
             self.audioFileURL = NSBundle.mainBundle().URLForResource(self.musicFileNames[indexPath.row], withExtension: "mp3")
+        } else {
+            MediaController.sharedMediaController.musicTrack = nil
+            self.audioFileURL = nil
         }
     }
     
@@ -161,17 +167,18 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
     
     func playMusicForCell() {
         let cell = tableView.cellForRowAtIndexPath(self.currentCell) as! MusicCell
-        if self.audioPlayer == nil {
+        if self.audioPlayer == nil && self.audioFileURL != nil {
             do {
                 try self.audioPlayer = AVAudioPlayer(contentsOfURL: self.audioFileURL)
             } catch let audioError as NSError {
                 print(audioError.localizedDescription)
             }
         }
-        if audioPlayer.playing == true {
+        
+        if audioPlayer?.playing == true {
             cell.playMusicTrackButton.setTitle("Play", forState: UIControlState.Selected)
             audioPlayer.stop()
-        } else if audioPlayer.playing == false{
+        } else if audioPlayer?.playing == false{
             cell.playMusicTrackButton.setTitle("Stop", forState: UIControlState.Selected)
             self.audioPlayer.play()
         }

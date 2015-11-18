@@ -67,17 +67,22 @@ class MediaController {
             videoAssets.append(bumper)
             self.getMovieVoiceOver(voiceOverAssets, videoAssets: videoAssets, save: save)
         } else if !movie {
-           self.preview = self.composeMedia(videoAssets, voiceOverAssets: voiceOverAssets, movieVoiceOver: nil, movie: movie, save: save)
+            self.composeMedia(videoAssets, voiceOverAssets: voiceOverAssets, movieVoiceOver: nil, movie: movie, save: save)
         }
     }
     
     
-    func composeMedia(videoAssets: [AVURLAsset], voiceOverAssets: [AVURLAsset], movieVoiceOver: AVURLAsset?, movie: Bool, save: Bool) -> AVPlayerItem? {
+    func composeMedia(videoAssets: [AVURLAsset], voiceOverAssets: [AVURLAsset], movieVoiceOver: AVURLAsset?, movie: Bool, save: Bool) {
+        defer {
+            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.previewReady, object: self)
+        }
+        
         // Get total time for movie assets.
         var totalTime: CMTime = kCMTimeZero
         for time in videoAssets {
             totalTime = CMTimeAdd(totalTime, time.duration)
         }
+        
         // Compose assets into a scene or movie.
         let mixComposition = AVMutableComposition()
         var tracks = [AVMutableCompositionTrack]()
@@ -161,13 +166,10 @@ class MediaController {
         
         if save {
             self.saveMedia(mixComposition, videoComposition: mainComposition, movie: movie)
-            return nil
         } else {
-            // return preview
             let preview = AVPlayerItem(asset: mixComposition)
             preview.videoComposition = mainComposition
-            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.previewReady, object: self)
-            return preview
+            self.preview = preview
         }
     }
     
@@ -175,6 +177,7 @@ class MediaController {
     func getMovieVoiceOver(voiceOvers: [AVURLAsset], videoAssets: [AVURLAsset], save: Bool) {
         let audioComposition = AVMutableComposition()
         var audioTrackTime = kCMTimeZero
+        print(voiceOvers.count)
         
         for voiceOver in voiceOvers {
             let audioTrack = audioComposition.addMutableTrackWithMediaType(AVMediaTypeAudio, preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
@@ -186,6 +189,9 @@ class MediaController {
                     print(audioTrackError.localizedDescription)
                 }
                 audioTrackTime = CMTimeAdd(audioTrackTime, voiceOver.duration)
+            } else {
+                print("voice over empty")
+                
             }
         }
         // get path
@@ -210,12 +216,12 @@ class MediaController {
                     if vOExporter!.status == AVAssetExportSessionStatus.Completed {
                         print("Export finished")
                         let movieVoiceOver = AVURLAsset(URL: (vOExporter?.outputURL)!)
-                        self.preview = self.composeMedia(videoAssets, voiceOverAssets: voiceOvers, movieVoiceOver: movieVoiceOver, movie: true, save: save)
+                        self.composeMedia(videoAssets, voiceOverAssets: voiceOvers, movieVoiceOver: movieVoiceOver, movie: true, save: save)
                     } else if vOExporter!.status == AVAssetExportSessionStatus.Waiting {
                         print("Export waiting")
                     } else if vOExporter!.status == AVAssetExportSessionStatus.Failed {
                         print("Export failure")
-                        self.preview = self.composeMedia(videoAssets, voiceOverAssets: voiceOvers, movieVoiceOver: nil, movie: true, save: save)
+                        self.composeMedia(videoAssets, voiceOverAssets: voiceOvers, movieVoiceOver: nil, movie: true, save: save)
                     }
                 })
         }
