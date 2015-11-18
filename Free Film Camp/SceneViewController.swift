@@ -175,7 +175,7 @@ class SceneViewController: UIViewController {
             self.videoPlayer = AVPlayer(playerItem: preview)
             self.vpVC.player = videoPlayer
             vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
-            presentViewController(vpVC, animated: true, completion: nil)
+            self.view.window?.rootViewController?.presentViewController(self.vpVC, animated: true, completion: nil)
         }
     }
     

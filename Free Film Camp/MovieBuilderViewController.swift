@@ -15,8 +15,6 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
     // MARK: Properties
     @IBOutlet weak var savingProgress: UIActivityIndicatorView!
     @IBOutlet weak var tableView: UITableView!
-    var videoPlayer: AVPlayer!
-    var vpVC = AVPlayerViewController()
     var audioPlayer: AVAudioPlayer!
     var audioFileURL: NSURL!
     var currentCell: NSIndexPath!
@@ -41,8 +39,6 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
     
     
     @IBAction func makeMovie(sender: AnyObject) {
-        self.vpVC.player = nil
-        self.videoPlayer = nil
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveCompleted:", name: MediaController.Notifications.saveMovieFinished, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveFailed:", name: MediaController.Notifications.saveMovieFailed, object: nil)
         self.savingProgress.alpha = 1
@@ -82,7 +78,6 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
     // MARK: Preview methods
     @IBAction func preview(sender: AnyObject) {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "firePreview:", name: MediaController.Notifications.previewReady, object: nil)
-        
         if self.audioPlayer != nil {
             self.audioPlayer.stop()
         }
@@ -100,10 +95,11 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
                 self.savingProgress.stopAnimating()
                 self.savingProgress.alpha = 0
                 self.view.alpha = 1
-                self.videoPlayer = AVPlayer(playerItem: MediaController.sharedMediaController.preview)
-                self.vpVC.player = self.videoPlayer
-                self.vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
-                self.presentViewController(self.vpVC, animated: true, completion: nil)
+                let videoPlayer = AVPlayer(playerItem: MediaController.sharedMediaController.preview)
+                let vpVC = AVPlayerViewController()
+                vpVC.player = videoPlayer
+                vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
+                self.view.window?.rootViewController?.presentViewController(vpVC, animated: true, completion: nil)
             })
         }
         NSNotificationCenter.defaultCenter().removeObserver(self, name: MediaController.Notifications.previewReady, object: nil)
@@ -130,6 +126,7 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        MediaController.sharedMediaController.musicTrack = nil
         let cell = tableView.cellForRowAtIndexPath(indexPath) as! MusicCell
         cell.playMusicTrackButton.setTitle("Play", forState: UIControlState.Selected)
         self.currentCell = indexPath
