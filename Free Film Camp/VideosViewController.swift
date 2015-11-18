@@ -32,14 +32,13 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
     var timer: NSTimer!
     var longItem: CGPoint!
     
-    // handle segue based on presenting VC
-    var segueID: String!
+    // handle logic based on presenting VC
+    var segueID = "sceneShotSelectedSegue"
     var shotNumber: Int!
     
     // pass back selected video and image
     var videoAssetToPass: NSURL!
     var initialEntry = true
-    //var images = [UIImage]()
     var videoImageToPass: UIImage!
     
     override func viewDidLoad() {
@@ -218,23 +217,10 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
     
     // MARK: Segue methods
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "s1ClipSelectedSegue" {
+        if segue.identifier == self.segueID {
             let scene1BuilderVC = segue.destinationViewController as! SceneViewController
             scene1BuilderVC.selectedVideoAsset = self.videoAssetToPass
             scene1BuilderVC.selectedVideoImage = self.videoImageToPass
-        } else if segue.identifier == "s2ClipSelectedSegue" {
-            let scene2BuilderVC = segue.destinationViewController as! SceneViewController
-            scene2BuilderVC.selectedVideoAsset = self.videoAssetToPass
-            scene2BuilderVC.selectedVideoImage = self.videoImageToPass
-        } else if segue.identifier == "s3ClipSelectedSegue" {
-            let scene3BuilderVC = segue.destinationViewController as! SceneViewController
-            scene3BuilderVC.selectedVideoAsset = self.videoAssetToPass
-            scene3BuilderVC.selectedVideoImage = self.videoImageToPass
-        } else if segue.identifier == "pickingShot" {
-            let cameraVC = segue.destinationViewController as! CameraViewController
-            cameraVC.pickingShot = true
-            cameraVC.scene = self.segueID
-            cameraVC.shotNumber = self.shotNumber
         }
     }
     

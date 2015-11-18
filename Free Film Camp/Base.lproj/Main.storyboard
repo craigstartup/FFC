@@ -101,9 +101,7 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="L9T-1Q-1t3"/>
                     <connections>
-                        <segue destination="HDm-P7-dyQ" kind="unwind" identifier="s1ClipSelectedSegue" unwindAction="s1ClipUnwindSegue:" id="yuw-o5-Dvg"/>
-                        <segue destination="HDm-P7-dyQ" kind="unwind" identifier="s2ClipSelectedSegue" unwindAction="s2ClipUnwindSegue:" id="jcf-wP-DEE"/>
-                        <segue destination="HDm-P7-dyQ" kind="unwind" identifier="s3ClipSelectedSegue" unwindAction="s3ClipUnwindSegue:" id="Qto-Xo-utB"/>
+                        <segue destination="HDm-P7-dyQ" kind="unwind" identifier="sceneShotSelectedSegue" unwindAction="sceneShotUnwindSegue:" id="yuw-o5-Dvg"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yhe-FW-yes" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -203,9 +201,7 @@
                         <outlet property="progressBar" destination="0jd-6r-5pM" id="TgF-FH-i1R"/>
                         <outlet property="recordButton" destination="na2-7t-mhh" id="dvm-vz-M2c"/>
                         <outlet property="videoPreviewLayer" destination="zfb-Yi-cGw" id="zLG-wN-w77"/>
-                        <segue destination="g3f-9f-LiE" kind="unwind" identifier="s1AudioSelectedSegue" unwindAction="s1AudioUnwindSegue:" id="I3l-bq-aCB"/>
-                        <segue destination="g3f-9f-LiE" kind="unwind" identifier="s2AudioSelectedSegue" unwindAction="s2AudioUnwindSegue:" id="Bde-oq-xVR"/>
-                        <segue destination="g3f-9f-LiE" kind="unwind" identifier="s3AudioSelectedSegue" unwindAction="s3AudioUnwindSegue:" id="T2b-o0-3nR"/>
+                        <segue destination="g3f-9f-LiE" kind="unwind" identifier="sceneAudioSelectedSegue" unwindAction="sceneAudioUnwindSegue:" id="T2b-o0-3nR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6FB-dL-6WS" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -403,7 +399,7 @@
                                 </state>
                                 <connections>
                                     <action selector="selectMedia:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="GaV-Hw-aed"/>
-                                    <segue destination="t2l-7N-cdU" kind="show" identifier="s1SelectAudio" id="bJ2-dg-x9E"/>
+                                    <segue destination="t2l-7N-cdU" kind="show" identifier="sceneSelectingVoiceOverSegue" id="bJ2-dg-x9E"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shot 1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8rW-r2-fUM">
@@ -619,7 +615,7 @@
                         <outletCollection property="scene1RemoveMediaButtons" destination="Q1h-nu-baf" collectionClass="NSMutableArray" id="HEQ-VR-8MA"/>
                         <outletCollection property="scene1RemoveMediaButtons" destination="tJS-gt-zXL" collectionClass="NSMutableArray" id="epy-SR-fZb"/>
                         <outletCollection property="scene1RemoveMediaButtons" destination="hcv-WL-wMm" collectionClass="NSMutableArray" id="iWL-9z-hSM"/>
-                        <segue destination="4to-zB-zdm" kind="show" identifier="s1SelectClip" id="CH1-X3-ObO"/>
+                        <segue destination="4to-zB-zdm" kind="show" identifier="sceneSelectingShotSegue" id="CH1-X3-ObO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vaJ-dB-DbI" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -700,7 +696,7 @@
                                 <state key="normal" image="plus_white_69"/>
                                 <connections>
                                     <action selector="selectMedia:" destination="qVt-sA-xLt" eventType="touchUpInside" id="5Zw-kk-DKk"/>
-                                    <segue destination="t2l-7N-cdU" kind="show" identifier="s3SelectAudio" id="LiM-u3-3jo"/>
+                                    <segue destination="t2l-7N-cdU" kind="show" identifier="sceneSelectingVoiceOverSegue" id="LiM-u3-3jo"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shot 1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mip-5v-DJj">
@@ -916,7 +912,7 @@
                         <outletCollection property="scene3RemoveMediaButtons" destination="kCI-fT-vPg" collectionClass="NSMutableArray" id="XpS-eF-Mgv"/>
                         <outletCollection property="scene3RemoveMediaButtons" destination="mYo-2P-UEe" collectionClass="NSMutableArray" id="zIx-DN-NnD"/>
                         <outletCollection property="scene3Buttons" destination="YqY-j0-TIZ" collectionClass="NSMutableArray" id="ui5-oa-y1d"/>
-                        <segue destination="4to-zB-zdm" kind="show" identifier="s3SelectClip" id="pbY-XE-sGo"/>
+                        <segue destination="4to-zB-zdm" kind="show" identifier="sceneSelectingShotSegue" id="pbY-XE-sGo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1pr-sw-Kyq" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1124,7 +1120,7 @@
                                 <state key="normal" image="plus_white_69"/>
                                 <connections>
                                     <action selector="selectMedia:" destination="MQa-Na-cfN" eventType="touchUpInside" id="kzW-AX-qtV"/>
-                                    <segue destination="t2l-7N-cdU" kind="show" identifier="s2SelectAudio" id="QIo-ZO-zF5"/>
+                                    <segue destination="t2l-7N-cdU" kind="show" identifier="sceneSelectingVoiceOverSegue" id="QIo-ZO-zF5"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shot 1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9n7-wB-NrU">
@@ -1340,7 +1336,7 @@
                         <outletCollection property="scene2RemoveMediaButtons" destination="N3Q-dX-TOv" collectionClass="NSMutableArray" id="X0G-8B-PdQ"/>
                         <outletCollection property="scene2RemoveMediaButtons" destination="Lup-cN-J5m" collectionClass="NSMutableArray" id="y9C-CT-j9e"/>
                         <outletCollection property="scene2RemoveMediaButtons" destination="NnO-cg-PdX" collectionClass="NSMutableArray" id="yeU-yW-HK5"/>
-                        <segue destination="4to-zB-zdm" kind="show" identifier="s2SelectClip" id="OJI-ki-Muw"/>
+                        <segue destination="4to-zB-zdm" kind="show" identifier="sceneSelectingShotSegue" id="OJI-ki-Muw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6mm-S1-srK" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1530,7 +1526,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hnQ-oa-2Rr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4740" y="-1441"/>
+            <point key="canvasLocation" x="4741" y="-1441"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="T3O-Op-14a">
@@ -1622,7 +1618,7 @@
         <image name="plus_white_69" width="60" height="60"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="cEB-DX-16M"/>
+        <segue reference="xrw-gC-d5d"/>
         <segue reference="LiM-u3-3jo"/>
         <segue reference="pbY-XE-sGo"/>
     </inferredMetricsTieBreakers>

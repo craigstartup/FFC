@@ -47,12 +47,12 @@ class MediaController {
     var newScene: PHObjectPlaceholder!
     
     // MARK: Media methods
-    func prepareMedia(media: [Scene]?, movie: Bool, save: Bool) {
+    func prepareMedia(media: [Scene], movie: Bool, save: Bool) {
         // Exactract and assemble media assets
         var videoAssets = [AVURLAsset]()
         var voiceOverAssets = [AVURLAsset]()
         // TODO: Check assets and post notification for what is missing.
-        for scene in media! {
+        for scene in media {
             for video in scene.shotVideos {
                 let videoAsset = AVURLAsset(URL: video)
                 videoAssets.append(videoAsset)
@@ -71,6 +71,61 @@ class MediaController {
         }
     }
     
+    
+    func getMovieVoiceOver(voiceOvers: [AVURLAsset], videoAssets: [AVURLAsset], save: Bool) {
+        let audioComposition = AVMutableComposition()
+        var audioTrackTime = kCMTimeZero
+        print(voiceOvers.count)
+        print(videoAssets.count)
+        
+        for voiceOver in voiceOvers {
+            let audioTrack = audioComposition.addMutableTrackWithMediaType(AVMediaTypeAudio, preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
+            if !voiceOver.tracks.isEmpty {
+                do {
+                    try audioTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, voiceOver.duration), ofTrack: voiceOver.tracksWithMediaType(AVMediaTypeAudio)[0],
+                        atTime: audioTrackTime)
+                } catch let audioTrackError as NSError {
+                    print(audioTrackError.localizedDescription)
+                }
+                audioTrackTime = CMTimeAdd(audioTrackTime, voiceOver.duration)
+            } else {
+                print("voice over empty")
+                
+            }
+        }
+        // get path
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateStyle = .LongStyle
+        dateFormatter.timeStyle = .FullStyle
+        let date = dateFormatter.stringFromDate(NSDate())
+        let vOFilePath = NSTemporaryDirectory()
+        let url = NSURL(fileURLWithPath: vOFilePath).URLByAppendingPathComponent("vo-\(date).m4a")
+        MediaController.sharedMediaController.tempPaths.append(url)
+        // make exporter
+        let vOExporter = AVAssetExportSession(
+            asset: audioComposition,
+            presetName: AVAssetExportPresetAppleM4A)
+        vOExporter!.outputURL = url
+        vOExporter!.outputFileType = AVFileTypeAppleM4A
+        vOExporter!.shouldOptimizeForNetworkUse = true
+        vOExporter!
+            .exportAsynchronouslyWithCompletionHandler() {
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    // TODO: Handle nil.
+                    if vOExporter!.status == AVAssetExportSessionStatus.Completed {
+                        print("Export finished")
+                        let movieVoiceOver = AVURLAsset(URL: (vOExporter?.outputURL)!)
+                        self.composeMedia(videoAssets, voiceOverAssets: voiceOvers, movieVoiceOver: movieVoiceOver, movie: true, save: save)
+                    } else if vOExporter!.status == AVAssetExportSessionStatus.Waiting {
+                        print("Export waiting")
+                    } else if vOExporter!.status == AVAssetExportSessionStatus.Failed {
+                        print("Export failure")
+                        self.composeMedia(videoAssets, voiceOverAssets: voiceOvers, movieVoiceOver: nil, movie: true, save: save)
+                    }
+                })
+        }
+    }
+
     
     func composeMedia(videoAssets: [AVURLAsset], voiceOverAssets: [AVURLAsset], movieVoiceOver: AVURLAsset?, movie: Bool, save: Bool) {
         defer {
@@ -173,60 +228,6 @@ class MediaController {
         }
     }
     
-    // MARK: Movie methods
-    func getMovieVoiceOver(voiceOvers: [AVURLAsset], videoAssets: [AVURLAsset], save: Bool) {
-        let audioComposition = AVMutableComposition()
-        var audioTrackTime = kCMTimeZero
-        print(voiceOvers.count)
-        
-        for voiceOver in voiceOvers {
-            let audioTrack = audioComposition.addMutableTrackWithMediaType(AVMediaTypeAudio, preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
-            if !voiceOver.tracks.isEmpty {
-                do {
-                    try audioTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, voiceOver.duration), ofTrack: voiceOver.tracksWithMediaType(AVMediaTypeAudio)[0],
-                        atTime: audioTrackTime)
-                } catch let audioTrackError as NSError {
-                    print(audioTrackError.localizedDescription)
-                }
-                audioTrackTime = CMTimeAdd(audioTrackTime, voiceOver.duration)
-            } else {
-                print("voice over empty")
-                
-            }
-        }
-        // get path
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = .LongStyle
-        dateFormatter.timeStyle = .LongStyle
-        let date = dateFormatter.stringFromDate(NSDate())
-        let vOFilePath = NSTemporaryDirectory()
-        let url = NSURL(fileURLWithPath: vOFilePath).URLByAppendingPathComponent("vo-\(date).m4a")
-        MediaController.sharedMediaController.tempPaths.append(url)
-        // make exporter
-        let vOExporter = AVAssetExportSession(
-            asset: audioComposition,
-            presetName: AVAssetExportPresetAppleM4A)
-        vOExporter!.outputURL = url
-        vOExporter!.outputFileType = AVFileTypeAppleM4A
-        vOExporter!.shouldOptimizeForNetworkUse = true
-        vOExporter!
-            .exportAsynchronouslyWithCompletionHandler() {
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    // TODO: Handle nil.
-                    if vOExporter!.status == AVAssetExportSessionStatus.Completed {
-                        print("Export finished")
-                        let movieVoiceOver = AVURLAsset(URL: (vOExporter?.outputURL)!)
-                        self.composeMedia(videoAssets, voiceOverAssets: voiceOvers, movieVoiceOver: movieVoiceOver, movie: true, save: save)
-                    } else if vOExporter!.status == AVAssetExportSessionStatus.Waiting {
-                        print("Export waiting")
-                    } else if vOExporter!.status == AVAssetExportSessionStatus.Failed {
-                        print("Export failure")
-                        self.composeMedia(videoAssets, voiceOverAssets: voiceOvers, movieVoiceOver: nil, movie: true, save: save)
-                    }
-                })
-        }
-    }
-    
     
     // MARK: Media save methods
     func saveMedia(mixComposition: AVMutableComposition, videoComposition: AVMutableVideoComposition, movie: Bool) {
@@ -235,7 +236,7 @@ class MediaController {
         let documentDirectory: String = paths[0] as! String
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = .LongStyle
-        dateFormatter.timeStyle = .LongStyle
+        dateFormatter.timeStyle = .FullStyle
         let date = dateFormatter.stringFromDate(NSDate())
         let url = NSURL(fileURLWithPath: documentDirectory).URLByAppendingPathComponent("mergeVideo-\(date).mov")
         // make exporter

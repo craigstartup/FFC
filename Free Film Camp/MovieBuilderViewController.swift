@@ -99,10 +99,12 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
         self.savingProgress.alpha = 0
         self.view.alpha = 1
         if MediaController.sharedMediaController.preview != nil {
-            self.videoPlayer = AVPlayer(playerItem: MediaController.sharedMediaController.preview)
-            self.vpVC.player = videoPlayer
-            vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
-            presentViewController(vpVC, animated: true, completion: nil)
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.videoPlayer = AVPlayer(playerItem: MediaController.sharedMediaController.preview)
+                self.vpVC.player = self.videoPlayer
+                self.vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
+                self.presentViewController(self.vpVC, animated: true, completion: nil)
+            })
         }
         NSNotificationCenter.defaultCenter().removeObserver(self, name: MediaController.Notifications.previewReady, object: nil)
     }
