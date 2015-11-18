@@ -86,17 +86,18 @@ class MediaController {
         
         // Video
         for videoAsset in videoAssets {
-            // TODO: Handle assets with zero tracks. Post notifiction for composition failure.
+            // TODO: Post notifiction for composition failure.
             // create tracks for each video asset
-            let track = mixComposition.addMutableTrackWithMediaType(AVMediaTypeVideo,
-                preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
-            do {
-                try track.insertTimeRange(CMTimeRangeMake(kCMTimeZero, videoAsset.duration),
-                    ofTrack: videoAsset.tracksWithMediaType(AVMediaTypeVideo)[0] ,
-                    atTime: tracksTime)
-            } catch let firstTrackError as NSError {
-                print(firstTrackError.localizedDescription)
-            }
+            if !videoAsset.tracks.isEmpty {
+                let track = mixComposition.addMutableTrackWithMediaType(AVMediaTypeVideo,
+                    preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
+                do {
+                    try track.insertTimeRange(CMTimeRangeMake(kCMTimeZero, videoAsset.duration),
+                        ofTrack: videoAsset.tracksWithMediaType(AVMediaTypeVideo)[0] ,
+                        atTime: tracksTime)
+                } catch let firstTrackError as NSError {
+                    print(firstTrackError.localizedDescription)
+                }
             
             tracks.append(track)
             tracksTime = CMTimeAdd(tracksTime, videoAsset.duration)
@@ -104,7 +105,7 @@ class MediaController {
             let instruction = AVMutableVideoCompositionLayerInstruction(assetTrack: track)
             instruction.setOpacity(0.0, atTime: tracksTime)
             instructions.append(instruction)
-            
+            }
             
         }
         
@@ -118,7 +119,7 @@ class MediaController {
         mainComposition.renderSize = mixComposition.naturalSize
         
         // process audio for each set of videos(scene) if present or not movie
-        if movieVoiceOver == nil {
+        if !movie {
             for voiceOverAsset in voiceOverAssets {
                 if !voiceOverAsset.tracks.isEmpty {
                     let audioTrack: AVMutableCompositionTrack = mixComposition.addMutableTrackWithMediaType(AVMediaTypeAudio, preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
@@ -146,7 +147,7 @@ class MediaController {
             if self.musicTrack != nil {
                 let mTrack = mixComposition.addMutableTrackWithMediaType(AVMediaTypeAudio, preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
                 do {
-                    try mTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, tracksTime), ofTrack: self.musicTrack.tracksWithMediaType(AVMediaTypeAudio)[0], atTime: kCMTimeZero)
+                    try mTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, totalTime), ofTrack: self.musicTrack.tracksWithMediaType(AVMediaTypeAudio)[0], atTime: kCMTimeZero)
                 } catch let musicTrackError as NSError {
                     print(musicTrackError.localizedDescription)
                 }
@@ -173,13 +174,15 @@ class MediaController {
         
         for voiceOver in voiceOvers {
             let audioTrack = audioComposition.addMutableTrackWithMediaType(AVMediaTypeAudio, preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
-            do {
-                try audioTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, voiceOver.duration), ofTrack: voiceOver.tracksWithMediaType(AVMediaTypeAudio)[0],
-                    atTime: audioTrackTime)
-            } catch let audioTrackError as NSError {
-                print(audioTrackError.localizedDescription)
+            if !voiceOver.tracks.isEmpty {
+                do {
+                    try audioTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, voiceOver.duration), ofTrack: voiceOver.tracksWithMediaType(AVMediaTypeAudio)[0],
+                        atTime: audioTrackTime)
+                } catch let audioTrackError as NSError {
+                    print(audioTrackError.localizedDescription)
+                }
+                audioTrackTime = CMTimeAdd(audioTrackTime, voiceOver.duration)
             }
-            audioTrackTime = CMTimeAdd(audioTrackTime, voiceOver.duration)
         }
         // get path
         let dateFormatter = NSDateFormatter()
@@ -208,6 +211,7 @@ class MediaController {
                         print("Export waiting")
                     } else if vOExporter!.status == AVAssetExportSessionStatus.Failed {
                         print("Export failure")
+                        self.preview = self.composeMedia(videoAssets, voiceOverAssets: voiceOvers, movieVoiceOver: nil, movie: true, save: save)
                     }
                 })
         }

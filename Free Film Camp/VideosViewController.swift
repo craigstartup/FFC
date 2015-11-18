@@ -128,7 +128,6 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
                 contentMode: .AspectFill,
                 options: nil) { (result, _) -> Void in
                     cell.imageView.image = result
-                    //self.images.append(result!)
             })
             cell.destroyClipButton.tag = indexPath.row
             cell.destroyClipButton.addTarget(self, action: "destroyClip:", forControlEvents: UIControlEvents.TouchUpInside)

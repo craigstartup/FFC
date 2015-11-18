@@ -21,6 +21,7 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
     var currentCell: NSIndexPath!
     var previewQueue = [AVPlayerItem]()
     let musicFileNames = ["Believe in your dreams", "Sounds like fun", "Youve got mail"]
+    let scenes = MediaController.sharedMediaController.scenes
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,14 +39,14 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
     
     
     @IBAction func makeMovie(sender: AnyObject) {
-//        self.vpVC.player = nil
-//        self.videoPlayer = nil
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveCompleted:", name: MediaController.Notifications.saveMovieFinished, object: nil)
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveFailed:", name: MediaController.Notifications.saveMovieFailed, object: nil)
-//        self.savingProgress.alpha = 1
-//        self.savingProgress.startAnimating()
-//        self.view.alpha = 0.6
-//        MediaController.sharedMediaController.prepareMovie(true)
+        self.vpVC.player = nil
+        self.videoPlayer = nil
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveCompleted:", name: MediaController.Notifications.saveMovieFinished, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveFailed:", name: MediaController.Notifications.saveMovieFailed, object: nil)
+        self.savingProgress.alpha = 1
+        self.savingProgress.startAnimating()
+        self.view.alpha = 0.6
+        MediaController.sharedMediaController.prepareMedia(self.scenes, movie: true, save: true)
     }
     
     func saveCompleted(notification: NSNotification) {
@@ -74,18 +75,20 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
         self.presentViewController(alertFailure, animated: true, completion: nil)
     }
     
+    
     @IBAction func preview(sender: AnyObject) {
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "firePreview:", name: MediaController.Notifications.previewReady, object: nil)
-//        
-//        if self.audioPlayer != nil {
-//            self.audioPlayer.stop()
-//        }
-//       
-//        self.savingProgress.alpha = 1
-//        self.savingProgress.startAnimating()
-//        self.view.alpha = 0.6
-//        MediaController.sharedMediaController.prepareMovie(false)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "firePreview:", name: MediaController.Notifications.previewReady, object: nil)
+        
+        if self.audioPlayer != nil {
+            self.audioPlayer.stop()
+        }
+       
+        self.savingProgress.alpha = 1
+        self.savingProgress.startAnimating()
+        self.view.alpha = 0.6
+        MediaController.sharedMediaController.prepareMedia(self.scenes, movie: true, save: false)
     }
+    
     
     func firePreview(notification: NSNotification) {
         self.savingProgress.stopAnimating()

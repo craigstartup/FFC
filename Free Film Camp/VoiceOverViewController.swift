@@ -199,7 +199,7 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
             
             self.videoPlayer = AVQueuePlayer(items: shots)
             self.playerLayer = AVPlayerLayer(player: self.videoPlayer)
-            self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
+            // TODO: self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "didFinishPlayingVideo:", name: AVPlayerItemDidPlayToEndTimeNotification, object: self.videoPlayer.items().last)
             self.videoPreviewLayer.layer.addSublayer(playerLayer)
             self.playerLayer.frame = self.videoPreviewLayer.bounds
