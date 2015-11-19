@@ -191,6 +191,7 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
         }
     }
     
+    
     func destroyClip(sender: UIButton) {
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
             print("DESTROYED")

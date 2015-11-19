@@ -355,11 +355,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Free Film Camp/SceneViewController.swift"
-            timestampString = "469609506.915797"
+            timestampString = "469669186.749802"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "244"
-            endingLineNumber = "244"
+            startingLineNumber = "245"
+            endingLineNumber = "245"
             landmarkName = "SceneViewController"
             landmarkType = "3">
          </BreakpointContent>

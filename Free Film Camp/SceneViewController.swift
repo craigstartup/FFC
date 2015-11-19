@@ -211,6 +211,7 @@ class SceneViewController: UIViewController {
         self.view.alpha = 0.6
         MediaController.sharedMediaController.prepareMedia([self.scene], movie: false, save: true)
     }
+    
     // MARK: Save notifications
     func saveCompleted(notification: NSNotification) {
         self.savingProgress.stopAnimating()

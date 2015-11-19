@@ -1696,6 +1696,7 @@
                                         <state key="normal" image="plus_white_69"/>
                                         <connections>
                                             <action selector="selectIntro:" destination="nf2-gJ-Z4I" eventType="touchUpInside" id="upF-Vb-Rhb"/>
+                                            <segue destination="KtM-ME-n2y" kind="presentation" identifier="pickingShot" modalPresentationStyle="overFullScreen" id="182-e7-4UI"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2pk-Eb-Qu5" userLabel="Destroy Intro">
@@ -1800,7 +1801,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="CH1-X3-ObO"/>
+        <segue reference="182-e7-4UI"/>
         <segue reference="bJ2-dg-x9E"/>
-        <segue reference="xrw-gC-d5d"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -17,7 +17,6 @@ class IntroViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBarHidden = true
-        
     }
 
     @IBAction func selectIntro(sender: UIButton) {
@@ -35,6 +34,14 @@ class IntroViewController: UIViewController {
     @IBAction func previewIntro(sender: UIButton) {
         
         
+    }
+    
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "pickingShot" {
+            let destinationVC = segue.destinationViewController as! CameraViewController
+            destinationVC.pickingShot = true
+        }
     }
     
     
