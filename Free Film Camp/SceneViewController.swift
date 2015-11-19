@@ -101,6 +101,8 @@ class SceneViewController: UIViewController {
             MediaController.sharedMediaController.saveScenes()
         } else {
             print("FUCK!!!!!!!!!!!\(MediaController.sharedMediaController.scenes[sceneNumber].voiceOver.URLByStandardizingPath)")
+            self.scene.voiceOver = defaultURL!
+            MediaController.sharedMediaController.saveScenes()
         }
         
         
@@ -119,6 +121,7 @@ class SceneViewController: UIViewController {
             MediaController.sharedMediaController.saveScenes()
         }
         
+        // Set button images
         for var i = 0; i < self.sceneButtons.count ; i++ {
             let images = self.scene.shotImages
             let videos = self.scene.shotVideos
@@ -176,8 +179,13 @@ class SceneViewController: UIViewController {
             self.sceneButtons[self.sceneNumber][ADD_BUTTONS]![VOICEOVER].contentVerticalAlignment = UIControlContentVerticalAlignment.Center
             self.sceneButtons[self.sceneNumber][ADD_BUTTONS]![VOICEOVER].imageView?.contentMode = UIViewContentMode.ScaleAspectFit
             self.sceneButtons[self.sceneNumber][ADD_BUTTONS]![VOICEOVER].setImage(self.defaultImage, forState: UIControlState.Normal)
+            do {
+                try NSFileManager.defaultManager().removeItemAtPath(self.scene.voiceOver.path!)
+            } catch let error as NSError {
+                print(error.localizedDescription)
+            }
             self.scene.voiceOver = self.defaultURL!
-        }
+                    }
         self.sceneButtons[self.sceneNumber][DESTROY_BUTTONS]![sender.tag - 1].alpha = 0
         self.sceneButtons[self.sceneNumber][DESTROY_BUTTONS]![sender.tag - 1].enabled = false
         MediaController.sharedMediaController.saveScenes()

@@ -125,7 +125,6 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
             playButton.enabled = false
             audioRecorder.stop()
             do {
-                
                 try self.audioPlayer = AVAudioPlayer(contentsOfURL: audioRecorder.url)
                 self.audioPlayer.play()
             } catch let error as NSError {
