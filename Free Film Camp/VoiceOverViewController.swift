@@ -19,6 +19,7 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     @IBOutlet weak var videoPreviewLayer: UIView!
     
     var audioPlayer: AVAudioPlayer!
+    let audioSession = AVAudioSession.sharedInstance()
     var videoPlayer: AVQueuePlayer!
     var playerLayer: AVPlayerLayer!
     var audioRecorder: AVAudioRecorder!
@@ -27,6 +28,7 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     
     var sceneID: Int!
     var segueID = "sceneAudioSelectedSegue"
+    var audioSaveID: String!
     var hasRecorded = false
     
     override func viewDidLoad() {
@@ -37,30 +39,23 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         // set up voice recorder
         AVAudioSession.sharedInstance().requestRecordPermission { (granted) -> Void in
             if granted {
-                let audioSession = AVAudioSession.sharedInstance()
                 
                 do {
-                    try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker)
+                    try self.audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker)
                 } catch let error as NSError {
                     print("audioSession error: \(error.localizedDescription)")
                 }
                 
                 do {
-                    try audioSession.setActive(true)
+                    try self.audioSession.setActive(true)
                 } catch let activeError as NSError {
                     print(activeError.localizedDescription)
                 }
             }
         }
         
-        // File path for recording
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = .LongStyle
-        dateFormatter.timeStyle = .FullStyle
-        let date = dateFormatter.stringFromDate(NSDate())
-        let dirs = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first
-        let url = NSURL(fileURLWithPath: dirs!).URLByAppendingPathComponent("sound-\(date).caf")
-        MediaController.sharedMediaController.tempPaths.append(url)
+        let url = self.audioFileURL()
+        
         let recordSettings =
         [AVEncoderAudioQualityKey: AVAudioQuality.Min.rawValue,
             AVEncoderBitRateKey: 16,
@@ -131,7 +126,7 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
             audioRecorder.stop()
             do {
                 
-                try self.audioPlayer = AVAudioPlayer(contentsOfURL: (audioRecorder?.url)!)
+                try self.audioPlayer = AVAudioPlayer(contentsOfURL: audioRecorder.url)
                 self.audioPlayer.play()
             } catch let error as NSError {
                 
@@ -145,10 +140,18 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     
     @IBAction func doneButtonPressed(sender: AnyObject) {
         self.audioRecorder.stop()
-        
-        if hasRecorded {
-            self.audioAssetToPass = audioRecorder.url
+        do {
+            try self.audioSession.setActive(false)
+        } catch let audioSessionError as NSError {
+            print(audioSessionError.localizedDescription)
         }
+        
+        print(audioRecorder.url.absoluteURL)
+    
+        if hasRecorded {
+            self.audioAssetToPass = self.audioFileURL()
+        }
+        
         self.performSegueWithIdentifier("sceneAudioSelectedSegue", sender: self)
     }
     
@@ -212,6 +215,17 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         self.recordButton.alpha = 1
         self.doneButton.enabled = true
         self.doneButton.alpha = 1
+    }
+    
+    // MARK: Audio File URL
+    func audioFileURL() -> NSURL {
+        // File path for recording
+        let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] 
+        let filename = "\(self.audioSaveID).caf"
+        let pathArray = [dirPath, filename]
+        let url = NSURL.fileURLWithPathComponents(pathArray)!
+        MediaController.sharedMediaController.tempPaths.append(url)
+        return url
     }
     
     func audioRecorderEncodeErrorDidOccur(recorder: AVAudioRecorder, error: NSError?) {

@@ -82,11 +82,27 @@ class SceneViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         MediaController.sharedMediaController.albumTitle = MediaController.Albums.scenes
+        
         defer {
             self.assetRequestNumber = nil
             self.selectedVideoImage = nil
             self.selectedVideoAsset = nil
         }
+        
+        self.scene = MediaController.sharedMediaController.scenes[sceneNumber]
+
+        // Access stored voiceover.
+        let path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
+        let filePath = path.stringByAppendingString("/\(self.restorationIdentifier!).caf")
+        print(filePath)
+        if NSFileManager.defaultManager().fileExistsAtPath(filePath) {
+            print("FILE!!!!!!!!!!!!!!!!")
+            self.scene.voiceOver = NSURL(fileURLWithPath: filePath)
+            MediaController.sharedMediaController.saveScenes()
+        } else {
+            print("FUCK!!!!!!!!!!!\(MediaController.sharedMediaController.scenes[sceneNumber].voiceOver.URLByStandardizingPath)")
+        }
+        
         
         self.sceneButtons = [[self.scene1Buttons, self.scene1RemoveMediaButtons],[self.scene2Buttons, self.scene2RemoveMediaButtons], [self.scene3Buttons, self.scene3RemoveMediaButtons]]
         
@@ -96,7 +112,6 @@ class SceneViewController: UIViewController {
         }
         
         self.navigationController?.navigationBarHidden = true
-        self.scene = MediaController.sharedMediaController.scenes[sceneNumber]
         
         if assetRequestNumber != nil && self.selectedVideoAsset != nil && self.selectedVideoImage != nil {
             self.scene.shotImages[assetRequestNumber - 1] = self.selectedVideoImage
@@ -203,6 +218,7 @@ class SceneViewController: UIViewController {
         self.presentViewController(alertSuccess, animated: true, completion: nil)
     }
     
+    
     func saveFailed(notification: NSNotification) {
         self.savingProgress.stopAnimating()
         self.savingProgress.alpha = 0
@@ -216,6 +232,7 @@ class SceneViewController: UIViewController {
         alertFailure.addAction(okAction)
         self.presentViewController(alertFailure, animated: true, completion: nil)
     }
+
     // MARK: segue methods
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == selectingShotSegueID {
@@ -225,21 +242,18 @@ class SceneViewController: UIViewController {
         } else if segue.identifier == self.selectingVoiceOverSegueID {
             let destinationVC = segue.destinationViewController as! VoiceOverViewController
             destinationVC.sceneID = self.sceneNumber
+            destinationVC.audioSaveID = self.restorationIdentifier!
         }
     }
+    
     
     @IBAction func sceneShotUnwindSegue(unwindSegue: UIStoryboardSegue) {
         
     }
     
     @IBAction func sceneAudioUnwindSegue(unwindSegue: UIStoryboardSegue){
-        if self.audioAsset != nil {
-            
-            self.scene.voiceOver = self.audioAsset
-            //MediaController.sharedMediaController.saveScenes()
-        }
+        
     }
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
