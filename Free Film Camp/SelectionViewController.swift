@@ -12,37 +12,42 @@ class SelectionViewController: UIViewController {
     var currentViewController: UIViewController!
     @IBOutlet weak var viewsView: UIView!
     @IBOutlet var buttons: Array<UIButton>!
-    let segueIDS = ["scene1VC", "scene2VC", "scene3VC", "movieVC"]
+    let segueIDS = ["introVC","scene1VC", "scene2VC", "scene3VC", "movieVC"]
     var lastSegue: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         if self.buttons.count > 0 {
-            self.performSegueWithIdentifier("scene1VC", sender: self.buttons[0])
+            self.performSegueWithIdentifier("scene1VC", sender: self.buttons[1])
         }
         self.navigationController?.navigationBarHidden = true
     }
     
+    // MARK: View lifecycle for subviews
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         currentViewController.viewWillAppear(animated)
     }
+    
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         currentViewController.viewWillDisappear(animated)
     }
     
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         currentViewController.viewDidAppear(animated)
     }
+    
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         currentViewController.viewDidDisappear(animated)
     }
     
+    // MARK: Gesture navigation
     @IBAction func swipedLeft(sender: AnyObject) {
         if self.lastSegue != segueIDS.last {
             let segueToPerform = (segueIDS.indexOf(self.lastSegue)! + 1)

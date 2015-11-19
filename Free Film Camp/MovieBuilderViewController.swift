@@ -9,6 +9,7 @@
 import UIKit
 import Photos
 import AVKit
+import AVFoundation
 
 
 class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -18,7 +19,8 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
     var audioPlayer: AVAudioPlayer!
     var audioFileURL: NSURL!
     var currentCell: NSIndexPath!
-    var previewQueue = [AVPlayerItem]()
+    var vpVC = AVPlayerViewController()
+    var videoPlayer: AVPlayer!
     let musicFileNames = ["Believe in your dreams", "Sounds like fun", "Youve got mail"]
 
     // MARK: View lifecycle methods
@@ -90,16 +92,16 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
     
     
     func firePreview(notification: NSNotification) {
+        // TODO: Debug preview. Make sure player is ready before presented.
         if MediaController.sharedMediaController.preview != nil {
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.savingProgress.stopAnimating()
                 self.savingProgress.alpha = 0
                 self.view.alpha = 1
-                let videoPlayer = AVPlayer(playerItem: MediaController.sharedMediaController.preview)
-                let vpVC = AVPlayerViewController()
-                vpVC.player = videoPlayer
-                vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
-                self.view.window?.rootViewController?.presentViewController(vpVC, animated: true, completion: nil)
+                self.videoPlayer = AVPlayer(playerItem: MediaController.sharedMediaController.preview)
+                self.vpVC.player = self.videoPlayer
+                self.vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
+                self.view.window?.rootViewController?.presentViewController(self.vpVC, animated: true, completion: nil)
             })
         }
         NSNotificationCenter.defaultCenter().removeObserver(self, name: MediaController.Notifications.previewReady, object: nil)
