@@ -23,6 +23,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     @IBOutlet weak var clipsButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var confirmShotButton: UIButton!
+    
     // camera components
     let videoCapture = AVCaptureSession()
     var devices = AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
@@ -33,9 +34,11 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     var preview: AVCaptureVideoPreviewLayer!
     var maxVideoTime = CMTime(seconds: 3, preferredTimescale: 1)
     var progress: NSTimer!
+    
     // background queue
     var sessionQueue: dispatch_queue_t!
     var backgroundRecordingID: UIBackgroundTaskIdentifier!
+    
     // video storage
     let toAlbumTitle = "Free Film Camp Clips"
     var newClip: PHObjectPlaceholder!
@@ -43,6 +46,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     var shots: PHFetchResult!
     var shotAsset: AVURLAsset!
     var shotImage: UIImage!
+    
     // logic data
     var pickingShot = false
     var shotNumber: Int!
@@ -57,16 +61,22 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                 self.camera = device as! AVCaptureDevice
             }
         }
+        
+        
         do{
             try self.camera.lockForConfiguration()
         } catch let configError as NSError {
             print(configError.localizedDescription)
         }
+        
+        
         do{
             try self.selfieCam.lockForConfiguration()
         } catch let configError as NSError {
             print(configError.localizedDescription)
         }
+        
+        
         self.progressBar.alpha = 0
         self.progressBar.progress = 0
         self.navigationController?.navigationBarHidden = true
@@ -74,6 +84,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         videoCapture.sessionPreset = AVCaptureSessionPreset1280x720
         // queue setup
         sessionQueue = dispatch_queue_create("session queue", DISPATCH_QUEUE_SERIAL)
+        
         // add device as input to session.
         do {
             let input = try AVCaptureDeviceInput(device: self.camera)
@@ -81,12 +92,15 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         } catch let captureError as NSError {
             print(captureError.localizedDescription)
         }
+        
         videoCapture.addOutput(videoPreviewOutput)
         videoCapture.addOutput(videoForFileOutput)
+        
         // setup preview for displaying what the camera sees
         preview = AVCaptureVideoPreviewLayer(session: videoCapture)
         self.cameraView.layer.addSublayer(preview)
         }
+    
     
     override func viewWillLayoutSubviews() {
         self.preview.frame = self.view.bounds
@@ -136,9 +150,11 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                 if UIDevice.currentDevice().multitaskingSupported {
                     self.backgroundRecordingID = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler(nil)
                 }
+                
                 // set orientation to match preview layer.
                 let videoCaptureOutputConnection = self.videoForFileOutput.connectionWithMediaType(AVMediaTypeVideo)
-                videoCaptureOutputConnection.videoOrientation = self.preview.connection.videoOrientation
+                videoCaptureOutputConnection.videoOrientation = AVCaptureVideoOrientation.LandscapeRight
+                
                 // record to a temporary file.
                 let dateFormatter = NSDateFormatter()
                 dateFormatter.dateStyle = .LongStyle
@@ -278,21 +294,26 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         self.videoCapture.beginConfiguration()
         let currentDevice = self.videoCapture.inputs.first as! AVCaptureDeviceInput
         var newDevice: AVCaptureDevice!
+        
         defer {
             newDevice = nil 
         }
+        
         if currentDevice.device.position == AVCaptureDevicePosition.Back {
             newDevice = self.selfieCam
         } else if currentDevice.device.position == AVCaptureDevicePosition.Front {
             newDevice = self.camera
         }
+    
         self.videoCapture.removeInput(currentDevice)
+        
         do {
             let input = try AVCaptureDeviceInput(device: newDevice)
             videoCapture.addInput(input)
         } catch let captureError as NSError {
             print(captureError.localizedDescription)
         }
+        
         self.videoCapture.commitConfiguration()
     }
     

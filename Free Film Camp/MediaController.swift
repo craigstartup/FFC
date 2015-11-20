@@ -164,11 +164,11 @@ class MediaController {
                 } catch let firstTrackError as NSError {
                     print(firstTrackError.localizedDescription)
                 }
-            
+
             tracks.append(track)
             tracksTime = CMTimeAdd(tracksTime, videoAsset.duration)
             // creat instructions for each track
-            let instruction = AVMutableVideoCompositionLayerInstruction(assetTrack: track)
+            let instruction = self.videoCompositionInstructionForTrack(track, asset: videoAsset)
             instruction.setOpacity(0.0, atTime: tracksTime)
             instructions.append(instruction)
             }
@@ -315,6 +315,44 @@ class MediaController {
         }
     }
     
+    // MARK: Composition helper methods
+    func orientationFromTransform(transform: CGAffineTransform) -> (orientation: UIImageOrientation, isPortrait: Bool) {
+        var assetOrientation = UIImageOrientation.Up
+        var isPortrait = false
+        if transform.a == 0 && transform.b == 1.0 && transform.c == -1.0 && transform.d == 0 {
+            assetOrientation = .Right
+            isPortrait = true
+        } else if transform.a == 0 && transform.b == -1.0 && transform.c == 1.0 && transform.d == 0 {
+            assetOrientation = .Left
+            isPortrait = true
+        } else if transform.a == 1.0 && transform.b == 0 && transform.c == 0 && transform.d == 1.0 {
+            assetOrientation = .Up
+        } else if transform.a == -1.0 && transform.b == 0 && transform.c == 0 && transform.d == -1.0 {
+            assetOrientation = .Down
+        }
+        return (assetOrientation, isPortrait)
+    }
+    
+    
+    func videoCompositionInstructionForTrack(track: AVCompositionTrack, asset: AVAsset) -> AVMutableVideoCompositionLayerInstruction {
+        let instruction = AVMutableVideoCompositionLayerInstruction(assetTrack: track)
+        let assetTrack = asset.tracksWithMediaType(AVMediaTypeVideo)[0] 
+        
+        let transform = assetTrack.preferredTransform
+        let assetInfo = orientationFromTransform(transform)
+        
+        if assetInfo.orientation == .Down {
+            let fixUpsideDown = CGAffineTransformMakeRotation(CGFloat(M_PI))
+            let yFix = assetTrack.naturalSize.height
+            let centerFix = CGAffineTransformMakeTranslation(assetTrack.naturalSize.width, yFix)
+            let concat = CGAffineTransformConcat(fixUpsideDown, centerFix)
+            instruction.setTransform(concat, atTime: kCMTimeZero)
+        }
+        
+        
+        
+        return instruction
+    }
     
     
     func destroyTemp() {

@@ -17,6 +17,7 @@ class IntroViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBarHidden = true
+        
     }
 
     @IBAction func selectIntro(sender: UIButton) {
