@@ -47,6 +47,4 @@ class Scene: NSObject, NSCoding {
         self.init(shotVideos: shotVideos, shotImages: shotImages, voiceOver: voiceOver)
         
     }
-    
-    
 }

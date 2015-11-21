@@ -12,7 +12,6 @@ import Photos
 //import MediaPlayer
 
 class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelegate {
-    
     // view components
     @IBOutlet var cameraView: UIView!
     @IBOutlet weak var flipCameraButton: UIButton!
@@ -26,9 +25,11 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     
     // camera components
     let videoCapture = AVCaptureSession()
+    
     var devices = AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
     var camera: AVCaptureDevice!
     var selfieCam: AVCaptureDevice!
+    
     let videoPreviewOutput = AVCaptureVideoDataOutput()
     let videoForFileOutput = AVCaptureMovieFileOutput()
     var preview: AVCaptureVideoPreviewLayer!
@@ -51,6 +52,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     var pickingShot = false
     var shotNumber: Int!
     var scene: String!
+    var segueToPerform: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,15 +64,14 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             }
         }
         
-        
-        do{
+        do {
             try self.camera.lockForConfiguration()
         } catch let configError as NSError {
             print(configError.localizedDescription)
         }
         
         
-        do{
+        do {
             try self.selfieCam.lockForConfiguration()
         } catch let configError as NSError {
             print(configError.localizedDescription)
@@ -208,7 +209,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         }
         
         // save file to Photos.
-        if success {
+        if success && self.segueToPerform != "introUnwind" {
             // check if authorized to save to photos
             PHPhotoLibrary.requestAuthorization({ (status:PHAuthorizationStatus) -> Void in
                 if status == PHAuthorizationStatus.Authorized {
@@ -247,7 +248,19 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                 }
             })
         } else {
-            cleanup()
+            MediaController.sharedMediaController.tempPaths.append(outputFileURL)
+            // Access stored voiceover.
+            let filePath = NSTemporaryDirectory().stringByAppendingString(outputFileURL.lastPathComponent!)
+            let videoPath = NSURL(fileURLWithPath: filePath)
+            print(filePath)
+            if NSFileManager.defaultManager().fileExistsAtPath(filePath) {
+                print("IntroFILE!!!!!!!!!!!!!!!!")
+                
+            } else {
+                print("IntroFUCK!!!!!!!!!!!\(filePath)")
+            }
+            MediaController.sharedMediaController.intro = Intro(video: videoPath, image: nil)
+            // TODO: Save
         }
         
         // re-enable camera button for new recording
@@ -262,6 +275,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         print("End recording")
     }
     
+    // MARK: Action methods
     @IBAction func cancelCamera(sender: AnyObject) {
         if self.pickingShot && self.shots != nil {
             let shotFetch = PHAsset.fetchAssetsInAssetCollection(self.shots.firstObject as! PHAssetCollection, options: nil)
@@ -278,13 +292,13 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                     if (videoAsset?.isKindOfClass(AVURLAsset) != nil) {
                         let url = videoAsset as! AVURLAsset
                         self.shotAsset = url
-                        self.performSegueWithIdentifier("cameraUnwindSegue", sender: self)
+                        self.performSegueWithIdentifier(self.segueToPerform, sender: self)
                     }
                 })
             }
         } else {
             if pickingShot {
-                self.performSegueWithIdentifier("cameraUnwindSegue", sender: self)
+                self.performSegueWithIdentifier(self.segueToPerform, sender: self)
             }
             self.dismissViewControllerAnimated(true, completion: nil)
         }
@@ -294,6 +308,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         self.videoCapture.beginConfiguration()
         let currentDevice = self.videoCapture.inputs.first as! AVCaptureDeviceInput
         var newDevice: AVCaptureDevice!
+        let microphone = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeAudio)
         
         defer {
             newDevice = nil 
@@ -301,6 +316,12 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         
         if currentDevice.device.position == AVCaptureDevicePosition.Back {
             newDevice = self.selfieCam
+            do {
+                let input = try AVCaptureDeviceInput(device: microphone)
+                videoCapture.addInput(input)
+            } catch let captureError as NSError {
+                print(captureError.localizedDescription)
+            }
         } else if currentDevice.device.position == AVCaptureDevicePosition.Front {
             newDevice = self.camera
         }
@@ -325,14 +346,15 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        
         if segue.identifier == "cameraUnwindSegue" {
-            
             let videosVC = segue.destinationViewController as! VideosViewController
             if self.shotAsset != nil && self.shotAsset != nil {
             videosVC.videoAssetToPass = self.shotAsset.URL
             videosVC.videoImageToPass = self.shotImage
             }
+        } else if segue.identifier == "introShot" {
+            // pass the image and video to the intro controller.
+            
         }
     }
     

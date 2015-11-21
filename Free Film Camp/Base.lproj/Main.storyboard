@@ -317,6 +317,7 @@
                         <outlet property="recordButton" destination="6fx-vh-WYk" id="p5d-Zl-9eP"/>
                         <outlet property="recordTimeButton" destination="L1L-08-2Tw" id="aR3-td-6U6"/>
                         <segue destination="IJT-rK-ouy" kind="unwind" identifier="cameraUnwindSegue" unwindAction="cameraUnwind:" id="3QR-m9-gbF"/>
+                        <segue destination="IJT-rK-ouy" kind="unwind" identifier="introUnwind" unwindAction="introUnwind:" id="Jd3-my-eOC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HtI-cw-RDb" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1696,7 +1697,7 @@
                                         <state key="normal" image="plus_white_69"/>
                                         <connections>
                                             <action selector="selectIntro:" destination="nf2-gJ-Z4I" eventType="touchUpInside" id="upF-Vb-Rhb"/>
-                                            <segue destination="KtM-ME-n2y" kind="presentation" identifier="pickingShot" modalPresentationStyle="overFullScreen" id="182-e7-4UI"/>
+                                            <segue destination="KtM-ME-n2y" kind="presentation" identifier="pickingIntroShot" modalPresentationStyle="overFullScreen" id="182-e7-4UI"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2pk-Eb-Qu5" userLabel="Destroy Intro">

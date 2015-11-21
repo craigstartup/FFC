@@ -193,7 +193,7 @@ class SceneViewController: UIViewController {
     
     
     @IBAction func previewSelection(sender: AnyObject) {
-        MediaController.sharedMediaController.prepareMedia([self.scene], movie: false, save: false)
+        MediaController.sharedMediaController.prepareMedia(nil, media: [self.scene], movie: false, save: false)
         if let preview = MediaController.sharedMediaController.preview {
             self.videoPlayer = AVPlayer(playerItem: preview)
             self.vpVC.player = videoPlayer
@@ -209,7 +209,7 @@ class SceneViewController: UIViewController {
         self.savingProgress.alpha = 1
         self.savingProgress.startAnimating()
         self.view.alpha = 0.6
-        MediaController.sharedMediaController.prepareMedia([self.scene], movie: false, save: true)
+        MediaController.sharedMediaController.prepareMedia(nil, media: [self.scene], movie: false, save: true)
     }
     
     // MARK: Save notifications

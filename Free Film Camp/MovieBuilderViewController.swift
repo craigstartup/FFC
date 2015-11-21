@@ -46,7 +46,7 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
         self.savingProgress.alpha = 1
         self.savingProgress.startAnimating()
         self.view.alpha = 0.6
-        MediaController.sharedMediaController.prepareMedia(MediaController.sharedMediaController.scenes, movie: true, save: true)
+        MediaController.sharedMediaController.prepareMedia(nil, media:MediaController.sharedMediaController.scenes, movie: true, save: true)
     }
     
     // MARK: Notification handlers
@@ -87,7 +87,7 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
         self.savingProgress.alpha = 1
         self.savingProgress.startAnimating()
         self.view.alpha = 0.6
-        MediaController.sharedMediaController.prepareMedia(MediaController.sharedMediaController.scenes, movie: true, save: false)
+        MediaController.sharedMediaController.prepareMedia(nil, media: MediaController.sharedMediaController.scenes, movie: true, save: false)
     }
     
     

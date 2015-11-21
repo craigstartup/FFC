@@ -38,6 +38,7 @@ class MediaController {
     let library = PHPhotoLibrary.sharedPhotoLibrary()
     // Media components
     var scenes = [Scene]()
+    var intro: Intro?
     var musicTrack: AVURLAsset!
     var preview: AVPlayerItem!
     // temp cleanup
@@ -47,20 +48,29 @@ class MediaController {
     var newScene: PHObjectPlaceholder!
     
     // MARK: Media methods
-    func prepareMedia(media: [Scene], movie: Bool, save: Bool) {
+    func prepareMedia(intro: Intro!, media: [Scene]!, movie: Bool, save: Bool) {
         // Exactract and assemble media assets
         var videoAssets = [AVURLAsset]()
         var voiceOverAssets = [AVURLAsset]()
-        // TODO: Check assets and post notification for what is missing.
-        for scene in media {
-            for video in scene.shotVideos {
-                let videoAsset = AVURLAsset(URL: video)
-                videoAssets.append(videoAsset)
-            }
-            
-            let voiceOverAsset = AVURLAsset(URL: scene.voiceOver)
-            voiceOverAssets.append(voiceOverAsset)
+        
+        if intro != nil {
+            let introVideo = AVURLAsset(URL: intro.video!)
+            videoAssets.append(introVideo)
         }
+        
+        // TODO: Check assets and post notification for what is missing.
+        if media != nil {
+            for scene in media {
+                for video in scene.shotVideos {
+                    let videoAsset = AVURLAsset(URL: video)
+                    videoAssets.append(videoAsset)
+                }
+                
+                let voiceOverAsset = AVURLAsset(URL: scene.voiceOver)
+                voiceOverAssets.append(voiceOverAsset)
+            }
+        }
+        
         // If movie, prepare voiceover, prepend intro and append bumper to video array
         if movie {
             let bumper = AVURLAsset(URL: NSBundle.mainBundle().URLForResource("Bumper_3 sec", withExtension: "mp4")!)
