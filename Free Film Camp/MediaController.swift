@@ -15,7 +15,6 @@ import AVKit
 class MediaController {
     
     enum Notifications {
-        
         static let audioExportStart  = "audioExportBegan"
         static let audioExportFinish = "audioExportComplete"
         static let saveSceneFinished = "saveSceneComplete"
@@ -26,361 +25,238 @@ class MediaController {
         
     }
     
+    enum Albums {
+        static let shots = "Free Film Camp Clips"
+        static let scenes = "Free Film Camp Scenes"
+        static let movies = "Free Film Camp Movies"
+    }
+    
     static let sharedMediaController = MediaController()
     private init() {}
     
+    var albumTitle: String!
     let library = PHPhotoLibrary.sharedPhotoLibrary()
-    // Main voiceover
-    var audioVoiceOverAsset: AVAsset!
-    var sessionURL: NSURL!
-    var vOExporter: AVAssetExportSession!
-    // music track
-    var musicTrack: AVAsset!
-    // Scene components
-    var s1Shot1: AVAsset!
-    var s1Shot1Image: UIImage!
-    var s1Shot2: AVAsset!
-    var s1Shot2Image: UIImage!
-    var s1Shot3: AVAsset!
-    var s1Shot3Image: UIImage!
-    var s1VoiceOver: AVAsset!
-    var s1Images = [UIImage]()
-    
-    var s2Shot1: AVAsset!
-    var s2Shot1Image: UIImage!
-    var s2Shot2: AVAsset!
-    var s2Shot2Image: UIImage!
-    var s2Shot3: AVAsset!
-    var s2Shot3Image: UIImage!
-    var s2VoiceOver: AVAsset!
-    
-    var s3Shot1: AVAsset!
-    var s3Shot1Image: UIImage!
-    var s3Shot2: AVAsset!
-    var s3Shot2Image: UIImage!
-    var s3Shot3: AVAsset!
-    var s3Shot3Image:UIImage!
-    var s3VoiceOver: AVAsset!
-    
-    // movie
-    var moviePreview: AVPlayerItem!
+    // Media components
+    var scenes = [Scene]()
+    var musicTrack: AVURLAsset!
+    var preview: AVPlayerItem!
+    // temp cleanup
+    var tempPaths = [NSURL]()
 
     // place holder for scene
     var newScene: PHObjectPlaceholder!
     
-    var albumTitle = "Free Film Camp Clips"
-    
-    func saveScene(scene: Int) {
-        var firstAsset: AVAsset!, secondAsset: AVAsset!, thirdAsset: AVAsset!, audioAsset: AVAsset!
-        
-        self.albumTitle = "Free Film Camp Scenes"
-        switch (scene) {
-        case 1:
-            firstAsset = self.s1Shot1
-            secondAsset = self.s1Shot2
-            thirdAsset  = self.s1Shot3
-            audioAsset = self.s1VoiceOver
-        case 2:
-            firstAsset = self.s2Shot1
-            secondAsset = self.s2Shot2
-            thirdAsset  = self.s2Shot3
-            audioAsset = self.s2VoiceOver
-        case 3:
-            firstAsset = self.s3Shot1
-            secondAsset = self.s3Shot2
-            thirdAsset  = self.s3Shot3
-            audioAsset = self.s3VoiceOver
-        default:
-            print("Invalid scene number")
+    // MARK: Media methods
+    func prepareMedia(media: [Scene], movie: Bool, save: Bool) {
+        // Exactract and assemble media assets
+        var videoAssets = [AVURLAsset]()
+        var voiceOverAssets = [AVURLAsset]()
+        // TODO: Check assets and post notification for what is missing.
+        for scene in media {
+            for video in scene.shotVideos {
+                let videoAsset = AVURLAsset(URL: video)
+                videoAssets.append(videoAsset)
+            }
+            
+            let voiceOverAsset = AVURLAsset(URL: scene.voiceOver)
+            voiceOverAssets.append(voiceOverAsset)
         }
+        // If movie, prepare voiceover, prepend intro and append bumper to video array
+        if movie {
+            let bumper = AVURLAsset(URL: NSBundle.mainBundle().URLForResource("Bumper_3 sec", withExtension: "mp4")!)
+            videoAssets.append(bumper)
+            if !voiceOverAssets[1].tracks.isEmpty {
+                self.getMovieVoiceOver(voiceOverAssets, videoAssets: videoAssets, save: save)
+            } else {
+                self.composeMedia(videoAssets, voiceOverAssets: voiceOverAssets, movieVoiceOver: nil, movie: true, save: save)
+            }
+        } else if !movie {
+            self.composeMedia(videoAssets, voiceOverAssets: voiceOverAssets, movieVoiceOver: nil, movie: movie, save: save)
+        }
+    }
+    
+    
+    func getMovieVoiceOver(voiceOvers: [AVURLAsset], videoAssets: [AVURLAsset], save: Bool) {
+        let audioComposition = AVMutableComposition()
+        var audioTrackTime = kCMTimeZero
+        print(voiceOvers.count)
+        print(videoAssets.count)
         
-        
-        if firstAsset != nil && secondAsset != nil && thirdAsset != nil {
-            // set up container to hold media tracks.
-            let sceneComposition = AVMutableComposition()
-            // track times
-            let track1to2Time = CMTimeAdd(firstAsset.duration, secondAsset.duration)
-            let totalTime = CMTimeAdd(track1to2Time, thirdAsset.duration)
-            // create separate video tracks for individual adjustments before merge
-            let firstTrack = sceneComposition.addMutableTrackWithMediaType(AVMediaTypeVideo,
-                preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
-            
-            do {
-                try firstTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, firstAsset.duration),
-                    ofTrack: firstAsset.tracksWithMediaType(AVMediaTypeVideo)[0] ,
-                    atTime: kCMTimeZero)
-            } catch let firstTrackError as NSError {
-                print(firstTrackError.localizedDescription)
-            }
-            
-            let secondTrack = sceneComposition.addMutableTrackWithMediaType(AVMediaTypeVideo,
-                preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
-            
-            do {
-                try secondTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, secondAsset.duration),
-                    ofTrack: secondAsset.tracksWithMediaType(AVMediaTypeVideo)[0] ,
-                    atTime: firstAsset.duration)
-            } catch let secondTrackError as NSError {
-                print(secondTrackError.localizedDescription)
-            }
-            
-            let thirdTrack = sceneComposition.addMutableTrackWithMediaType(AVMediaTypeVideo,
-                preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
-            do {
-                try thirdTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, thirdAsset.duration),
-                    ofTrack: thirdAsset.tracksWithMediaType(AVMediaTypeVideo)[0] ,
-                    atTime: track1to2Time)
-            } catch let thirdTrackError as NSError {
-                print(thirdTrackError.localizedDescription)
-            }
-            // Set up an overall instructions array
-            let mainInstruction = AVMutableVideoCompositionInstruction()
-            mainInstruction.timeRange = CMTimeRangeMake(kCMTimeZero, totalTime)
-            // Create seperate instructions for each track with helper method to correct orientation.
-            let firstInstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: firstTrack)
-            // Make sure each track becomes transparent at end for the next one to play.
-            firstInstruction.setOpacity(0.0, atTime: firstAsset.duration)
-            let secondInstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: secondTrack)
-            secondInstruction.setOpacity(0.0, atTime: track1to2Time)
-            let thirdInstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: thirdTrack)
-            // Add individual instructions to main for execution.
-            mainInstruction.layerInstructions = [firstInstruction, secondInstruction, thirdInstruction]
-            let mainSceneComposition = AVMutableVideoComposition()
-            // Add instruction composition to main composition and set frame rate to 30 per second.
-            mainSceneComposition.instructions = [mainInstruction]
-            mainSceneComposition.frameDuration = CMTimeMake(1, 30)
-            mainSceneComposition.renderSize = sceneComposition.naturalSize
-            // get audio
-            if audioAsset != nil {
-                let audioTrack: AVMutableCompositionTrack = sceneComposition.addMutableTrackWithMediaType(AVMediaTypeAudio, preferredTrackID: 0)
+        for voiceOver in voiceOvers {
+            let audioTrack = audioComposition.addMutableTrackWithMediaType(AVMediaTypeAudio, preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
+            if !voiceOver.tracks.isEmpty {
                 do {
-                    try audioTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, totalTime), ofTrack: audioAsset.tracksWithMediaType(AVMediaTypeAudio)[0] ,
-                        atTime: kCMTimeZero)
-                } catch let audioTrackError as NSError{
+                    try audioTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, voiceOver.duration), ofTrack: voiceOver.tracksWithMediaType(AVMediaTypeAudio)[0],
+                        atTime: audioTrackTime)
+                } catch let audioTrackError as NSError {
                     print(audioTrackError.localizedDescription)
                 }
-            }
-            // get path
-            let paths: NSArray = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
-            let documentDirectory: String = paths[0] as! String
-            let dateFormatter = NSDateFormatter()
-            dateFormatter.dateStyle = .LongStyle
-            dateFormatter.timeStyle = .LongStyle
-            let date = dateFormatter.stringFromDate(NSDate())
-            let url = NSURL(fileURLWithPath: documentDirectory).URLByAppendingPathComponent("mergeVideo-\(date).mov")
-            // make exporter
-            let exporter = AVAssetExportSession(
-                asset: sceneComposition,
-                presetName: AVAssetExportPresetHighestQuality)
-            exporter!.outputURL = url
-            exporter!.outputFileType = AVFileTypeQuickTimeMovie
-            exporter!.videoComposition = mainSceneComposition
-            exporter!
-                .exportAsynchronouslyWithCompletionHandler() {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.exportDidFinish(exporter!, type: "scene")
-                    })
-            }
-        }
-    }
-    
-    
-    func prepareMovie(save: Bool) {
-        albumTitle = "Free Film Camp Movies"
-        if self.s1Shot1 != nil && s1Shot2 != nil && s1Shot3 != nil &&
-        self.s2Shot1 != nil && s2Shot2 != nil && s2Shot3 != nil &&
-        self.s3Shot1 != nil && s3Shot2 != nil && s3Shot3 != nil {
-            defer {
-                self.moviePreview = nil
-            }
-            let bumper = AVAsset(URL: NSBundle.mainBundle().URLForResource("Bumper_3 sec", withExtension: "mp4")!)
-            var mixComposition = AVMutableComposition()
-            let assets = [self.s1Shot1, self.s1Shot2, self.s1Shot3, self.s2Shot1, self.s2Shot2, self.s2Shot3, self.s3Shot1, self.s3Shot2, self.s3Shot3, bumper]
-            
-            if self.s1VoiceOver != nil && self.s2VoiceOver != nil && self.s3VoiceOver != nil {
-                let voiceOvers = [self.s1VoiceOver, self.s2VoiceOver, self.s3VoiceOver]
-                let audioComposition = AVMutableComposition()
-                var audioTrackTime = kCMTimeZero
-                
-                for var y = 0; y < voiceOvers.count; y++ {
-                    let audioTrack = audioComposition.addMutableTrackWithMediaType(AVMediaTypeAudio, preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
-                    do {
-                        try audioTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, voiceOvers[y].duration), ofTrack: voiceOvers[y].tracksWithMediaType(AVMediaTypeAudio)[0],
-                            atTime: audioTrackTime)
-                    } catch let audioTrackError as NSError {
-                        print(audioTrackError.localizedDescription)
-                    }
-                    audioTrackTime = CMTimeAdd(audioTrackTime, voiceOvers[y].duration)
-                }
-                // get path
-                let dateFormatter = NSDateFormatter()
-                dateFormatter.dateStyle = .LongStyle
-                dateFormatter.timeStyle = .LongStyle
-                let date = dateFormatter.stringFromDate(NSDate())
-                let vOFilePath = NSTemporaryDirectory()
-                let url = NSURL(fileURLWithPath: vOFilePath).URLByAppendingPathComponent("vo-\(date).m4a")
-                // make exporter
-                vOExporter = AVAssetExportSession(
-                    asset: audioComposition,
-                    presetName: AVAssetExportPresetAppleM4A)
-                vOExporter!.outputURL = url
-                vOExporter!.outputFileType = AVFileTypeAppleM4A
-                vOExporter!.shouldOptimizeForNetworkUse = true
-                vOExporter!
-                    .exportAsynchronouslyWithCompletionHandler() {
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            
-                            if self.vOExporter.status == AVAssetExportSessionStatus.Completed {
-                                print("Export finished")
-                                self.sessionURL = self.vOExporter.outputURL!
-                                self.finishMovie(&mixComposition, assets: assets, save: save)
-                            } else if self.vOExporter.status == AVAssetExportSessionStatus.Waiting {
-                                print("Export waiting")
-                            } else if self.vOExporter.status == AVAssetExportSessionStatus.Failed {
-                                print("Export failure")
-                            }
-                        })
-                }
+                audioTrackTime = CMTimeAdd(audioTrackTime, voiceOver.duration)
             } else {
-                self.finishMovie(&mixComposition, assets: assets, save: save)
+                print("voice over empty")
+                
             }
+        }
+        // get path
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateStyle = .LongStyle
+        dateFormatter.timeStyle = .FullStyle
+        let date = dateFormatter.stringFromDate(NSDate())
+        let vOFilePath = NSTemporaryDirectory()
+        let url = NSURL(fileURLWithPath: vOFilePath).URLByAppendingPathComponent("vo-\(date).m4a")
+        MediaController.sharedMediaController.tempPaths.append(url)
+        // make exporter
+        let vOExporter = AVAssetExportSession(
+            asset: audioComposition,
+            presetName: AVAssetExportPresetAppleM4A)
+        vOExporter!.outputURL = url
+        vOExporter!.outputFileType = AVFileTypeAppleM4A
+        vOExporter!.shouldOptimizeForNetworkUse = true
+        vOExporter!
+            .exportAsynchronouslyWithCompletionHandler() {
+                    // TODO: Handle nil.
+                    if vOExporter!.status == AVAssetExportSessionStatus.Completed {
+                        print("Export finished")
+                        let movieVoiceOver = AVURLAsset(URL: (vOExporter?.outputURL)!)
+                        self.composeMedia(videoAssets, voiceOverAssets: voiceOvers, movieVoiceOver: movieVoiceOver, movie: true, save: save)
+                    } else if vOExporter!.status == AVAssetExportSessionStatus.Waiting {
+                        print("Export waiting")
+                    } else if vOExporter!.status == AVAssetExportSessionStatus.Failed {
+                        print("Export failure")
+                        self.composeMedia(videoAssets, voiceOverAssets: voiceOvers, movieVoiceOver: nil, movie: true, save: save)
+                    }
         }
     }
-    
-    
-    func finishMovie(inout mixComposition: AVMutableComposition, assets: [AVAsset!], save: Bool) {
-        let cleanup: dispatch_block_t = { () -> Void in
-            do {
-                try NSFileManager.defaultManager().removeItemAtURL(self.vOExporter.outputURL!)
-            } catch let fileError as NSError {
-                
-                print(fileError.localizedDescription)
-            }
-        }
 
-        var totalTime: CMTime = kCMTimeZero
-        
-        for var x = 0; x < assets.count; x++ {
-            totalTime = CMTimeAdd(totalTime, assets[x].duration)
+    
+    func composeMedia(videoAssets: [AVURLAsset], voiceOverAssets: [AVURLAsset], movieVoiceOver: AVURLAsset?, movie: Bool, save: Bool) {
+        defer {
+                NSNotificationCenter.defaultCenter().postNotificationName(Notifications.previewReady, object: self)
         }
         
-        // create tracks with sequential starting times.
+        // Get total time for movie assets.
+        var totalTime: CMTime = kCMTimeZero
+        for time in videoAssets {
+            totalTime = CMTimeAdd(totalTime, time.duration)
+        }
+        
+        // Compose assets into a scene or movie.
+        let mixComposition = AVMutableComposition()
         var tracks = [AVMutableCompositionTrack]()
         var tracksTime: CMTime = kCMTimeZero
-        for var i = 0; i < assets.count; i++ {
-            let track = mixComposition.addMutableTrackWithMediaType(AVMediaTypeVideo,
-                preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
-            do {
-                try track.insertTimeRange(CMTimeRangeMake(kCMTimeZero, assets[i].duration),
-                    ofTrack: assets[i].tracksWithMediaType(AVMediaTypeVideo)[0] ,
-                    atTime: tracksTime)
-            } catch let firstTrackError as NSError {
-                print(firstTrackError.localizedDescription)
-            }
-            tracksTime = CMTimeAdd(tracksTime, assets[i].duration)
-            tracks.append(track)
-        }
         
-        // Set up an overall instructions array to manage video visibility.
+        // create instructions for each track
         let mainInstruction = AVMutableVideoCompositionInstruction()
         mainInstruction.timeRange = CMTimeRangeMake(kCMTimeZero, totalTime)
         var instructions = [AVMutableVideoCompositionLayerInstruction]()
-        var instructionTime: CMTime = kCMTimeZero
-        // Create seperate instructions for each track.
-        for var i = 0; i < tracks.count; i++ {
-            let instruction = AVMutableVideoCompositionLayerInstruction(assetTrack: tracks[i])
-            instructionTime = CMTimeAdd(instructionTime, assets[i].duration)
-            instruction.setOpacity(0.0, atTime: instructionTime)
+        
+        // Video
+        for videoAsset in videoAssets {
+            // TODO: Post notifiction for composition failure.
+            // create tracks for each video asset
+            if !videoAsset.tracks.isEmpty {
+                let track = mixComposition.addMutableTrackWithMediaType(AVMediaTypeVideo,
+                    preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
+                do {
+                    try track.insertTimeRange(CMTimeRangeMake(kCMTimeZero, videoAsset.duration),
+                        ofTrack: videoAsset.tracksWithMediaType(AVMediaTypeVideo)[0] ,
+                        atTime: tracksTime)
+                } catch let firstTrackError as NSError {
+                    print(firstTrackError.localizedDescription)
+                }
+            
+            tracks.append(track)
+            tracksTime = CMTimeAdd(tracksTime, videoAsset.duration)
+            // creat instructions for each track
+            let instruction = AVMutableVideoCompositionLayerInstruction(assetTrack: track)
+            instruction.setOpacity(0.0, atTime: tracksTime)
             instructions.append(instruction)
+            }
+            
         }
         
         // Add individual instructions to main for execution.
         mainInstruction.layerInstructions = instructions
         let mainComposition = AVMutableVideoComposition()
+        
         // Add instruction composition to main composition and set frame rate to 30 per second.
         mainComposition.instructions = [mainInstruction]
         mainComposition.frameDuration = CMTimeMake(1, 30)
         mainComposition.renderSize = mixComposition.naturalSize
-        //let mix = AVMutableAudioMix()
-        if self.sessionURL != nil {
-            self.audioVoiceOverAsset = AVAsset(URL: self.sessionURL)
-            let vOTrack = mixComposition.addMutableTrackWithMediaType(AVMediaTypeAudio,
-                preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
-            do {
-                try vOTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, totalTime),
-                    ofTrack: self.audioVoiceOverAsset.tracksWithMediaType(AVMediaTypeAudio)[0] ,
-                    atTime: kCMTimeZero)
-            } catch let firstTrackError as NSError {
-                print(firstTrackError.localizedDescription)
+        
+        // process audio for each set of videos(scene) if present or not movie
+        if !movie {
+            for voiceOverAsset in voiceOverAssets {
+                if !voiceOverAsset.tracks.isEmpty {
+                    let audioTrack: AVMutableCompositionTrack = mixComposition.addMutableTrackWithMediaType(AVMediaTypeAudio, preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
+                    do { // TODO: Possibly adjust tracks time to be more comprehensive.
+                        try audioTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, tracksTime), ofTrack: voiceOverAsset.tracksWithMediaType(AVMediaTypeAudio)[0] ,
+                            atTime: kCMTimeZero)
+                    } catch let audioTrackError as NSError{
+                        print(audioTrackError.localizedDescription)
+                    }
+                }
+            }
+        } else {
+            // add movie voiceover
+            if movieVoiceOver != nil {
+                let audioTrack: AVMutableCompositionTrack = mixComposition.addMutableTrackWithMediaType(AVMediaTypeAudio, preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
+                do {
+                    try audioTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, tracksTime), ofTrack: movieVoiceOver!.tracksWithMediaType(AVMediaTypeAudio)[0] ,
+                        atTime: kCMTimeZero)
+                } catch let audioTrackError as NSError{
+                    print(audioTrackError.localizedDescription)
+                }
+            }
+            
+            // add music track
+            if self.musicTrack != nil {
+                let mTrack = mixComposition.addMutableTrackWithMediaType(AVMediaTypeAudio, preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
+                do {
+                    try mTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, totalTime), ofTrack: self.musicTrack.tracksWithMediaType(AVMediaTypeAudio)[0], atTime: kCMTimeZero)
+                } catch let musicTrackError as NSError {
+                    print(musicTrackError.localizedDescription)
+                }
             }
         }
         
-        if self.musicTrack != nil {
-            let mTrack = mixComposition.addMutableTrackWithMediaType(AVMediaTypeAudio, preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
-            do {
-                try mTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, totalTime), ofTrack: self.musicTrack.tracksWithMediaType(AVMediaTypeAudio)[0], atTime: kCMTimeZero)
-            } catch let musicTrackError as NSError {
-                print(musicTrackError.localizedDescription)
-            }
-        }
         
-        self.moviePreview = AVPlayerItem(asset: mixComposition)
-        self.moviePreview.videoComposition = mainComposition
-        NSNotificationCenter.defaultCenter().postNotificationName(Notifications.previewReady, object: self)
         if save {
-            // setup to save
-            let paths: NSArray = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
-            let documentDirectory: String = paths[0] as! String
-            let dateFormatter = NSDateFormatter()
-            dateFormatter.dateStyle = .LongStyle
-            dateFormatter.timeStyle = .LongStyle
-            let date = dateFormatter.stringFromDate(NSDate())
-            let url = NSURL(fileURLWithPath: documentDirectory).URLByAppendingPathComponent("mergeVideo-\(date).mov")
-            // make exporter
-            let exporter = AVAssetExportSession(
-                asset: mixComposition,
-                presetName: AVAssetExportPresetHighestQuality)
-            exporter!.outputURL = url
-            exporter!.outputFileType = AVFileTypeQuickTimeMovie
-            //exporter!.audioMix = mix
-            exporter!.videoComposition = mainComposition
-            exporter!
-                .exportAsynchronouslyWithCompletionHandler() {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.exportDidFinish(exporter!, type: "movie")
-                    })
-            }
-            self.s1Shot1 = nil
-            self.s1Shot2 = nil
-            self.s1Shot3 = nil
-            self.s1Shot1Image = nil
-            self.s1Shot2Image = nil
-            self.s1Shot3Image = nil
-            self.s1VoiceOver = nil
-            self.s2Shot1 = nil
-            self.s2Shot2 = nil
-            self.s2Shot3 = nil
-            self.s2Shot1Image = nil
-            self.s2Shot2Image = nil
-            self.s2Shot3Image = nil
-            self.s2VoiceOver = nil
-            self.s3Shot1 = nil
-            self.s3Shot2 = nil
-            self.s3Shot3 = nil
-            self.s3Shot1Image = nil
-            self.s3Shot2Image = nil
-            self.s3Shot3Image = nil
-            self.s3VoiceOver = nil
-            if vOExporter != nil {
-                cleanup()
-            }
-            self.musicTrack = nil 
-            self.audioVoiceOverAsset = nil
-            self.vOExporter = nil
+            self.saveMedia(mixComposition, videoComposition: mainComposition, movie: movie)
+        } else {
+            let preview = AVPlayerItem(asset: mixComposition)
+            preview.videoComposition = mainComposition
+            self.preview = preview
         }
     }
     
-    // MARK: Merge Helper Methods
+    
+    // MARK: Media save methods
+    func saveMedia(mixComposition: AVMutableComposition, videoComposition: AVMutableVideoComposition, movie: Bool) {
+        // setup to save
+        let paths: NSArray = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
+        let documentDirectory: String = paths[0] as! String
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateStyle = .LongStyle
+        dateFormatter.timeStyle = .FullStyle
+        let date = dateFormatter.stringFromDate(NSDate())
+        let url = NSURL(fileURLWithPath: documentDirectory).URLByAppendingPathComponent("mergeVideo-\(date).mov")
+        // make exporter
+        let exporter = AVAssetExportSession(
+            asset: mixComposition,
+            presetName: AVAssetExportPresetHighestQuality)
+        exporter!.outputURL = url
+        exporter!.outputFileType = AVFileTypeQuickTimeMovie
+        //exporter!.audioMix = mix
+        exporter!.videoComposition = videoComposition
+        exporter!
+            .exportAsynchronouslyWithCompletionHandler() {
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.exportDidFinish(exporter!, type: movie ? "movie" : "scene")
+                })
+        }
+    }
+    
     func exportDidFinish(session:AVAssetExportSession, type: String) {
         if session.status == AVAssetExportSessionStatus.Completed {
             let outputURL: NSURL = session.outputURL!
@@ -395,9 +271,11 @@ class MediaController {
                         photosChangeRequest.addResourceWithType(PHAssetResourceType.Video, fileURL: outputURL, options: options)
                         self.newScene = photosChangeRequest.placeholderForCreatedAsset
                     }, completionHandler: { (success: Bool, error: NSError?) -> Void in
-                            if !success {
-                                print("Failed to save to photos: %@", error?.localizedDescription)
-                            }
+                        if !success {
+                            print("Failed to save to photos: %@", error?.localizedDescription)
+                        } else if success {
+                            self.destroyTemp()
+                        }
                     })
                     
                     // save movie to correct album
@@ -435,5 +313,33 @@ class MediaController {
                 }
             })
         }
+    }
+    
+    
+    
+    func destroyTemp() {
+        for temp in self.tempPaths {
+            let cleanup: dispatch_block_t = { () -> Void in
+                do {
+                    try NSFileManager.defaultManager().removeItemAtURL(temp)
+                } catch let fileError as NSError {
+                    print(fileError.localizedDescription)
+                }
+            }
+            cleanup()
+        }
+    }
+    
+    
+    // MARK: NSCoding
+    func saveScenes() {
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(scenes, toFile: Scene.ArchiveURL.path!)
+        if !isSuccessfulSave {
+            print("FAILED TO SAVE")
+        }
+    }
+    
+    func loadScenes() -> [Scene]?{
+        return NSKeyedUnarchiver.unarchiveObjectWithFile(Scene.ArchiveURL.path!) as? [Scene]
     }
 }

@@ -14,8 +14,14 @@ import Photos
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
-
+//    func application(application: UIApplication, shouldSaveApplicationState coder: NSCoder) -> Bool {
+//        return true
+//    }
+//    
+//    func application(application: UIApplication, shouldRestoreApplicationState coder: NSCoder) -> Bool {
+//        return true
+//    }
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         let scenesFetchOptions = PHFetchOptions()
@@ -27,7 +33,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let clipsAlbumTitle = "Free Film Camp Clips"
         let scenesAlbumTitle = "Free Film Camp Scenes"
         let moviesAlbumTitle = "Free Film Camp Movies"
-        
         
         PHPhotoLibrary.requestAuthorization { (status) -> Void in
             if status == PHAuthorizationStatus.Authorized {
@@ -82,6 +87,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
         }
+
         return true
     }
 

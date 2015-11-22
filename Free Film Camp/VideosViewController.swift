@@ -32,14 +32,13 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
     var timer: NSTimer!
     var longItem: CGPoint!
     
-    // handle segue based on presenting VC
-    var segueID: String!
+    // handle logic based on presenting VC
+    var segueID = "sceneShotSelectedSegue"
     var shotNumber: Int!
     
     // pass back selected video and image
     var videoAssetToPass: NSURL!
     var initialEntry = true
-    //var images = [UIImage]()
     var videoImageToPass: UIImage!
     
     override func viewDidLoad() {
@@ -53,7 +52,6 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
             print("Free Film Camp Clips exists")
             // setup to retrieve videos from clips album
             clipsAlbumVideosFetch = PHAsset.fetchAssetsInAssetCollection(clipsAlbum, options: nil)
-            
         } else {
             library.performChanges({ () -> Void in
                 PHAssetCollectionChangeRequest.creationRequestForAssetCollectionWithTitle(self.albumTitle)
@@ -87,6 +85,7 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
             alert.addAction(action)
             self.presentViewController(alert, animated: true, completion: nil)
         }
+        
         self.videos = [PHAsset]()
         if self.clipsAlbumVideosFetch != nil {
             clipsAlbumVideosFetch.enumerateObjectsUsingBlock { (object, _, _) in
@@ -128,7 +127,6 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
                 contentMode: .AspectFill,
                 options: nil) { (result, _) -> Void in
                     cell.imageView.image = result
-                    //self.images.append(result!)
             })
             cell.destroyClipButton.tag = indexPath.row
             cell.destroyClipButton.addTarget(self, action: "destroyClip:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -219,23 +217,13 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
     
     // MARK: Segue methods
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "s1ClipSelectedSegue" {
-            let scene1BuilderVC = segue.destinationViewController as! FirstSceneViewController
+        if segue.identifier == self.segueID {
+            let scene1BuilderVC = segue.destinationViewController as! SceneViewController
             scene1BuilderVC.selectedVideoAsset = self.videoAssetToPass
             scene1BuilderVC.selectedVideoImage = self.videoImageToPass
-        } else if segue.identifier == "s2ClipSelectedSegue" {
-            let scene2BuilderVC = segue.destinationViewController as! SecondSceneViewController
-            scene2BuilderVC.selectedVideoAsset = self.videoAssetToPass
-            scene2BuilderVC.selectedVideoImage = self.videoImageToPass
-        } else if segue.identifier == "s3ClipSelectedSegue" {
-            let scene3BuilderVC = segue.destinationViewController as! ThirdSceneViewController
-            scene3BuilderVC.selectedVideoAsset = self.videoAssetToPass
-            scene3BuilderVC.selectedVideoImage = self.videoImageToPass
         } else if segue.identifier == "pickingShot" {
             let cameraVC = segue.destinationViewController as! CameraViewController
             cameraVC.pickingShot = true
-            cameraVC.scene = self.segueID
-            cameraVC.shotNumber = self.shotNumber
         }
     }
     

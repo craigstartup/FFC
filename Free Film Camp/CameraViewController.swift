@@ -97,6 +97,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     }
     
     override func viewWillAppear(animated: Bool) {
+        MediaController.sharedMediaController.albumTitle = MediaController.Albums.shots
         videoCapture.startRunning()
     }
     
@@ -141,7 +142,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                 // record to a temporary file.
                 let dateFormatter = NSDateFormatter()
                 dateFormatter.dateStyle = .LongStyle
-                dateFormatter.timeStyle = .LongStyle
+                dateFormatter.timeStyle = .FullStyle
                 let date = dateFormatter.stringFromDate(NSDate())
                 let videoOutputFilePath = NSTemporaryDirectory()
                 let url = NSURL(fileURLWithPath: videoOutputFilePath).URLByAppendingPathComponent("mergeVideo-\(date).mov")
@@ -230,7 +231,6 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                 }
             })
         } else {
-            
             cleanup()
         }
         

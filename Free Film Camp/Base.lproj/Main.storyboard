@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="rhL-xS-VmO">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="rhL-xS-VmO">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -11,7 +11,7 @@
         <!--Video View-->
         <scene sceneID="R3q-qt-yrF">
             <objects>
-                <collectionViewController storyboardIdentifier="videoVC" title="Video View" id="4to-zB-zdm" customClass="VideosViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController restorationIdentifier="videosVCRID" storyboardIdentifier="videoVC" title="Video View" id="4to-zB-zdm" customClass="VideosViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="Vjp-tg-RBq">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -101,9 +101,7 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="L9T-1Q-1t3"/>
                     <connections>
-                        <segue destination="HDm-P7-dyQ" kind="unwind" identifier="s1ClipSelectedSegue" unwindAction="s1ClipUnwindSegue:" id="yuw-o5-Dvg"/>
-                        <segue destination="HDm-P7-dyQ" kind="unwind" identifier="s2ClipSelectedSegue" unwindAction="s2ClipUnwindSegue:" id="jcf-wP-DEE"/>
-                        <segue destination="HDm-P7-dyQ" kind="unwind" identifier="s3ClipSelectedSegue" unwindAction="s3ClipUnwindSegue:" id="Qto-Xo-utB"/>
+                        <segue destination="HDm-P7-dyQ" kind="unwind" identifier="sceneShotSelectedSegue" unwindAction="sceneShotUnwindSegue:" id="yuw-o5-Dvg"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yhe-FW-yes" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -114,7 +112,7 @@
         <!--Voice Over-->
         <scene sceneID="Q77-QL-bxb">
             <objects>
-                <viewController storyboardIdentifier="voiceOverVC" title="Voice Over" id="t2l-7N-cdU" customClass="VoiceOverViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="voiceOverVCRID" storyboardIdentifier="voiceOverVC" title="Voice Over" id="t2l-7N-cdU" customClass="VoiceOverViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jb1-rH-8Ql"/>
                         <viewControllerLayoutGuide type="bottom" id="I6K-8R-b3A"/>
@@ -152,7 +150,7 @@
                                         <rect key="frame" x="373" y="0.0" width="187" height="44"/>
                                         <animations/>
                                         <fontDescription key="fontDescription" type="system" pointSize="26"/>
-                                        <state key="normal" title="Done">
+                                        <state key="normal" title="Save">
                                             <color key="titleColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
@@ -203,9 +201,7 @@
                         <outlet property="progressBar" destination="0jd-6r-5pM" id="TgF-FH-i1R"/>
                         <outlet property="recordButton" destination="na2-7t-mhh" id="dvm-vz-M2c"/>
                         <outlet property="videoPreviewLayer" destination="zfb-Yi-cGw" id="zLG-wN-w77"/>
-                        <segue destination="g3f-9f-LiE" kind="unwind" identifier="s1AudioSelectedSegue" unwindAction="s1AudioUnwindSegue:" id="I3l-bq-aCB"/>
-                        <segue destination="g3f-9f-LiE" kind="unwind" identifier="s2AudioSelectedSegue" unwindAction="s2AudioUnwindSegue:" id="Bde-oq-xVR"/>
-                        <segue destination="g3f-9f-LiE" kind="unwind" identifier="s3AudioSelectedSegue" unwindAction="s3AudioUnwindSegue:" id="T2b-o0-3nR"/>
+                        <segue destination="g3f-9f-LiE" kind="unwind" identifier="sceneAudioSelectedSegue" unwindAction="sceneAudioUnwindSegue:" id="T2b-o0-3nR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6FB-dL-6WS" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -216,7 +212,7 @@
         <!--Camera-->
         <scene sceneID="pL7-Jn-MB5">
             <objects>
-                <viewController title="Camera" id="KtM-ME-n2y" customClass="CameraViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="cameraVCRID" title="Camera" id="KtM-ME-n2y" customClass="CameraViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="BG8-UZ-oCb"/>
                         <viewControllerLayoutGuide type="bottom" id="D3s-mU-XgP"/>
@@ -330,7 +326,7 @@
         <!--Scene 1-->
         <scene sceneID="A32-Sa-mTl">
             <objects>
-                <viewController title="Scene 1" modalTransitionStyle="flipHorizontal" id="Rxg-ar-8Jr" customClass="FirstSceneViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="scene1" title="Scene 1" modalTransitionStyle="flipHorizontal" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Rxg-ar-8Jr" customClass="SceneViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="8yL-1a-8JA"/>
                         <viewControllerLayoutGuide type="bottom" id="aaJ-mr-5ah"/>
@@ -347,13 +343,13 @@
                                     <constraint firstAttribute="width" secondItem="T5W-V7-OTD" secondAttribute="height" multiplier="190:111" id="swW-u2-nQI"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qxs-2x-Cgo" userLabel="Shot 1">
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qxs-2x-Cgo" userLabel="Shot 1">
                                 <rect key="frame" x="7" y="74" width="190" height="111"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.5725490196078431" green="0.5725490196078431" blue="0.5725490196078431" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" image="plus_white_69"/>
                                 <connections>
-                                    <action selector="selectClipOne:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="7EC-BK-HLV"/>
+                                    <action selector="selectMedia:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="o1K-os-Tuu"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fpG-ck-N14">
@@ -364,13 +360,13 @@
                                     <constraint firstAttribute="width" secondItem="fpG-ck-N14" secondAttribute="height" multiplier="190:111" id="VXj-zZ-1Qm"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zh0-jF-OTX" userLabel="Shot 2">
+                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zh0-jF-OTX" userLabel="Shot 2">
                                 <rect key="frame" x="205" y="74" width="190" height="111"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.5725490196078431" green="0.5725490196078431" blue="0.5725490196078431" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" image="plus_white_69"/>
                                 <connections>
-                                    <action selector="selectClipTwo:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="mNa-MZ-naK"/>
+                                    <action selector="selectMedia:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="hld-zy-8vB"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DAY-fY-Gbz">
@@ -381,7 +377,16 @@
                                     <constraint firstAttribute="width" secondItem="DAY-fY-Gbz" secondAttribute="height" multiplier="190:111" id="oYz-fl-zlr"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jAP-bU-Obn" userLabel="Record Voiceover">
+                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="akN-Vz-J8y" userLabel="Shot 3">
+                                <rect key="frame" x="403" y="74" width="190" height="111"/>
+                                <animations/>
+                                <color key="backgroundColor" red="0.5725490196078431" green="0.5725490196078431" blue="0.5725490196078431" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" image="plus_white_69"/>
+                                <connections>
+                                    <action selector="selectMedia:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="mQ8-jZ-8fd"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="4" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jAP-bU-Obn" userLabel="Record Voiceover">
                                 <rect key="frame" x="7" y="232" width="586" height="60"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.5725490196078431" green="0.5725490196078431" blue="0.5725490196078431" alpha="1" colorSpace="calibratedRGB"/>
@@ -393,8 +398,8 @@
                                     <color key="titleShadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="recordVoiceOver:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="8Ia-IL-Nf8"/>
-                                    <segue destination="t2l-7N-cdU" kind="show" identifier="s1SelectAudio" id="bJ2-dg-x9E"/>
+                                    <action selector="selectMedia:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="GaV-Hw-aed"/>
+                                    <segue destination="t2l-7N-cdU" kind="show" identifier="sceneSelectingVoiceOverSegue" id="bJ2-dg-x9E"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shot 1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8rW-r2-fUM">
@@ -437,15 +442,6 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="akN-Vz-J8y" userLabel="Shot 3">
-                                <rect key="frame" x="403" y="74" width="190" height="111"/>
-                                <animations/>
-                                <color key="backgroundColor" red="0.5725490196078431" green="0.5725490196078431" blue="0.5725490196078431" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" image="plus_white_69"/>
-                                <connections>
-                                    <action selector="selectClip3:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="IFX-k7-J6V"/>
-                                </connections>
-                            </button>
                             <activityIndicatorView opaque="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="XiB-Hr-apA">
                                 <rect key="frame" x="282" y="281" width="37" height="37"/>
                                 <animations/>
@@ -474,7 +470,7 @@
                                             <color key="titleColor" red="0.20392156862745098" green="0.20392156862745098" blue="0.20392156862745098" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="previewSelection:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="gee-zp-rIa"/>
+                                            <action selector="previewSelection:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="hjc-e5-e22"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F1y-jG-nX1">
@@ -486,49 +482,13 @@
                                             <color key="titleColor" red="0.20392156862745098" green="0.20392156862745098" blue="0.20392156862745098" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="mergeMedia:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="wt8-vJ-avy"/>
+                                            <action selector="saveScene:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="cOB-qq-4RZ"/>
                                         </connections>
                                     </button>
                                 </subviews>
                                 <animations/>
                             </stackView>
-                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tJS-gt-zXL">
-                                <rect key="frame" x="553" y="74" width="40" height="40"/>
-                                <animations/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="40" id="aj1-tm-1OB"/>
-                                    <constraint firstAttribute="height" constant="40" id="urP-us-hrm"/>
-                                </constraints>
-                                <state key="normal" image="camera_cancel_btn_36"/>
-                                <connections>
-                                    <action selector="removeMedia:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="SvC-fa-D66"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hcv-WL-wMm">
-                                <rect key="frame" x="553" y="232" width="40" height="40"/>
-                                <animations/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="S8k-wx-wjf"/>
-                                    <constraint firstAttribute="width" constant="40" id="vh3-k9-h86"/>
-                                </constraints>
-                                <state key="normal" image="camera_cancel_btn_36"/>
-                                <connections>
-                                    <action selector="removeMedia:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="Yy5-Ha-wo8"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q1h-nu-baf">
-                                <rect key="frame" x="355" y="74" width="40" height="40"/>
-                                <animations/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="Eh4-yR-eIF"/>
-                                    <constraint firstAttribute="width" constant="40" id="iAs-Iw-bYk"/>
-                                </constraints>
-                                <state key="normal" image="camera_cancel_btn_36"/>
-                                <connections>
-                                    <action selector="removeMedia:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="vbi-BI-wV6"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fSa-Zl-iS2">
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fSa-Zl-iS2" userLabel="destroyShot1">
                                 <rect key="frame" x="157" y="74" width="40" height="40"/>
                                 <animations/>
                                 <constraints>
@@ -537,7 +497,43 @@
                                 </constraints>
                                 <state key="normal" image="camera_cancel_btn_36"/>
                                 <connections>
-                                    <action selector="removeMedia:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="Omi-D9-C2n"/>
+                                    <action selector="removeMedia:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="hrx-br-0JB"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q1h-nu-baf" userLabel="destroyShot2">
+                                <rect key="frame" x="355" y="74" width="40" height="40"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="Eh4-yR-eIF"/>
+                                    <constraint firstAttribute="width" constant="40" id="iAs-Iw-bYk"/>
+                                </constraints>
+                                <state key="normal" image="camera_cancel_btn_36"/>
+                                <connections>
+                                    <action selector="removeMedia:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="57q-Do-1q9"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tJS-gt-zXL" userLabel="destroyShot3">
+                                <rect key="frame" x="553" y="74" width="40" height="40"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="aj1-tm-1OB"/>
+                                    <constraint firstAttribute="height" constant="40" id="urP-us-hrm"/>
+                                </constraints>
+                                <state key="normal" image="camera_cancel_btn_36"/>
+                                <connections>
+                                    <action selector="removeMedia:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="5X2-kG-gRR"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hcv-WL-wMm" userLabel="destroyVoiceOver">
+                                <rect key="frame" x="553" y="232" width="40" height="40"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="S8k-wx-wjf"/>
+                                    <constraint firstAttribute="width" constant="40" id="vh3-k9-h86"/>
+                                </constraints>
+                                <state key="normal" image="camera_cancel_btn_36"/>
+                                <connections>
+                                    <action selector="removeMedia:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="Rs7-aI-TZC"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -610,17 +606,16 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
-                        <outlet property="recordVoiceOverButton" destination="jAP-bU-Obn" id="vwk-4h-SjZ"/>
-                        <outlet property="savingProgress" destination="XiB-Hr-apA" id="cUy-es-viT"/>
-                        <outlet property="shot1Button" destination="Qxs-2x-Cgo" id="kqj-3f-mUy"/>
-                        <outlet property="shot2Button" destination="zh0-jF-OTX" id="UFa-Eb-rXk"/>
-                        <outlet property="shot3Button" destination="akN-Vz-J8y" id="Og8-Kz-XBY"/>
-                        <outlet property="voiceOverLabel" destination="8j6-AJ-GMb" id="jxO-Oa-XJu"/>
-                        <outletCollection property="removeMediaButtons" destination="fSa-Zl-iS2" collectionClass="NSMutableArray" id="eHy-Rg-lRv"/>
-                        <outletCollection property="removeMediaButtons" destination="Q1h-nu-baf" collectionClass="NSMutableArray" id="OaL-UG-mgG"/>
-                        <outletCollection property="removeMediaButtons" destination="tJS-gt-zXL" collectionClass="NSMutableArray" id="e7i-OL-h6A"/>
-                        <outletCollection property="removeMediaButtons" destination="hcv-WL-wMm" collectionClass="NSMutableArray" id="dKi-dP-abS"/>
-                        <segue destination="4to-zB-zdm" kind="show" identifier="s1SelectClip" id="CH1-X3-ObO"/>
+                        <outlet property="savingProgress" destination="XiB-Hr-apA" id="gfh-zS-Yzd"/>
+                        <outletCollection property="scene1Buttons" destination="Qxs-2x-Cgo" collectionClass="NSMutableArray" id="igD-a6-Wkh"/>
+                        <outletCollection property="scene1Buttons" destination="zh0-jF-OTX" collectionClass="NSMutableArray" id="h0d-TL-5ls"/>
+                        <outletCollection property="scene1Buttons" destination="akN-Vz-J8y" collectionClass="NSMutableArray" id="QVA-VP-v6M"/>
+                        <outletCollection property="scene1Buttons" destination="jAP-bU-Obn" collectionClass="NSMutableArray" id="Ypz-cb-Xaw"/>
+                        <outletCollection property="scene1RemoveMediaButtons" destination="fSa-Zl-iS2" collectionClass="NSMutableArray" id="lAM-dp-dJO"/>
+                        <outletCollection property="scene1RemoveMediaButtons" destination="Q1h-nu-baf" collectionClass="NSMutableArray" id="HEQ-VR-8MA"/>
+                        <outletCollection property="scene1RemoveMediaButtons" destination="tJS-gt-zXL" collectionClass="NSMutableArray" id="epy-SR-fZb"/>
+                        <outletCollection property="scene1RemoveMediaButtons" destination="hcv-WL-wMm" collectionClass="NSMutableArray" id="iWL-9z-hSM"/>
+                        <segue destination="4to-zB-zdm" kind="show" identifier="sceneSelectingShotSegue" id="CH1-X3-ObO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vaJ-dB-DbI" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -630,7 +625,7 @@
         <!--Scene 3-->
         <scene sceneID="QAh-32-7GB">
             <objects>
-                <viewController title="Scene 3" modalTransitionStyle="flipHorizontal" id="qVt-sA-xLt" customClass="ThirdSceneViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="scene3" title="Scene 3" modalTransitionStyle="flipHorizontal" useStoryboardIdentifierAsRestorationIdentifier="YES" id="qVt-sA-xLt" customClass="SceneViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="j0q-4g-UPM"/>
                         <viewControllerLayoutGuide type="bottom" id="a6c-yl-QbG"/>
@@ -647,13 +642,13 @@
                                     <constraint firstAttribute="width" secondItem="L4z-uE-Hle" secondAttribute="height" multiplier="190:111" id="Mgj-sI-wo0"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GI0-A2-cm3" userLabel="Shot 1">
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GI0-A2-cm3" userLabel="Shot 1">
                                 <rect key="frame" x="7" y="74" width="190" height="111"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.57254901960000004" green="0.57254901960000004" blue="0.57254901960000004" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" image="plus_white_69"/>
                                 <connections>
-                                    <action selector="selectClipOne:" destination="qVt-sA-xLt" eventType="touchUpInside" id="GEg-w2-Ncs"/>
+                                    <action selector="selectMedia:" destination="qVt-sA-xLt" eventType="touchUpInside" id="thD-Ff-smt"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vwC-50-eBv">
@@ -664,13 +659,13 @@
                                     <constraint firstAttribute="width" secondItem="vwC-50-eBv" secondAttribute="height" multiplier="190:111" id="BdF-dI-46Z"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aGu-cQ-eFw" userLabel="Shot 2">
+                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aGu-cQ-eFw" userLabel="Shot 2">
                                 <rect key="frame" x="205" y="74" width="190" height="111"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.57254901960000004" green="0.57254901960000004" blue="0.57254901960000004" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" image="plus_white_69"/>
                                 <connections>
-                                    <action selector="selectClipTwo:" destination="qVt-sA-xLt" eventType="touchUpInside" id="eMM-Hj-U1f"/>
+                                    <action selector="selectMedia:" destination="qVt-sA-xLt" eventType="touchUpInside" id="bFI-46-BGB"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TWu-jP-jbE">
@@ -681,16 +676,16 @@
                                     <constraint firstAttribute="width" secondItem="TWu-jP-jbE" secondAttribute="height" multiplier="190:111" id="vci-9k-XhC"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BJv-D1-8mW" userLabel="Shot 3">
+                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BJv-D1-8mW" userLabel="Shot 3">
                                 <rect key="frame" x="403" y="74" width="190" height="111"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.57254901960000004" green="0.57254901960000004" blue="0.57254901960000004" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" image="plus_white_69"/>
                                 <connections>
-                                    <action selector="selectClip3:" destination="qVt-sA-xLt" eventType="touchUpInside" id="0v9-4G-XhO"/>
+                                    <action selector="selectMedia:" destination="qVt-sA-xLt" eventType="touchUpInside" id="iFN-7S-K6A"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YqY-j0-TIZ" userLabel="Record Voiceover">
+                            <button opaque="NO" tag="4" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YqY-j0-TIZ" userLabel="Record Voiceover">
                                 <rect key="frame" x="7" y="232" width="586" height="60"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.5725490196078431" green="0.5725490196078431" blue="0.5725490196078431" alpha="1" colorSpace="calibratedRGB"/>
@@ -700,8 +695,8 @@
                                 </constraints>
                                 <state key="normal" image="plus_white_69"/>
                                 <connections>
-                                    <action selector="recordVoiceOver:" destination="qVt-sA-xLt" eventType="touchUpInside" id="uO9-QJ-Kct"/>
-                                    <segue destination="t2l-7N-cdU" kind="show" identifier="s3SelectAudio" id="LiM-u3-3jo"/>
+                                    <action selector="selectMedia:" destination="qVt-sA-xLt" eventType="touchUpInside" id="5Zw-kk-DKk"/>
+                                    <segue destination="t2l-7N-cdU" kind="show" identifier="sceneSelectingVoiceOverSegue" id="LiM-u3-3jo"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shot 1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mip-5v-DJj">
@@ -772,7 +767,7 @@
                                             <color key="titleColor" red="0.20392156859999999" green="0.20392156859999999" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="previewSelection:" destination="qVt-sA-xLt" eventType="touchUpInside" id="vy1-g3-WcI"/>
+                                            <action selector="previewSelection:" destination="qVt-sA-xLt" eventType="touchUpInside" id="wSV-b2-S3T"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E3h-oT-blJ">
@@ -784,13 +779,13 @@
                                             <color key="titleColor" red="0.20392156862745098" green="0.20392156862745098" blue="0.20392156862745098" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="mergeMedia:" destination="qVt-sA-xLt" eventType="touchUpInside" id="N2b-jq-CKa"/>
+                                            <action selector="saveScene:" destination="qVt-sA-xLt" eventType="touchUpInside" id="9Wh-SB-486"/>
                                         </connections>
                                     </button>
                                 </subviews>
                                 <animations/>
                             </stackView>
-                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HuB-qc-wSP">
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HuB-qc-wSP" userLabel="Destroy Shot 1">
                                 <rect key="frame" x="157" y="74" width="40" height="40"/>
                                 <animations/>
                                 <constraints>
@@ -799,10 +794,10 @@
                                 </constraints>
                                 <state key="normal" image="camera_cancel_btn_36"/>
                                 <connections>
-                                    <action selector="removeMedia:" destination="qVt-sA-xLt" eventType="touchUpInside" id="B26-x6-vFz"/>
+                                    <action selector="removeMedia:" destination="qVt-sA-xLt" eventType="touchUpInside" id="Suf-CA-hOq"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1AL-Oy-8oo">
+                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1AL-Oy-8oo" userLabel="Destroy Shot 2">
                                 <rect key="frame" x="355" y="74" width="40" height="40"/>
                                 <animations/>
                                 <constraints>
@@ -811,10 +806,10 @@
                                 </constraints>
                                 <state key="normal" image="camera_cancel_btn_36"/>
                                 <connections>
-                                    <action selector="removeMedia:" destination="qVt-sA-xLt" eventType="touchUpInside" id="9Ec-Ri-bEF"/>
+                                    <action selector="removeMedia:" destination="qVt-sA-xLt" eventType="touchUpInside" id="70J-J8-dye"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kCI-fT-vPg">
+                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kCI-fT-vPg" userLabel="Destroy Shot 3">
                                 <rect key="frame" x="553" y="74" width="40" height="40"/>
                                 <animations/>
                                 <constraints>
@@ -823,10 +818,10 @@
                                 </constraints>
                                 <state key="normal" image="camera_cancel_btn_36"/>
                                 <connections>
-                                    <action selector="removeMedia:" destination="qVt-sA-xLt" eventType="touchUpInside" id="OZL-hW-ubd"/>
+                                    <action selector="removeMedia:" destination="qVt-sA-xLt" eventType="touchUpInside" id="AeQ-GT-b42"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mYo-2P-UEe">
+                            <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mYo-2P-UEe" userLabel="Destroy Voiceover">
                                 <rect key="frame" x="553" y="232" width="40" height="40"/>
                                 <animations/>
                                 <constraints>
@@ -835,7 +830,7 @@
                                 </constraints>
                                 <state key="normal" image="camera_cancel_btn_36"/>
                                 <connections>
-                                    <action selector="removeMedia:" destination="qVt-sA-xLt" eventType="touchUpInside" id="K82-5g-Skg"/>
+                                    <action selector="removeMedia:" destination="qVt-sA-xLt" eventType="touchUpInside" id="tKu-Dp-33P"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -908,17 +903,16 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
-                        <outlet property="recordVoiceOverButton" destination="YqY-j0-TIZ" id="bqd-R2-tmY"/>
-                        <outlet property="recordVoiceOverLabel" destination="VA4-im-jry" id="Av8-mI-C3k"/>
-                        <outlet property="savingProgress" destination="hbg-8C-eF7" id="NLb-yd-7if"/>
-                        <outlet property="shot1Button" destination="GI0-A2-cm3" id="huQ-fR-2ly"/>
-                        <outlet property="shot2Button" destination="aGu-cQ-eFw" id="QON-CV-7S0"/>
-                        <outlet property="shot3Button" destination="BJv-D1-8mW" id="u42-JR-Z68"/>
-                        <outletCollection property="removeMediaButtons" destination="HuB-qc-wSP" collectionClass="NSMutableArray" id="b6d-MA-Iu2"/>
-                        <outletCollection property="removeMediaButtons" destination="1AL-Oy-8oo" collectionClass="NSMutableArray" id="Npq-I9-hPE"/>
-                        <outletCollection property="removeMediaButtons" destination="kCI-fT-vPg" collectionClass="NSMutableArray" id="KLS-Mt-lI8"/>
-                        <outletCollection property="removeMediaButtons" destination="mYo-2P-UEe" collectionClass="NSMutableArray" id="kvs-6k-CV6"/>
-                        <segue destination="4to-zB-zdm" kind="show" identifier="s3SelectClip" id="pbY-XE-sGo"/>
+                        <outlet property="savingProgress" destination="hbg-8C-eF7" id="xww-tc-OFV"/>
+                        <outletCollection property="scene3Buttons" destination="GI0-A2-cm3" collectionClass="NSMutableArray" id="54p-em-p8j"/>
+                        <outletCollection property="scene3Buttons" destination="aGu-cQ-eFw" collectionClass="NSMutableArray" id="iSp-vt-tWa"/>
+                        <outletCollection property="scene3Buttons" destination="BJv-D1-8mW" collectionClass="NSMutableArray" id="ScI-Um-tt3"/>
+                        <outletCollection property="scene3RemoveMediaButtons" destination="HuB-qc-wSP" collectionClass="NSMutableArray" id="bUF-dx-ncO"/>
+                        <outletCollection property="scene3RemoveMediaButtons" destination="1AL-Oy-8oo" collectionClass="NSMutableArray" id="MND-hy-uiO"/>
+                        <outletCollection property="scene3RemoveMediaButtons" destination="kCI-fT-vPg" collectionClass="NSMutableArray" id="XpS-eF-Mgv"/>
+                        <outletCollection property="scene3RemoveMediaButtons" destination="mYo-2P-UEe" collectionClass="NSMutableArray" id="zIx-DN-NnD"/>
+                        <outletCollection property="scene3Buttons" destination="YqY-j0-TIZ" collectionClass="NSMutableArray" id="ui5-oa-y1d"/>
+                        <segue destination="4to-zB-zdm" kind="show" identifier="sceneSelectingShotSegue" id="pbY-XE-sGo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1pr-sw-Kyq" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -928,7 +922,7 @@
         <!--Views-->
         <scene sceneID="uCU-OV-YKk">
             <objects>
-                <viewController title="Views" id="FaC-O6-ufg" customClass="SelectionViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="selectionVCRID" title="Views" id="FaC-O6-ufg" customClass="SelectionViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Qny-YC-xRj"/>
                         <viewControllerLayoutGuide type="bottom" id="WzA-Mv-cPQ"/>
@@ -1055,7 +1049,7 @@
         <!--Scene 2-->
         <scene sceneID="hhK-99-qLa">
             <objects>
-                <viewController title="Scene 2" modalTransitionStyle="flipHorizontal" id="MQa-Na-cfN" customClass="SecondSceneViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="scene2" title="Scene 2" modalTransitionStyle="flipHorizontal" useStoryboardIdentifierAsRestorationIdentifier="YES" id="MQa-Na-cfN" customClass="SceneViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="nra-Tr-sTb"/>
                         <viewControllerLayoutGuide type="bottom" id="FZH-T0-bh8"/>
@@ -1072,13 +1066,13 @@
                                     <constraint firstAttribute="width" secondItem="dwg-le-U0j" secondAttribute="height" multiplier="190:111" id="FwO-vI-nzA"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="otP-Je-oPR" userLabel="Shot 1">
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="otP-Je-oPR" userLabel="Shot 1">
                                 <rect key="frame" x="7" y="74" width="190" height="111"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.57254901960000004" green="0.57254901960000004" blue="0.57254901960000004" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" image="plus_white_69"/>
                                 <connections>
-                                    <action selector="selectClipOne:" destination="MQa-Na-cfN" eventType="touchUpInside" id="uVs-PT-yvb"/>
+                                    <action selector="selectMedia:" destination="MQa-Na-cfN" eventType="touchUpInside" id="ZNO-Yv-5RF"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BO1-rx-eMa">
@@ -1089,13 +1083,13 @@
                                     <constraint firstAttribute="width" secondItem="BO1-rx-eMa" secondAttribute="height" multiplier="190:111" id="EdV-JC-Axm"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SeG-j5-p1x" userLabel="Shot 2">
+                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SeG-j5-p1x" userLabel="Shot 2">
                                 <rect key="frame" x="205" y="74" width="190" height="111"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.57254901960000004" green="0.57254901960000004" blue="0.57254901960000004" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" image="plus_white_69"/>
                                 <connections>
-                                    <action selector="selectClipTwo:" destination="MQa-Na-cfN" eventType="touchUpInside" id="cEe-07-0HP"/>
+                                    <action selector="selectMedia:" destination="MQa-Na-cfN" eventType="touchUpInside" id="df6-2F-rR6"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wdc-jU-oZv">
@@ -1106,16 +1100,16 @@
                                     <constraint firstAttribute="width" secondItem="wdc-jU-oZv" secondAttribute="height" multiplier="190:111" id="Bx6-RT-Ho1"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z29-YX-x1f" userLabel="Shot 3">
+                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z29-YX-x1f" userLabel="Shot 3">
                                 <rect key="frame" x="403" y="74" width="190" height="111"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.57254901960000004" green="0.57254901960000004" blue="0.57254901960000004" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" image="plus_white_69"/>
                                 <connections>
-                                    <action selector="selectClip3:" destination="MQa-Na-cfN" eventType="touchUpInside" id="NaD-dL-pB7"/>
+                                    <action selector="selectMedia:" destination="MQa-Na-cfN" eventType="touchUpInside" id="KVO-ff-ARe"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1rO-1c-1TE" userLabel="Record Voiceover">
+                            <button opaque="NO" tag="4" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1rO-1c-1TE" userLabel="Record Voiceover">
                                 <rect key="frame" x="7" y="232" width="586" height="60"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.57254901960000004" green="0.57254901960000004" blue="0.57254901960000004" alpha="1" colorSpace="calibratedRGB"/>
@@ -1125,8 +1119,8 @@
                                 </constraints>
                                 <state key="normal" image="plus_white_69"/>
                                 <connections>
-                                    <action selector="recordVoiceOver:" destination="MQa-Na-cfN" eventType="touchUpInside" id="A7w-BL-dZD"/>
-                                    <segue destination="t2l-7N-cdU" kind="show" identifier="s2SelectAudio" id="QIo-ZO-zF5"/>
+                                    <action selector="selectMedia:" destination="MQa-Na-cfN" eventType="touchUpInside" id="kzW-AX-qtV"/>
+                                    <segue destination="t2l-7N-cdU" kind="show" identifier="sceneSelectingVoiceOverSegue" id="QIo-ZO-zF5"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shot 1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9n7-wB-NrU">
@@ -1197,7 +1191,7 @@
                                             <color key="titleColor" red="0.20392156859999999" green="0.20392156859999999" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="previewSelection:" destination="MQa-Na-cfN" eventType="touchUpInside" id="5wi-jE-tLE"/>
+                                            <action selector="previewSelection:" destination="MQa-Na-cfN" eventType="touchUpInside" id="OK3-Yp-0QG"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NcB-Sd-a35">
@@ -1209,13 +1203,13 @@
                                             <color key="titleColor" red="0.20392156859999999" green="0.20392156859999999" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="mergeMedia:" destination="MQa-Na-cfN" eventType="touchUpInside" id="eDL-ya-mEe"/>
+                                            <action selector="saveScene:" destination="MQa-Na-cfN" eventType="touchUpInside" id="RP5-TD-pIu"/>
                                         </connections>
                                     </button>
                                 </subviews>
                                 <animations/>
                             </stackView>
-                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N3Q-dX-TOv">
+                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N3Q-dX-TOv" userLabel="Destroy Shot 2">
                                 <rect key="frame" x="355" y="74" width="40" height="40"/>
                                 <animations/>
                                 <constraints>
@@ -1224,10 +1218,10 @@
                                 </constraints>
                                 <state key="normal" image="camera_cancel_btn_36"/>
                                 <connections>
-                                    <action selector="removeMedia:" destination="MQa-Na-cfN" eventType="touchUpInside" id="Wf8-Zu-Djp"/>
+                                    <action selector="removeMedia:" destination="MQa-Na-cfN" eventType="touchUpInside" id="KnI-Z2-IUx"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btr-tx-hXa">
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btr-tx-hXa" userLabel="Destroy Shot 1">
                                 <rect key="frame" x="157" y="74" width="40" height="40"/>
                                 <animations/>
                                 <constraints>
@@ -1236,10 +1230,10 @@
                                 </constraints>
                                 <state key="normal" image="camera_cancel_btn_36"/>
                                 <connections>
-                                    <action selector="removeMedia:" destination="MQa-Na-cfN" eventType="touchUpInside" id="1i0-HE-lB9"/>
+                                    <action selector="removeMedia:" destination="MQa-Na-cfN" eventType="touchUpInside" id="10h-yn-Jr3"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lup-cN-J5m">
+                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lup-cN-J5m" userLabel="Destroy Shot 3">
                                 <rect key="frame" x="553" y="74" width="40" height="40"/>
                                 <animations/>
                                 <constraints>
@@ -1248,10 +1242,10 @@
                                 </constraints>
                                 <state key="normal" image="camera_cancel_btn_36"/>
                                 <connections>
-                                    <action selector="removeMedia:" destination="MQa-Na-cfN" eventType="touchUpInside" id="wHX-2A-psi"/>
+                                    <action selector="removeMedia:" destination="MQa-Na-cfN" eventType="touchUpInside" id="Cpe-gZ-BXv"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NnO-cg-PdX">
+                            <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NnO-cg-PdX" userLabel="Destroy Voiceover">
                                 <rect key="frame" x="553" y="232" width="40" height="40"/>
                                 <animations/>
                                 <constraints>
@@ -1260,7 +1254,7 @@
                                 </constraints>
                                 <state key="normal" image="camera_cancel_btn_36"/>
                                 <connections>
-                                    <action selector="removeMedia:" destination="MQa-Na-cfN" eventType="touchUpInside" id="xby-TI-uuy"/>
+                                    <action selector="removeMedia:" destination="MQa-Na-cfN" eventType="touchUpInside" id="btc-fa-Ra4"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -1333,17 +1327,16 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
-                        <outlet property="recordVoiceOverButton" destination="1rO-1c-1TE" id="Bse-hU-MGy"/>
-                        <outlet property="recordVoiceOverLabel" destination="liu-f8-dJC" id="gUL-fF-6kD"/>
-                        <outlet property="savingProgress" destination="7Ph-RS-wMk" id="dPq-2g-UmV"/>
-                        <outlet property="shot1Button" destination="otP-Je-oPR" id="Nnf-e5-ilF"/>
-                        <outlet property="shot2Button" destination="SeG-j5-p1x" id="Vw1-TX-Vtu"/>
-                        <outlet property="shot3Button" destination="z29-YX-x1f" id="8I0-Ub-eUs"/>
-                        <outletCollection property="removeMediaButtons" destination="btr-tx-hXa" collectionClass="NSMutableArray" id="Hls-3y-Tl4"/>
-                        <outletCollection property="removeMediaButtons" destination="N3Q-dX-TOv" collectionClass="NSMutableArray" id="aRD-v3-TTC"/>
-                        <outletCollection property="removeMediaButtons" destination="Lup-cN-J5m" collectionClass="NSMutableArray" id="5V0-0W-f8e"/>
-                        <outletCollection property="removeMediaButtons" destination="NnO-cg-PdX" collectionClass="NSMutableArray" id="Szs-wJ-GQx"/>
-                        <segue destination="4to-zB-zdm" kind="show" identifier="s2SelectClip" id="OJI-ki-Muw"/>
+                        <outlet property="savingProgress" destination="7Ph-RS-wMk" id="jmN-Ym-T55"/>
+                        <outletCollection property="scene2Buttons" destination="otP-Je-oPR" collectionClass="NSMutableArray" id="wYe-FQ-yeu"/>
+                        <outletCollection property="scene2Buttons" destination="SeG-j5-p1x" collectionClass="NSMutableArray" id="8SG-RC-RLy"/>
+                        <outletCollection property="scene2Buttons" destination="z29-YX-x1f" collectionClass="NSMutableArray" id="LGT-PR-4mI"/>
+                        <outletCollection property="scene2Buttons" destination="1rO-1c-1TE" collectionClass="NSMutableArray" id="VOc-D2-dfW"/>
+                        <outletCollection property="scene2RemoveMediaButtons" destination="btr-tx-hXa" collectionClass="NSMutableArray" id="U4y-kp-EEA"/>
+                        <outletCollection property="scene2RemoveMediaButtons" destination="N3Q-dX-TOv" collectionClass="NSMutableArray" id="X0G-8B-PdQ"/>
+                        <outletCollection property="scene2RemoveMediaButtons" destination="Lup-cN-J5m" collectionClass="NSMutableArray" id="y9C-CT-j9e"/>
+                        <outletCollection property="scene2RemoveMediaButtons" destination="NnO-cg-PdX" collectionClass="NSMutableArray" id="yeU-yW-HK5"/>
+                        <segue destination="4to-zB-zdm" kind="show" identifier="sceneSelectingShotSegue" id="OJI-ki-Muw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6mm-S1-srK" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1353,7 +1346,7 @@
         <!--Movie-->
         <scene sceneID="Ul7-oZ-ylA">
             <objects>
-                <viewController title="Movie" modalTransitionStyle="flipHorizontal" id="fje-F2-EuG" customClass="MovieBuilderViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="movieVCRID" title="Movie" modalTransitionStyle="flipHorizontal" id="fje-F2-EuG" customClass="MovieBuilderViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="GsR-Xa-Yfa"/>
                         <viewControllerLayoutGuide type="bottom" id="Ueq-ek-GNU"/>
@@ -1367,7 +1360,7 @@
                                 <animations/>
                                 <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="Make Movie">
+                                <state key="normal" title="Save Movie">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
@@ -1390,10 +1383,6 @@
                                     <action selector="preview:" destination="fje-F2-EuG" eventType="touchUpInside" id="YT1-Kd-ndS"/>
                                 </connections>
                             </button>
-                            <activityIndicatorView opaque="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Nsf-El-ZWS">
-                                <rect key="frame" x="282" y="281" width="37" height="37"/>
-                                <animations/>
-                            </activityIndicatorView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="80" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="rPv-Lt-ha7">
                                 <rect key="frame" x="7" y="126" width="586" height="406"/>
                                 <animations/>
@@ -1430,7 +1419,7 @@
                                                     <rect key="frame" x="73" y="15" width="440" height="50"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Check" translatesAutoresizingMaskIntoConstraints="NO" id="6Du-46-0ZG">
@@ -1471,11 +1460,15 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <activityIndicatorView opaque="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Nsf-El-ZWS">
+                                <rect key="frame" x="282" y="281" width="37" height="37"/>
+                                <animations/>
+                            </activityIndicatorView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WN0-8g-Wdn">
-                                <rect key="frame" x="180" y="72" width="240" height="46"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="60"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Music Tracks" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IY7-hO-tCJ">
-                                        <rect key="frame" x="56" y="12" width="128" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Background Music" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IY7-hO-tCJ">
+                                        <rect key="frame" x="8" y="13" width="584" height="34"/>
                                         <animations/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1485,12 +1478,12 @@
                                 <animations/>
                                 <color key="backgroundColor" red="0.57254901960000004" green="0.57254901960000004" blue="0.57254901960000004" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstItem="IY7-hO-tCJ" firstAttribute="leading" secondItem="WN0-8g-Wdn" secondAttribute="leading" constant="56" id="10b-J0-SYl"/>
-                                    <constraint firstItem="IY7-hO-tCJ" firstAttribute="top" secondItem="WN0-8g-Wdn" secondAttribute="top" constant="12" id="8hQ-FZ-hyl"/>
-                                    <constraint firstAttribute="trailing" secondItem="IY7-hO-tCJ" secondAttribute="trailing" constant="56" id="BPi-CG-b2r"/>
+                                    <constraint firstItem="IY7-hO-tCJ" firstAttribute="leading" secondItem="WN0-8g-Wdn" secondAttribute="leading" constant="8" id="10b-J0-SYl"/>
+                                    <constraint firstItem="IY7-hO-tCJ" firstAttribute="top" secondItem="WN0-8g-Wdn" secondAttribute="top" constant="13" id="8hQ-FZ-hyl"/>
+                                    <constraint firstAttribute="trailing" secondItem="IY7-hO-tCJ" secondAttribute="trailing" constant="8" id="BPi-CG-b2r"/>
+                                    <constraint firstItem="IY7-hO-tCJ" firstAttribute="centerY" secondItem="WN0-8g-Wdn" secondAttribute="centerY" id="HdM-8B-7vm"/>
+                                    <constraint firstItem="IY7-hO-tCJ" firstAttribute="centerX" secondItem="WN0-8g-Wdn" secondAttribute="centerX" id="L4u-44-Wqi"/>
                                     <constraint firstAttribute="bottom" secondItem="IY7-hO-tCJ" secondAttribute="bottom" constant="13" id="U3A-Yh-5Zc"/>
-                                    <constraint firstAttribute="width" constant="240" id="e0f-dH-fYG"/>
-                                    <constraint firstAttribute="height" constant="46" id="h93-gh-cMQ"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -1498,22 +1491,25 @@
                         <color key="backgroundColor" red="0.2666666667" green="0.2666666667" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstItem="WN0-8g-Wdn" firstAttribute="leading" secondItem="uCq-IG-yDm" secondAttribute="leadingMargin" constant="-20" id="0IN-jy-G2E"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Urj-We-YDA" secondAttribute="trailing" constant="-13" id="0ZA-LF-mlW"/>
                             <constraint firstItem="Nsf-El-ZWS" firstAttribute="centerY" secondItem="uCq-IG-yDm" secondAttribute="centerY" id="52e-QJ-a0B"/>
                             <constraint firstItem="rPv-Lt-ha7" firstAttribute="leading" secondItem="uCq-IG-yDm" secondAttribute="leadingMargin" constant="-13" id="5tp-aU-IJT"/>
+                            <constraint firstItem="p8B-dd-VND" firstAttribute="height" secondItem="WN0-8g-Wdn" secondAttribute="height" id="6lJ-er-8dw"/>
                             <constraint firstItem="p8B-dd-VND" firstAttribute="top" secondItem="rPv-Lt-ha7" secondAttribute="bottom" constant="8" id="AdQ-9P-xO0"/>
                             <constraint firstItem="p8B-dd-VND" firstAttribute="bottom" secondItem="Ueq-ek-GNU" secondAttribute="top" id="IfD-tq-po9"/>
-                            <constraint firstItem="rPv-Lt-ha7" firstAttribute="top" secondItem="WN0-8g-Wdn" secondAttribute="bottom" constant="8" id="LZ2-Mv-nTH"/>
                             <constraint firstItem="p8B-dd-VND" firstAttribute="top" secondItem="Urj-We-YDA" secondAttribute="top" id="MHq-op-ixy"/>
+                            <constraint firstItem="rPv-Lt-ha7" firstAttribute="top" secondItem="GsR-Xa-Yfa" secondAttribute="bottom" constant="62" id="MNR-N7-Ohl"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Urj-We-YDA" secondAttribute="trailing" constant="-13" id="Ojl-Fi-ItK"/>
                             <constraint firstAttribute="trailingMargin" secondItem="rPv-Lt-ha7" secondAttribute="trailing" constant="-13" id="PpM-kF-EYb"/>
                             <constraint firstItem="p8B-dd-VND" firstAttribute="firstBaseline" secondItem="Urj-We-YDA" secondAttribute="baseline" id="TRL-pU-ms0"/>
                             <constraint firstItem="Urj-We-YDA" firstAttribute="width" secondItem="p8B-dd-VND" secondAttribute="width" id="VD7-9L-XNo"/>
                             <constraint firstItem="WN0-8g-Wdn" firstAttribute="centerX" secondItem="uCq-IG-yDm" secondAttribute="centerX" id="Vcy-CP-U6X"/>
                             <constraint firstItem="p8B-dd-VND" firstAttribute="leading" secondItem="uCq-IG-yDm" secondAttribute="leadingMargin" constant="-13" id="c6u-mu-q39"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="WN0-8g-Wdn" secondAttribute="trailing" constant="-20" id="hff-en-V7O"/>
                             <constraint firstItem="rPv-Lt-ha7" firstAttribute="centerX" secondItem="uCq-IG-yDm" secondAttribute="centerX" id="l5K-59-lWD"/>
                             <constraint firstItem="p8B-dd-VND" firstAttribute="baseline" secondItem="Urj-We-YDA" secondAttribute="firstBaseline" id="oPj-UJ-iLe"/>
-                            <constraint firstItem="WN0-8g-Wdn" firstAttribute="top" secondItem="GsR-Xa-Yfa" secondAttribute="bottom" constant="8" id="u00-Y0-ycu"/>
+                            <constraint firstItem="WN0-8g-Wdn" firstAttribute="top" secondItem="GsR-Xa-Yfa" secondAttribute="bottom" id="u00-Y0-ycu"/>
                             <constraint firstItem="Urj-We-YDA" firstAttribute="leading" secondItem="p8B-dd-VND" secondAttribute="trailing" id="yUM-nl-0T7"/>
                             <constraint firstItem="Nsf-El-ZWS" firstAttribute="centerX" secondItem="uCq-IG-yDm" secondAttribute="centerX" id="ysE-dg-Q0X"/>
                         </constraints>
@@ -1530,7 +1526,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hnQ-oa-2Rr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4740" y="-1441"/>
+            <point key="canvasLocation" x="4741" y="-1441"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="T3O-Op-14a">
@@ -1622,8 +1618,8 @@
         <image name="plus_white_69" width="60" height="60"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="QIo-ZO-zF5"/>
-        <segue reference="OJI-ki-Muw"/>
-        <segue reference="nYQ-Mx-U5W"/>
+        <segue reference="xrw-gC-d5d"/>
+        <segue reference="LiM-u3-3jo"/>
+        <segue reference="pbY-XE-sGo"/>
     </inferredMetricsTieBreakers>
 </document>
