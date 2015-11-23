@@ -30,10 +30,12 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
         tableView.dataSource = self
     }
     
+    
     override func viewWillAppear(animated: Bool) {
         MediaController.sharedMediaController.albumTitle = MediaController.Albums.movies
         self.navigationController?.navigationBarHidden = true
     }
+    
     
     override func viewWillDisappear(animated: Bool) {
         MediaController.sharedMediaController.preview = nil

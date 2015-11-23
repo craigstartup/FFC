@@ -125,6 +125,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     func updateProgress() {
         self.progressBar.progress += 0.01
     }
+    
 
     @IBAction func record(sender: AnyObject) {
         if camera.isFocusModeSupported(.Locked) {
@@ -314,11 +315,12 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             newDevice = nil 
         }
         
+        var audioInput: AVCaptureDeviceInput!
         if currentDevice.device.position == AVCaptureDevicePosition.Back {
             newDevice = self.selfieCam
             do {
-                let input = try AVCaptureDeviceInput(device: microphone)
-                videoCapture.addInput(input)
+                audioInput = try AVCaptureDeviceInput(device: microphone)
+                
             } catch let captureError as NSError {
                 print(captureError.localizedDescription)
             }
@@ -327,14 +329,17 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         }
     
         self.videoCapture.removeInput(currentDevice)
-        
+        var input: AVCaptureDeviceInput!
         do {
-            let input = try AVCaptureDeviceInput(device: newDevice)
-            videoCapture.addInput(input)
+            input = try AVCaptureDeviceInput(device: newDevice)
+            
         } catch let captureError as NSError {
             print(captureError.localizedDescription)
         }
-        
+        videoCapture.addInput(input)
+        if self.segueToPerform != "introUnwind" {
+        videoCapture.addInput(audioInput)
+        }
         self.videoCapture.commitConfiguration()
     }
     

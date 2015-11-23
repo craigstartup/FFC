@@ -67,6 +67,8 @@ class SceneViewController: UIViewController {
         default:
             print("NO MATCH")
         }
+        
+        // Load scenes or give initialize if none exist.
         if MediaController.sharedMediaController.scenes.isEmpty {
             guard let scenes = MediaController.sharedMediaController.loadScenes() else {
                 for _ in 0..<3 {
@@ -92,9 +94,8 @@ class SceneViewController: UIViewController {
         self.scene = MediaController.sharedMediaController.scenes[sceneNumber]
 
         // Access stored voiceover.
-        let path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
-        let filePath = path.stringByAppendingString("/\(self.restorationIdentifier!).caf")
-        print(filePath)
+        let filePath = getVoicoverPath()
+        
         if NSFileManager.defaultManager().fileExistsAtPath(filePath) {
             print("FILE!!!!!!!!!!!!!!!!")
             self.scene.voiceOver = NSURL(fileURLWithPath: filePath)
@@ -159,7 +160,6 @@ class SceneViewController: UIViewController {
         self.sceneButtons[self.sceneNumber][DESTROY_BUTTONS]![buttonPressed].enabled = true
         
         if buttonPressed > SHOT3 {
-            scene.voiceOver = defaultURL!
             self.audioAsset = nil
         } else {
             self.selectedVideoAsset = nil
@@ -261,7 +261,15 @@ class SceneViewController: UIViewController {
     }
     
     @IBAction func sceneAudioUnwindSegue(unwindSegue: UIStoryboardSegue){
-        
+        self.scene.voiceOver = self.audioAsset
+    }
+    
+    
+    // MARK: Helper methods
+    func getVoicoverPath() -> String {
+        let path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
+        let filePath = path.stringByAppendingString("/\(self.restorationIdentifier!).caf")
+        return filePath
     }
     
     override func didReceiveMemoryWarning() {

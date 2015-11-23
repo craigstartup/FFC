@@ -39,7 +39,6 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         // set up voice recorder
         AVAudioSession.sharedInstance().requestRecordPermission { (granted) -> Void in
             if granted {
-                
                 do {
                     try self.audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker)
                 } catch let error as NSError {
@@ -64,7 +63,7 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         
         do {
             try self.audioRecorder = AVAudioRecorder(URL: url, settings: recordSettings as! [String : AnyObject])
-            audioRecorder?.prepareToRecord()
+            audioRecorder!.prepareToRecord()
         } catch let error as NSError {
             print("audioSession error: \(error.localizedDescription)")
         }
@@ -101,11 +100,18 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         // set up progress view for recording time
         self.progressBar.alpha = 1
         self.progress = NSTimer.scheduledTimerWithTimeInterval(0.009, target: self, selector: "updateProgress", userInfo: nil, repeats: true)
+        
         self.hasRecorded = true
         if self.audioPlayer?.playing == true {
             self.audioPlayer.stop()
         }
         if self.audioRecorder.recording == false {
+            do {
+                try self.audioSession.setActive(true)
+            } catch let error as NSError {
+                print(error.localizedDescription)
+            }
+            
             recordButton.enabled = false
             recordButton.alpha = 0.5
             playButton.enabled = false
@@ -208,6 +214,7 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     }
     
     func audioRecorderDidFinishRecording(recorder: AVAudioRecorder, successfully flag: Bool) {
+        recorder.stop()
         self.playButton.enabled = true
         self.playButton.alpha = 1
         self.recordButton.enabled = true
