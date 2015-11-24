@@ -110,7 +110,7 @@ class SceneViewController: UIViewController {
         self.sceneButtons = [[self.scene1Buttons, self.scene1RemoveMediaButtons],[self.scene2Buttons, self.scene2RemoveMediaButtons], [self.scene3Buttons, self.scene3RemoveMediaButtons]]
         
         for button in self.sceneButtons[self.sceneNumber][DESTROY_BUTTONS]! {
-            button.alpha = 0
+            button.alpha   = 0
             button.enabled = false
         }
         
