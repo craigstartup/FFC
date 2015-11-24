@@ -383,11 +383,25 @@ class MediaController {
     func saveScenes() {
         let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(scenes, toFile: Scene.ArchiveURL.path!)
         if !isSuccessfulSave {
-            print("FAILED TO SAVE")
+            print("FAILED TO SAVE Scenes")
         }
     }
     
-    func loadScenes() -> [Scene]?{
+    
+    func saveIntro() {
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(intro, toFile: Intro.ArchiveURL.path!)
+        if !isSuccessfulSave {
+            print("Intro save failure!!")
+        }
+    }
+    
+    
+    func loadScenes() -> [Scene]? {
         return NSKeyedUnarchiver.unarchiveObjectWithFile(Scene.ArchiveURL.path!) as? [Scene]
+    }
+    
+    
+    func loadIntro() -> Intro? {
+        return NSKeyedUnarchiver.unarchiveObjectWithFile(Intro.ArchiveURL.path!) as? Intro
     }
 }

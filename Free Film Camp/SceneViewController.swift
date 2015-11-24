@@ -68,7 +68,7 @@ class SceneViewController: UIViewController {
             print("NO MATCH")
         }
         
-        // Load scenes or give initialize if none exist.
+        // Load scenes or initialize if none exist.
         if MediaController.sharedMediaController.scenes.isEmpty {
             guard let scenes = MediaController.sharedMediaController.loadScenes() else {
                 for _ in 0..<3 {

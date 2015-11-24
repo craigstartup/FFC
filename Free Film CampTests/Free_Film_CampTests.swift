@@ -18,5 +18,9 @@ class Free_Film_CampTests: XCTestCase {
         XCTAssertNotNil(potentialScene)
     }
     
+    func testIntroInit() {
+        let potentialIntro = Intro(video: NSURL(string: "Foo"), image: nil)
+        XCTAssertNotNil(potentialIntro)
+    }
     
 }

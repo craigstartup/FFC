@@ -156,18 +156,17 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                 // set orientation to match preview layer.
                 let videoCaptureOutputConnection = self.videoForFileOutput.connectionWithMediaType(AVMediaTypeVideo)
                 videoCaptureOutputConnection.videoOrientation = AVCaptureVideoOrientation.LandscapeRight
+                var url: NSURL!
                 
-                // record to a temporary file.
-                let dateFormatter = NSDateFormatter()
-                dateFormatter.dateStyle = .LongStyle
-                dateFormatter.timeStyle = .FullStyle
-                let date = dateFormatter.stringFromDate(NSDate())
-                let videoOutputFilePath = NSTemporaryDirectory()
-                let url = NSURL(fileURLWithPath: videoOutputFilePath).URLByAppendingPathComponent("mergeVideo-\(date).mov")
+                // record to path.
+                if self.segueToPerform == "introUnwind" {
+                    url = self.getIntroPath()
+                } else {
+                    url = self.getShotPath()
+                }
+                
                 self.videoForFileOutput.startRecordingToOutputFileURL(url, recordingDelegate: self)
-                
             } else {
-                
                 self.videoForFileOutput.stopRecording()
             }
         }
@@ -249,10 +248,9 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                 }
             })
         } else {
-            MediaController.sharedMediaController.tempPaths.append(outputFileURL)
-            // Access stored voiceover.
-            let filePath = NSTemporaryDirectory().stringByAppendingString(outputFileURL.lastPathComponent!)
-            let videoPath = NSURL(fileURLWithPath: filePath)
+            // Access stored intro.
+            let filePath = self.getIntroPath().path!
+            let videoPath = self.getIntroPath()
             print(filePath)
             if NSFileManager.defaultManager().fileExistsAtPath(filePath) {
                 print("IntroFILE!!!!!!!!!!!!!!!!")
@@ -261,12 +259,11 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                 print("IntroFUCK!!!!!!!!!!!\(filePath)")
             }
             MediaController.sharedMediaController.intro = Intro(video: videoPath, image: nil)
-            // TODO: Save
+            MediaController.sharedMediaController.saveIntro()
         }
         
         // re-enable camera button for new recording
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
-            
             self.recordButton.enabled = true
             self.recordButton.alpha = 1
             self.cancelButton.alpha = 1
@@ -311,10 +308,6 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         var newDevice: AVCaptureDevice!
         let microphone = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeAudio)
         
-        defer {
-            newDevice = nil 
-        }
-        
         var audioInput: AVCaptureDeviceInput!
         if currentDevice.device.position == AVCaptureDevicePosition.Back {
             newDevice = self.selfieCam
@@ -327,7 +320,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         } else if currentDevice.device.position == AVCaptureDevicePosition.Front {
             newDevice = self.camera
         }
-    
+        
         self.videoCapture.removeInput(currentDevice)
         var input: AVCaptureDeviceInput!
         do {
@@ -337,7 +330,8 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             print(captureError.localizedDescription)
         }
         videoCapture.addInput(input)
-        if self.segueToPerform != "introUnwind" {
+        
+        if self.segueToPerform == "introUnwind" {
         videoCapture.addInput(audioInput)
         }
         self.videoCapture.commitConfiguration()
@@ -350,6 +344,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         
     }
     
+    // MARK: Segue methods
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "cameraUnwindSegue" {
             let videosVC = segue.destinationViewController as! VideosViewController
@@ -357,10 +352,32 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             videosVC.videoAssetToPass = self.shotAsset.URL
             videosVC.videoImageToPass = self.shotImage
             }
-        } else if segue.identifier == "introShot" {
-            // pass the image and video to the intro controller.
-            
+        } else if segue.identifier == "introUnwind" {
+            let introVC = segue.destinationViewController as! IntroViewController
+            introVC.viewDidLoad()
         }
+    }
+    
+    // MARK: Helper methods
+    func getShotPath() -> NSURL {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateStyle = .LongStyle
+        dateFormatter.timeStyle = .FullStyle
+        let date = dateFormatter.stringFromDate(NSDate())
+        let videoOutputFilePath = NSTemporaryDirectory()
+        let url = NSURL(fileURLWithPath: videoOutputFilePath).URLByAppendingPathComponent("mergeVideo-\(date).mov")
+        MediaController.sharedMediaController.tempPaths.append(url)
+        return url
+    }
+    
+    
+    func getIntroPath() -> NSURL {
+        let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
+        let filename = "intro.mov"
+        let pathArray = [dirPath, filename]
+        let url = NSURL.fileURLWithPathComponents(pathArray)!
+        MediaController.sharedMediaController.tempPaths.append(url)
+        return url
     }
     
     override func didReceiveMemoryWarning() {

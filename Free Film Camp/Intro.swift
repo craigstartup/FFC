@@ -40,11 +40,12 @@ class Intro: NSObject, NSCoding {
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
-        let video = aDecoder.decodeObjectForKey(PropertyKey.videoKey) as! NSURL
-        let image = aDecoder.decodeObjectForKey(PropertyKey.imageKey) as! UIImage
+        let video = aDecoder.decodeObjectForKey(PropertyKey.videoKey) as! NSURL!
+        let image = aDecoder.decodeObjectForKey(PropertyKey.imageKey) as! UIImage!
         self.init(video: video, image: image)
         
+        if video == nil {
+            return nil
+        }
     }
-    
-    
 }
