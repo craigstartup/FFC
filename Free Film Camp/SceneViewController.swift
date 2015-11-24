@@ -261,7 +261,9 @@ class SceneViewController: UIViewController {
     }
     
     @IBAction func sceneAudioUnwindSegue(unwindSegue: UIStoryboardSegue){
-        self.scene.voiceOver = self.audioAsset
+        if self.audioAsset != nil {
+            self.scene.voiceOver = self.audioAsset
+        }
     }
     
     

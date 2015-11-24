@@ -48,14 +48,15 @@ class MediaController {
     var newScene: PHObjectPlaceholder!
     
     // MARK: Media methods
-    func prepareMedia(intro: Intro!, media: [Scene]!, movie: Bool, save: Bool) {
+    func prepareMedia(intro: NSURL!, media: [Scene]!, movie: Bool, save: Bool) {
         // Exactract and assemble media assets
         var videoAssets = [AVURLAsset]()
         var voiceOverAssets = [AVURLAsset]()
         
         if intro != nil {
-            let introVideo = AVURLAsset(URL: intro.video!)
+            let introVideo = AVURLAsset(URL: intro)
             videoAssets.append(introVideo)
+            voiceOverAssets.append(introVideo)
         }
         
         // TODO: Check assets and post notification for what is missing.

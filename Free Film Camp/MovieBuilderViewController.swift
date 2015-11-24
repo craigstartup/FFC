@@ -28,6 +28,13 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        
+        guard let loadedIntro = MediaController.sharedMediaController.loadIntro()
+            else {
+                print("No intro!")
+                return
+        }
+        MediaController.sharedMediaController.intro = loadedIntro
     }
     
     
@@ -48,7 +55,11 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
         self.savingProgress.alpha = 1
         self.savingProgress.startAnimating()
         self.view.alpha = 0.6
-        MediaController.sharedMediaController.prepareMedia(nil, media:MediaController.sharedMediaController.scenes, movie: true, save: true)
+        if MediaController.sharedMediaController.intro == nil {
+            MediaController.sharedMediaController.prepareMedia(nil, media: MediaController.sharedMediaController.scenes, movie: true, save: true)
+        } else {
+            MediaController.sharedMediaController.prepareMedia(self.getIntroPath(), media: MediaController.sharedMediaController.scenes, movie: true, save: true)
+        }
     }
     
     // MARK: Notification handlers
@@ -89,7 +100,11 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
         self.savingProgress.alpha = 1
         self.savingProgress.startAnimating()
         self.view.alpha = 0.6
-        MediaController.sharedMediaController.prepareMedia(nil, media: MediaController.sharedMediaController.scenes, movie: true, save: false)
+        if MediaController.sharedMediaController.intro == nil {
+            MediaController.sharedMediaController.prepareMedia(nil, media: MediaController.sharedMediaController.scenes, movie: true, save: false)
+        } else {
+            MediaController.sharedMediaController.prepareMedia(self.getIntroPath(), media: MediaController.sharedMediaController.scenes, movie: true, save: false)
+        }
     }
     
     
@@ -187,9 +202,14 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
         }
     }
    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    // MARK: Helper methods
+    func getIntroPath() -> NSURL {
+        let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
+        let filename = "intro.mov"
+        let pathArray = [dirPath, filename]
+        let url = NSURL.fileURLWithPathComponents(pathArray)!
+        MediaController.sharedMediaController.tempPaths.append(url)
+        return url
     }
     
 

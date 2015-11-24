@@ -21,7 +21,6 @@ class IntroViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBarHidden = true
-        self.intro = MediaController.sharedMediaController.intro
         // Load or initialize intro
         if self.intro == nil {
             guard let loadedIntro = MediaController.sharedMediaController.loadIntro()
@@ -29,7 +28,8 @@ class IntroViewController: UIViewController {
                     print("No intro!")
                     return
                 }
-            self.intro = loadedIntro
+            MediaController.sharedMediaController.intro = loadedIntro
+            self.intro = MediaController.sharedMediaController.intro
         }
     }
     
@@ -56,7 +56,7 @@ class IntroViewController: UIViewController {
                     }
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         self.introButton.setImage(UIImage(CGImage: image!), forState: .Normal)
-                        self.intro.image = UIImage(CGImage: image!)
+                        MediaController.sharedMediaController.intro.image = UIImage(CGImage: image!)
                     })
                 })
             }
@@ -122,9 +122,5 @@ class IntroViewController: UIViewController {
         let url = NSURL.fileURLWithPathComponents(pathArray)!
         MediaController.sharedMediaController.tempPaths.append(url)
         return url
-    }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 }
