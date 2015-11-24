@@ -12,7 +12,7 @@ class SelectionViewController: UIViewController {
     var currentViewController: UIViewController!
     @IBOutlet weak var viewsView: UIView!
     @IBOutlet var buttons: Array<UIButton>!
-    let segueIDS = ["introVC","scene1VC", "scene2VC", "scene3VC", "movieVC"]
+    let segueIDS = ["introVC","sceneVC", "movieVC"]
     var lastSegue: String!
     
     override func viewDidLoad() {
@@ -47,6 +47,11 @@ class SelectionViewController: UIViewController {
         currentViewController.viewDidDisappear(animated)
     }
     
+    // MARK: Tab bar navigation
+    @IBAction func selectScene(sender: UIButton) {
+        
+    }
+    
     // MARK: Gesture navigation
     @IBAction func swipedLeft(sender: AnyObject) {
         if self.lastSegue != segueIDS.last {
@@ -54,6 +59,7 @@ class SelectionViewController: UIViewController {
             self.performSegueWithIdentifier(segueIDS[segueToPerform], sender: self.buttons[segueToPerform])
         }
     }
+    
     
     @IBAction func swipedRight(sender: AnyObject) {
         if self.lastSegue != segueIDS.first {
