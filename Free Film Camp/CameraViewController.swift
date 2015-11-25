@@ -304,35 +304,42 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     
     @IBAction func flipCamera(sender: AnyObject) {
         self.videoCapture.beginConfiguration()
-        let currentDevice = self.videoCapture.inputs.first as! AVCaptureDeviceInput
+        
+        let currentVideoDevice = self.videoCapture.inputs.first as! AVCaptureDeviceInput
+        
+        for device in self.videoCapture.inputs {
+            self.videoCapture.removeInput(device as! AVCaptureInput)
+        }
+        
         var newDevice: AVCaptureDevice!
         let microphone = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeAudio)
         
+        var videoInput: AVCaptureDeviceInput!
         var audioInput: AVCaptureDeviceInput!
-        if currentDevice.device.position == AVCaptureDevicePosition.Back {
+        
+        if currentVideoDevice.device.position == AVCaptureDevicePosition.Back {
             newDevice = self.selfieCam
+        } else if currentVideoDevice.device.position == AVCaptureDevicePosition.Front {
+            newDevice = self.camera
+        }
+        
+        do {
+            videoInput = try AVCaptureDeviceInput(device: newDevice)
+            
+        } catch let captureError as NSError {
+            print(captureError.localizedDescription)
+        }
+        videoCapture.addInput(videoInput)
+        
+        if self.segueToPerform == "introUnwind" {
+            
             do {
                 audioInput = try AVCaptureDeviceInput(device: microphone)
                 
             } catch let captureError as NSError {
                 print(captureError.localizedDescription)
             }
-        } else if currentDevice.device.position == AVCaptureDevicePosition.Front {
-            newDevice = self.camera
-        }
-        
-        self.videoCapture.removeInput(currentDevice)
-        var input: AVCaptureDeviceInput!
-        do {
-            input = try AVCaptureDeviceInput(device: newDevice)
-            
-        } catch let captureError as NSError {
-            print(captureError.localizedDescription)
-        }
-        videoCapture.addInput(input)
-        
-        if self.segueToPerform == "introUnwind" {
-        videoCapture.addInput(audioInput)
+            videoCapture.addInput(audioInput)
         }
         self.videoCapture.commitConfiguration()
     }

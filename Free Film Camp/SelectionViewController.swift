@@ -9,10 +9,18 @@
 import UIKit
 
 class SelectionViewController: UIViewController {
+    enum TabButtons {
+        static let INTRO   = 1
+        static let SCENE_1 = 2
+        static let SCENE_2 = 3
+        static let SCENE_3 = 4
+        static let MOVIE   = 5
+    }
+    
     var currentViewController: UIViewController!
     @IBOutlet weak var viewsView: UIView!
     @IBOutlet var buttons: Array<UIButton>!
-    let segueIDS = ["introVC","scene1VC", "scene2VC", "scene3VC", "movieVC"]
+    let segueIDS = ["introVC","scene1VC","scene2VC","scene3VC","movieVC"]
     var lastSegue: String!
     
     override func viewDidLoad() {
@@ -47,6 +55,11 @@ class SelectionViewController: UIViewController {
         currentViewController.viewDidDisappear(animated)
     }
     
+    // MARK: Tab bar navigation
+    @IBAction func selectScene(sender: UIButton) {
+        
+    }
+    
     // MARK: Gesture navigation
     @IBAction func swipedLeft(sender: AnyObject) {
         if self.lastSegue != segueIDS.last {
@@ -54,6 +67,7 @@ class SelectionViewController: UIViewController {
             self.performSegueWithIdentifier(segueIDS[segueToPerform], sender: self.buttons[segueToPerform])
         }
     }
+    
     
     @IBAction func swipedRight(sender: AnyObject) {
         if self.lastSegue != segueIDS.first {
@@ -71,6 +85,24 @@ class SelectionViewController: UIViewController {
             }
             let senderButton = sender as! UIButton
             senderButton.selected = true
+            if senderButton.tag >= TabButtons.SCENE_1 && senderButton.tag <= TabButtons.SCENE_3 {
+                let navigationVC = segue.destinationViewController as! UINavigationController
+                let destinationVC = navigationVC.viewControllers.last as! SceneViewController
+                
+                switch(senderButton.tag) {
+                case 2:
+                    destinationVC.sceneNumber = 0
+                    break
+                case 3:
+                    destinationVC.sceneNumber = 1
+                    break
+                case 4:
+                    destinationVC.sceneNumber = 2
+                    break
+                default:
+                    print("NO MATCH")
+                }
+            }
         }
     }
     override func didReceiveMemoryWarning() {
