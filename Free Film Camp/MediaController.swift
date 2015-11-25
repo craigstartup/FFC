@@ -22,7 +22,6 @@ class MediaController {
         static let saveMovieFinished = "saveMovieComplete"
         static let saveMovieFailed   = "saveMovieFailed"
         static let previewReady      = "previewPrepped"
-        
     }
     
     enum Albums {

@@ -325,10 +325,10 @@
             </objects>
             <point key="canvasLocation" x="3097" y="-623"/>
         </scene>
-        <!--Scene 1-->
+        <!--Scene-->
         <scene sceneID="A32-Sa-mTl">
             <objects>
-                <viewController storyboardIdentifier="scene1" title="Scene 1" modalTransitionStyle="flipHorizontal" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Rxg-ar-8Jr" customClass="SceneViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="scene" title="Scene" modalTransitionStyle="flipHorizontal" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Rxg-ar-8Jr" customClass="SceneViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="8yL-1a-8JA"/>
                         <viewControllerLayoutGuide type="bottom" id="aaJ-mr-5ah"/>
@@ -609,14 +609,14 @@
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
                         <outlet property="savingProgress" destination="XiB-Hr-apA" id="gfh-zS-Yzd"/>
-                        <outletCollection property="scene1Buttons" destination="Qxs-2x-Cgo" collectionClass="NSMutableArray" id="igD-a6-Wkh"/>
-                        <outletCollection property="scene1Buttons" destination="zh0-jF-OTX" collectionClass="NSMutableArray" id="h0d-TL-5ls"/>
-                        <outletCollection property="scene1Buttons" destination="akN-Vz-J8y" collectionClass="NSMutableArray" id="QVA-VP-v6M"/>
-                        <outletCollection property="scene1Buttons" destination="jAP-bU-Obn" collectionClass="NSMutableArray" id="Ypz-cb-Xaw"/>
-                        <outletCollection property="scene1RemoveMediaButtons" destination="fSa-Zl-iS2" collectionClass="NSMutableArray" id="lAM-dp-dJO"/>
-                        <outletCollection property="scene1RemoveMediaButtons" destination="Q1h-nu-baf" collectionClass="NSMutableArray" id="HEQ-VR-8MA"/>
-                        <outletCollection property="scene1RemoveMediaButtons" destination="tJS-gt-zXL" collectionClass="NSMutableArray" id="epy-SR-fZb"/>
-                        <outletCollection property="scene1RemoveMediaButtons" destination="hcv-WL-wMm" collectionClass="NSMutableArray" id="iWL-9z-hSM"/>
+                        <outletCollection property="sceneAddMediaButtons" destination="Qxs-2x-Cgo" collectionClass="NSMutableArray" id="8nc-Cb-frB"/>
+                        <outletCollection property="sceneAddMediaButtons" destination="zh0-jF-OTX" collectionClass="NSMutableArray" id="mzY-jy-739"/>
+                        <outletCollection property="sceneAddMediaButtons" destination="akN-Vz-J8y" collectionClass="NSMutableArray" id="RiL-0J-rqe"/>
+                        <outletCollection property="sceneAddMediaButtons" destination="jAP-bU-Obn" collectionClass="NSMutableArray" id="8oF-GS-F65"/>
+                        <outletCollection property="sceneRemoveMediaButtons" destination="fSa-Zl-iS2" collectionClass="NSMutableArray" id="MZH-z8-iYj"/>
+                        <outletCollection property="sceneRemoveMediaButtons" destination="Q1h-nu-baf" collectionClass="NSMutableArray" id="w6j-X0-WLw"/>
+                        <outletCollection property="sceneRemoveMediaButtons" destination="tJS-gt-zXL" collectionClass="NSMutableArray" id="3fe-Nd-daL"/>
+                        <outletCollection property="sceneRemoveMediaButtons" destination="hcv-WL-wMm" collectionClass="NSMutableArray" id="uwh-HC-LAW"/>
                         <segue destination="4to-zB-zdm" kind="show" identifier="sceneSelectingShotSegue" id="CH1-X3-ObO"/>
                     </connections>
                 </viewController>
@@ -667,6 +667,7 @@
                                         </state>
                                         <connections>
                                             <action selector="selectScene:" destination="FaC-O6-ufg" eventType="touchUpInside" id="hJj-ZD-L0m"/>
+                                            <segue destination="Qbw-F3-IXq" kind="custom" identifier="scene1VC" customClass="SelectionSegue" customModule="Free_Film_Camp" customModuleProvider="target" id="uPn-SG-6fg"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hAP-7c-QFO">
@@ -682,6 +683,7 @@
                                         </state>
                                         <connections>
                                             <action selector="selectScene:" destination="FaC-O6-ufg" eventType="touchUpInside" id="nmA-OH-3c0"/>
+                                            <segue destination="Qbw-F3-IXq" kind="custom" identifier="scene3VC" customClass="SelectionSegue" customModule="Free_Film_Camp" customModuleProvider="target" id="AlA-UU-cRx"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ef7-TS-I84">
@@ -697,6 +699,7 @@
                                         </state>
                                         <connections>
                                             <action selector="selectScene:" destination="FaC-O6-ufg" eventType="touchUpInside" id="NXz-kx-cY3"/>
+                                            <segue destination="Qbw-F3-IXq" kind="custom" identifier="scene2VC" customClass="SelectionSegue" customModule="Free_Film_Camp" customModuleProvider="target" id="hYd-Xl-9SL"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RWq-0a-jkN">
@@ -751,7 +754,6 @@
                         <outletCollection property="buttons" destination="hAP-7c-QFO" collectionClass="NSMutableArray" id="qX0-VN-rqX"/>
                         <outletCollection property="buttons" destination="ef7-TS-I84" collectionClass="NSMutableArray" id="wgc-dG-OWt"/>
                         <outletCollection property="buttons" destination="RWq-0a-jkN" collectionClass="NSMutableArray" id="Qz3-Vp-AgW"/>
-                        <segue destination="Rxg-ar-8Jr" kind="custom" identifier="sceneVC" customClass="SelectionSegue" customModule="Free_Film_Camp" customModuleProvider="target" id="MQn-vE-HsB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mKR-GH-JXH" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1170,7 +1172,7 @@
         <image name="plus_white_69" width="60" height="60"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="MQn-vE-HsB"/>
-        <segue reference="nYQ-Mx-U5W"/>
+        <segue reference="hYd-Xl-9SL"/>
+        <segue reference="xrw-gC-d5d"/>
     </inferredMetricsTieBreakers>
 </document>
