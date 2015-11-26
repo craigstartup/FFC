@@ -302,6 +302,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         }
     }
     
+    
     @IBAction func flipCamera(sender: AnyObject) {
         self.videoCapture.beginConfiguration()
         

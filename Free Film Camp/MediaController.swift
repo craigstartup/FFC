@@ -34,12 +34,15 @@ class MediaController {
     private init() {}
     
     var albumTitle: String!
+    var project = NSUserDefaults.standardUserDefaults().stringForKey("currentProject")
     let library = PHPhotoLibrary.sharedPhotoLibrary()
+    
     // Media components
     var scenes = [Scene]()
     var intro: Intro!
     var musicTrack: AVURLAsset!
     var preview: AVPlayerItem!
+    
     // temp cleanup
     var tempPaths = [NSURL]()
 
