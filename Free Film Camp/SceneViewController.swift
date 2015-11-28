@@ -51,15 +51,12 @@ class SceneViewController: UIViewController {
         super.viewDidLoad()
         
         // Load scenes or initialize if none exist.
+        MediaController.sharedMediaController.scenes = MediaController.sharedMediaController.loadScenes()
         if MediaController.sharedMediaController.scenes.isEmpty {
-            guard let scenes = MediaController.sharedMediaController.loadScenes() else {
-                for _ in 0..<3 {
-                    let scene = Scene(shotVideos: Array(count: 3, repeatedValue: defaultURL!), shotImages: Array(count: 3, repeatedValue: defaultImage!), voiceOver: defaultURL!)
-                    MediaController.sharedMediaController.scenes.append(scene!)
-                }
-                return
+            for _ in 0..<3 {
+                let scene = Scene(shotVideos: Array(count: 3, repeatedValue: defaultURL!), shotImages: Array(count: 3, repeatedValue: defaultImage!), voiceOver: defaultURL!)
+                MediaController.sharedMediaController.scenes.append(scene!)
             }
-            MediaController.sharedMediaController.scenes = scenes
         }
     }
     
@@ -67,23 +64,17 @@ class SceneViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         MediaController.sharedMediaController.albumTitle = MediaController.Albums.scenes
         
-        defer {
-            self.assetRequestNumber = nil
-            self.selectedVideoImage = nil
-            self.selectedVideoAsset = nil
-        }
-        
         self.scene = MediaController.sharedMediaController.scenes[sceneNumber]
 
         // Access stored voiceover.
         let filePath = getVoicoverPath()
         
         if NSFileManager.defaultManager().fileExistsAtPath(filePath) {
-            print("FILE!!!!!!!!!!!!!!!!")
+            print("VOFILE!!!!!!!!!!!!!!!!")
             self.scene.voiceOver = NSURL(fileURLWithPath: filePath)
             MediaController.sharedMediaController.saveScenes()
         } else {
-            print("FUCK!!!!!!!!!!!\(MediaController.sharedMediaController.scenes[sceneNumber].voiceOver.URLByStandardizingPath)")
+            print("FUCKVO!!!!!!!!!!!\(MediaController.sharedMediaController.scenes[sceneNumber].voiceOver.URLByStandardizingPath)")
             self.scene.voiceOver = defaultURL!
             MediaController.sharedMediaController.saveScenes()
         }

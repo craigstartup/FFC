@@ -65,7 +65,8 @@ class ProjectsViewController: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         NSUserDefaults.standardUserDefaults().setObject(self.projects![indexPath.row], forKey: "currentProject")
         NSUserDefaults.standardUserDefaults().synchronize()
-        MediaController.sharedMediaController.scenes = [Scene]()
+        MediaController.sharedMediaController.project = self.projects![indexPath.row] as? String
+        MediaController.sharedMediaController.scenes = MediaController.sharedMediaController.loadScenes()! 
     }
    
 }

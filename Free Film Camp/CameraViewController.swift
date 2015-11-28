@@ -160,7 +160,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                 
                 // record to path.
                 if self.segueToPerform == "introUnwind" {
-                    url = self.getIntroPath()
+                    url = MediaController.sharedMediaController.getIntroShotSavePath()
                 } else {
                     url = self.getShotPath()
                 }
@@ -171,11 +171,13 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             }
         }
     }
+    
     // MARK: Output recording delegate methods
     func captureOutput(captureOutput: AVCaptureFileOutput!, didStartRecordingToOutputFileAtURL fileURL: NSURL!, fromConnections connections: [AnyObject]!) {
         
         print("Recording")
     }
+    
     
     func captureOutput(captureOutput: AVCaptureFileOutput!, didFinishRecordingToOutputFileAtURL outputFileURL: NSURL!, fromConnections connections: [AnyObject]!, error: NSError!) {
         // reset progress
@@ -249,12 +251,12 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             })
         } else {
             // Access stored intro.
-            let filePath = self.getIntroPath().path!
-            let videoPath = self.getIntroPath()
+            let filePath = MediaController.sharedMediaController.getIntroShotSavePath().path!
+            let videoPath = MediaController.sharedMediaController.getIntroShotSavePath()   
             print(filePath)
+            
             if NSFileManager.defaultManager().fileExistsAtPath(filePath) {
                 print("IntroFILE!!!!!!!!!!!!!!!!")
-                
             } else {
                 print("IntroFUCK!!!!!!!!!!!\(filePath)")
             }
@@ -378,15 +380,6 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         return url
     }
     
-    
-    func getIntroPath() -> NSURL {
-        let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
-        let filename = "intro.mov"
-        let pathArray = [dirPath, filename]
-        let url = NSURL.fileURLWithPathComponents(pathArray)!
-        MediaController.sharedMediaController.tempPaths.append(url)
-        return url
-    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

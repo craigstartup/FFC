@@ -13,10 +13,7 @@ class Intro: NSObject, NSCoding {
     // MARK: Properties
     var video: NSURL!
     var image: UIImage?
-    // MARK: Archiving paths
-    static let DocumentsDirectory = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
-    static let project = NSUserDefaults.standardUserDefaults().stringForKey("currentProject")
-    static let ArchiveURL = DocumentsDirectory.URLByAppendingPathComponent("\(project) intro")
+    
     // MARK: Types
     struct PropertyKey {
         static let videoKey = "keyForVideo"

@@ -14,10 +14,7 @@ class Scene: NSObject, NSCoding {
     var shotVideos: [NSURL]
     var shotImages: [UIImage]
     var voiceOver: NSURL
-    // MARK: Archiving paths
-    static let DocumentsDirectory = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
-    static let project = NSUserDefaults.standardUserDefaults().stringForKey("currentProject")
-    static let ArchiveURL = DocumentsDirectory.URLByAppendingPathComponent("\(project) scenes")
+    
     // MARK: Types
     struct PropertyKey {
         static let shotVideosKey = "keyForShotVideos"

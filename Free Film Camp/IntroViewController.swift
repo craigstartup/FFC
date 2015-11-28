@@ -43,7 +43,7 @@ class IntroViewController: UIViewController {
             self.destroyIntroButton.alpha = 1
             self.destroyIntroButton.enabled = true
             self.introButton.setImage(self.intro.image, forState: .Normal)
-            let video = AVURLAsset(URL: self.getIntroPath())
+            let video = AVURLAsset(URL: MediaController.sharedMediaController.intro.video)
             print(intro.video)
             
             if self.intro.image == nil {
@@ -75,7 +75,7 @@ class IntroViewController: UIViewController {
         MediaController.sharedMediaController.intro = nil
         self.intro = nil
         do {
-            try NSFileManager.defaultManager().removeItemAtPath(Intro.ArchiveURL.path!)
+            try NSFileManager.defaultManager().removeItemAtPath(MediaController.sharedMediaController.getIntroArchivePathURL().path!)
         } catch let error as NSError {
             print(error.localizedDescription)
         }
@@ -91,7 +91,7 @@ class IntroViewController: UIViewController {
         // TODO: Use Media CONTROLLER for preview
         if self.intro != nil {
             let vpVC = AVPlayerViewController()
-            let video = AVURLAsset(URL: self.getIntroPath())
+            let video = AVURLAsset(URL: MediaController.sharedMediaController.getIntroShotSavePath())
             let preview = AVPlayerItem(asset: video)
             let videoPlayer = AVPlayer(playerItem: preview)
             vpVC.player = videoPlayer
@@ -112,15 +112,5 @@ class IntroViewController: UIViewController {
     
     @IBAction func introUnwind(unwindSegue: UIStoryboardSegue) {
         self.viewWillAppear(false)
-    }
-    
-    // MARK: Helper methods
-    func getIntroPath() -> NSURL {
-        let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
-        let filename = "intro.mov"
-        let pathArray = [dirPath, filename]
-        let url = NSURL.fileURLWithPathComponents(pathArray)!
-        MediaController.sharedMediaController.tempPaths.append(url)
-        return url
     }
 }

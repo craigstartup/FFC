@@ -38,7 +38,7 @@ class MediaController {
     let library = PHPhotoLibrary.sharedPhotoLibrary()
     
     // Media components
-    var scenes = [Scene]()
+    var scenes: [Scene]!
     var intro: Intro!
     var musicTrack: AVURLAsset!
     var preview: AVPlayerItem!
@@ -270,6 +270,7 @@ class MediaController {
         }
     }
     
+    
     func exportDidFinish(session:AVAssetExportSession, type: String) {
         if session.status == AVAssetExportSessionStatus.Completed {
             let outputURL: NSURL = session.outputURL!
@@ -382,9 +383,45 @@ class MediaController {
     }
     
     
+    // MARK: Save path methods
+    func getScenesArchivePathURL() -> NSURL {
+        let documentsDirectory = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
+        let archiveURL = documentsDirectory.URLByAppendingPathComponent("\(self.project) scenes")
+        return archiveURL
+    }
+    
+    
+    func getIntroArchivePathURL() -> NSURL {
+        let documentsDirectory = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
+        let archiveURL = documentsDirectory.URLByAppendingPathComponent("\(self.project) intro")
+        return archiveURL
+    }
+    
+    
+    func getVoiceOverSavePath(audioSaveID: String) -> NSURL {
+        // File path for recording
+        let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
+        let filename = "\(self.project) \(audioSaveID).caf"
+        let pathArray = [dirPath, filename]
+        let url = NSURL.fileURLWithPathComponents(pathArray)!
+        MediaController.sharedMediaController.tempPaths.append(url)
+        return url
+
+    }
+    
+    
+    func getIntroShotSavePath() -> NSURL {
+        let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
+        let filename = "\(self.project) intro.mov"
+        let pathArray = [dirPath, filename]
+        let url = NSURL.fileURLWithPathComponents(pathArray)!
+        MediaController.sharedMediaController.tempPaths.append(url)
+        return url
+    }
+    
     // MARK: NSCoding
     func saveScenes() {
-        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(scenes, toFile: Scene.ArchiveURL.path!)
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(scenes, toFile: getScenesArchivePathURL().path!)
         if !isSuccessfulSave {
             print("FAILED TO SAVE Scenes")
         }
@@ -392,19 +429,23 @@ class MediaController {
     
     
     func saveIntro() {
-        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(intro, toFile: Intro.ArchiveURL.path!)
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(intro, toFile: self.getIntroArchivePathURL().path!)
         if !isSuccessfulSave {
             print("Intro save failure!!")
         }
     }
     
     
-    func loadScenes() -> [Scene]? {
-        return NSKeyedUnarchiver.unarchiveObjectWithFile(Scene.ArchiveURL.path!) as? [Scene]
+    func loadScenes() -> [Scene]! {
+        guard let loadedScenes = NSKeyedUnarchiver.unarchiveObjectWithFile(getScenesArchivePathURL().path!) as! [Scene]! else {
+            let scenesContainer = [Scene]()
+            return scenesContainer
+        }
+        return loadedScenes
     }
     
     
     func loadIntro() -> Intro? {
-        return NSKeyedUnarchiver.unarchiveObjectWithFile(Intro.ArchiveURL.path!) as? Intro
+        return NSKeyedUnarchiver.unarchiveObjectWithFile(self.getIntroArchivePathURL().path!) as? Intro
     }
 }
