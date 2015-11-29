@@ -62,11 +62,21 @@ class ProjectsViewController: UITableViewController {
         return cell!
     }
     
+    
+    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        let currentProject = NSUserDefaults.standardUserDefaults().stringForKey("currentProject")
+        if cell.textLabel!.text == currentProject {
+            cell.setSelected(true, animated: false)
+        }
+    }
+    
+    
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         NSUserDefaults.standardUserDefaults().setObject(self.projects![indexPath.row], forKey: "currentProject")
         NSUserDefaults.standardUserDefaults().synchronize()
         MediaController.sharedMediaController.project = self.projects![indexPath.row] as? String
-        MediaController.sharedMediaController.scenes = MediaController.sharedMediaController.loadScenes()! 
+        MediaController.sharedMediaController.scenes = MediaController.sharedMediaController.loadScenes()!
+        self.tableView.reloadData()
     }
    
 }
