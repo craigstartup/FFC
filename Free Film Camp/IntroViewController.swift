@@ -43,7 +43,7 @@ class IntroViewController: UIViewController {
             self.destroyIntroButton.alpha = 1
             self.destroyIntroButton.enabled = true
             self.introButton.setImage(self.intro.image, forState: .Normal)
-            let video = AVURLAsset(URL: MediaController.sharedMediaController.intro.video)
+            let video = AVURLAsset(URL: MediaController.sharedMediaController.getPathForFileInDocumentsDirectory(self.intro.video))
             print(intro.video)
             
             if self.intro.image == nil {

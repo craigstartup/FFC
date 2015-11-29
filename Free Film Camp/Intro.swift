@@ -11,7 +11,7 @@ import AVFoundation
 
 class Intro: NSObject, NSCoding {
     // MARK: Properties
-    var video: NSURL!
+    var video: String!
     var image: UIImage?
     
     // MARK: Types
@@ -20,7 +20,7 @@ class Intro: NSObject, NSCoding {
         static let imageKey = "keyImage"
     }
     // MARK: Initialization
-    init?(video: NSURL!, image: UIImage?) {
+    init?(video: String!, image: UIImage?) {
         // Initialize stored properties
         self.video = video
         self.image = image
@@ -38,7 +38,7 @@ class Intro: NSObject, NSCoding {
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
-        let video = aDecoder.decodeObjectForKey(PropertyKey.videoKey) as! NSURL!
+        let video = aDecoder.decodeObjectForKey(PropertyKey.videoKey) as! String!
         let image = aDecoder.decodeObjectForKey(PropertyKey.imageKey) as! UIImage!
         self.init(video: video, image: image)
         

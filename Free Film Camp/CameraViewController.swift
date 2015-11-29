@@ -159,7 +159,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                 var url: NSURL!
                 
                 // record to path.
-                if self.segueToPerform == "introUnwind" {
+                if self.segueToPerform != nil && self.segueToPerform == "introUnwind" {
                     url = MediaController.sharedMediaController.getIntroShotSavePath()
                 } else {
                     url = self.getShotPath()
@@ -260,7 +260,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             } else {
                 print("IntroFUCK!!!!!!!!!!!\(filePath)")
             }
-            MediaController.sharedMediaController.intro = Intro(video: videoPath, image: nil)
+            MediaController.sharedMediaController.intro = Intro(video: videoPath.lastPathComponent, image: nil)
             MediaController.sharedMediaController.saveIntro()
         }
         

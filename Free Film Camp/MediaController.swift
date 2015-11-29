@@ -384,6 +384,7 @@ class MediaController {
     
     
     // MARK: Save path methods
+    // Paths for archiving intro and scenes
     func getScenesArchivePathURL() -> NSURL {
         let documentsDirectory = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
         let archiveURL = documentsDirectory.URLByAppendingPathComponent("\(self.project) scenes")
@@ -397,26 +398,32 @@ class MediaController {
         return archiveURL
     }
     
-    
+    // Paths for audio and video files.
     func getVoiceOverSavePath(audioSaveID: String) -> NSURL {
-        // File path for recording
-        let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
+        let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
         let filename = "\(self.project) \(audioSaveID).caf"
         let pathArray = [dirPath, filename]
         let url = NSURL.fileURLWithPathComponents(pathArray)!
         MediaController.sharedMediaController.tempPaths.append(url)
         return url
-
     }
     
     
     func getIntroShotSavePath() -> NSURL {
-        let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
-        let filename = "\(self.project) intro.mov"
+        let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
+        let filename = "\(self.project!) intro.mov"
         let pathArray = [dirPath, filename]
         let url = NSURL.fileURLWithPathComponents(pathArray)!
         MediaController.sharedMediaController.tempPaths.append(url)
         return url
+    }
+    
+    
+    func getPathForFileInDocumentsDirectory(fileName: String) -> NSURL {
+        let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
+        let pathArray = [dirPath, fileName]
+        let url = NSURL.fileURLWithPathComponents(pathArray)
+        return url!
     }
     
     // MARK: NSCoding

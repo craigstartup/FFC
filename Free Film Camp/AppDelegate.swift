@@ -19,9 +19,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         if let _ = NSUserDefaults.standardUserDefaults().arrayForKey("projects") {
         } else {
-            let projects = ["Video Maker"]
+            let currentProject = "Video Maker"
+            let projects = [currentProject]
             NSUserDefaults.standardUserDefaults().setObject(projects, forKey: "projects")
-            NSUserDefaults.standardUserDefaults().setObject(projects[0], forKey: "currentProfile")
+            NSUserDefaults.standardUserDefaults().setObject(currentProject, forKey: "currentProject")
             NSUserDefaults.standardUserDefaults().synchronize()
             print(NSUserDefaults.standardUserDefaults().stringForKey("currentProfile"))
         }
