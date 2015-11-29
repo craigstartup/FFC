@@ -56,6 +56,7 @@ class MediaController {
         var voiceOverAssets = [AVURLAsset]()
         
         if intro != nil {
+            // Intro has audio and video tracks. Append it to both assets arrays.
             let introVideo = AVURLAsset(URL: intro)
             videoAssets.append(introVideo)
             voiceOverAssets.append(introVideo)
@@ -69,7 +70,8 @@ class MediaController {
                     videoAssets.append(videoAsset)
                 }
                 
-                let voiceOverAsset = AVURLAsset(URL: scene.voiceOver)
+                let voiceOverPath = self.getPathForFileInDocumentsDirectory(scene.voiceOver)
+                let voiceOverAsset = AVURLAsset(URL: voiceOverPath)
                 voiceOverAssets.append(voiceOverAsset)
             }
         }

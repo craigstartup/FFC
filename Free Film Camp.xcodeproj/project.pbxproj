@@ -141,7 +141,7 @@
 			name = "Main Navigation";
 			sourceTree = "<group>";
 		};
-		8C498D9F1BFE4DE400468CF0 /* Tools & Librarys */ = {
+		8C498D9F1BFE4DE400468CF0 /* Tools & Media Libraries */ = {
 			isa = PBXGroup;
 			children = (
 				8C8DEC2C1C0681F1006607A1 /* ProjectsViewController.swift */,
@@ -149,7 +149,7 @@
 				8CBF277E1BC78A3A00EEFA27 /* VoiceOverViewController.swift */,
 				8CA57DA91BC4D4C50016762A /* VideosViewController.swift */,
 			);
-			name = "Tools & Librarys";
+			name = "Tools & Media Libraries";
 			sourceTree = "<group>";
 		};
 		8C498DA01BFE90F100468CF0 /* Custom Tab Controller */ = {
@@ -238,7 +238,7 @@
 		8CA57D9A1BC254C60016762A /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				8C498D9F1BFE4DE400468CF0 /* Tools & Librarys */,
+				8C498D9F1BFE4DE400468CF0 /* Tools & Media Libraries */,
 				8C498D9E1BFE4D9D00468CF0 /* Main Navigation */,
 				8C4B70591BCD7BBE00E54C5E /* MediaController.swift */,
 				8CB59C2A1BF680C5002C6730 /* Utilities.swift */,

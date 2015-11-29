@@ -53,7 +53,7 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
             }
         }
         
-        let url = MediaController.sharedMediaController.getVoiceOverSavePath(self.audioSaveID)
+        let url = MediaController.sharedMediaController.getVoiceOverSavePath("\(self.audioSaveID)")
         
         let recordSettings =
         [AVEncoderAudioQualityKey: AVAudioQuality.Min.rawValue,
