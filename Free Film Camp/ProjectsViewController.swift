@@ -121,21 +121,6 @@ class ProjectsViewController: UITableViewController {
         let documentsDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first
         let projectDirectory = documentsDirectory?.stringByAppendingString("/\(project)")
         let fileManager = NSFileManager.defaultManager()
-        var projectFilePaths: [NSString]!
-        
-        do {
-            try projectFilePaths = fileManager.contentsOfDirectoryAtPath(projectDirectory!)
-        } catch let projectPathsError as NSError {
-            print(projectPathsError.localizedDescription)
-        }
-        
-        for file in projectFilePaths {
-            do {
-                try fileManager.removeItemAtPath("\(projectDirectory)/\(file)")
-            } catch let destroyError as NSError {
-                print(destroyError.localizedDescription)
-            }
-        }
         
         do {
             try fileManager.removeItemAtPath(projectDirectory!)

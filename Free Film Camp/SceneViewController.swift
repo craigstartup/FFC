@@ -109,6 +109,7 @@ class SceneViewController: UIViewController {
                 if self.sceneButtons[ADD_BUTTONS]![i].currentImage != defaultImage {
                     self.sceneButtons[DESTROY_BUTTONS]![i].alpha = 1
                     self.sceneButtons[DESTROY_BUTTONS]![i].enabled = true
+                    self.sceneButtons[ADD_BUTTONS]![i].enabled = false
                 }
             }
         }
@@ -118,6 +119,7 @@ class SceneViewController: UIViewController {
             self.sceneButtons[ADD_BUTTONS]![VOICEOVER].setImage(check, forState: UIControlState.Normal)
             self.sceneButtons[DESTROY_BUTTONS]![VOICEOVER].alpha = 1
             self.sceneButtons[DESTROY_BUTTONS]![VOICEOVER].enabled = true
+            self.sceneButtons[ADD_BUTTONS]![VOICEOVER].enabled = false
         }
     }
     
@@ -151,10 +153,12 @@ class SceneViewController: UIViewController {
             self.sceneButtons[ADD_BUTTONS]![sender.tag - 1].contentVerticalAlignment = UIControlContentVerticalAlignment.Center
             self.sceneButtons[ADD_BUTTONS]![sender.tag - 1].imageView?.contentMode = UIViewContentMode.ScaleAspectFit
             self.sceneButtons[ADD_BUTTONS]![sender.tag - 1].setImage(self.scene.shotImages[sender.tag - 1], forState: UIControlState.Normal)
+            self.sceneButtons[ADD_BUTTONS]![sender.tag - 1].enabled = true
         } else if sender.tag == 4 {
             self.sceneButtons[ADD_BUTTONS]![VOICEOVER].contentVerticalAlignment = UIControlContentVerticalAlignment.Center
             self.sceneButtons[ADD_BUTTONS]![VOICEOVER].imageView?.contentMode = UIViewContentMode.ScaleAspectFit
             self.sceneButtons[ADD_BUTTONS]![VOICEOVER].setImage(self.defaultImage, forState: UIControlState.Normal)
+            self.sceneButtons[ADD_BUTTONS]![VOICEOVER].enabled = true
             let voiceOverToRemove = MediaController.sharedMediaController.getPathForFileInDocumentsDirectory(self.scene.voiceOver).path!
             do {
                 try NSFileManager.defaultManager().removeItemAtPath(voiceOverToRemove)
