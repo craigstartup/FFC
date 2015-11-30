@@ -21,12 +21,15 @@ class ProjectsViewController: UITableViewController {
         // Present an alert veiw with text box to enter new project name, confirm button and cancel button.
         let addProjectView = UIAlertController(title: "Add Project", message: "Please enter a project name.", preferredStyle: .Alert)
         let addNewProject = UIAlertAction(title: "Create Project", style: .Default) { (_) -> Void in
+            // Capture project name and store it in array to populate table view.
             let projectTextField = addProjectView.textFields![0] as UITextField
             self.projects!.append(projectTextField.text!)
             NSUserDefaults.standardUserDefaults().setObject(self.projects, forKey: "projects")
             NSUserDefaults.standardUserDefaults().setObject(projectTextField.text, forKey: "currentProject")
             NSUserDefaults.standardUserDefaults().synchronize()
             self.tableView.reloadData()
+            // Add directory for project
+            self.createProjectDirectory(projectTextField.text)
         }
         addNewProject.enabled = false
         
@@ -87,6 +90,8 @@ class ProjectsViewController: UITableViewController {
                 NSUserDefaults.standardUserDefaults().setObject(currentProject, forKey: "currentProject")
             }
             
+            destroyProject(self.projects![indexPath.row] as! String)
+            
             self.projects?.removeAtIndex(indexPath.row)
             NSUserDefaults.standardUserDefaults().setObject(self.projects, forKey: "projects")
             NSUserDefaults.standardUserDefaults().synchronize()
@@ -94,7 +99,48 @@ class ProjectsViewController: UITableViewController {
         }
     }
     
+    // MARK: Project directory methods
+    func createProjectDirectory(project: String!) {
+        let documentsDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first
+        let projectDirectory = documentsDirectory?.stringByAppendingString("/\(project)")
+        let fileManager = NSFileManager.defaultManager()
+        
+        if !fileManager.fileExistsAtPath(projectDirectory!) {
+            do {
+                try fileManager.createDirectoryAtPath(projectDirectory!, withIntermediateDirectories: true, attributes: nil)
+            } catch let dirError as NSError {
+                print(dirError.localizedDescription)
+            }
+        } else {
+            print("Project name already exists")
+        }
+    }
     
     
-   
+    func destroyProject(project: String!) {
+        let documentsDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first
+        let projectDirectory = documentsDirectory?.stringByAppendingString("/\(project)")
+        let fileManager = NSFileManager.defaultManager()
+        var projectFilePaths: [NSString]!
+        
+        do {
+            try projectFilePaths = fileManager.contentsOfDirectoryAtPath(projectDirectory!)
+        } catch let projectPathsError as NSError {
+            print(projectPathsError.localizedDescription)
+        }
+        
+        for file in projectFilePaths {
+            do {
+                try fileManager.removeItemAtPath("\(projectDirectory)/\(file)")
+            } catch let destroyError as NSError {
+                print(destroyError.localizedDescription)
+            }
+        }
+        
+        do {
+            try fileManager.removeItemAtPath(projectDirectory!)
+        } catch let directoryDestroyError as NSError {
+            print(directoryDestroyError.localizedDescription)
+        }
+    }
 }

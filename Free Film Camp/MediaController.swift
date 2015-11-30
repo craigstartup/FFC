@@ -385,54 +385,55 @@ class MediaController {
     }
     
     
-    // MARK: Save path methods
-    // Paths for archiving intro and scenes
+    // MARK: Archiving path methods
     func getScenesArchivePathURL() -> NSURL {
         let documentsDirectory = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
-        let archiveURL = documentsDirectory.URLByAppendingPathComponent("\(self.project) scenes")
+        let archiveURL = documentsDirectory.URLByAppendingPathComponent("\(self.project!)/scenes")
         return archiveURL
     }
     
     
     func getIntroArchivePathURL() -> NSURL {
         let documentsDirectory = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
-        let archiveURL = documentsDirectory.URLByAppendingPathComponent("\(self.project) intro")
+        let archiveURL = documentsDirectory.URLByAppendingPathComponent("\(self.project!)/intro")
         return archiveURL
     }
     
-    // Paths for audio and video files.
+    // MARK: Paths for audio and video files.
     func getVoiceOverSavePath(audioSaveID: String) -> NSURL {
         let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
-        let filename = "\(self.project) \(audioSaveID).caf"
+        let filename = "/\(self.project!)/\(audioSaveID).caf"
         let pathArray = [dirPath, filename]
         let url = NSURL.fileURLWithPathComponents(pathArray)!
-        MediaController.sharedMediaController.tempPaths.append(url)
+        print(url.path!)
         return url
     }
     
     
     func getIntroShotSavePath() -> NSURL {
         let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
-        let filename = "\(self.project!) intro.mov"
+        let filename = "/\(self.project!)/intro.mov"
         let pathArray = [dirPath, filename]
         let url = NSURL.fileURLWithPathComponents(pathArray)!
-        MediaController.sharedMediaController.tempPaths.append(url)
+        print(url.path!)
         return url
     }
     
     
     func getPathForFileInDocumentsDirectory(fileName: String) -> NSURL {
-        let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
-        let pathArray = [dirPath, fileName]
-        let url = NSURL.fileURLWithPathComponents(pathArray)
-        return url!
+        let documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
+        let directoryPath = documentsPath + "/\(self.project!)"
+        let pathArray = [directoryPath, fileName]
+        let url = NSURL.fileURLWithPathComponents(pathArray)!
+        print(url.path!)
+        return url
     }
     
     // MARK: NSCoding
     func saveScenes() {
         let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(scenes, toFile: getScenesArchivePathURL().path!)
         if !isSuccessfulSave {
-            print("FAILED TO SAVE Scenes")
+            print("FAILED TO SAVE Scenes\(getScenesArchivePathURL().path!)")
         }
     }
     

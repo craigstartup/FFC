@@ -249,16 +249,15 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                     cleanup()
                 }
             })
-        } else {
+        } else if success {
             // Access stored intro.
-            let filePath = MediaController.sharedMediaController.getIntroShotSavePath().path!
-            let videoPath = MediaController.sharedMediaController.getIntroShotSavePath()   
-            print(filePath)
+            let videoPath = MediaController.sharedMediaController.getIntroShotSavePath()
+            print(videoPath)
             
-            if NSFileManager.defaultManager().fileExistsAtPath(filePath) {
-                print("IntroFILE!!!!!!!!!!!!!!!!")
+            if NSFileManager.defaultManager().fileExistsAtPath(videoPath.path!) {
+                print("IntroFILE!!!!!!!!!!!!!!!!\(videoPath)")
             } else {
-                print("IntroFUCK!!!!!!!!!!!\(filePath)")
+                print("IntroFUCK!!!!!!!!!!!\(videoPath)")
             }
             MediaController.sharedMediaController.intro = Intro(video: videoPath.lastPathComponent, image: nil)
             MediaController.sharedMediaController.saveIntro()

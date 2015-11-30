@@ -74,7 +74,7 @@ class SceneViewController: UIViewController {
         let filePath = MediaController.sharedMediaController.getPathForFileInDocumentsDirectory(self.scene.voiceOver)
         
         if NSFileManager.defaultManager().fileExistsAtPath(filePath.path!) {
-            print("VOFILE!!!!!!!!!!!!!!!!")
+            print("VOFILE!!!!!!!!!!!!!!!!\(filePath)")
             MediaController.sharedMediaController.saveScenes()
         } else {
             print("FUCKVO!!!!!!!!!!!\(MediaController.sharedMediaController.scenes[sceneNumber].voiceOver)")
@@ -228,7 +228,7 @@ class SceneViewController: UIViewController {
         } else if segue.identifier == self.selectingVoiceOverSegueID {
             let destinationVC = segue.destinationViewController as! VoiceOverViewController
             destinationVC.sceneID = self.sceneNumber
-            destinationVC.audioSaveID = "\(MediaController.sharedMediaController.project) scene\(self.sceneNumber)"
+            destinationVC.audioSaveID = "scene\(self.sceneNumber)"
         }
     }
     
