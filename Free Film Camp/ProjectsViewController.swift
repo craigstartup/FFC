@@ -14,8 +14,7 @@ class ProjectsViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        self.tableView.allowsMultipleSelectionDuringEditing = false
     }
 
     @IBAction func addProject(sender: UIBarButtonItem) {
@@ -44,7 +43,7 @@ class ProjectsViewController: UITableViewController {
         
         self.presentViewController(addProjectView, animated: true, completion: nil)
     }
-    
+
     
     @IBAction func switchMediaToShow(sender: UISwitch) {
         
@@ -78,5 +77,24 @@ class ProjectsViewController: UITableViewController {
         MediaController.sharedMediaController.scenes = MediaController.sharedMediaController.loadScenes()!
         self.tableView.reloadData()
     }
+    
+    
+    // MARK: Table veiw editing
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == UITableViewCellEditingStyle.Delete {
+            if self.projects![indexPath.row] as? String == NSUserDefaults.standardUserDefaults().stringForKey("currentProject") {
+                let currentProject = self.projects?.first
+                NSUserDefaults.standardUserDefaults().setObject(currentProject, forKey: "currentProject")
+            }
+            
+            self.projects?.removeAtIndex(indexPath.row)
+            NSUserDefaults.standardUserDefaults().setObject(self.projects, forKey: "projects")
+            NSUserDefaults.standardUserDefaults().synchronize()
+            self.tableView.reloadData()
+        }
+    }
+    
+    
+    
    
 }

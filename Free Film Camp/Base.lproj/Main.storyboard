@@ -1154,8 +1154,6 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" red="0.57254901960000004" green="0.57254901960000004" blue="0.57254901960000004" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="sectionIndexBackgroundColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="sectionIndexTrackingBackgroundColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="projectCell" textLabel="pOE-Yx-xtR" rowHeight="63" style="IBUITableViewCellStyleDefault" id="VS3-3p-tcM">
                                 <rect key="frame" x="0.0" y="92" width="600" height="63"/>
@@ -1186,10 +1184,10 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Projects" id="EdG-4J-ZF2">
-                        <barButtonItem key="leftBarButtonItem" systemItem="add" id="3r8-ar-b6I">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="add" id="ZIB-Qo-C4K">
+                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
-                                <action selector="addProject:" destination="NSC-8O-mHG" id="I7E-al-Frv"/>
+                                <action selector="addProject:" destination="NSC-8O-mHG" id="yVt-JX-yhY"/>
                             </connections>
                         </barButtonItem>
                         <rightBarButtonItems>
@@ -1203,7 +1201,7 @@
                                     </connections>
                                 </switch>
                             </barButtonItem>
-                            <barButtonItem title="All Media" id="cRw-RY-IPu">
+                            <barButtonItem title="All / Project Media" id="cRw-RY-IPu">
                                 <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </barButtonItem>
                         </rightBarButtonItems>
