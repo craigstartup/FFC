@@ -50,8 +50,10 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
     
     
     @IBAction func makeMovie(sender: AnyObject) {
+        self.vpVC.player = nil 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveCompleted:", name: MediaController.Notifications.saveMovieFinished, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveFailed:", name: MediaController.Notifications.saveMovieFailed, object: nil)
+   
         self.savingProgress.alpha = 1
         self.savingProgress.startAnimating()
         self.view.alpha = 0.6
@@ -92,6 +94,7 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
     
     // MARK: Preview methods
     @IBAction func preview(sender: AnyObject) {
+        self.vpVC.player = nil
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "firePreview:", name: MediaController.Notifications.previewReady, object: nil)
         if self.audioPlayer != nil {
             self.audioPlayer.stop()
@@ -114,8 +117,8 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
                 self.savingProgress.stopAnimating()
                 self.savingProgress.alpha = 0
                 self.view.alpha = 1
-                self.videoPlayer = AVPlayer(playerItem: MediaController.sharedMediaController.preview)
-                self.vpVC.player = self.videoPlayer
+                let videoPlayer = AVPlayer(playerItem: MediaController.sharedMediaController.preview)
+                self.vpVC.player = videoPlayer
                 self.vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
                 self.view.window?.rootViewController?.presentViewController(self.vpVC, animated: true, completion: nil)
             })

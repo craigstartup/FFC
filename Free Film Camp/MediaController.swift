@@ -42,9 +42,6 @@ class MediaController {
     var intro: Intro!
     var musicTrack: AVURLAsset!
     var preview: AVPlayerItem!
-    
-    // temp cleanup
-    var tempPaths = [NSURL]()
 
     // place holder for scene
     var newScene: PHObjectPlaceholder!
@@ -120,7 +117,7 @@ class MediaController {
         let date = dateFormatter.stringFromDate(NSDate())
         let vOFilePath = NSTemporaryDirectory()
         let url = NSURL(fileURLWithPath: vOFilePath).URLByAppendingPathComponent("vo-\(date).m4a")
-        MediaController.sharedMediaController.tempPaths.append(url)
+        
         // make exporter
         let vOExporter = AVAssetExportSession(
             asset: audioComposition,
@@ -291,7 +288,7 @@ class MediaController {
                         if !success {
                             print("Failed to save to photos: %@", error?.localizedDescription)
                         } else if success {
-                            self.destroyTemp()
+                            print("FAILED TO SAVE VIDEO")
                         }
                     })
                     
@@ -365,24 +362,7 @@ class MediaController {
             let concat = CGAffineTransformConcat(fixUpsideDown, centerFix)
             instruction.setTransform(concat, atTime: kCMTimeZero)
         }
-        
-        
-        
         return instruction
-    }
-    
-    
-    func destroyTemp() {
-        for temp in self.tempPaths {
-            let cleanup: dispatch_block_t = { () -> Void in
-                do {
-                    try NSFileManager.defaultManager().removeItemAtURL(temp)
-                } catch let fileError as NSError {
-                    print(fileError.localizedDescription)
-                }
-            }
-            cleanup()
-        }
     }
     
     

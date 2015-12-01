@@ -386,7 +386,6 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         let date = dateFormatter.stringFromDate(NSDate())
         let videoOutputFilePath = NSTemporaryDirectory()
         let url = NSURL(fileURLWithPath: videoOutputFilePath).URLByAppendingPathComponent("mergeVideo-\(date).mov")
-        MediaController.sharedMediaController.tempPaths.append(url)
         return url
     }
     
