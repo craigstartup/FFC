@@ -267,7 +267,6 @@ class MediaController {
             presetName: AVAssetExportPresetHighestQuality)
         exporter!.outputURL = url
         exporter!.outputFileType = AVFileTypeQuickTimeMovie
-        //exporter!.audioMix = mix
         exporter!.videoComposition = videoComposition
         exporter!
             .exportAsynchronouslyWithCompletionHandler() {
@@ -282,7 +281,9 @@ class MediaController {
         if session.status == AVAssetExportSessionStatus.Completed {
             let outputURL: NSURL = session.outputURL!
             // check if authorized to save to photos
-            saveToDropBox(outputURL)
+            if type == "movie" || type == "scene" {
+                saveToDropBox(outputURL)
+            }
             PHPhotoLibrary.requestAuthorization({ (status:PHAuthorizationStatus) -> Void in
                 if status == PHAuthorizationStatus.Authorized {
                     // move scene to Photos library
@@ -463,7 +464,7 @@ class MediaController {
             
             // Upload a file
             let fileData = NSData(contentsOfFile: filePath.path!)
-            client.files.upload(path: "\(filePath.lastPathComponent)", body: fileData!).response { response, error in
+            client.files.upload(path: "/\(filePath!.lastPathComponent!)", body: fileData!).response { response, error in
                 if let metadata = response {
                     print("*** Upload file ****")
                     print("Uploaded file name: \(metadata.name)")
