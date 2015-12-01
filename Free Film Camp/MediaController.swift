@@ -66,12 +66,18 @@ class MediaController {
             for scene in media {
                 for video in scene.shotVideos {
                     let videoAsset = AVURLAsset(URL: video)
-                    videoAssets.append(videoAsset)
+                    
+                    if !videoAsset.tracks.isEmpty {
+                        videoAssets.append(videoAsset)
+                    }
                 }
                 
                 let voiceOverPath = self.getPathForFileInDocumentsDirectory(scene.voiceOver)
                 let voiceOverAsset = AVURLAsset(URL: voiceOverPath)
-                voiceOverAssets.append(voiceOverAsset)
+                
+                if !voiceOverAsset.tracks.isEmpty {
+                    voiceOverAssets.append(voiceOverAsset)
+                }
             }
         }
         
@@ -79,7 +85,7 @@ class MediaController {
         if movie {
             let bumper = AVURLAsset(URL: NSBundle.mainBundle().URLForResource("Bumper_3 sec", withExtension: "mp4")!)
             videoAssets.append(bumper)
-            if !voiceOverAssets[1].tracks.isEmpty {
+            if !voiceOverAssets[0].tracks.isEmpty {
                 self.getMovieVoiceOver(voiceOverAssets, videoAssets: videoAssets, save: save)
             } else {
                 self.composeMedia(videoAssets, voiceOverAssets: voiceOverAssets, movieVoiceOver: nil, movie: true, save: save)
