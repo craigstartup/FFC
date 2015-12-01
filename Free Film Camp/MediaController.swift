@@ -50,14 +50,15 @@ class MediaController {
     var newScene: PHObjectPlaceholder!
     
     // MARK: Media methods
-    func prepareMedia(intro: NSURL!, media: [Scene]!, movie: Bool, save: Bool) {
+    func prepareMedia(intro: Bool, media: [Scene]!, movie: Bool, save: Bool) {
         // Exactract and assemble media assets
         var videoAssets = [AVURLAsset]()
         var voiceOverAssets = [AVURLAsset]()
         
-        if intro != nil {
+        if intro && self.intro != nil {
             // Intro has audio and video tracks. Append it to both assets arrays.
-            let introVideo = AVURLAsset(URL: intro)
+            let introPath = self.getPathForFileInDocumentsDirectory(self.intro.video)
+            let introVideo = AVURLAsset(URL: introPath)
             videoAssets.append(introVideo)
             voiceOverAssets.append(introVideo)
         }
@@ -415,7 +416,7 @@ class MediaController {
         let filename = "/\(self.project!)/intro.mov"
         let pathArray = [dirPath, filename]
         let url = NSURL.fileURLWithPathComponents(pathArray)!
-        print(url.path!)
+        print("Intro shot save path: \(url.path!)")
         return url
     }
     
@@ -425,7 +426,7 @@ class MediaController {
         let directoryPath = documentsPath + "/\(self.project!)"
         let pathArray = [directoryPath, fileName]
         let url = NSURL.fileURLWithPathComponents(pathArray)!
-        print(url.path!)
+        print("Path for file: \(url.path!)")
         return url
     }
     

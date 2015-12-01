@@ -70,13 +70,11 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             print(configError.localizedDescription)
         }
         
-        
         do {
             try self.selfieCam.lockForConfiguration()
         } catch let configError as NSError {
             print(configError.localizedDescription)
         }
-        
         
         self.progressBar.alpha = 0
         self.progressBar.progress = 0
@@ -92,6 +90,19 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             videoCapture.addInput(input)
         } catch let captureError as NSError {
             print(captureError.localizedDescription)
+        }
+        
+        let microphone = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeAudio)
+        var audioInput: AVCaptureDeviceInput!
+        
+        if self.segueToPerform != nil && self.segueToPerform == "introUnwind" {
+            
+            do {
+                audioInput = try AVCaptureDeviceInput(device: microphone)
+                videoCapture.addInput(audioInput)
+            } catch let captureError as NSError {
+                print(captureError.localizedDescription)
+            }
         }
         
         videoCapture.addOutput(videoPreviewOutput)
@@ -333,7 +344,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         }
         videoCapture.addInput(videoInput)
         
-        if self.segueToPerform == "introUnwind" {
+        if self.segueToPerform != nil && self.segueToPerform == "introUnwind" {
             
             do {
                 audioInput = try AVCaptureDeviceInput(device: microphone)
@@ -367,7 +378,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         }
     }
     
-    // MARK: Helper methods
+    // MARK: Path for shots going to photos framework
     func getShotPath() -> NSURL {
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = .LongStyle
