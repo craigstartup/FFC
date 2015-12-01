@@ -27,6 +27,8 @@ class ProjectsViewController: UITableViewController {
             NSUserDefaults.standardUserDefaults().setObject(self.projects, forKey: "projects")
             NSUserDefaults.standardUserDefaults().setObject(projectTextField.text, forKey: "currentProject")
             NSUserDefaults.standardUserDefaults().synchronize()
+            MediaController.sharedMediaController.project = projectTextField.text!
+            MediaController.sharedMediaController.scenes = MediaController.sharedMediaController.loadScenes()!
             self.tableView.reloadData()
             // Add directory for project
             self.createProjectDirectory(projectTextField.text)
@@ -88,6 +90,8 @@ class ProjectsViewController: UITableViewController {
             if self.projects![indexPath.row] as? String == NSUserDefaults.standardUserDefaults().stringForKey("currentProject") {
                 let currentProject = self.projects?.first
                 NSUserDefaults.standardUserDefaults().setObject(currentProject, forKey: "currentProject")
+                MediaController.sharedMediaController.project = self.projects?.first! as? String
+                MediaController.sharedMediaController.scenes = MediaController.sharedMediaController.loadScenes()!
             }
             
             destroyProject(self.projects![indexPath.row] as! String)

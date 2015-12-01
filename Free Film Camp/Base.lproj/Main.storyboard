@@ -245,7 +245,7 @@
                                     <constraint firstAttribute="height" constant="40" id="TW8-3N-cfI"/>
                                     <constraint firstAttribute="width" constant="40" id="VHf-Hf-XGh"/>
                                 </constraints>
-                                <state key="normal" image="camera_cancel_btn_36"/>
+                                <state key="normal" title="Done" image="camera_cancel_btn_36"/>
                                 <connections>
                                     <action selector="cancelCamera:" destination="KtM-ME-n2y" eventType="touchUpInside" id="s73-6V-g6F"/>
                                 </connections>
