@@ -36,6 +36,7 @@
 		8CF664A51BE0E05900BC88EA /* Bumper_3 sec.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 8CF6649E1BE0E05800BC88EA /* Bumper_3 sec.mp4 */; };
 		8CF664A61BE0E05900BC88EA /* Sounds like fun.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8CF6649F1BE0E05800BC88EA /* Sounds like fun.mp3 */; };
 		8CF664A81BE0E05900BC88EA /* Youve got mail.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8CF664A11BE0E05800BC88EA /* Youve got mail.mp3 */; };
+		EDD1BBDBB8EA44B2D48E70DB /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1859E88A3159FFAF35A6FD5 /* Pods.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,6 +93,9 @@
 		8CF6649E1BE0E05800BC88EA /* Bumper_3 sec.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Bumper_3 sec.mp4"; sourceTree = "<group>"; };
 		8CF6649F1BE0E05800BC88EA /* Sounds like fun.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Sounds like fun.mp3"; sourceTree = "<group>"; };
 		8CF664A11BE0E05800BC88EA /* Youve got mail.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Youve got mail.mp3"; sourceTree = "<group>"; };
+		98AD5D7C32D9FC95DC7433AE /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		A1859E88A3159FFAF35A6FD5 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2A5CECE88AB2468A31ECC89 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +103,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EDD1BBDBB8EA44B2D48E70DB /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,6 +124,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		178201118BC81DF2D51DA794 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A1859E88A3159FFAF35A6FD5 /* Pods.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6B855CBBBE32004F0CC0F486 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				98AD5D7C32D9FC95DC7433AE /* Pods.debug.xcconfig */,
+				C2A5CECE88AB2468A31ECC89 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		8C42D08B1BEC0B6E00A5B718 /* music */ = {
 			isa = PBXGroup;
 			children = (
@@ -148,6 +170,7 @@
 				8CA57DA31BC49AE50016762A /* CameraViewController.swift */,
 				8CBF277E1BC78A3A00EEFA27 /* VoiceOverViewController.swift */,
 				8CA57DA91BC4D4C50016762A /* VideosViewController.swift */,
+				8C4B70591BCD7BBE00E54C5E /* MediaController.swift */,
 			);
 			name = "Tools & Media Libraries";
 			sourceTree = "<group>";
@@ -171,6 +194,8 @@
 				8CA57D7E1BC252EB0016762A /* Free Film CampTests */,
 				8CA57D891BC252EB0016762A /* Free Film CampUITests */,
 				8CA57D651BC252EA0016762A /* Products */,
+				6B855CBBBE32004F0CC0F486 /* Pods */,
+				178201118BC81DF2D51DA794 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -240,7 +265,6 @@
 			children = (
 				8C498D9F1BFE4DE400468CF0 /* Tools & Media Libraries */,
 				8C498D9E1BFE4D9D00468CF0 /* Main Navigation */,
-				8C4B70591BCD7BBE00E54C5E /* MediaController.swift */,
 				8CB59C2A1BF680C5002C6730 /* Utilities.swift */,
 			);
 			name = Controller;
@@ -265,9 +289,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8CA57D8F1BC252EB0016762A /* Build configuration list for PBXNativeTarget "Free Film Camp" */;
 			buildPhases = (
+				7EBC61E462A3ACC4319D09F6 /* Check Pods Manifest.lock */,
 				8CA57D601BC252EA0016762A /* Sources */,
 				8CA57D611BC252EA0016762A /* Frameworks */,
 				8CA57D621BC252EA0016762A /* Resources */,
+				D27E3CBC6DA52D3533604657 /* Embed Pods Frameworks */,
+				9C6373FBDC1EBB98BDA0D83D /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -388,6 +415,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		7EBC61E462A3ACC4319D09F6 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		9C6373FBDC1EBB98BDA0D83D /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D27E3CBC6DA52D3533604657 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8CA57D601BC252EA0016762A /* Sources */ = {
@@ -552,6 +627,7 @@
 		};
 		8CA57D901BC252EB0016762A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 98AD5D7C32D9FC95DC7433AE /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -568,6 +644,7 @@
 		};
 		8CA57D911BC252EB0016762A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C2A5CECE88AB2468A31ECC89 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";

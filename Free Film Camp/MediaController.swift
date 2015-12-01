@@ -11,6 +11,7 @@ import Foundation
 import Photos
 import AVFoundation
 import AVKit
+import SwiftyDropbox
 
 class MediaController {
     
@@ -275,6 +276,7 @@ class MediaController {
         if session.status == AVAssetExportSessionStatus.Completed {
             let outputURL: NSURL = session.outputURL!
             // check if authorized to save to photos
+            saveToDropBox(outputURL)
             PHPhotoLibrary.requestAuthorization({ (status:PHAuthorizationStatus) -> Void in
                 if status == PHAuthorizationStatus.Authorized {
                     // move scene to Photos library
@@ -287,8 +289,6 @@ class MediaController {
                     }, completionHandler: { (success: Bool, error: NSError?) -> Void in
                         if !success {
                             print("Failed to save to photos: %@", error?.localizedDescription)
-                        } else if success {
-                            print("FAILED TO SAVE VIDEO")
                         }
                     })
                     
@@ -438,5 +438,35 @@ class MediaController {
     
     func loadIntro() -> Intro? {
         return NSKeyedUnarchiver.unarchiveObjectWithFile(self.getIntroArchivePathURL().path!) as? Intro
+    }
+    
+    
+    // MARK: DropBox
+    func saveToDropBox(filePath: NSURL!) {
+    // Verify user is logged into Dropbox
+        if let client = Dropbox.authorizedClient {
+            // Get the current user's account info
+            client.users.getCurrentAccount().response { response, error in
+                print("*** Get current account ***")
+                if let account = response {
+                    print("Hello \(account.name.givenName)!")
+                } else {
+                    print(error!.description)
+                }
+            }
+            
+            // Upload a file
+            let fileData = NSData(contentsOfFile: filePath.path!)
+            client.files.upload(path: "\(filePath.lastPathComponent)", body: fileData!).response { response, error in
+                if let metadata = response {
+                    print("*** Upload file ****")
+                    print("Uploaded file name: \(metadata.name)")
+                    print("Uploaded file revision: \(metadata.rev)")
+                    
+                } else {
+                    print("DROPBOX FAILURE\(error!.description)")
+                }
+            }
+        }//client
     }
 }
