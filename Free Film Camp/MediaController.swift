@@ -22,7 +22,6 @@ class MediaController {
         static let saveMovieFinished = "saveMovieComplete"
         static let saveMovieFailed   = "saveMovieFailed"
         static let previewReady      = "previewPrepped"
-        
     }
     
     enum Albums {
@@ -35,32 +34,46 @@ class MediaController {
     private init() {}
     
     var albumTitle: String!
+    var project = NSUserDefaults.standardUserDefaults().stringForKey("currentProject")
     let library = PHPhotoLibrary.sharedPhotoLibrary()
+    
     // Media components
-    var scenes = [Scene]()
+    var scenes: [Scene]!
+    var intro: Intro!
     var musicTrack: AVURLAsset!
     var preview: AVPlayerItem!
-    // temp cleanup
-    var tempPaths = [NSURL]()
 
     // place holder for scene
     var newScene: PHObjectPlaceholder!
     
     // MARK: Media methods
-    func prepareMedia(media: [Scene], movie: Bool, save: Bool) {
+    func prepareMedia(intro: Bool, media: [Scene]!, movie: Bool, save: Bool) {
         // Exactract and assemble media assets
         var videoAssets = [AVURLAsset]()
         var voiceOverAssets = [AVURLAsset]()
-        // TODO: Check assets and post notification for what is missing.
-        for scene in media {
-            for video in scene.shotVideos {
-                let videoAsset = AVURLAsset(URL: video)
-                videoAssets.append(videoAsset)
-            }
-            
-            let voiceOverAsset = AVURLAsset(URL: scene.voiceOver)
-            voiceOverAssets.append(voiceOverAsset)
+        
+        if intro && self.intro != nil {
+            // Intro has audio and video tracks. Append it to both assets arrays.
+            let introPath = self.getPathForFileInDocumentsDirectory(self.intro.video)
+            let introVideo = AVURLAsset(URL: introPath)
+            videoAssets.append(introVideo)
+            voiceOverAssets.append(introVideo)
         }
+        
+        // TODO: Check assets and post notification for what is missing.
+        if media != nil {
+            for scene in media {
+                for video in scene.shotVideos {
+                    let videoAsset = AVURLAsset(URL: video)
+                    videoAssets.append(videoAsset)
+                }
+                
+                let voiceOverPath = self.getPathForFileInDocumentsDirectory(scene.voiceOver)
+                let voiceOverAsset = AVURLAsset(URL: voiceOverPath)
+                voiceOverAssets.append(voiceOverAsset)
+            }
+        }
+        
         // If movie, prepare voiceover, prepend intro and append bumper to video array
         if movie {
             let bumper = AVURLAsset(URL: NSBundle.mainBundle().URLForResource("Bumper_3 sec", withExtension: "mp4")!)
@@ -104,7 +117,7 @@ class MediaController {
         let date = dateFormatter.stringFromDate(NSDate())
         let vOFilePath = NSTemporaryDirectory()
         let url = NSURL(fileURLWithPath: vOFilePath).URLByAppendingPathComponent("vo-\(date).m4a")
-        MediaController.sharedMediaController.tempPaths.append(url)
+        
         // make exporter
         let vOExporter = AVAssetExportSession(
             asset: audioComposition,
@@ -164,11 +177,11 @@ class MediaController {
                 } catch let firstTrackError as NSError {
                     print(firstTrackError.localizedDescription)
                 }
-            
+
             tracks.append(track)
             tracksTime = CMTimeAdd(tracksTime, videoAsset.duration)
             // creat instructions for each track
-            let instruction = AVMutableVideoCompositionLayerInstruction(assetTrack: track)
+            let instruction = self.videoCompositionInstructionForTrack(track, asset: videoAsset)
             instruction.setOpacity(0.0, atTime: tracksTime)
             instructions.append(instruction)
             }
@@ -257,6 +270,7 @@ class MediaController {
         }
     }
     
+    
     func exportDidFinish(session:AVAssetExportSession, type: String) {
         if session.status == AVAssetExportSessionStatus.Completed {
             let outputURL: NSURL = session.outputURL!
@@ -274,7 +288,7 @@ class MediaController {
                         if !success {
                             print("Failed to save to photos: %@", error?.localizedDescription)
                         } else if success {
-                            self.destroyTemp()
+                            print("FAILED TO SAVE VIDEO")
                         }
                     })
                     
@@ -315,31 +329,114 @@ class MediaController {
         }
     }
     
-    
-    
-    func destroyTemp() {
-        for temp in self.tempPaths {
-            let cleanup: dispatch_block_t = { () -> Void in
-                do {
-                    try NSFileManager.defaultManager().removeItemAtURL(temp)
-                } catch let fileError as NSError {
-                    print(fileError.localizedDescription)
-                }
-            }
-            cleanup()
+    // MARK: Composition helper methods
+    func orientationFromTransform(transform: CGAffineTransform) -> (orientation: UIImageOrientation, isPortrait: Bool) {
+        var assetOrientation = UIImageOrientation.Up
+        var isPortrait = false
+        if transform.a == 0 && transform.b == 1.0 && transform.c == -1.0 && transform.d == 0 {
+            assetOrientation = .Right
+            isPortrait = true
+        } else if transform.a == 0 && transform.b == -1.0 && transform.c == 1.0 && transform.d == 0 {
+            assetOrientation = .Left
+            isPortrait = true
+        } else if transform.a == 1.0 && transform.b == 0 && transform.c == 0 && transform.d == 1.0 {
+            assetOrientation = .Up
+        } else if transform.a == -1.0 && transform.b == 0 && transform.c == 0 && transform.d == -1.0 {
+            assetOrientation = .Down
         }
+        return (assetOrientation, isPortrait)
     }
     
+    
+    func videoCompositionInstructionForTrack(track: AVCompositionTrack, asset: AVAsset) -> AVMutableVideoCompositionLayerInstruction {
+        let instruction = AVMutableVideoCompositionLayerInstruction(assetTrack: track)
+        let assetTrack = asset.tracksWithMediaType(AVMediaTypeVideo)[0] 
+        
+        let transform = assetTrack.preferredTransform
+        let assetInfo = orientationFromTransform(transform)
+        
+        if assetInfo.orientation == .Down {
+            let fixUpsideDown = CGAffineTransformMakeRotation(CGFloat(M_PI))
+            let yFix = assetTrack.naturalSize.height
+            let centerFix = CGAffineTransformMakeTranslation(assetTrack.naturalSize.width, yFix)
+            let concat = CGAffineTransformConcat(fixUpsideDown, centerFix)
+            instruction.setTransform(concat, atTime: kCMTimeZero)
+        }
+        return instruction
+    }
+    
+    
+    // MARK: Archiving path methods
+    func getScenesArchivePathURL() -> NSURL {
+        let documentsDirectory = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
+        let archiveURL = documentsDirectory.URLByAppendingPathComponent("\(self.project!)/scenes")
+        return archiveURL
+    }
+    
+    
+    func getIntroArchivePathURL() -> NSURL {
+        let documentsDirectory = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
+        let archiveURL = documentsDirectory.URLByAppendingPathComponent("\(self.project!)/intro")
+        return archiveURL
+    }
+    
+    // MARK: Paths for audio and video files.
+    func getVoiceOverSavePath(audioSaveID: String) -> NSURL {
+        let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
+        let filename = "/\(self.project!)/\(audioSaveID).caf"
+        let pathArray = [dirPath, filename]
+        let url = NSURL.fileURLWithPathComponents(pathArray)!
+        print(url.path!)
+        return url
+    }
+    
+    
+    func getIntroShotSavePath() -> NSURL {
+        let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
+        let filename = "/\(self.project!)/intro.mov"
+        let pathArray = [dirPath, filename]
+        let url = NSURL.fileURLWithPathComponents(pathArray)!
+        print("Intro shot save path: \(url.path!)")
+        return url
+    }
+    
+    
+    func getPathForFileInDocumentsDirectory(fileName: String) -> NSURL {
+        let documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
+        let directoryPath = documentsPath + "/\(self.project!)"
+        let pathArray = [directoryPath, fileName]
+        let url = NSURL.fileURLWithPathComponents(pathArray)!
+        print("Path for file: \(url.path!)")
+        return url
+    }
     
     // MARK: NSCoding
     func saveScenes() {
-        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(scenes, toFile: Scene.ArchiveURL.path!)
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(scenes, toFile: getScenesArchivePathURL().path!)
         if !isSuccessfulSave {
-            print("FAILED TO SAVE")
+            print("FAILED TO SAVE Scenes\(getScenesArchivePathURL().path!)")
         }
     }
     
-    func loadScenes() -> [Scene]?{
-        return NSKeyedUnarchiver.unarchiveObjectWithFile(Scene.ArchiveURL.path!) as? [Scene]
+    
+    func saveIntro() {
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(intro, toFile: self.getIntroArchivePathURL().path!)
+        if !isSuccessfulSave {
+            print("Intro save failure!!")
+        }
+    }
+    
+    
+    func loadScenes() -> [Scene]! {
+        guard let loadedScenes = NSKeyedUnarchiver.unarchiveObjectWithFile(getScenesArchivePathURL().path!) as! [Scene]! else {
+            let scenesContainer = [Scene]()
+            return scenesContainer
+        }
+        return loadedScenes
+    }
+    
+    
+    func loadIntro() -> Intro? {
+        return NSKeyedUnarchiver.unarchiveObjectWithFile(self.getIntroArchivePathURL().path!) as? Intro
     }
 }

@@ -9,6 +9,7 @@
 import UIKit
 import Photos
 import AVKit
+import AVFoundation
 
 
 class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -18,7 +19,8 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
     var audioPlayer: AVAudioPlayer!
     var audioFileURL: NSURL!
     var currentCell: NSIndexPath!
-    var previewQueue = [AVPlayerItem]()
+    var vpVC = AVPlayerViewController()
+    var videoPlayer: AVPlayer!
     let musicFileNames = ["Believe in your dreams", "Sounds like fun", "Youve got mail"]
 
     // MARK: View lifecycle methods
@@ -26,12 +28,21 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        
+        guard let loadedIntro = MediaController.sharedMediaController.loadIntro()
+            else {
+                print("No intro!")
+                return
+        }
+        MediaController.sharedMediaController.intro = loadedIntro
     }
+    
     
     override func viewWillAppear(animated: Bool) {
         MediaController.sharedMediaController.albumTitle = MediaController.Albums.movies
         self.navigationController?.navigationBarHidden = true
     }
+    
     
     override func viewWillDisappear(animated: Bool) {
         MediaController.sharedMediaController.preview = nil
@@ -39,12 +50,18 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
     
     
     @IBAction func makeMovie(sender: AnyObject) {
+        self.vpVC.player = nil 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveCompleted:", name: MediaController.Notifications.saveMovieFinished, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveFailed:", name: MediaController.Notifications.saveMovieFailed, object: nil)
+   
         self.savingProgress.alpha = 1
         self.savingProgress.startAnimating()
         self.view.alpha = 0.6
-        MediaController.sharedMediaController.prepareMedia(MediaController.sharedMediaController.scenes, movie: true, save: true)
+        if MediaController.sharedMediaController.intro == nil {
+            MediaController.sharedMediaController.prepareMedia(false, media: MediaController.sharedMediaController.scenes, movie: true, save: true)
+        } else {
+            MediaController.sharedMediaController.prepareMedia(true, media: MediaController.sharedMediaController.scenes, movie: true, save: true)
+        }
     }
     
     // MARK: Notification handlers
@@ -77,6 +94,7 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
     
     // MARK: Preview methods
     @IBAction func preview(sender: AnyObject) {
+        self.vpVC.player = nil
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "firePreview:", name: MediaController.Notifications.previewReady, object: nil)
         if self.audioPlayer != nil {
             self.audioPlayer.stop()
@@ -85,7 +103,11 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
         self.savingProgress.alpha = 1
         self.savingProgress.startAnimating()
         self.view.alpha = 0.6
-        MediaController.sharedMediaController.prepareMedia(MediaController.sharedMediaController.scenes, movie: true, save: false)
+        if MediaController.sharedMediaController.intro == nil {
+            MediaController.sharedMediaController.prepareMedia(false, media: MediaController.sharedMediaController.scenes, movie: true, save: false)
+        } else {
+            MediaController.sharedMediaController.prepareMedia(true, media: MediaController.sharedMediaController.scenes, movie: true, save: false)
+        }
     }
     
     
@@ -96,10 +118,9 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
                 self.savingProgress.alpha = 0
                 self.view.alpha = 1
                 let videoPlayer = AVPlayer(playerItem: MediaController.sharedMediaController.preview)
-                let vpVC = AVPlayerViewController()
-                vpVC.player = videoPlayer
-                vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
-                self.view.window?.rootViewController?.presentViewController(vpVC, animated: true, completion: nil)
+                self.vpVC.player = videoPlayer
+                self.vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
+                self.view.window?.rootViewController?.presentViewController(self.vpVC, animated: true, completion: nil)
             })
         }
         NSNotificationCenter.defaultCenter().removeObserver(self, name: MediaController.Notifications.previewReady, object: nil)
@@ -109,6 +130,8 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.musicFileNames.count + 1
     }
+    
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("musicCell")! as! MusicCell
         cell.playMusicTrackButton.alpha = 0
@@ -124,6 +147,7 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
             return cell
         }
     }
+    
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         MediaController.sharedMediaController.musicTrack = nil
@@ -141,6 +165,7 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
             self.audioFileURL = nil
         }
     }
+    
     
     func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
         print("deselected")
@@ -164,6 +189,7 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
         self.currentCell = nil
     }
     
+    
     func playMusicForCell() {
         let cell = tableView.cellForRowAtIndexPath(self.currentCell) as! MusicCell
         if self.audioPlayer == nil && self.audioFileURL != nil {
@@ -183,20 +209,4 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
         }
     }
    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

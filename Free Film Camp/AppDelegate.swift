@@ -14,16 +14,35 @@ import Photos
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-//    func application(application: UIApplication, shouldSaveApplicationState coder: NSCoder) -> Bool {
-//        return true
-//    }
-//    
-//    func application(application: UIApplication, shouldRestoreApplicationState coder: NSCoder) -> Bool {
-//        return true
-//    }
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+        // Create user projects name storage.
+        if let _ = NSUserDefaults.standardUserDefaults().arrayForKey("projects") {
+        } else {
+            let currentProject = "Video Maker"
+            let projects = [currentProject]
+            NSUserDefaults.standardUserDefaults().setObject(projects, forKey: "projects")
+            NSUserDefaults.standardUserDefaults().setObject(currentProject, forKey: "currentProject")
+            NSUserDefaults.standardUserDefaults().synchronize()
+            
+            // Create a file directory for the default project
+            let documentsDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first
+            let projectDirectory = documentsDirectory?.stringByAppendingString("/\(currentProject)")
+            let fileManager = NSFileManager.defaultManager()
+            
+            if !fileManager.fileExistsAtPath(projectDirectory!) {
+                do {
+                    try fileManager.createDirectoryAtPath(projectDirectory!, withIntermediateDirectories: true, attributes: nil)
+                } catch let dirError as NSError {
+                    print(dirError.localizedDescription)
+                }
+            } else {
+                print("Project name already exists")
+            }
+        }
+        
+        
+        
         let scenesFetchOptions = PHFetchOptions()
         let moviesFetchOptions = PHFetchOptions()
         let clipsFetchOptions = PHFetchOptions()

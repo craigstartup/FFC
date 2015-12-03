@@ -97,10 +97,7 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
         self.navigationController?.navigationBarHidden = true
         self.navigationController?.navigationBar.translucent = true
     }
-    
-       @IBAction func cameraUnwind(unwindSegue: UIStoryboardSegue) {
-        self.performSegueWithIdentifier(self.segueID, sender: self)
-    }
+
     
     // MARK: Collection view delegate methods
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -110,6 +107,7 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
             return 1
         }
     }
+    
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         if indexPath.item == 0 {
@@ -191,6 +189,7 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
         }
     }
     
+    
     func destroyClip(sender: UIButton) {
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
             print("DESTROYED")
@@ -199,7 +198,7 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
                 if self.videos[sender.tag - 1].canPerformEditOperation(PHAssetEditOperation.Delete){
                     let target = self.videos[sender.tag - 1]
                     PHAssetChangeRequest.deleteAssets([target])
-                }
+                    }
                 }, completionHandler: { (success, error) -> Void in
                     if success {
                         print("DESTROYED")
@@ -226,6 +225,12 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
             cameraVC.pickingShot = true
         }
     }
+    
+    
+    @IBAction func cameraUnwind(unwindSegue: UIStoryboardSegue) {
+        self.performSegueWithIdentifier(self.segueID, sender: self)
+    }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

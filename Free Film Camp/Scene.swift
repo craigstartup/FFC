@@ -13,10 +13,8 @@ class Scene: NSObject, NSCoding {
     // MARK: Properties
     var shotVideos: [NSURL]
     var shotImages: [UIImage]
-    var voiceOver: NSURL
-    // MARK: Archiving paths
-    static let DocumentsDirectory = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
-    static let ArchiveURL = DocumentsDirectory.URLByAppendingPathComponent("scenes")
+    var voiceOver: String
+    
     // MARK: Types
     struct PropertyKey {
         static let shotVideosKey = "keyForShotVideos"
@@ -24,7 +22,7 @@ class Scene: NSObject, NSCoding {
         static let voiceOverKey = "keyForVoiceOver"
     }
     // MARK: Initialization
-    init?(shotVideos: [NSURL], shotImages: [UIImage], voiceOver: NSURL) {
+    init?(shotVideos: [NSURL], shotImages: [UIImage], voiceOver: String) {
         // Initialize stored properties
         self.shotVideos = shotVideos
         self.shotImages = shotImages
@@ -42,11 +40,9 @@ class Scene: NSObject, NSCoding {
     required convenience init?(coder aDecoder: NSCoder) {
         let shotVideos = aDecoder.decodeObjectForKey(PropertyKey.shotVideosKey) as! [NSURL]
         let shotImages = aDecoder.decodeObjectForKey(PropertyKey.shotImagesKey) as! [UIImage]
-        let voiceOver = aDecoder.decodeObjectForKey(PropertyKey.voiceOverKey) as! NSURL
+        let voiceOver = aDecoder.decodeObjectForKey(PropertyKey.voiceOverKey) as! String
         
         self.init(shotVideos: shotVideos, shotImages: shotImages, voiceOver: voiceOver)
         
     }
-    
-    
 }

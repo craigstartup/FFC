@@ -39,7 +39,6 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         // set up voice recorder
         AVAudioSession.sharedInstance().requestRecordPermission { (granted) -> Void in
             if granted {
-                
                 do {
                     try self.audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker)
                 } catch let error as NSError {
@@ -54,7 +53,7 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
             }
         }
         
-        let url = self.audioFileURL()
+        let url = MediaController.sharedMediaController.getVoiceOverSavePath("\(self.audioSaveID)")
         
         let recordSettings =
         [AVEncoderAudioQualityKey: AVAudioQuality.Min.rawValue,
@@ -64,16 +63,18 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         
         do {
             try self.audioRecorder = AVAudioRecorder(URL: url, settings: recordSettings as! [String : AnyObject])
-            audioRecorder?.prepareToRecord()
+            audioRecorder!.prepareToRecord()
         } catch let error as NSError {
             print("audioSession error: \(error.localizedDescription)")
         }
         self.audioRecorder.delegate = self
     }
     
+    
     override func viewWillLayoutSubviews() {
        self.previewScene()
     }
+    
     
     override func viewDidAppear(animated: Bool) {
         // set up initial button states
@@ -87,25 +88,35 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         }
     }
     
+    
     override func viewDidDisappear(animated: Bool) {
         self.videoPlayer = nil
         self.audioPlayer = nil
         self.audioRecorder = nil
     }
     
+    
     func updateProgress() {
         self.progressBar.progress += 0.001
     }
+    
     
     @IBAction func recordButtonPressed(sender: AnyObject) {
         // set up progress view for recording time
         self.progressBar.alpha = 1
         self.progress = NSTimer.scheduledTimerWithTimeInterval(0.009, target: self, selector: "updateProgress", userInfo: nil, repeats: true)
+        
         self.hasRecorded = true
         if self.audioPlayer?.playing == true {
             self.audioPlayer.stop()
         }
         if self.audioRecorder.recording == false {
+            do {
+                try self.audioSession.setActive(true)
+            } catch let error as NSError {
+                print(error.localizedDescription)
+            }
+            
             recordButton.enabled = false
             recordButton.alpha = 0.5
             playButton.enabled = false
@@ -116,6 +127,7 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
             self.videoPlayer.play()
         }
     }
+    
     
     @IBAction func playButtonPressed(sender: AnyObject) {
         if audioRecorder.recording == false {
@@ -148,7 +160,7 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         print(audioRecorder.url.absoluteURL)
     
         if hasRecorded {
-            self.audioAssetToPass = self.audioFileURL()
+            self.audioAssetToPass = MediaController.sharedMediaController.getVoiceOverSavePath(self.audioSaveID)
         }
         
         self.performSegueWithIdentifier("sceneAudioSelectedSegue", sender: self)
@@ -189,12 +201,14 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         }
     }
     
+    
     func didFinishPlayingVideo(notification: NSNotification) {
         self.progressBar.progress = 0.0
         self.progressBar.alpha = 0
         self.progress.invalidate()
         previewScene()
     }
+    
     
     func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
         playButton.alpha = 1.0
@@ -203,11 +217,14 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         recordButton.enabled = true
     }
     
+    
     func audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer, error: NSError?) {
         print("Audio Play Decode Error")
     }
     
+    
     func audioRecorderDidFinishRecording(recorder: AVAudioRecorder, successfully flag: Bool) {
+        recorder.stop()
         self.playButton.enabled = true
         self.playButton.alpha = 1
         self.recordButton.enabled = true
@@ -216,16 +233,6 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         self.doneButton.alpha = 1
     }
     
-    // MARK: Audio File URL
-    func audioFileURL() -> NSURL {
-        // File path for recording
-        let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] 
-        let filename = "\(self.audioSaveID).caf"
-        let pathArray = [dirPath, filename]
-        let url = NSURL.fileURLWithPathComponents(pathArray)!
-        MediaController.sharedMediaController.tempPaths.append(url)
-        return url
-    }
     
     func audioRecorderEncodeErrorDidOccur(recorder: AVAudioRecorder, error: NSError?) {
         

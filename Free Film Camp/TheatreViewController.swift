@@ -64,7 +64,6 @@ class TheatreViewController: UICollectionViewController {
                 self.videos.append(asset)
             }
         }
-        
     }
     
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
