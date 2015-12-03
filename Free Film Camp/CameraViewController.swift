@@ -70,13 +70,11 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             print(configError.localizedDescription)
         }
         
-        
         do {
             try self.selfieCam.lockForConfiguration()
         } catch let configError as NSError {
             print(configError.localizedDescription)
         }
-        
         
         self.progressBar.alpha = 0
         self.progressBar.progress = 0
@@ -92,6 +90,19 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             videoCapture.addInput(input)
         } catch let captureError as NSError {
             print(captureError.localizedDescription)
+        }
+        
+        let microphone = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeAudio)
+        var audioInput: AVCaptureDeviceInput!
+        
+        if self.segueToPerform != nil && self.segueToPerform == "introUnwind" {
+            
+            do {
+                audioInput = try AVCaptureDeviceInput(device: microphone)
+                videoCapture.addInput(audioInput)
+            } catch let captureError as NSError {
+                print(captureError.localizedDescription)
+            }
         }
         
         videoCapture.addOutput(videoPreviewOutput)
@@ -159,8 +170,8 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                 var url: NSURL!
                 
                 // record to path.
-                if self.segueToPerform == "introUnwind" {
-                    url = self.getIntroPath()
+                if self.segueToPerform != nil && self.segueToPerform == "introUnwind" {
+                    url = MediaController.sharedMediaController.getIntroShotSavePath()
                 } else {
                     url = self.getShotPath()
                 }
@@ -171,11 +182,13 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             }
         }
     }
+    
     // MARK: Output recording delegate methods
     func captureOutput(captureOutput: AVCaptureFileOutput!, didStartRecordingToOutputFileAtURL fileURL: NSURL!, fromConnections connections: [AnyObject]!) {
         
         print("Recording")
     }
+    
     
     func captureOutput(captureOutput: AVCaptureFileOutput!, didFinishRecordingToOutputFileAtURL outputFileURL: NSURL!, fromConnections connections: [AnyObject]!, error: NSError!) {
         // reset progress
@@ -247,18 +260,17 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                     cleanup()
                 }
             })
-        } else {
+        } else if success {
             // Access stored intro.
-            let filePath = self.getIntroPath().path!
-            let videoPath = self.getIntroPath()
-            print(filePath)
-            if NSFileManager.defaultManager().fileExistsAtPath(filePath) {
-                print("IntroFILE!!!!!!!!!!!!!!!!")
-                
+            let videoPath = MediaController.sharedMediaController.getIntroShotSavePath()
+            print(videoPath)
+            
+            if NSFileManager.defaultManager().fileExistsAtPath(videoPath.path!) {
+                print("IntroFILE!!!!!!!!!!!!!!!!\(videoPath)")
             } else {
-                print("IntroFUCK!!!!!!!!!!!\(filePath)")
+                print("IntroFUCK!!!!!!!!!!!\(videoPath)")
             }
-            MediaController.sharedMediaController.intro = Intro(video: videoPath, image: nil)
+            MediaController.sharedMediaController.intro = Intro(video: videoPath.lastPathComponent, image: nil)
             MediaController.sharedMediaController.saveIntro()
         }
         
@@ -302,6 +314,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         }
     }
     
+    
     @IBAction func flipCamera(sender: AnyObject) {
         self.videoCapture.beginConfiguration()
         
@@ -331,7 +344,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         }
         videoCapture.addInput(videoInput)
         
-        if self.segueToPerform == "introUnwind" {
+        if self.segueToPerform != nil && self.segueToPerform == "introUnwind" {
             
             do {
                 audioInput = try AVCaptureDeviceInput(device: microphone)
@@ -365,7 +378,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         }
     }
     
-    // MARK: Helper methods
+    // MARK: Path for shots going to photos framework
     func getShotPath() -> NSURL {
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = .LongStyle
@@ -373,19 +386,9 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         let date = dateFormatter.stringFromDate(NSDate())
         let videoOutputFilePath = NSTemporaryDirectory()
         let url = NSURL(fileURLWithPath: videoOutputFilePath).URLByAppendingPathComponent("mergeVideo-\(date).mov")
-        MediaController.sharedMediaController.tempPaths.append(url)
         return url
     }
     
-    
-    func getIntroPath() -> NSURL {
-        let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
-        let filename = "intro.mov"
-        let pathArray = [dirPath, filename]
-        let url = NSURL.fileURLWithPathComponents(pathArray)!
-        MediaController.sharedMediaController.tempPaths.append(url)
-        return url
-    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

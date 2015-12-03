@@ -18,6 +18,7 @@
 		8C5E51D11BC7B2840028CBAA /* TheatreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5E51D01BC7B2840028CBAA /* TheatreCell.swift */; };
 		8C6456B21BD580B700B5CE11 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 8C6456B11BD580B700B5CE11 /* .gitignore */; };
 		8C6E1B301BFA7ABB009F3E86 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C6E1B2F1BFA7ABB009F3E86 /* SceneViewController.swift */; };
+		8C8DEC2D1C0681F1006607A1 /* ProjectsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8DEC2C1C0681F1006607A1 /* ProjectsViewController.swift */; };
 		8CA57D681BC252EA0016762A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA57D671BC252EA0016762A /* AppDelegate.swift */; };
 		8CA57D6D1BC252EA0016762A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CA57D6B1BC252EA0016762A /* Main.storyboard */; };
 		8CA57D701BC252EA0016762A /* Free_Film_Camp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8CA57D6E1BC252EA0016762A /* Free_Film_Camp.xcdatamodeld */; };
@@ -67,6 +68,7 @@
 		8C5E51D01BC7B2840028CBAA /* TheatreCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TheatreCell.swift; sourceTree = "<group>"; };
 		8C6456B11BD580B700B5CE11 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		8C6E1B2F1BFA7ABB009F3E86 /* SceneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneViewController.swift; sourceTree = "<group>"; };
+		8C8DEC2C1C0681F1006607A1 /* ProjectsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectsViewController.swift; sourceTree = "<group>"; };
 		8CA57D641BC252EA0016762A /* Free Film Camp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Free Film Camp.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CA57D671BC252EA0016762A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8CA57D6C1BC252EA0016762A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -139,14 +141,15 @@
 			name = "Main Navigation";
 			sourceTree = "<group>";
 		};
-		8C498D9F1BFE4DE400468CF0 /* Tools & Librarys */ = {
+		8C498D9F1BFE4DE400468CF0 /* Tools & Media Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				8C8DEC2C1C0681F1006607A1 /* ProjectsViewController.swift */,
 				8CA57DA31BC49AE50016762A /* CameraViewController.swift */,
 				8CBF277E1BC78A3A00EEFA27 /* VoiceOverViewController.swift */,
 				8CA57DA91BC4D4C50016762A /* VideosViewController.swift */,
 			);
-			name = "Tools & Librarys";
+			name = "Tools & Media Libraries";
 			sourceTree = "<group>";
 		};
 		8C498DA01BFE90F100468CF0 /* Custom Tab Controller */ = {
@@ -235,7 +238,7 @@
 		8CA57D9A1BC254C60016762A /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				8C498D9F1BFE4DE400468CF0 /* Tools & Librarys */,
+				8C498D9F1BFE4DE400468CF0 /* Tools & Media Libraries */,
 				8C498D9E1BFE4D9D00468CF0 /* Main Navigation */,
 				8C4B70591BCD7BBE00E54C5E /* MediaController.swift */,
 				8CB59C2A1BF680C5002C6730 /* Utilities.swift */,
@@ -392,6 +395,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8CA57D9E1BC258850016762A /* MovieBuilderViewController.swift in Sources */,
+				8C8DEC2D1C0681F1006607A1 /* ProjectsViewController.swift in Sources */,
 				8CBF277F1BC78A3A00EEFA27 /* VoiceOverViewController.swift in Sources */,
 				8C498DA21BFFC8AB00468CF0 /* Intro.swift in Sources */,
 				8CA57DE91BC5F0710016762A /* VideoLibraryCell.swift in Sources */,

@@ -44,47 +44,41 @@ class SceneViewController: UIViewController {
     var audioAsset: NSURL!
     // placeholder values
     let defaultImage              = UIImage(named: "plus_white_69")
-    let defaultURL                = NSURL(string: "placeholder")
-    
+    let defaultVideoURL           = NSURL(string: "placeholder")
+    let defaultVoiceOverFile      = "placeholder"
     // MARK: View Life Cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Load scenes or initialize if none exist.
+        MediaController.sharedMediaController.scenes = MediaController.sharedMediaController.loadScenes()
         if MediaController.sharedMediaController.scenes.isEmpty {
-            guard let scenes = MediaController.sharedMediaController.loadScenes() else {
-                for _ in 0..<3 {
-                    let scene = Scene(shotVideos: Array(count: 3, repeatedValue: defaultURL!), shotImages: Array(count: 3, repeatedValue: defaultImage!), voiceOver: defaultURL!)
-                    MediaController.sharedMediaController.scenes.append(scene!)
-                }
-                return
+            for _ in 0..<3 {
+                let scene = Scene(shotVideos: Array(count: 3, repeatedValue: defaultVideoURL!), shotImages: Array(count: 3, repeatedValue: defaultImage!), voiceOver: defaultVoiceOverFile)
+                MediaController.sharedMediaController.scenes.append(scene!)
             }
-            MediaController.sharedMediaController.scenes = scenes
         }
     }
     
     
     override func viewWillAppear(animated: Bool) {
         MediaController.sharedMediaController.albumTitle = MediaController.Albums.scenes
+        self.scene = MediaController.sharedMediaController.scenes[sceneNumber]
         
         defer {
             self.assetRequestNumber = nil
-            self.selectedVideoImage = nil
             self.selectedVideoAsset = nil
+            self.selectedVideoImage = nil
         }
-        
-        self.scene = MediaController.sharedMediaController.scenes[sceneNumber]
-
         // Access stored voiceover.
-        let filePath = getVoicoverPath()
+        let filePath = MediaController.sharedMediaController.getPathForFileInDocumentsDirectory(self.scene.voiceOver)
         
-        if NSFileManager.defaultManager().fileExistsAtPath(filePath) {
-            print("FILE!!!!!!!!!!!!!!!!")
-            self.scene.voiceOver = NSURL(fileURLWithPath: filePath)
+        if NSFileManager.defaultManager().fileExistsAtPath(filePath.path!) {
+            print("VOFILE!!!!!!!!!!!!!!!!\(filePath)")
             MediaController.sharedMediaController.saveScenes()
         } else {
-            print("FUCK!!!!!!!!!!!\(MediaController.sharedMediaController.scenes[sceneNumber].voiceOver.URLByStandardizingPath)")
-            self.scene.voiceOver = defaultURL!
+            print("FUCKVO!!!!!!!!!!!\(MediaController.sharedMediaController.scenes[sceneNumber].voiceOver)")
+            self.scene.voiceOver = self.defaultVoiceOverFile
             MediaController.sharedMediaController.saveScenes()
         }
         
@@ -108,22 +102,24 @@ class SceneViewController: UIViewController {
         for var i = 0; i < self.sceneButtons[ADD_BUTTONS]!.count ; i++ {
             let images = self.scene.shotImages
             let videos = self.scene.shotVideos
-            if images.count > i && videos[i] != self.defaultURL {
+            if images.count > i && videos[i] != self.defaultVideoURL {
                 self.sceneButtons[ADD_BUTTONS]![i].setImage(images[i], forState: UIControlState.Normal)
                 self.sceneButtons[ADD_BUTTONS]![i].contentMode = UIViewContentMode.ScaleAspectFit
                 self.sceneButtons[ADD_BUTTONS]![i].contentVerticalAlignment = UIControlContentVerticalAlignment.Center
                 if self.sceneButtons[ADD_BUTTONS]![i].currentImage != defaultImage {
                     self.sceneButtons[DESTROY_BUTTONS]![i].alpha = 1
                     self.sceneButtons[DESTROY_BUTTONS]![i].enabled = true
+                    self.sceneButtons[ADD_BUTTONS]![i].enabled = false
                 }
             }
         }
         
-        if self.scene.voiceOver != defaultURL {
+        if self.scene.voiceOver != defaultVoiceOverFile {
             let check = UIImage(named: "Check")
             self.sceneButtons[ADD_BUTTONS]![VOICEOVER].setImage(check, forState: UIControlState.Normal)
             self.sceneButtons[DESTROY_BUTTONS]![VOICEOVER].alpha = 1
             self.sceneButtons[DESTROY_BUTTONS]![VOICEOVER].enabled = true
+            self.sceneButtons[ADD_BUTTONS]![VOICEOVER].enabled = false
         }
     }
     
@@ -152,21 +148,24 @@ class SceneViewController: UIViewController {
     
     @IBAction func removeMedia(sender: AnyObject) {
         if sender.tag < 4 {
-            self.scene.shotVideos[sender.tag - 1] = self.defaultURL!
+            self.scene.shotVideos[sender.tag - 1] = self.defaultVideoURL!
             self.scene.shotImages[sender.tag - 1] = self.defaultImage!
             self.sceneButtons[ADD_BUTTONS]![sender.tag - 1].contentVerticalAlignment = UIControlContentVerticalAlignment.Center
             self.sceneButtons[ADD_BUTTONS]![sender.tag - 1].imageView?.contentMode = UIViewContentMode.ScaleAspectFit
             self.sceneButtons[ADD_BUTTONS]![sender.tag - 1].setImage(self.scene.shotImages[sender.tag - 1], forState: UIControlState.Normal)
+            self.sceneButtons[ADD_BUTTONS]![sender.tag - 1].enabled = true
         } else if sender.tag == 4 {
             self.sceneButtons[ADD_BUTTONS]![VOICEOVER].contentVerticalAlignment = UIControlContentVerticalAlignment.Center
             self.sceneButtons[ADD_BUTTONS]![VOICEOVER].imageView?.contentMode = UIViewContentMode.ScaleAspectFit
             self.sceneButtons[ADD_BUTTONS]![VOICEOVER].setImage(self.defaultImage, forState: UIControlState.Normal)
+            self.sceneButtons[ADD_BUTTONS]![VOICEOVER].enabled = true
+            let voiceOverToRemove = MediaController.sharedMediaController.getPathForFileInDocumentsDirectory(self.scene.voiceOver).path!
             do {
-                try NSFileManager.defaultManager().removeItemAtPath(self.scene.voiceOver.path!)
+                try NSFileManager.defaultManager().removeItemAtPath(voiceOverToRemove)
             } catch let error as NSError {
                 print(error.localizedDescription)
             }
-            self.scene.voiceOver = self.defaultURL!
+            self.scene.voiceOver = self.defaultVoiceOverFile
                     }
         self.sceneButtons[DESTROY_BUTTONS]![sender.tag - 1].alpha = 0
         self.sceneButtons[DESTROY_BUTTONS]![sender.tag - 1].enabled = false
@@ -175,7 +174,7 @@ class SceneViewController: UIViewController {
     
     
     @IBAction func previewSelection(sender: AnyObject) {
-        MediaController.sharedMediaController.prepareMedia(nil, media: [self.scene], movie: false, save: false)
+        MediaController.sharedMediaController.prepareMedia(false, media: [self.scene], movie: false, save: false)
         if let preview = MediaController.sharedMediaController.preview {
             self.videoPlayer = AVPlayer(playerItem: preview)
             self.vpVC.player = videoPlayer
@@ -191,7 +190,7 @@ class SceneViewController: UIViewController {
         self.savingProgress.alpha = 1
         self.savingProgress.startAnimating()
         self.view.alpha = 0.6
-        MediaController.sharedMediaController.prepareMedia(nil, media: [self.scene], movie: false, save: true)
+        MediaController.sharedMediaController.prepareMedia(false, media: [self.scene], movie: false, save: true)
     }
     
     // MARK: Save notifications
@@ -244,20 +243,7 @@ class SceneViewController: UIViewController {
     
     @IBAction func sceneAudioUnwindSegue(unwindSegue: UIStoryboardSegue){
         if self.audioAsset != nil {
-            self.scene.voiceOver = self.audioAsset
+            self.scene.voiceOver = self.audioAsset.lastPathComponent!
         }
-    }
-    
-    
-    // MARK: Helper methods
-    func getVoicoverPath() -> String {
-        let path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
-        let filePath = path.stringByAppendingString("/scene\(self.sceneNumber).caf")
-        return filePath
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 }

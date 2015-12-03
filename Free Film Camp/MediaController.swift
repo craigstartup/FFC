@@ -34,26 +34,28 @@ class MediaController {
     private init() {}
     
     var albumTitle: String!
+    var project = NSUserDefaults.standardUserDefaults().stringForKey("currentProject")
     let library = PHPhotoLibrary.sharedPhotoLibrary()
+    
     // Media components
-    var scenes = [Scene]()
+    var scenes: [Scene]!
     var intro: Intro!
     var musicTrack: AVURLAsset!
     var preview: AVPlayerItem!
-    // temp cleanup
-    var tempPaths = [NSURL]()
 
     // place holder for scene
     var newScene: PHObjectPlaceholder!
     
     // MARK: Media methods
-    func prepareMedia(intro: NSURL!, media: [Scene]!, movie: Bool, save: Bool) {
+    func prepareMedia(intro: Bool, media: [Scene]!, movie: Bool, save: Bool) {
         // Exactract and assemble media assets
         var videoAssets = [AVURLAsset]()
         var voiceOverAssets = [AVURLAsset]()
         
-        if intro != nil {
-            let introVideo = AVURLAsset(URL: intro)
+        if intro && self.intro != nil {
+            // Intro has audio and video tracks. Append it to both assets arrays.
+            let introPath = self.getPathForFileInDocumentsDirectory(self.intro.video)
+            let introVideo = AVURLAsset(URL: introPath)
             videoAssets.append(introVideo)
             voiceOverAssets.append(introVideo)
         }
@@ -66,7 +68,8 @@ class MediaController {
                     videoAssets.append(videoAsset)
                 }
                 
-                let voiceOverAsset = AVURLAsset(URL: scene.voiceOver)
+                let voiceOverPath = self.getPathForFileInDocumentsDirectory(scene.voiceOver)
+                let voiceOverAsset = AVURLAsset(URL: voiceOverPath)
                 voiceOverAssets.append(voiceOverAsset)
             }
         }
@@ -114,7 +117,7 @@ class MediaController {
         let date = dateFormatter.stringFromDate(NSDate())
         let vOFilePath = NSTemporaryDirectory()
         let url = NSURL(fileURLWithPath: vOFilePath).URLByAppendingPathComponent("vo-\(date).m4a")
-        MediaController.sharedMediaController.tempPaths.append(url)
+        
         // make exporter
         let vOExporter = AVAssetExportSession(
             asset: audioComposition,
@@ -267,6 +270,7 @@ class MediaController {
         }
     }
     
+    
     func exportDidFinish(session:AVAssetExportSession, type: String) {
         if session.status == AVAssetExportSessionStatus.Completed {
             let outputURL: NSURL = session.outputURL!
@@ -284,7 +288,7 @@ class MediaController {
                         if !success {
                             print("Failed to save to photos: %@", error?.localizedDescription)
                         } else if success {
-                            self.destroyTemp()
+                            print("FAILED TO SAVE VIDEO")
                         }
                     })
                     
@@ -358,50 +362,81 @@ class MediaController {
             let concat = CGAffineTransformConcat(fixUpsideDown, centerFix)
             instruction.setTransform(concat, atTime: kCMTimeZero)
         }
-        
-        
-        
         return instruction
     }
     
     
-    func destroyTemp() {
-        for temp in self.tempPaths {
-            let cleanup: dispatch_block_t = { () -> Void in
-                do {
-                    try NSFileManager.defaultManager().removeItemAtURL(temp)
-                } catch let fileError as NSError {
-                    print(fileError.localizedDescription)
-                }
-            }
-            cleanup()
-        }
+    // MARK: Archiving path methods
+    func getScenesArchivePathURL() -> NSURL {
+        let documentsDirectory = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
+        let archiveURL = documentsDirectory.URLByAppendingPathComponent("\(self.project!)/scenes")
+        return archiveURL
     }
     
     
+    func getIntroArchivePathURL() -> NSURL {
+        let documentsDirectory = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
+        let archiveURL = documentsDirectory.URLByAppendingPathComponent("\(self.project!)/intro")
+        return archiveURL
+    }
+    
+    // MARK: Paths for audio and video files.
+    func getVoiceOverSavePath(audioSaveID: String) -> NSURL {
+        let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
+        let filename = "/\(self.project!)/\(audioSaveID).caf"
+        let pathArray = [dirPath, filename]
+        let url = NSURL.fileURLWithPathComponents(pathArray)!
+        print(url.path!)
+        return url
+    }
+    
+    
+    func getIntroShotSavePath() -> NSURL {
+        let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
+        let filename = "/\(self.project!)/intro.mov"
+        let pathArray = [dirPath, filename]
+        let url = NSURL.fileURLWithPathComponents(pathArray)!
+        print("Intro shot save path: \(url.path!)")
+        return url
+    }
+    
+    
+    func getPathForFileInDocumentsDirectory(fileName: String) -> NSURL {
+        let documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
+        let directoryPath = documentsPath + "/\(self.project!)"
+        let pathArray = [directoryPath, fileName]
+        let url = NSURL.fileURLWithPathComponents(pathArray)!
+        print("Path for file: \(url.path!)")
+        return url
+    }
+    
     // MARK: NSCoding
     func saveScenes() {
-        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(scenes, toFile: Scene.ArchiveURL.path!)
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(scenes, toFile: getScenesArchivePathURL().path!)
         if !isSuccessfulSave {
-            print("FAILED TO SAVE Scenes")
+            print("FAILED TO SAVE Scenes\(getScenesArchivePathURL().path!)")
         }
     }
     
     
     func saveIntro() {
-        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(intro, toFile: Intro.ArchiveURL.path!)
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(intro, toFile: self.getIntroArchivePathURL().path!)
         if !isSuccessfulSave {
             print("Intro save failure!!")
         }
     }
     
     
-    func loadScenes() -> [Scene]? {
-        return NSKeyedUnarchiver.unarchiveObjectWithFile(Scene.ArchiveURL.path!) as? [Scene]
+    func loadScenes() -> [Scene]! {
+        guard let loadedScenes = NSKeyedUnarchiver.unarchiveObjectWithFile(getScenesArchivePathURL().path!) as! [Scene]! else {
+            let scenesContainer = [Scene]()
+            return scenesContainer
+        }
+        return loadedScenes
     }
     
     
     func loadIntro() -> Intro? {
-        return NSKeyedUnarchiver.unarchiveObjectWithFile(Intro.ArchiveURL.path!) as? Intro
+        return NSKeyedUnarchiver.unarchiveObjectWithFile(self.getIntroArchivePathURL().path!) as? Intro
     }
 }
