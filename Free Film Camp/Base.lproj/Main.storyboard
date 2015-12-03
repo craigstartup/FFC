@@ -1144,10 +1144,10 @@
             </objects>
             <point key="canvasLocation" x="3097" y="-1407"/>
         </scene>
-        <!--Profiles-->
+        <!--Projects-->
         <scene sceneID="148-iL-JcC">
             <objects>
-                <tableViewController title="Profiles" id="NSC-8O-mHG" customClass="ProjectsViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Profiles" id="NSC-8O-mHG" userLabel="Projects" customClass="ProjectsViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="63" sectionHeaderHeight="28" sectionFooterHeight="28" id="Cxy-JE-YPX">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1183,7 +1183,12 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Projects" id="EdG-4J-ZF2">
-                        <barButtonItem key="leftBarButtonItem" systemItem="add" id="ZIB-Qo-C4K">
+                        <barButtonItem key="leftBarButtonItem" title="Link Dropbox" id="Dh8-aJ-kuz">
+                            <connections>
+                                <action selector="linkDropBox:" destination="NSC-8O-mHG" id="8az-iS-eHf"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="ZIB-Qo-C4K">
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="addProject:" destination="NSC-8O-mHG" id="yVt-JX-yhY"/>

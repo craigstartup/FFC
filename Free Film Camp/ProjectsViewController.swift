@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyDropbox
 
 class ProjectsViewController: UITableViewController {
     
@@ -17,6 +18,11 @@ class ProjectsViewController: UITableViewController {
         self.tableView.allowsMultipleSelectionDuringEditing = false
     }
 
+    @IBAction func linkDropBox(sender: UIBarButtonItem) {
+        Dropbox.authorizeFromController(self)
+    }
+    
+    
     @IBAction func addProject(sender: UIBarButtonItem) {
         // Present an alert veiw with text box to enter new project name, confirm button and cancel button.
         let addProjectView = UIAlertController(title: "Add Project", message: "Please enter a project name.", preferredStyle: .Alert)
