@@ -202,7 +202,7 @@ class MediaController {
             for voiceOverAsset in voiceOverAssets {
                 if !voiceOverAsset.tracks.isEmpty {
                     let audioTrack: AVMutableCompositionTrack = mixComposition.addMutableTrackWithMediaType(AVMediaTypeAudio, preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
-                    do { // TODO: Possibly adjust tracks time to be more comprehensive.
+                    do { 
                         try audioTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, tracksTime), ofTrack: voiceOverAsset.tracksWithMediaType(AVMediaTypeAudio)[0] ,
                             atTime: kCMTimeZero)
                     } catch let audioTrackError as NSError{
