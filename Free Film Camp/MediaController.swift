@@ -257,10 +257,12 @@ class MediaController {
         let paths: NSArray = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
         let documentDirectory: String = paths[0] as! String
         let dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = .LongStyle
-        dateFormatter.timeStyle = .FullStyle
+        dateFormatter.dateStyle = .FullStyle
+        dateFormatter.timeStyle = .MediumStyle
         let date = dateFormatter.stringFromDate(NSDate())
-        let url = NSURL(fileURLWithPath: documentDirectory).URLByAppendingPathComponent("mergeVideo-\(date).mov")
+        let projectToCheck = self.project!
+        let projectName = projectToCheck.stringByReplacingOccurrencesOfString(" ", withString: "-")
+        let url = NSURL(fileURLWithPath: documentDirectory).URLByAppendingPathComponent("\(projectName)-Movie-\(date).mov")
         // make exporter
         let exporter = AVAssetExportSession(
             asset: mixComposition,
@@ -325,7 +327,7 @@ class MediaController {
                 }
             })
         } else {
-            print("SESSION STATUS NOT COMPLETED")
+            print("\(session.status)SESSION STATUS NOT COMPLETED")
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 if type == "movie" {
                     NSNotificationCenter.defaultCenter().postNotificationName(Notifications.saveMovieFailed, object: self)
