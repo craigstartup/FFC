@@ -174,11 +174,11 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
             manager.requestImageForAsset(video,
                 targetSize: CGSize(width: 215, height: 136),
                 contentMode: .AspectFill,
-                options: nil) { (result, _) -> Void in
+                options: nil) { [unowned self] (result, _) -> Void in
                     self.videoImageToPass = result!
             }
             manager.requestAVAssetForVideo(video, options: nil) { (videoAsset, audioMix, info) -> Void in
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                dispatch_async(dispatch_get_main_queue(), { [unowned self] () -> Void in
                     if (videoAsset?.isKindOfClass(AVURLAsset) != nil) {
                         let url = videoAsset as! AVURLAsset
                         self.videoAssetToPass = url.URL

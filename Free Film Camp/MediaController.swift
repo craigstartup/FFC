@@ -282,10 +282,12 @@ class MediaController {
     func exportDidFinish(session:AVAssetExportSession, type: String) {
         if session.status == AVAssetExportSessionStatus.Completed {
             let outputURL: NSURL = session.outputURL!
+            
             // check if authorized to save to photos
             if type == "movie" || type == "scene" {
                 saveToDropBox(outputURL)
             }
+            
             PHPhotoLibrary.requestAuthorization({ (status:PHAuthorizationStatus) -> Void in
                 if status == PHAuthorizationStatus.Authorized {
                     // move scene to Photos library
@@ -458,7 +460,8 @@ class MediaController {
             client.users.getCurrentAccount().response { response, error in
                 print("*** Get current account ***")
                 if let account = response {
-                    print("Hello \(account.name.givenName)!")
+                    print("Hello \(account.name.givenName)! Dropbox saving has begun.")
+                    // TODO: Alert user to start of Dropbox download.
                 } else {
                     print(error!.description)
                 }
@@ -471,7 +474,7 @@ class MediaController {
                     print("*** Upload file ****")
                     print("Uploaded file name: \(metadata.name)")
                     print("Uploaded file revision: \(metadata.rev)")
-                    
+                    // TODO: Alert user that dropbox download has finished.
                 } else {
                     print("DROPBOX FAILURE\(error!.description)")
                 }

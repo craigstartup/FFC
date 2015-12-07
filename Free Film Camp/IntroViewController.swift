@@ -98,6 +98,12 @@ class IntroViewController: UIViewController {
             let videoPlayer = AVPlayer(playerItem: preview)
             vpVC.player = videoPlayer
             vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
+            
+            guard let navigationController = self.view.window?.rootViewController as? UINavigationController else {return}
+            guard let topViewController = navigationController.viewControllers.first else {return}
+            
+            print(topViewController)
+            
             self.view.window?.rootViewController?.presentViewController(vpVC, animated: true, completion: nil)
         }
     }

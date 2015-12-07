@@ -166,6 +166,12 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                 
                 // set orientation to match preview layer.
                 let videoCaptureOutputConnection = self.videoForFileOutput.connectionWithMediaType(AVMediaTypeVideo)
+                
+                //TODO: Fix preview problem.
+                if videoCaptureOutputConnection.supportsVideoStabilization {
+                videoCaptureOutputConnection.preferredVideoStabilizationMode = .Auto
+                }
+                
                 videoCaptureOutputConnection.videoOrientation = AVCaptureVideoOrientation.LandscapeRight
                 var url: NSURL!
                 

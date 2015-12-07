@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SelectionViewController: UIViewController {
+class SelectionViewController: UIViewController, UIPageViewControllerDataSource {
     enum TabButtons {
         static let INTRO   = 1
         static let SCENE_1 = 2
@@ -17,108 +17,127 @@ class SelectionViewController: UIViewController {
         static let MOVIE   = 5
     }
     
-    var currentViewController: UIViewController!
+    var pageViewController: UIPageViewController!
     @IBOutlet weak var viewsView: UIView!
     @IBOutlet var buttons: Array<UIButton>!
-    let segueIDS = ["introVC","scene1VC","scene2VC","scene3VC","movieVC"]
+    
     var lastSegue: String!
+    
+    let defaultImage              = UIImage(named: "plus_white_69")
+    let defaultVideoURL           = NSURL(string: "placeholder")
+    let defaultVoiceOverFile      = "placeholder"
+    
+    var viewControllers = [UIViewController]()
+    let viewControllerIds = ["IntroViewController","SceneViewController","MovieBuilderViewController"]
+    var currentVC = 1
+    var startVC = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if self.buttons.count > 0 {
-            self.performSegueWithIdentifier("scene1VC", sender: self.buttons[1])
+        // Load scenes or initialize if none exist.
+        MediaController.sharedMediaController.scenes = MediaController.sharedMediaController.loadScenes()
+        if MediaController.sharedMediaController.scenes.isEmpty {
+            for _ in 0..<3 {
+                let scene = Scene(shotVideos: Array(count: 3, repeatedValue: defaultVideoURL!), shotImages: Array(count: 3, repeatedValue: defaultImage!), voiceOver: defaultVoiceOverFile)
+                MediaController.sharedMediaController.scenes.append(scene!)
+            }
         }
+
+        self.setupPageViewController()
         self.navigationController?.navigationBarHidden = true
     }
     
-    // MARK: View lifecycle for subviews
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        currentViewController.viewWillAppear(animated)
+    
+    func setupPageViewController() {
+        guard let pageViewController = self.storyboard?.instantiateViewControllerWithIdentifier("pageVC") as? UIPageViewController else {return}
+        guard let initialViewController = self.storyboard?.instantiateViewControllerWithIdentifier("SceneViewController") as? SceneViewController else {return}
+        initialViewController.sceneNumber = 0
+        
+        self.getViewControllers()
+        
+        self.pageViewController = pageViewController
+        self.pageViewController.dataSource = self
+        self.pageViewController.setViewControllers([initialViewController], direction: .Forward, animated: false, completion: nil)
+        
+        self.pageViewController.view.frame = self.viewsView.bounds
+        self.viewsView.addSubview(self.pageViewController.view)
+        self.addChildViewController(self.pageViewController)
+        self.pageViewController.didMoveToParentViewController(self)
     }
     
     
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        currentViewController.viewWillDisappear(animated)
+    func getViewControllers() {
+        for viewId in self.viewControllerIds {
+            if viewId == "SceneViewController" {
+                for var i = 0; i < MediaController.sharedMediaController.scenes.count; i++ {
+                    let sceneViewController = self.storyboard?.instantiateViewControllerWithIdentifier(viewId) as? SceneViewController
+                    sceneViewController?.sceneNumber = i
+                    self.viewControllers.append(sceneViewController!)
+                }
+            } else {
+                var viewController: UIViewController!
+                
+                if viewId == "IntroViewController" {
+                    viewController = self.storyboard?.instantiateViewControllerWithIdentifier(viewId) as? IntroViewController
+                } else {
+                    viewController = self.storyboard?.instantiateViewControllerWithIdentifier(viewId) as? MovieBuilderViewController
+                }
+                
+                self.viewControllers.append(viewController!)
+            }
+        }
     }
     
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        currentViewController.viewDidAppear(animated)
-    }
-    
-    
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-        currentViewController.viewDidDisappear(animated)
-    }
-    
-    // MARK: Tab bar navigation
+    // MARK: Tab bar navigation button actions
     @IBAction func selectScene(sender: UIButton) {
         
     }
     
-    // MARK: Gesture navigation
-    @IBAction func swipedLeft(sender: AnyObject) {
-        if self.lastSegue != segueIDS.last {
-            let segueToPerform = (segueIDS.indexOf(self.lastSegue)! + 1)
-            self.performSegueWithIdentifier(segueIDS[segueToPerform], sender: self.buttons[segueToPerform])
+    
+    //MARK: Page view controller delegate methods
+    func viewControllerAtIndex(index: Int) -> UIViewController? {
+        if self.viewControllers.count == 0 || index >= self.viewControllers.count {
+            return nil
         }
+        
+        return self.viewControllers[index]
     }
     
     
-    @IBAction func swipedRight(sender: AnyObject) {
-        if self.lastSegue != segueIDS.first {
-            let segueToPerform = (segueIDS.indexOf(self.lastSegue)! - 1)
-            self.performSegueWithIdentifier(segueIDS[segueToPerform], sender: self.buttons[segueToPerform])
+    func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
+        if self.currentVC > self.viewControllers.count || self.currentVC < 0 {
+        return nil
         }
-    }
-    
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if self.segueIDS.contains(segue.identifier!) {
-            self.lastSegue = segue.identifier
-            for button in self.buttons {
-                button.selected = false
-            }
-            let senderButton = sender as! UIButton
-            senderButton.selected = true
-            if senderButton.tag >= TabButtons.SCENE_1 && senderButton.tag <= TabButtons.SCENE_3 {
-                let navigationVC = segue.destinationViewController as! UINavigationController
-                let destinationVC = navigationVC.viewControllers.last as! SceneViewController
-                
-                switch(senderButton.tag) {
-                case 2:
-                    destinationVC.sceneNumber = 0
-                    break
-                case 3:
-                    destinationVC.sceneNumber = 1
-                    break
-                case 4:
-                    destinationVC.sceneNumber = 2
-                    break
-                default:
-                    print("NO MATCH")
-                }
-            }
+        
+        if startVC {
+            currentVC--
         }
+        
+        let viewController = self.viewControllers[self.currentVC]
+        
+        if !startVC {
+            currentVC--
+        }
+        return viewController
     }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
+        if self.currentVC > self.viewControllers.count || self.currentVC < 0 {
+            return nil
+        }
+        
+        if startVC {
+            currentVC++
+        }
+        
+        let viewController = self.viewControllers[self.currentVC]
+        
+        if !startVC {
+            currentVC++
+        }
+        
+        return viewController
     }
-    */
-
 }

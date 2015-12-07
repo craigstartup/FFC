@@ -328,7 +328,7 @@
         <!--Scene-->
         <scene sceneID="A32-Sa-mTl">
             <objects>
-                <viewController storyboardIdentifier="scene" title="Scene" modalTransitionStyle="flipHorizontal" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Rxg-ar-8Jr" customClass="SceneViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SceneViewController" title="Scene" modalTransitionStyle="flipHorizontal" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Rxg-ar-8Jr" customClass="SceneViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="8yL-1a-8JA"/>
                         <viewControllerLayoutGuide type="bottom" id="aaJ-mr-5ah"/>
@@ -624,6 +624,16 @@
             </objects>
             <point key="canvasLocation" x="3748" y="-1407"/>
         </scene>
+        <!--Page View Controller-->
+        <scene sceneID="o2E-2O-ou7">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="spY-rU-2Bb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <pageViewController storyboardIdentifier="pageVC" autoresizesArchivedViewToFullSize="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="xlt-8d-9Po" sceneMemberID="viewController">
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                </pageViewController>
+            </objects>
+            <point key="canvasLocation" x="3023" y="-2211"/>
+        </scene>
         <!--Views-->
         <scene sceneID="uCU-OV-YKk">
             <objects>
@@ -650,9 +660,6 @@
                                         <state key="selected" title="Intro" backgroundImage="arrow_right_200x45 (2)">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
-                                        <connections>
-                                            <segue destination="R7N-v7-cG3" kind="custom" identifier="introVC" customClass="SelectionSegue" customModule="Free_Film_Camp" customModuleProvider="target" id="fj6-yY-lyt"/>
-                                        </connections>
                                     </button>
                                     <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XTz-rw-392">
                                         <rect key="frame" x="125" y="0.0" width="100" height="44"/>
@@ -667,7 +674,6 @@
                                         </state>
                                         <connections>
                                             <action selector="selectScene:" destination="FaC-O6-ufg" eventType="touchUpInside" id="hJj-ZD-L0m"/>
-                                            <segue destination="Qbw-F3-IXq" kind="custom" identifier="scene1VC" customClass="SelectionSegue" customModule="Free_Film_Camp" customModuleProvider="target" id="uPn-SG-6fg"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hAP-7c-QFO">
@@ -683,7 +689,6 @@
                                         </state>
                                         <connections>
                                             <action selector="selectScene:" destination="FaC-O6-ufg" eventType="touchUpInside" id="nmA-OH-3c0"/>
-                                            <segue destination="Qbw-F3-IXq" kind="custom" identifier="scene3VC" customClass="SelectionSegue" customModule="Free_Film_Camp" customModuleProvider="target" id="AlA-UU-cRx"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ef7-TS-I84">
@@ -699,7 +704,6 @@
                                         </state>
                                         <connections>
                                             <action selector="selectScene:" destination="FaC-O6-ufg" eventType="touchUpInside" id="NXz-kx-cY3"/>
-                                            <segue destination="Qbw-F3-IXq" kind="custom" identifier="scene2VC" customClass="SelectionSegue" customModule="Free_Film_Camp" customModuleProvider="target" id="hYd-Xl-9SL"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RWq-0a-jkN">
@@ -713,9 +717,6 @@
                                         <state key="selected" backgroundImage="arrow_right_200x45 (2)">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
-                                        <connections>
-                                            <segue destination="fje-F2-EuG" kind="custom" identifier="movieVC" customClass="SelectionSegue" customModule="Free_Film_Camp" customModuleProvider="target" id="mCV-jm-cQJ"/>
-                                        </connections>
                                     </button>
                                 </subviews>
                                 <animations/>
@@ -732,18 +733,14 @@
                         <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="NQa-Jb-N57" firstAttribute="leading" secondItem="mSE-z2-Ciy" secondAttribute="leadingMargin" constant="-20" id="9SZ-m7-rux"/>
-                            <constraint firstItem="WzA-Mv-cPQ" firstAttribute="top" secondItem="NQa-Jb-N57" secondAttribute="bottom" id="Z43-hW-JPk"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="NQa-Jb-N57" secondAttribute="trailing" constant="-20" id="KFL-GT-1h1"/>
                             <constraint firstItem="wqg-Vo-gs4" firstAttribute="top" secondItem="Qny-YC-xRj" secondAttribute="bottom" id="fEm-AA-1tP"/>
+                            <constraint firstItem="NQa-Jb-N57" firstAttribute="leading" secondItem="mSE-z2-Ciy" secondAttribute="leadingMargin" constant="-20" id="gCD-T5-yUl"/>
                             <constraint firstItem="wqg-Vo-gs4" firstAttribute="leading" secondItem="mSE-z2-Ciy" secondAttribute="leadingMargin" constant="-20" id="hH5-TT-H0d"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="NQa-Jb-N57" secondAttribute="trailing" constant="-20" id="kbc-mM-6ps"/>
+                            <constraint firstItem="NQa-Jb-N57" firstAttribute="top" secondItem="wqg-Vo-gs4" secondAttribute="bottom" constant="-1" id="isk-xp-V5x"/>
                             <constraint firstAttribute="trailingMargin" secondItem="wqg-Vo-gs4" secondAttribute="trailing" constant="-20" id="lfH-BB-ZNQ"/>
-                            <constraint firstItem="NQa-Jb-N57" firstAttribute="top" secondItem="wqg-Vo-gs4" secondAttribute="bottom" constant="-1" id="oOG-ZO-iWJ"/>
+                            <constraint firstItem="WzA-Mv-cPQ" firstAttribute="top" secondItem="NQa-Jb-N57" secondAttribute="bottom" id="lxE-c7-lwu"/>
                         </constraints>
-                        <connections>
-                            <outletCollection property="gestureRecognizers" destination="32Q-qX-lyO" appends="YES" id="url-Id-sWb"/>
-                            <outletCollection property="gestureRecognizers" destination="nmU-AY-cfr" appends="YES" id="Wy5-vj-V4p"/>
-                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="DZh-7X-CLG"/>
                     <nil key="simulatedStatusBarMetrics"/>
@@ -757,23 +754,13 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mKR-GH-JXH" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <swipeGestureRecognizer direction="left" id="32Q-qX-lyO">
-                    <connections>
-                        <action selector="swipedLeft:" destination="FaC-O6-ufg" id="waF-Zw-gNT"/>
-                    </connections>
-                </swipeGestureRecognizer>
-                <swipeGestureRecognizer direction="right" id="nmU-AY-cfr">
-                    <connections>
-                        <action selector="swipedRight:" destination="FaC-O6-ufg" id="c9b-b7-dwi"/>
-                    </connections>
-                </swipeGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="3748" y="-2173"/>
+            <point key="canvasLocation" x="3730" y="-2211"/>
         </scene>
         <!--Movie-->
         <scene sceneID="Ul7-oZ-ylA">
             <objects>
-                <viewController restorationIdentifier="movieVCRID" title="Movie" modalTransitionStyle="flipHorizontal" id="fje-F2-EuG" customClass="MovieBuilderViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MovieBuilderViewController" title="Movie" modalTransitionStyle="flipHorizontal" useStoryboardIdentifierAsRestorationIdentifier="YES" id="fje-F2-EuG" customClass="MovieBuilderViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="GsR-Xa-Yfa"/>
                         <viewControllerLayoutGuide type="bottom" id="Ueq-ek-GNU"/>
@@ -953,7 +940,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hnQ-oa-2Rr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4375" y="-1429"/>
+            <point key="canvasLocation" x="4375" y="-1407"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="T3O-Op-14a">
@@ -993,12 +980,12 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nga-Bd-G1Z" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4542" y="-2193"/>
+            <point key="canvasLocation" x="3742" y="-2197"/>
         </scene>
         <!--Intro-->
         <scene sceneID="Ku2-kw-3lO">
             <objects>
-                <viewController storyboardIdentifier="intro" title="Intro" modalTransitionStyle="flipHorizontal" useStoryboardIdentifierAsRestorationIdentifier="YES" id="nf2-gJ-Z4I" customClass="IntroViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="IntroViewController" title="Intro" modalTransitionStyle="flipHorizontal" useStoryboardIdentifierAsRestorationIdentifier="YES" id="nf2-gJ-Z4I" customClass="IntroViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="9eI-c6-zQW"/>
                         <viewControllerLayoutGuide type="bottom" id="jjP-cF-WOg"/>
@@ -1252,7 +1239,6 @@
         <image name="plus_white_69" width="60" height="60"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="hYd-Xl-9SL"/>
         <segue reference="182-e7-4UI"/>
     </inferredMetricsTieBreakers>
 </document>
