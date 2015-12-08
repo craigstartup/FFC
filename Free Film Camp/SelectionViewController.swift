@@ -23,14 +23,15 @@ class SelectionViewController: UIViewController, UIPageViewControllerDataSource,
     
     var lastSegue: String!
     
-    let defaultImage              = UIImage(named: "plus_white_69")
-    let defaultVideoURL           = NSURL(string: "placeholder")
-    let defaultVoiceOverFile      = "placeholder"
-    
-    var viewControllers = [UIViewController]()
-    let viewControllerIds = ["IntroViewController","SceneViewController","MovieBuilderViewController"]
+    let defaultImage         = UIImage(named: "plus_white_69")
+    let defaultVideoURL      = NSURL(string: "placeholder")
+    let defaultVoiceOverFile = "placeholder"
+
+    var viewControllers      = [UIViewController]()
+    let viewControllerIds    = ["IntroViewController","SceneViewController","MovieBuilderViewController"]
     
     var currentVC = 0
+    var currentButton = 0
     var swiped = false
     
     override func viewDidLoad() {
@@ -43,7 +44,7 @@ class SelectionViewController: UIViewController, UIPageViewControllerDataSource,
                 MediaController.sharedMediaController.scenes.append(scene!)
             }
         }
-
+    
         self.setupPageViewController()
         self.navigationController?.navigationBarHidden = true
     }
@@ -54,9 +55,10 @@ class SelectionViewController: UIViewController, UIPageViewControllerDataSource,
         
         self.pageViewController = pageViewController
         self.pageViewController.dataSource = self
+        self.pageViewController.delegate = self
         self.getViewControllers()
         self.pageViewController.setViewControllers([self.viewControllers[self.currentVC]], direction: .Forward, animated: false, completion: nil)
-        
+        self.buttons[self.currentButton].selected = true
         self.pageViewController.view.frame = self.viewsView.bounds
         self.viewsView.addSubview(self.pageViewController.view)
         self.addChildViewController(self.pageViewController)
@@ -123,6 +125,8 @@ class SelectionViewController: UIViewController, UIPageViewControllerDataSource,
 
     
     func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
+        
+
         if viewController.isKindOfClass(IntroViewController) {
             let vc = viewController as! IntroViewController
             self.currentVC = vc.index + 1
@@ -141,4 +145,24 @@ class SelectionViewController: UIViewController, UIPageViewControllerDataSource,
         return self.viewControllers[self.currentVC]
     }
     
+    
+    func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        if self.currentButton >= 0 && self.currentButton < buttons.count {
+            self.buttons[self.currentButton].selected = false
+        }
+        
+        let currentViewController = self.pageViewController.viewControllers?.last
+        if currentViewController!.isKindOfClass(IntroViewController) {
+            let vc = currentViewController as! IntroViewController
+            self.currentButton = vc.index
+        } else if currentViewController!.isKindOfClass(SceneViewController) {
+            let vc = currentViewController as! SceneViewController
+            self.currentButton = vc.index
+        } else if currentViewController!.isKindOfClass(MovieBuilderViewController) {
+            let vc = currentViewController as! MovieBuilderViewController
+            self.currentButton = vc.index
+        }
+        self.buttons[self.currentButton].selected = true
+        print("End transition \(self.currentButton)")
+    }
 }

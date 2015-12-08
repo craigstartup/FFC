@@ -397,7 +397,7 @@ class MediaController {
         let filename = "/\(self.project!)/\(audioSaveID).caf"
         let pathArray = [dirPath, filename]
         let url = NSURL.fileURLWithPathComponents(pathArray)!
-        print(url.path!)
+        // print(url.path!)
         return url
     }
     
@@ -407,7 +407,7 @@ class MediaController {
         let filename = "/\(self.project!)/intro.mov"
         let pathArray = [dirPath, filename]
         let url = NSURL.fileURLWithPathComponents(pathArray)!
-        print("Intro shot save path: \(url.path!)")
+        // print("Intro shot save path: \(url.path!)")
         return url
     }
     
@@ -417,7 +417,7 @@ class MediaController {
         let directoryPath = documentsPath + "/\(self.project!)"
         let pathArray = [directoryPath, fileName]
         let url = NSURL.fileURLWithPathComponents(pathArray)!
-        print("Path for file: \(url.path!)")
+        // print("Path for file: \(url.path!)")
         return url
     }
     

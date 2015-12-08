@@ -67,10 +67,10 @@ class SceneViewController: UIViewController {
         let filePath = MediaController.sharedMediaController.getPathForFileInDocumentsDirectory(self.scene.voiceOver)
         
         if NSFileManager.defaultManager().fileExistsAtPath(filePath.path!) {
-            print("VOFILE!!!!!!!!!!!!!!!!\(filePath)")
+            // print("VOFILE!!!!!!!!!!!!!!!!\(filePath)")
             MediaController.sharedMediaController.saveScenes()
         } else {
-            print("FUCKVO!!!!!!!!!!!\(MediaController.sharedMediaController.scenes[sceneNumber].voiceOver)")
+            // print("FUCKVO!!!!!!!!!!!\(MediaController.sharedMediaController.scenes[sceneNumber].voiceOver)")
             self.scene.voiceOver = self.defaultVoiceOverFile
             MediaController.sharedMediaController.saveScenes()
         }

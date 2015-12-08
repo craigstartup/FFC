@@ -12,7 +12,7 @@
         <!--Video View-->
         <scene sceneID="R3q-qt-yrF">
             <objects>
-                <collectionViewController restorationIdentifier="videosVCRID" storyboardIdentifier="videoVC" title="Video View" id="4to-zB-zdm" customClass="VideosViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController storyboardIdentifier="videoVC" title="Video View" useStoryboardIdentifierAsRestorationIdentifier="YES" id="4to-zB-zdm" customClass="VideosViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="Vjp-tg-RBq">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -113,7 +113,7 @@
         <!--Voice Over-->
         <scene sceneID="Q77-QL-bxb">
             <objects>
-                <viewController restorationIdentifier="voiceOverVCRID" storyboardIdentifier="voiceOverVC" title="Voice Over" id="t2l-7N-cdU" customClass="VoiceOverViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="voiceOverVC" title="Voice Over" useStoryboardIdentifierAsRestorationIdentifier="YES" id="t2l-7N-cdU" customClass="VoiceOverViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jb1-rH-8Ql"/>
                         <viewControllerLayoutGuide type="bottom" id="I6K-8R-b3A"/>
@@ -213,7 +213,7 @@
         <!--Camera-->
         <scene sceneID="pL7-Jn-MB5">
             <objects>
-                <viewController restorationIdentifier="cameraVCRID" title="Camera" id="KtM-ME-n2y" customClass="CameraViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="cameraVC" title="Camera" useStoryboardIdentifierAsRestorationIdentifier="YES" id="KtM-ME-n2y" customClass="CameraViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="BG8-UZ-oCb"/>
                         <viewControllerLayoutGuide type="bottom" id="D3s-mU-XgP"/>
@@ -627,17 +627,17 @@
         <!--Page View Controller-->
         <scene sceneID="o2E-2O-ou7">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="spY-rU-2Bb" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <pageViewController storyboardIdentifier="pageVC" autoresizesArchivedViewToFullSize="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="xlt-8d-9Po" sceneMemberID="viewController">
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                 </pageViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="spY-rU-2Bb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3023" y="-2211"/>
         </scene>
         <!--Views-->
         <scene sceneID="uCU-OV-YKk">
             <objects>
-                <viewController restorationIdentifier="selectionVCRID" title="Views" id="FaC-O6-ufg" customClass="SelectionViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="selectionView" title="Views" useStoryboardIdentifierAsRestorationIdentifier="YES" id="FaC-O6-ufg" customClass="SelectionViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Qny-YC-xRj"/>
                         <viewControllerLayoutGuide type="bottom" id="WzA-Mv-cPQ"/>
@@ -1134,7 +1134,7 @@
         <!--Projects-->
         <scene sceneID="148-iL-JcC">
             <objects>
-                <tableViewController title="Profiles" id="NSC-8O-mHG" userLabel="Projects" customClass="ProjectsViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="projectsVC" title="Profiles" useStoryboardIdentifierAsRestorationIdentifier="YES" id="NSC-8O-mHG" userLabel="Projects" customClass="ProjectsViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="63" sectionHeaderHeight="28" sectionFooterHeight="28" id="Cxy-JE-YPX">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1239,6 +1239,6 @@
         <image name="plus_white_69" width="60" height="60"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="182-e7-4UI"/>
+        <segue reference="nYQ-Mx-U5W"/>
     </inferredMetricsTieBreakers>
 </document>
