@@ -22,7 +22,8 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
     var vpVC = AVPlayerViewController()
     var videoPlayer: AVPlayer!
     let musicFileNames = ["Believe in your dreams", "Sounds like fun", "Youve got mail"]
-
+    var index: Int!
+    
     // MARK: View lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()

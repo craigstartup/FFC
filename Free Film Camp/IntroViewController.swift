@@ -16,6 +16,7 @@ class IntroViewController: UIViewController {
     @IBOutlet weak var destroyIntroButton: UIButton!
     
     var intro: Intro!
+    var index: Int!
     
     // MARK: View lifecycle methods
     override func viewDidLoad() {

@@ -36,6 +36,7 @@ class SceneViewController: UIViewController {
     var selectingShotSegueID      = "sceneSelectingShotSegue"
     var selectingVoiceOverSegueID = "sceneSelectingVoiceOverSegue"
     var sceneNumber:        Int!
+    var index: Int!
     var assetRequestNumber: Int!
     var scene: Scene!
 

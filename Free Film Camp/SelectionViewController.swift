@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SelectionViewController: UIViewController, UIPageViewControllerDataSource {
+class SelectionViewController: UIViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     enum TabButtons {
         static let INTRO   = 1
         static let SCENE_1 = 2
@@ -29,8 +29,9 @@ class SelectionViewController: UIViewController, UIPageViewControllerDataSource 
     
     var viewControllers = [UIViewController]()
     let viewControllerIds = ["IntroViewController","SceneViewController","MovieBuilderViewController"]
-    var currentVC = 1
-    var startVC = true
+    
+    var currentVC = 0
+    var swiped = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,14 +51,11 @@ class SelectionViewController: UIViewController, UIPageViewControllerDataSource 
     
     func setupPageViewController() {
         guard let pageViewController = self.storyboard?.instantiateViewControllerWithIdentifier("pageVC") as? UIPageViewController else {return}
-        guard let initialViewController = self.storyboard?.instantiateViewControllerWithIdentifier("SceneViewController") as? SceneViewController else {return}
-        initialViewController.sceneNumber = 0
-        
-        self.getViewControllers()
         
         self.pageViewController = pageViewController
         self.pageViewController.dataSource = self
-        self.pageViewController.setViewControllers([initialViewController], direction: .Forward, animated: false, completion: nil)
+        self.getViewControllers()
+        self.pageViewController.setViewControllers([self.viewControllers[self.currentVC]], direction: .Forward, animated: false, completion: nil)
         
         self.pageViewController.view.frame = self.viewsView.bounds
         self.viewsView.addSubview(self.pageViewController.view)
@@ -67,23 +65,31 @@ class SelectionViewController: UIViewController, UIPageViewControllerDataSource 
     
     
     func getViewControllers() {
+        var index = 0
         for viewId in self.viewControllerIds {
             if viewId == "SceneViewController" {
                 for var i = 0; i < MediaController.sharedMediaController.scenes.count; i++ {
                     let sceneViewController = self.storyboard?.instantiateViewControllerWithIdentifier(viewId) as? SceneViewController
-                    sceneViewController?.sceneNumber = i
+                    sceneViewController!.sceneNumber = i
+                    sceneViewController!.index = index
                     self.viewControllers.append(sceneViewController!)
+                    index++
                 }
             } else {
                 var viewController: UIViewController!
                 
                 if viewId == "IntroViewController" {
-                    viewController = self.storyboard?.instantiateViewControllerWithIdentifier(viewId) as? IntroViewController
+                    let introViewController = self.storyboard?.instantiateViewControllerWithIdentifier(viewId) as? IntroViewController
+                    introViewController!.index = index
+                    viewController = introViewController
                 } else {
-                    viewController = self.storyboard?.instantiateViewControllerWithIdentifier(viewId) as? MovieBuilderViewController
+                    let movieViewController = self.storyboard?.instantiateViewControllerWithIdentifier(viewId) as? MovieBuilderViewController
+                    movieViewController!.index = index
+                    viewController = movieViewController
                 }
                 
                 self.viewControllers.append(viewController!)
+                index++
             }
         }
     }
@@ -96,48 +102,43 @@ class SelectionViewController: UIViewController, UIPageViewControllerDataSource 
     
     
     //MARK: Page view controller delegate methods
-    func viewControllerAtIndex(index: Int) -> UIViewController? {
-        if self.viewControllers.count == 0 || index >= self.viewControllers.count {
+    func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
+        if viewController.isKindOfClass(IntroViewController) {
+            let vc = viewController as! IntroViewController
+            self.currentVC = vc.index - 1
+        } else if viewController.isKindOfClass(SceneViewController) {
+            let vc = viewController as! SceneViewController
+            self.currentVC = vc.index - 1
+        } else if viewController.isKindOfClass(MovieBuilderViewController) {
+            let vc = viewController as! MovieBuilderViewController
+            self.currentVC = vc.index - 1
+        }
+        
+        if self.currentVC < 0 {
             return nil
         }
         
-        return self.viewControllers[index]
-    }
-    
-    
-    func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
-        if self.currentVC > self.viewControllers.count || self.currentVC < 0 {
-        return nil
-        }
-        
-        if startVC {
-            currentVC--
-        }
-        
-        let viewController = self.viewControllers[self.currentVC]
-        
-        if !startVC {
-            currentVC--
-        }
-        return viewController
+        return self.viewControllers[self.currentVC]
     }
 
     
     func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
-        if self.currentVC > self.viewControllers.count || self.currentVC < 0 {
+        if viewController.isKindOfClass(IntroViewController) {
+            let vc = viewController as! IntroViewController
+            self.currentVC = vc.index + 1
+        } else if viewController.isKindOfClass(SceneViewController) {
+            let vc = viewController as! SceneViewController
+            self.currentVC = vc.index + 1
+        } else if viewController.isKindOfClass(MovieBuilderViewController) {
+            let vc = viewController as! MovieBuilderViewController
+            self.currentVC = vc.index + 1
+        }
+        
+        if self.currentVC == self.viewControllers.count {
             return nil
         }
         
-        if startVC {
-            currentVC++
-        }
-        
-        let viewController = self.viewControllers[self.currentVC]
-        
-        if !startVC {
-            currentVC++
-        }
-        
-        return viewController
+        return self.viewControllers[self.currentVC]
     }
+    
 }
