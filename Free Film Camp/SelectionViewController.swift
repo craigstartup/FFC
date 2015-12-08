@@ -181,12 +181,12 @@ class SelectionViewController: UIViewController, UIPageViewControllerDataSource,
     }
     
     
-    func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+    func pageViewController(pageViewController: UIPageViewController, willTransitionToViewControllers pendingViewControllers: [UIViewController]) {
         if self.currentButton >= 0 && self.currentButton < buttons.count {
             self.buttons[self.currentButton].selected = false
         }
         
-        let currentViewController = self.pageViewController.viewControllers?.last
+        let currentViewController = pendingViewControllers.last
         if currentViewController!.isKindOfClass(IntroViewController) {
             let vc = currentViewController as! IntroViewController
             self.currentButton = vc.index
@@ -199,5 +199,10 @@ class SelectionViewController: UIViewController, UIPageViewControllerDataSource,
         }
         self.buttons[self.currentButton].selected = true
         print("End transition \(self.currentButton)")
+    }
+    
+    
+    func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        print("finished")
     }
 }
