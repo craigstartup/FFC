@@ -99,7 +99,11 @@ class SelectionViewController: UIViewController, UIPageViewControllerDataSource,
     
     // MARK: Tab bar navigation button actions
     @IBAction func selectScene(sender: UIButton) {
-        
+        print("button \(sender.tag)")
+        self.buttons[self.currentButton].selected = false
+        self.currentButton = sender.tag - 1
+        self.pageViewController.setViewControllers([self.viewControllers[self.currentButton]], direction: .Forward, animated: true, completion: nil)
+        self.buttons[self.currentButton].selected = true
     }
     
     

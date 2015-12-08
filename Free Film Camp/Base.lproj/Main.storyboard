@@ -660,6 +660,9 @@
                                         <state key="selected" title="Intro" backgroundImage="arrow_right_200x45 (2)">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="selectScene:" destination="FaC-O6-ufg" eventType="touchUpInside" id="yC9-OV-msd"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XTz-rw-392">
                                         <rect key="frame" x="125" y="0.0" width="100" height="44"/>
@@ -673,7 +676,7 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="selectScene:" destination="FaC-O6-ufg" eventType="touchUpInside" id="hJj-ZD-L0m"/>
+                                            <action selector="selectScene:" destination="FaC-O6-ufg" eventType="touchUpInside" id="DON-o6-tUy"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hAP-7c-QFO">
@@ -688,7 +691,7 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="selectScene:" destination="FaC-O6-ufg" eventType="touchUpInside" id="nmA-OH-3c0"/>
+                                            <action selector="selectScene:" destination="FaC-O6-ufg" eventType="touchUpInside" id="WeZ-7E-kWM"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ef7-TS-I84">
@@ -703,7 +706,7 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="selectScene:" destination="FaC-O6-ufg" eventType="touchUpInside" id="NXz-kx-cY3"/>
+                                            <action selector="selectScene:" destination="FaC-O6-ufg" eventType="touchUpInside" id="duD-yf-cRI"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RWq-0a-jkN">
@@ -717,6 +720,9 @@
                                         <state key="selected" backgroundImage="arrow_right_200x45 (2)">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="selectScene:" destination="FaC-O6-ufg" eventType="touchUpInside" id="biv-lD-dOf"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <animations/>
