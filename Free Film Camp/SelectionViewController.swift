@@ -33,6 +33,7 @@ class SelectionViewController: UIViewController, UIPageViewControllerDataSource,
     var currentVC = 0
     var currentButton = 0
     var swiped = false
+    let transitionQueue = dispatch_queue_create("com.trans.Queue", nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,10 +100,37 @@ class SelectionViewController: UIViewController, UIPageViewControllerDataSource,
     
     // MARK: Tab bar navigation button actions
     @IBAction func selectScene(sender: UIButton) {
-        print("button \(sender.tag)")
         self.buttons[self.currentButton].selected = false
+        
+        var range: Int!
+        var forward: Bool
+        var cursor = self.currentButton
+        
+        if sender.tag < self.currentButton + 1 {
+            range = (currentButton + 1) - sender.tag
+            forward = false
+        } else {
+            range = sender.tag - (currentButton + 1)
+            forward = true
+        }
+        
+        for var i = 0; i < range; i++ {
+            dispatch_async(transitionQueue, {
+                if forward {
+                    cursor++
+                    self.pageViewController.setViewControllers([self.viewControllers[cursor]], direction: .Forward, animated: true, completion: nil)
+                } else {
+                    cursor--
+                    self.pageViewController.setViewControllers([self.viewControllers[cursor]], direction: .Reverse, animated: true, completion: nil)
+                }
+            });
+            
+            dispatch_async(transitionQueue, {
+                NSThread.sleepForTimeInterval(0.3)
+            });
+        }
+        
         self.currentButton = sender.tag - 1
-        self.pageViewController.setViewControllers([self.viewControllers[self.currentButton]], direction: .Forward, animated: true, completion: nil)
         self.buttons[self.currentButton].selected = true
     }
     
