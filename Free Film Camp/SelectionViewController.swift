@@ -116,13 +116,16 @@ class SelectionViewController: UIViewController, UIPageViewControllerDataSource,
         
         for var i = 0; i < range; i++ {
             dispatch_async(transitionQueue, {
-                if forward {
-                    cursor++
-                    self.pageViewController.setViewControllers([self.viewControllers[cursor]], direction: .Forward, animated: true, completion: nil)
-                } else {
-                    cursor--
-                    self.pageViewController.setViewControllers([self.viewControllers[cursor]], direction: .Reverse, animated: true, completion: nil)
-                }
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    if forward {
+                        cursor++
+                        self.pageViewController.setViewControllers([self.viewControllers[cursor]], direction: .Forward, animated: true, completion: nil)
+                    } else {
+                        cursor--
+                        self.pageViewController.setViewControllers([self.viewControllers[cursor]], direction: .Reverse, animated: true, completion: nil)
+                    }
+
+                })
             });
             
             dispatch_async(transitionQueue, {
