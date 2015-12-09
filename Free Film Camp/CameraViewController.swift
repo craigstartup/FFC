@@ -63,6 +63,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                 self.camera = device as! AVCaptureDevice
             }
         }
+
         
         do {
             try self.camera.lockForConfiguration()
@@ -81,6 +82,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         self.navigationController?.navigationBarHidden = true
         // session setup
         videoCapture.sessionPreset = AVCaptureSessionPreset1280x720
+        
         // queue setup
         sessionQueue = dispatch_queue_create("session queue", DISPATCH_QUEUE_SERIAL)
         
@@ -96,7 +98,6 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         var audioInput: AVCaptureDeviceInput!
         
         if self.segueToPerform != nil && self.segueToPerform == "introUnwind" {
-            
             do {
                 audioInput = try AVCaptureDeviceInput(device: microphone)
                 videoCapture.addInput(audioInput)
@@ -122,16 +123,24 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         
     }
     
+    
     override func viewWillAppear(animated: Bool) {
         MediaController.sharedMediaController.albumTitle = MediaController.Albums.shots
+        let videoCaptureOutput = self.videoForFileOutput.connectionWithMediaType(AVMediaTypeVideo)
+        
+        if videoCaptureOutput.supportsVideoStabilization {
+            videoCaptureOutput.preferredVideoStabilizationMode = .Auto
+        }
         videoCapture.startRunning()
     }
+    
     
     override func viewDidDisappear(animated: Bool) {
         self.pickingShot = false
         videoCapture.stopRunning()
         self.progress = nil 
     }
+    
     
     func updateProgress() {
         self.progressBar.progress += 0.01
@@ -167,12 +176,8 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                 // set orientation to match preview layer.
                 let videoCaptureOutputConnection = self.videoForFileOutput.connectionWithMediaType(AVMediaTypeVideo)
                 
-                //TODO: Fix preview problem.
-                if videoCaptureOutputConnection.supportsVideoStabilization {
-                videoCaptureOutputConnection.preferredVideoStabilizationMode = .Auto
-                }
-                
                 videoCaptureOutputConnection.videoOrientation = AVCaptureVideoOrientation.LandscapeRight
+                
                 var url: NSURL!
                 
                 // record to path.

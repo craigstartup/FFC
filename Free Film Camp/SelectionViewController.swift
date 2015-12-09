@@ -200,9 +200,4 @@ class SelectionViewController: UIViewController, UIPageViewControllerDataSource,
         self.buttons[self.currentButton].selected = true
         print("End transition \(self.currentButton)")
     }
-    
-    
-    func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-        print("finished")
-    }
 }
