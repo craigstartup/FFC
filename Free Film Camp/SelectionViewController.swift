@@ -47,10 +47,17 @@ class SelectionViewController: UIViewController, UIPageViewControllerDataSource,
         }
     
         self.setupPageViewController()
+        
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: "dropboxComplete:",
+            name: MediaController.Notifications.dropBoxUpFinish,
+            object: nil)
+
         self.navigationController?.navigationBarHidden = true
     }
     
-    
+    // MARK: Pageview setup methods
     func setupPageViewController() {
         guard let pageViewController = self.storyboard?.instantiateViewControllerWithIdentifier("pageVC") as? UIPageViewController else {return}
         
@@ -199,5 +206,22 @@ class SelectionViewController: UIViewController, UIPageViewControllerDataSource,
         }
         self.buttons[self.currentButton].selected = true
         print("End transition \(self.currentButton)")
+    }
+    
+    // MARK: Dropbox notification methods
+    func dropboxComplete(notification: NSNotification) {
+        let dropboxAlert = UIAlertController(
+            title: "Dropbox Upload Complete",
+            message: "Video uploaded to app Dropbox folder",
+            preferredStyle: .Alert)
+        let okAction = UIAlertAction(
+            title: "OK",
+            style: .Default,
+            handler: { (action) -> Void in
+                NSNotificationCenter.defaultCenter().removeObserver(self, name: MediaController.Notifications.dropBoxUpFinish, object: nil)
+        })
+        
+        dropboxAlert.addAction(okAction)
+        self.presentViewController(dropboxAlert, animated: true, completion: nil)
     }
 }

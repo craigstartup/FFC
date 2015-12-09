@@ -16,10 +16,11 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
     // MARK: Properties
     @IBOutlet weak var savingProgress: UIActivityIndicatorView!
     @IBOutlet weak var tableView: UITableView!
+    
     var audioPlayer: AVAudioPlayer!
     var audioFileURL: NSURL!
     var currentCell: NSIndexPath!
-    var vpVC = AVPlayerViewController()
+    var vpVC           = AVPlayerViewController()
     var videoPlayer: AVPlayer!
     let musicFileNames = ["Believe in your dreams", "Sounds like fun", "Youve got mail"]
     var index: Int!
@@ -27,10 +28,10 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
     // MARK: View lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.delegate = self
-        tableView.dataSource = self
-        
-        guard let loadedIntro = MediaController.sharedMediaController.loadIntro()
+        tableView.delegate                          = self
+        tableView.dataSource                        = self
+
+        guard let loadedIntro                       = MediaController.sharedMediaController.loadIntro()
             else {
                 print("No intro!")
                 return
@@ -41,7 +42,7 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
     
     override func viewWillAppear(animated: Bool) {
         MediaController.sharedMediaController.albumTitle = MediaController.Albums.movies
-        self.navigationController?.navigationBarHidden = true
+        self.navigationController?.navigationBarHidden   = true
     }
     
     
@@ -51,17 +52,34 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
     
     
     @IBAction func makeMovie(sender: AnyObject) {
-        self.vpVC.player = nil
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveCompleted:", name: MediaController.Notifications.saveMovieFinished, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveFailed:", name: MediaController.Notifications.saveMovieFailed, object: nil)
-   
+        self.vpVC.player          = nil
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: "saveCompleted:",
+            name: MediaController.Notifications.saveMovieFinished,
+            object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: "saveFailed:",
+            name: MediaController.Notifications.saveMovieFailed,
+            object: nil)
+
         self.savingProgress.alpha = 1
         self.savingProgress.startAnimating()
-        self.view.alpha = 0.6
+        self.view.alpha           = 0.6
+
         if MediaController.sharedMediaController.intro == nil {
-            MediaController.sharedMediaController.prepareMedia(false, media: MediaController.sharedMediaController.scenes, movie: true, save: true)
+            MediaController.sharedMediaController.prepareMedia(
+                intro: false,
+                media: MediaController.sharedMediaController.scenes,
+                movie: true,
+                save: true)
         } else {
-            MediaController.sharedMediaController.prepareMedia(true, media: MediaController.sharedMediaController.scenes, movie: true, save: true)
+            MediaController.sharedMediaController.prepareMedia(
+                intro: true,
+                media: MediaController.sharedMediaController.scenes,
+                movie: true,
+                save: true)
         }
     }
     
@@ -69,12 +87,31 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
     func saveCompleted(notification: NSNotification) {
         self.savingProgress.stopAnimating()
         self.savingProgress.alpha = 0
-        self.view.alpha = 1
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: MediaController.Notifications.saveMovieFinished, object: nil)
-        let alertSuccess = UIAlertController(title: "Success", message: "Movie saved to Photos!", preferredStyle: .Alert)
-        let okAction = UIAlertAction(title: "Thanks!", style: .Default) { (action) -> Void in
+        self.view.alpha           = 1
+
+        NSNotificationCenter.defaultCenter().removeObserver(
+            self,
+            name: MediaController.Notifications.saveMovieFinished,
+            object: nil)
+        
+        var message: String
+        
+        if MediaController.sharedMediaController.dropboxIsLoading == false {
+            message = "Movie saved to Photos!"
+        } else {
+            message = "Movie saved to Photos! Video is being uploaded to Dropbox. Please do not close the app until you are notified that it is complete"
+        }
+
+        let alertSuccess = UIAlertController(
+            title: "Success",
+            message: message,
+            preferredStyle: .Alert)
+        let okAction = UIAlertAction(
+            title: "Thanks!",
+            style: .Default) { (action) -> Void in
             self.dismissViewControllerAnimated(true, completion: nil)
         }
+
         alertSuccess.addAction(okAction)
         self.presentViewController(alertSuccess, animated: true, completion: nil)
     }
@@ -84,19 +121,35 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
         self.savingProgress.stopAnimating()
         self.savingProgress.alpha = 0
         self.view.alpha = 1
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: MediaController.Notifications.saveMovieFailed, object: nil)
-        let alertFailure = UIAlertController(title: "Failure", message: "Movie failed to save. Re-select media and try again", preferredStyle: .Alert)
-        let okAction = UIAlertAction(title: "Thanks!", style: .Default) { (action) -> Void in
+        
+        NSNotificationCenter.defaultCenter().removeObserver(
+            self,
+            name: MediaController.Notifications.saveMovieFailed,
+            object: nil)
+        
+        let alertFailure = UIAlertController(
+            title: "Failure",
+            message: "Movie failed to save. Re-select media and try again", preferredStyle: .Alert)
+        let okAction = UIAlertAction(
+            title: "Thanks!",
+            style: .Default) { (action) -> Void in
             self.dismissViewControllerAnimated(true, completion: nil)
         }
+        
         alertFailure.addAction(okAction)
         self.presentViewController(alertFailure, animated: true, completion: nil)
+        MediaController.sharedMediaController.dropboxIsLoading = false
     }
     
     // MARK: Preview methods
     @IBAction func preview(sender: AnyObject) {
         self.vpVC.player = nil
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "firePreview:", name: MediaController.Notifications.previewReady, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: "firePreview:",
+            name: MediaController.Notifications.previewReady,
+            object: nil)
+        
         if self.audioPlayer != nil {
             self.audioPlayer.stop()
         }
@@ -105,9 +158,17 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
         self.savingProgress.startAnimating()
         self.view.alpha = 0.6
         if MediaController.sharedMediaController.intro == nil {
-            MediaController.sharedMediaController.prepareMedia(false, media: MediaController.sharedMediaController.scenes, movie: true, save: false)
+            MediaController.sharedMediaController.prepareMedia(
+                intro: false,
+                media: MediaController.sharedMediaController.scenes,
+                movie: true,
+                save: false)
         } else {
-            MediaController.sharedMediaController.prepareMedia(true, media: MediaController.sharedMediaController.scenes, movie: true, save: false)
+            MediaController.sharedMediaController.prepareMedia(
+                intro: true,
+                media: MediaController.sharedMediaController.scenes,
+                movie: true,
+                save: false)
         }
     }
     
@@ -124,7 +185,11 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
                 self.view.window?.rootViewController?.presentViewController(self.vpVC, animated: true, completion: nil)
             })
         }
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: MediaController.Notifications.previewReady, object: nil)
+        
+        NSNotificationCenter.defaultCenter().removeObserver(
+            self,
+            name: MediaController.Notifications.previewReady,
+            object: nil)
     }
     
     // MARK: Tableview methods
@@ -138,6 +203,7 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
         cell.playMusicTrackButton.alpha = 0
         cell.playMusicTrackButton.enabled = false
         cell.trackCheck.alpha = 0
+        
         if indexPath.row < musicFileNames.count {
             cell.cellTitle.text = self.musicFileNames[indexPath.row]
             cell.playMusicTrackButton.tag = indexPath.row
@@ -155,6 +221,7 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
         let cell = tableView.cellForRowAtIndexPath(indexPath) as! MusicCell
         cell.playMusicTrackButton.setTitle("Play", forState: UIControlState.Selected)
         self.currentCell = indexPath
+        
         if indexPath.row < musicFileNames.count {
             cell.playMusicTrackButton.alpha = 1
             cell.playMusicTrackButton.enabled = true
@@ -170,6 +237,7 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
     
     func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
         print("deselected")
+        
         guard let cell = tableView.cellForRowAtIndexPath(indexPath) as! MusicCell? else {
             if audioPlayer != nil {
                 self.audioPlayer.stop()
@@ -177,7 +245,9 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
             }
             return print("no cell")
         }
+        
         cell.playMusicTrackButton.setTitle("Play", forState: UIControlState.Selected)
+        
         if indexPath.row < musicFileNames.count {
             cell.playMusicTrackButton.alpha = 0
             cell.playMusicTrackButton.enabled = false

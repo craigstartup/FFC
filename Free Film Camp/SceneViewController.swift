@@ -10,6 +10,7 @@ import UIKit
 import Photos
 import AVFoundation
 import AVKit
+import SwiftyDropbox
 
 class SceneViewController: UIViewController {
     // MARK: Properties
@@ -50,7 +51,11 @@ class SceneViewController: UIViewController {
     // MARK: View Life Cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        if Dropbox.authorizedClient != nil {
+            MediaController.sharedMediaController.dropboxIsLoading = true
+        } else {
+            MediaController.sharedMediaController.dropboxIsLoading = false
+        }
     }
     
     
@@ -67,14 +72,11 @@ class SceneViewController: UIViewController {
         let filePath = MediaController.sharedMediaController.getPathForFileInDocumentsDirectory(self.scene.voiceOver)
         
         if NSFileManager.defaultManager().fileExistsAtPath(filePath.path!) {
-            // print("VOFILE!!!!!!!!!!!!!!!!\(filePath)")
             MediaController.sharedMediaController.saveScenes()
         } else {
-            // print("FUCKVO!!!!!!!!!!!\(MediaController.sharedMediaController.scenes[sceneNumber].voiceOver)")
             self.scene.voiceOver = self.defaultVoiceOverFile
             MediaController.sharedMediaController.saveScenes()
         }
-        
         
         self.sceneButtons = [self.sceneAddMediaButtons, self.sceneRemoveMediaButtons]
         
@@ -153,21 +155,29 @@ class SceneViewController: UIViewController {
             self.sceneButtons[ADD_BUTTONS]![VOICEOVER].setImage(self.defaultImage, forState: UIControlState.Normal)
             self.sceneButtons[ADD_BUTTONS]![VOICEOVER].enabled = true
             let voiceOverToRemove = MediaController.sharedMediaController.getPathForFileInDocumentsDirectory(self.scene.voiceOver).path!
+            
             do {
                 try NSFileManager.defaultManager().removeItemAtPath(voiceOverToRemove)
             } catch let error as NSError {
                 print(error.localizedDescription)
             }
             self.scene.voiceOver = self.defaultVoiceOverFile
-                    }
+        }
+        
         self.sceneButtons[DESTROY_BUTTONS]![sender.tag - 1].alpha = 0
         self.sceneButtons[DESTROY_BUTTONS]![sender.tag - 1].enabled = false
+        
         MediaController.sharedMediaController.saveScenes()
     }
     
     
     @IBAction func previewSelection(sender: AnyObject) {
-        MediaController.sharedMediaController.prepareMedia(false, media: [self.scene], movie: false, save: false)
+        MediaController.sharedMediaController.prepareMedia(
+            intro: false,
+            media: [self.scene],
+            movie: false,
+            save: false)
+        
         if let preview = MediaController.sharedMediaController.preview {
             self.videoPlayer = AVPlayer(playerItem: preview)
             self.vpVC.player = videoPlayer
@@ -178,12 +188,26 @@ class SceneViewController: UIViewController {
     
     
     @IBAction func saveScene(sender: AnyObject) {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveCompleted:", name: MediaController.Notifications.saveSceneFinished, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveFailed:", name: MediaController.Notifications.saveSceneFailed, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: "saveCompleted:",
+            name: MediaController.Notifications.saveSceneFinished,
+            object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: "saveFailed:",
+            name: MediaController.Notifications.saveSceneFailed,
+            object: nil)
+
         self.savingProgress.alpha = 1
         self.savingProgress.startAnimating()
         self.view.alpha = 0.6
-        MediaController.sharedMediaController.prepareMedia(false, media: [self.scene], movie: false, save: true)
+
+        MediaController.sharedMediaController.prepareMedia(
+            intro: false,
+            media: [self.scene],
+            movie: false,
+            save: true)
     }
     
     // MARK: Save notifications
@@ -191,14 +215,31 @@ class SceneViewController: UIViewController {
         self.savingProgress.stopAnimating()
         self.savingProgress.alpha = 0
         self.view.alpha = 1
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: MediaController.Notifications.saveSceneFailed, object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: MediaController.Notifications.saveSceneFinished, object: nil)
-        let alertSuccess = UIAlertController(title: "Success", message: "Scene saved to Photos!", preferredStyle: .Alert)
+        
+        NSNotificationCenter.defaultCenter().removeObserver(
+            self,
+            name: MediaController.Notifications.saveSceneFailed,
+            object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(
+            self,
+            name: MediaController.Notifications.saveSceneFinished,
+            object: nil)
+        
+        var message: String
+        
+        if MediaController.sharedMediaController.dropboxIsLoading == false {
+            message = "Scene saved to Photos!"
+        } else {
+            message = "Scene saved to Photos! Video is being uploaded to Dropbox. Please do not close the app until you are notified that it is complete"
+        }
+        
+        let alertSuccess = UIAlertController(title: "Success", message: message, preferredStyle: .Alert)
         let okAction = UIAlertAction(title: "Thanks!", style: .Default) { (action) -> Void in
             self.dismissViewControllerAnimated(true, completion: nil)
         }
         alertSuccess.addAction(okAction)
         self.presentViewController(alertSuccess, animated: true, completion: nil)
+        MediaController.sharedMediaController.dropboxIsLoading = false
     }
     
     
@@ -206,16 +247,28 @@ class SceneViewController: UIViewController {
         self.savingProgress.stopAnimating()
         self.savingProgress.alpha = 0
         self.view.alpha = 1
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: MediaController.Notifications.saveSceneFinished, object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: MediaController.Notifications.saveSceneFailed, object: nil)
-        let alertFailure = UIAlertController(title: "Failure", message: "Scene failed to save. Re-select media and try again", preferredStyle: .Alert)
-        let okAction = UIAlertAction(title: "Thanks!", style: .Default) { (action) -> Void in
+        NSNotificationCenter.defaultCenter().removeObserver(
+            self,
+            name: MediaController.Notifications.saveSceneFinished,
+            object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(
+            self,
+            name: MediaController.Notifications.saveSceneFailed,
+            object: nil)
+        
+        let alertFailure = UIAlertController(
+            title: "Failure",
+            message: "Scene failed to save. Re-select media and try again", preferredStyle: .Alert)
+        let okAction = UIAlertAction(
+            title: "Thanks!",
+            style: .Default) { (action) -> Void in
             self.dismissViewControllerAnimated(true, completion: nil)
         }
+        
         alertFailure.addAction(okAction)
         self.presentViewController(alertFailure, animated: true, completion: nil)
     }
-
+    
     // MARK: segue methods
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == selectingShotSegueID {

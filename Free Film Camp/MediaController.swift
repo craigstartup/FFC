@@ -23,6 +23,8 @@ class MediaController {
         static let saveMovieFinished = "saveMovieComplete"
         static let saveMovieFailed   = "saveMovieFailed"
         static let previewReady      = "previewPrepped"
+        static let dropBoxUpFinish   = "dropBoxUploadComplete"
+        static let dropBoxFail       = "dropBoxFailure"
     }
     
     enum Albums {
@@ -43,12 +45,14 @@ class MediaController {
     var intro: Intro!
     var musicTrack: AVURLAsset!
     var preview: AVPlayerItem!
+    
+    var dropboxIsLoading = false
 
     // place holder for scene
     var newScene: PHObjectPlaceholder!
     
     // MARK: Media methods
-    func prepareMedia(intro: Bool, media: [Scene]!, movie: Bool, save: Bool) {
+    func prepareMedia(intro intro: Bool, media: [Scene]!, movie: Bool, save: Bool) {
         // Exactract and assemble media assets
         var videoAssets = [AVURLAsset]()
         var voiceOverAssets = [AVURLAsset]()
@@ -212,7 +216,7 @@ class MediaController {
                     do { 
                         try audioTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, tracksTime), ofTrack: voiceOverAsset.tracksWithMediaType(AVMediaTypeAudio)[0] ,
                             atTime: kCMTimeZero)
-                    } catch let audioTrackError as NSError{
+                    } catch let audioTrackError as NSError {
                         print(audioTrackError.localizedDescription)
                     }
                 }
@@ -461,7 +465,6 @@ class MediaController {
                 print("*** Get current account ***")
                 if let account = response {
                     print("Hello \(account.name.givenName)! Dropbox saving has begun.")
-                    // TODO: Alert user to start of Dropbox download.
                 } else {
                     print(error!.description)
                 }
@@ -474,11 +477,12 @@ class MediaController {
                     print("*** Upload file ****")
                     print("Uploaded file name: \(metadata.name)")
                     print("Uploaded file revision: \(metadata.rev)")
-                    // TODO: Alert user that dropbox download has finished.
+                    NSNotificationCenter.defaultCenter().postNotificationName(Notifications.dropBoxUpFinish, object: self)
                 } else {
                     print("DROPBOX FAILURE\(error!.description)")
+                    NSNotificationCenter.defaultCenter().postNotificationName(Notifications.dropBoxFail, object: self)
                 }
             }
-        }//client
+        }
     }
 }
