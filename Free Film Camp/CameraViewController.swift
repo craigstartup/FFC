@@ -13,16 +13,16 @@ import Photos
 
 class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelegate {
     // view components
-    @IBOutlet var cameraView: UIView!
+    @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet weak var clipsButton: UIButton!
+    @IBOutlet weak var clipsView: UIImageView!
+    @IBOutlet weak var confirmShotButton: UIButton!
     @IBOutlet weak var flipCameraButton: UIButton!
-    @IBOutlet weak var recordTimeButton: UIButton!
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var recordButton: UIButton!
-    @IBOutlet weak var clipsView: UIImageView!
-    @IBOutlet weak var clipsButton: UIButton!
-    @IBOutlet weak var cancelButton: UIButton!
-    @IBOutlet weak var confirmShotButton: UIButton!
-    
+    @IBOutlet weak var recordTimeButton: UIButton!
+    @IBOutlet weak var rotateCameraToShoot: UIImageView!
+    @IBOutlet var cameraView: UIView!
     // camera components
     let videoCapture = AVCaptureSession()
     
@@ -48,7 +48,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     var shotAsset: AVURLAsset!
     var shotImage: UIImage!
     
-    // logic data
+    // logic variables
     var pickingShot = false
     var shotNumber: Int!
     var scene: String!
@@ -56,6 +56,10 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        UIDevice.currentDevice().beginGeneratingDeviceOrientationNotifications()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "orientationChanged:", name: UIDeviceOrientationDidChangeNotification, object: UIDevice.currentDevice())
+        self.rotateCameraToShoot.alpha = 0
+        
         for device in self.devices {
             if device.hasMediaType(AVMediaTypeVideo) && device.position == AVCaptureDevicePosition.Front {
                 self.selfieCam = device as! AVCaptureDevice
@@ -63,7 +67,6 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                 self.camera = device as! AVCaptureDevice
             }
         }
-
         
         do {
             try self.camera.lockForConfiguration()
@@ -138,7 +141,8 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     override func viewDidDisappear(animated: Bool) {
         self.pickingShot = false
         videoCapture.stopRunning()
-        self.progress = nil 
+        self.progress = nil
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIDeviceOrientationDidChangeNotification, object: UIDevice.currentDevice())
     }
     
     
@@ -367,11 +371,38 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         self.videoCapture.commitConfiguration()
     }
     
-    
     @IBAction func recordTime(sender: AnyObject) {
         
         
         
+    }
+    
+    func orientationChanged(notificaton: NSNotification) {
+        let device: UIDevice = notificaton.object as! UIDevice
+        
+        switch(device.orientation) {
+        case UIDeviceOrientation.Portrait:
+            self.rotateCameraToShoot.alpha = 1
+            self.recordButton.enabled = false
+            break
+        case UIDeviceOrientation.PortraitUpsideDown:
+            self.rotateCameraToShoot.alpha = 1
+            self.recordButton.enabled = false
+            break
+        case UIDeviceOrientation.LandscapeLeft:
+            self.rotateCameraToShoot.alpha = 0
+            self.recordButton.enabled = true
+            break
+        case UIDeviceOrientation.LandscapeRight:
+            self.rotateCameraToShoot.alpha = 1
+            self.recordButton.enabled = false
+            break
+        case UIDeviceOrientation.Unknown:
+            print("WTF!!")
+            break
+        default:
+            break
+        }
     }
     
     // MARK: Segue methods
