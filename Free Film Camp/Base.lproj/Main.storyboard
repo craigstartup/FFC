@@ -7,6 +7,7 @@
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
         <!--Video View-->
@@ -956,7 +957,7 @@
                                             <color key="titleColor" red="0.20392156859999999" green="0.20392156859999999" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <segue destination="If4-1C-sto" kind="presentation" modalPresentationStyle="currentContext" id="qgl-YG-GB4"/>
+                                            <segue destination="If4-1C-sto" kind="presentation" modalPresentationStyle="overCurrentContext" id="qgl-YG-GB4"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8P3-sN-Kvk">
@@ -1110,12 +1111,19 @@
                                 <action selector="linkDropBox:" destination="NSC-8O-mHG" id="8az-iS-eHf"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="ZIB-Qo-C4K">
-                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                            <connections>
-                                <action selector="addProject:" destination="NSC-8O-mHG" id="yVt-JX-yhY"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="add" id="ZIB-Qo-C4K">
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="addProject:" destination="NSC-8O-mHG" id="yVt-JX-yhY"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="DONE" id="4wh-0q-KEr">
+                                <connections>
+                                    <action selector="donePressed:" destination="NSC-8O-mHG" id="gwc-iq-rbN"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                 </tableViewController>

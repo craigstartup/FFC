@@ -23,6 +23,9 @@ class ProjectsViewController: UITableViewController {
         }
     }
     
+    @IBAction func donePressed(sender: UIBarButtonItem) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
     
     @IBAction func addProject(sender: UIBarButtonItem) {
         // Present an alert veiw with text box to enter new project name, confirm button and cancel button.
