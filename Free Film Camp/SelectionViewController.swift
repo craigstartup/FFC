@@ -136,7 +136,7 @@ class SelectionViewController: UIViewController, UIPageViewControllerDataSource,
             });
             
             dispatch_async(transitionQueue, {
-                NSThread.sleepForTimeInterval(0.3)
+                NSThread.sleepForTimeInterval(0.1)
             });
         }
         
