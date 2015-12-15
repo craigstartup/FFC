@@ -220,6 +220,7 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
             let sceneVC = segue.destinationViewController as! SceneViewController
             sceneVC.selectedVideoAsset = self.videoAssetToPass
             sceneVC.selectedVideoImage = self.videoImageToPass
+            sceneVC.setupView()
         } else if segue.identifier == "pickingShot" {
             let cameraVC = segue.destinationViewController as! CameraViewController
             cameraVC.pickingShot = true

@@ -26,7 +26,7 @@
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cameraCell" id="2Ky-zQ-wWE">
-                                <rect key="frame" x="0.0" y="64" width="215" height="136"/>
+                                <rect key="frame" x="0.0" y="0.0" width="215" height="136"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="215" height="136"/>
@@ -51,7 +51,7 @@
                                 </constraints>
                             </collectionViewCell>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ClipCell" id="haP-B8-Tyq" customClass="VideoLibraryCell" customModule="Free_Film_Camp" customModuleProvider="target">
-                                <rect key="frame" x="385" y="64" width="215" height="136"/>
+                                <rect key="frame" x="385" y="0.0" width="215" height="136"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="215" height="136"/>
@@ -381,7 +381,7 @@
                                 </state>
                                 <connections>
                                     <action selector="selectMedia:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="GaV-Hw-aed"/>
-                                    <segue destination="t2l-7N-cdU" kind="show" identifier="sceneSelectingVoiceOverSegue" id="bJ2-dg-x9E"/>
+                                    <segue destination="t2l-7N-cdU" kind="presentation" identifier="sceneSelectingVoiceOverSegue" modalPresentationStyle="overFullScreen" id="bJ2-dg-x9E"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shot 1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8rW-r2-fUM">
@@ -583,22 +583,12 @@
                         <outletCollection property="sceneRemoveMediaButtons" destination="Q1h-nu-baf" collectionClass="NSMutableArray" id="w6j-X0-WLw"/>
                         <outletCollection property="sceneRemoveMediaButtons" destination="tJS-gt-zXL" collectionClass="NSMutableArray" id="3fe-Nd-daL"/>
                         <outletCollection property="sceneRemoveMediaButtons" destination="hcv-WL-wMm" collectionClass="NSMutableArray" id="uwh-HC-LAW"/>
-                        <segue destination="4to-zB-zdm" kind="show" identifier="sceneSelectingShotSegue" id="CH1-X3-ObO"/>
+                        <segue destination="4to-zB-zdm" kind="presentation" identifier="sceneSelectingShotSegue" modalPresentationStyle="overFullScreen" id="CH1-X3-ObO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vaJ-dB-DbI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3748" y="-1407"/>
-        </scene>
-        <!--Page View Controller-->
-        <scene sceneID="o2E-2O-ou7">
-            <objects>
-                <pageViewController storyboardIdentifier="pageVC" autoresizesArchivedViewToFullSize="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="xlt-8d-9Po" sceneMemberID="viewController">
-                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
-                </pageViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="spY-rU-2Bb" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3023" y="-2211"/>
         </scene>
         <!--Views-->
         <scene sceneID="uCU-OV-YKk">
@@ -693,22 +683,30 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NQa-Jb-N57">
                                 <rect key="frame" x="0.0" y="43" width="600" height="557"/>
                             </containerView>
+                            <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" bounces="NO" alwaysBounceHorizontal="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qyk-wd-wa7">
+                                <rect key="frame" x="0.0" y="43" width="600" height="557"/>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="qyk-wd-wa7" secondAttribute="trailing" constant="-20" id="EeK-4E-OVy"/>
                             <constraint firstAttribute="trailingMargin" secondItem="NQa-Jb-N57" secondAttribute="trailing" constant="-20" id="KFL-GT-1h1"/>
+                            <constraint firstItem="qyk-wd-wa7" firstAttribute="bottom" secondItem="NQa-Jb-N57" secondAttribute="bottom" id="WyQ-CK-u2m"/>
+                            <constraint firstItem="WzA-Mv-cPQ" firstAttribute="top" secondItem="NQa-Jb-N57" secondAttribute="bottom" id="Zin-xB-tNf"/>
                             <constraint firstItem="wqg-Vo-gs4" firstAttribute="top" secondItem="Qny-YC-xRj" secondAttribute="bottom" id="fEm-AA-1tP"/>
+                            <constraint firstItem="qyk-wd-wa7" firstAttribute="top" secondItem="NQa-Jb-N57" secondAttribute="top" id="fuh-lp-TrT"/>
                             <constraint firstItem="NQa-Jb-N57" firstAttribute="leading" secondItem="mSE-z2-Ciy" secondAttribute="leadingMargin" constant="-20" id="gCD-T5-yUl"/>
+                            <constraint firstItem="qyk-wd-wa7" firstAttribute="leading" secondItem="mSE-z2-Ciy" secondAttribute="leadingMargin" constant="-20" id="gaq-WO-5Zq"/>
                             <constraint firstItem="wqg-Vo-gs4" firstAttribute="leading" secondItem="mSE-z2-Ciy" secondAttribute="leadingMargin" constant="-20" id="hH5-TT-H0d"/>
                             <constraint firstItem="NQa-Jb-N57" firstAttribute="top" secondItem="wqg-Vo-gs4" secondAttribute="bottom" constant="-1" id="isk-xp-V5x"/>
                             <constraint firstAttribute="trailingMargin" secondItem="wqg-Vo-gs4" secondAttribute="trailing" constant="-20" id="lfH-BB-ZNQ"/>
-                            <constraint firstItem="WzA-Mv-cPQ" firstAttribute="top" secondItem="NQa-Jb-N57" secondAttribute="bottom" id="lxE-c7-lwu"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="DZh-7X-CLG"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
+                        <outlet property="scrollView" destination="qyk-wd-wa7" id="BfR-7m-KUB"/>
                         <outlet property="viewsView" destination="NQa-Jb-N57" id="dGA-dZ-ysj"/>
                         <outletCollection property="buttons" destination="5y6-Ou-qt5" collectionClass="NSMutableArray" id="ktf-Hv-UNX"/>
                         <outletCollection property="buttons" destination="XTz-rw-392" collectionClass="NSMutableArray" id="OLY-XE-NmN"/>
@@ -1181,6 +1179,6 @@
         <image name="plus_white_69" width="60" height="60"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="nYQ-Mx-U5W"/>
+        <segue reference="182-e7-4UI"/>
     </inferredMetricsTieBreakers>
 </document>

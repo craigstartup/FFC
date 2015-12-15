@@ -170,7 +170,8 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if self.audioAssetToPass != nil && segue.identifier ==  self.segueID {
             let sceneVC = segue.destinationViewController as! SceneViewController
-            sceneVC.audioAsset = self.audioAssetToPass
+            sceneVC.scene.voiceOver = self.audioAssetToPass.lastPathComponent!
+            sceneVC.setupView()
         }
     }
     
@@ -238,15 +239,4 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         
         print("Audio Record Encode Error")
     }
-    
-    /*
-    // MARK: - Navigation
-    
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    // Get the new view controller using segue.destinationViewController.
-    // Pass the selected object to the new view controller.
-    }
-    */
-    
 }
