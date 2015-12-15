@@ -1,4 +1,3 @@
-//  assisted by http://swiftiostutorials.com/tutorial-custom-tabbar-storyboard/
 //  SelectionViewController.swift
 //  Free Film Camp
 //
@@ -18,9 +17,9 @@ class SelectionViewController: UIViewController, UIScrollViewDelegate {
     }
     
     var pageViewController: UIPageViewController!
-    @IBOutlet weak var viewsView: UIView!
     @IBOutlet weak var scrollView: UIScrollView!
-    
+    @IBOutlet weak var buttonsScrollView: UIScrollView!
+    @IBOutlet weak var buttonsStack: UIStackView!
     @IBOutlet var buttons: Array<UIButton>!
     
     var lastSegue: String!
@@ -42,6 +41,7 @@ class SelectionViewController: UIViewController, UIScrollViewDelegate {
         super.viewDidLoad()
         // Load scenes or initialize if none exist.
         MediaController.sharedMediaController.scenes = MediaController.sharedMediaController.loadScenes()
+        
         if MediaController.sharedMediaController.scenes.isEmpty {
             for _ in 0..<3 {
                 let scene = Scene(shotVideos: Array(count: 3, repeatedValue: defaultVideoURL!), shotImages: Array(count: 3, repeatedValue: defaultImage!), voiceOver: defaultVoiceOverFile)
@@ -177,6 +177,7 @@ class SelectionViewController: UIViewController, UIScrollViewDelegate {
         for view in scrollView.subviews {
             view.removeFromSuperview()
         }
+        
         self.populateScrollView()
     }
 }

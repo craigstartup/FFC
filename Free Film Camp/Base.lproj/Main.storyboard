@@ -606,117 +606,121 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="wqg-Vo-gs4" userLabel="Custom Tab Bar">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Q6-Fg-xEd" userLabel="Buttons Scroll View">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                 <subviews>
-                                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5y6-Ou-qt5">
-                                        <rect key="frame" x="0.0" y="0.0" width="100" height="44"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <color key="tintColor" red="0.60392156860000001" green="0.60392156860000001" blue="0.60392156860000001" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal" title="Intro">
-                                            <color key="titleColor" red="0.20392156859999999" green="0.20392156859999999" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <state key="selected" title="Intro" backgroundImage="arrow_right_200x45 (2)">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="selectScene:" destination="FaC-O6-ufg" eventType="touchUpInside" id="yC9-OV-msd"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XTz-rw-392">
-                                        <rect key="frame" x="125" y="0.0" width="100" height="44"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <color key="tintColor" red="0.60392156860000001" green="0.60392156860000001" blue="0.60392156860000001" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal" title="Scene 1">
-                                            <color key="titleColor" red="0.20392156862745098" green="0.20392156862745098" blue="0.20392156862745098" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <state key="selected" title="Scene 1" backgroundImage="arrow_right_200x45 (2)">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="selectScene:" destination="FaC-O6-ufg" eventType="touchUpInside" id="DON-o6-tUy"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hAP-7c-QFO">
-                                        <rect key="frame" x="250" y="0.0" width="100" height="44"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <color key="tintColor" red="0.60392156860000001" green="0.60392156860000001" blue="0.60392156860000001" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal" title="Scene 2">
-                                            <color key="titleColor" red="0.20392156859999999" green="0.20392156859999999" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <state key="selected" backgroundImage="arrow_right_200x45 (2)">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="selectScene:" destination="FaC-O6-ufg" eventType="touchUpInside" id="WeZ-7E-kWM"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ef7-TS-I84">
-                                        <rect key="frame" x="375" y="0.0" width="100" height="44"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <color key="tintColor" red="0.60392156860000001" green="0.60392156860000001" blue="0.60392156860000001" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal" title="Scene 3">
-                                            <color key="titleColor" red="0.20392156859999999" green="0.20392156859999999" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <state key="selected" backgroundImage="arrow_right_200x45 (2)">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="selectScene:" destination="FaC-O6-ufg" eventType="touchUpInside" id="duD-yf-cRI"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RWq-0a-jkN">
-                                        <rect key="frame" x="500" y="0.0" width="100" height="44"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <color key="tintColor" red="0.60392156860000001" green="0.60392156860000001" blue="0.60392156860000001" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal" title="Movie">
-                                            <color key="titleColor" red="0.20392156859999999" green="0.20392156859999999" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <state key="selected" backgroundImage="arrow_right_200x45 (2)">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="selectScene:" destination="FaC-O6-ufg" eventType="touchUpInside" id="biv-lD-dOf"/>
-                                        </connections>
-                                    </button>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="wqg-Vo-gs4" userLabel="Custom Tab Bar">
+                                        <rect key="frame" x="0.0" y="4" width="600" height="36"/>
+                                        <subviews>
+                                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5y6-Ou-qt5">
+                                                <rect key="frame" x="0.0" y="0.0" width="100" height="36"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                <color key="tintColor" red="0.60392156860000001" green="0.60392156860000001" blue="0.60392156860000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <state key="normal" title="Intro">
+                                                    <color key="titleColor" red="0.20392156859999999" green="0.20392156859999999" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <state key="selected" title="Intro" backgroundImage="arrow_right_200x45 (2)">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="selectScene:" destination="FaC-O6-ufg" eventType="touchUpInside" id="yC9-OV-msd"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XTz-rw-392">
+                                                <rect key="frame" x="125" y="0.0" width="100" height="36"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                <color key="tintColor" red="0.60392156860000001" green="0.60392156860000001" blue="0.60392156860000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <state key="normal" title="Scene 1">
+                                                    <color key="titleColor" red="0.20392156862745098" green="0.20392156862745098" blue="0.20392156862745098" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <state key="selected" title="Scene 1" backgroundImage="arrow_right_200x45 (2)">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="selectScene:" destination="FaC-O6-ufg" eventType="touchUpInside" id="DON-o6-tUy"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hAP-7c-QFO">
+                                                <rect key="frame" x="250" y="0.0" width="100" height="36"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                <color key="tintColor" red="0.60392156860000001" green="0.60392156860000001" blue="0.60392156860000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <state key="normal" title="Scene 2">
+                                                    <color key="titleColor" red="0.20392156859999999" green="0.20392156859999999" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <state key="selected" backgroundImage="arrow_right_200x45 (2)">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="selectScene:" destination="FaC-O6-ufg" eventType="touchUpInside" id="WeZ-7E-kWM"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ef7-TS-I84">
+                                                <rect key="frame" x="375" y="0.0" width="100" height="36"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                <color key="tintColor" red="0.60392156860000001" green="0.60392156860000001" blue="0.60392156860000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <state key="normal" title="Scene 3">
+                                                    <color key="titleColor" red="0.20392156859999999" green="0.20392156859999999" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <state key="selected" backgroundImage="arrow_right_200x45 (2)">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="selectScene:" destination="FaC-O6-ufg" eventType="touchUpInside" id="duD-yf-cRI"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RWq-0a-jkN">
+                                                <rect key="frame" x="500" y="0.0" width="100" height="36"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                <color key="tintColor" red="0.60392156860000001" green="0.60392156860000001" blue="0.60392156860000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <state key="normal" title="Movie">
+                                                    <color key="titleColor" red="0.20392156859999999" green="0.20392156859999999" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <state key="selected" backgroundImage="arrow_right_200x45 (2)">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="selectScene:" destination="FaC-O6-ufg" eventType="touchUpInside" id="biv-lD-dOf"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="2g1-Eu-ZUP"/>
+                                    <constraint firstAttribute="trailing" secondItem="wqg-Vo-gs4" secondAttribute="trailing" id="9XK-gP-O5Y"/>
+                                    <constraint firstItem="wqg-Vo-gs4" firstAttribute="centerY" secondItem="9Q6-Fg-xEd" secondAttribute="centerY" id="ZaP-kW-E7T"/>
+                                    <constraint firstItem="wqg-Vo-gs4" firstAttribute="leading" secondItem="9Q6-Fg-xEd" secondAttribute="leading" id="gkp-fs-Dmg"/>
+                                    <constraint firstAttribute="bottom" secondItem="wqg-Vo-gs4" secondAttribute="bottom" id="i3U-t7-i7g"/>
+                                    <constraint firstAttribute="height" constant="44" id="qjd-2X-gH8"/>
+                                    <constraint firstItem="wqg-Vo-gs4" firstAttribute="centerX" secondItem="9Q6-Fg-xEd" secondAttribute="centerX" id="wNl-ah-G5G"/>
                                 </constraints>
-                            </stackView>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NQa-Jb-N57">
-                                <rect key="frame" x="0.0" y="43" width="600" height="557"/>
-                            </containerView>
+                            </scrollView>
                             <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" bounces="NO" alwaysBounceHorizontal="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qyk-wd-wa7">
-                                <rect key="frame" x="0.0" y="43" width="600" height="557"/>
+                                <rect key="frame" x="0.0" y="44" width="600" height="556"/>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="qyk-wd-wa7" secondAttribute="trailing" constant="-20" id="EeK-4E-OVy"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="NQa-Jb-N57" secondAttribute="trailing" constant="-20" id="KFL-GT-1h1"/>
-                            <constraint firstItem="qyk-wd-wa7" firstAttribute="bottom" secondItem="NQa-Jb-N57" secondAttribute="bottom" id="WyQ-CK-u2m"/>
-                            <constraint firstItem="WzA-Mv-cPQ" firstAttribute="top" secondItem="NQa-Jb-N57" secondAttribute="bottom" id="Zin-xB-tNf"/>
-                            <constraint firstItem="wqg-Vo-gs4" firstAttribute="top" secondItem="Qny-YC-xRj" secondAttribute="bottom" id="fEm-AA-1tP"/>
-                            <constraint firstItem="qyk-wd-wa7" firstAttribute="top" secondItem="NQa-Jb-N57" secondAttribute="top" id="fuh-lp-TrT"/>
-                            <constraint firstItem="NQa-Jb-N57" firstAttribute="leading" secondItem="mSE-z2-Ciy" secondAttribute="leadingMargin" constant="-20" id="gCD-T5-yUl"/>
+                            <constraint firstItem="9Q6-Fg-xEd" firstAttribute="leading" secondItem="mSE-z2-Ciy" secondAttribute="leadingMargin" constant="-20" id="H07-uh-ict"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="9Q6-Fg-xEd" secondAttribute="trailing" constant="-20" id="QRn-yz-3S7"/>
+                            <constraint firstItem="9Q6-Fg-xEd" firstAttribute="top" secondItem="Qny-YC-xRj" secondAttribute="bottom" id="WIk-uL-lHX"/>
                             <constraint firstItem="qyk-wd-wa7" firstAttribute="leading" secondItem="mSE-z2-Ciy" secondAttribute="leadingMargin" constant="-20" id="gaq-WO-5Zq"/>
-                            <constraint firstItem="wqg-Vo-gs4" firstAttribute="leading" secondItem="mSE-z2-Ciy" secondAttribute="leadingMargin" constant="-20" id="hH5-TT-H0d"/>
-                            <constraint firstItem="NQa-Jb-N57" firstAttribute="top" secondItem="wqg-Vo-gs4" secondAttribute="bottom" constant="-1" id="isk-xp-V5x"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="wqg-Vo-gs4" secondAttribute="trailing" constant="-20" id="lfH-BB-ZNQ"/>
+                            <constraint firstItem="qyk-wd-wa7" firstAttribute="top" secondItem="9Q6-Fg-xEd" secondAttribute="bottom" id="glf-f7-ACA"/>
+                            <constraint firstItem="qyk-wd-wa7" firstAttribute="bottom" secondItem="WzA-Mv-cPQ" secondAttribute="top" id="xOM-0s-XXn"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="DZh-7X-CLG"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
+                        <outlet property="buttonsScrollView" destination="9Q6-Fg-xEd" id="P0d-LS-yA6"/>
+                        <outlet property="buttonsStack" destination="wqg-Vo-gs4" id="jWM-Vb-yLS"/>
                         <outlet property="scrollView" destination="qyk-wd-wa7" id="BfR-7m-KUB"/>
-                        <outlet property="viewsView" destination="NQa-Jb-N57" id="dGA-dZ-ysj"/>
-                        <outletCollection property="buttons" destination="5y6-Ou-qt5" collectionClass="NSMutableArray" id="ktf-Hv-UNX"/>
-                        <outletCollection property="buttons" destination="XTz-rw-392" collectionClass="NSMutableArray" id="OLY-XE-NmN"/>
-                        <outletCollection property="buttons" destination="hAP-7c-QFO" collectionClass="NSMutableArray" id="qX0-VN-rqX"/>
-                        <outletCollection property="buttons" destination="ef7-TS-I84" collectionClass="NSMutableArray" id="wgc-dG-OWt"/>
-                        <outletCollection property="buttons" destination="RWq-0a-jkN" collectionClass="NSMutableArray" id="Qz3-Vp-AgW"/>
+                        <outletCollection property="buttons" destination="5y6-Ou-qt5" collectionClass="NSMutableArray" id="YWm-Ax-Upp"/>
+                        <outletCollection property="buttons" destination="XTz-rw-392" collectionClass="NSMutableArray" id="zBR-NC-dGT"/>
+                        <outletCollection property="buttons" destination="hAP-7c-QFO" collectionClass="NSMutableArray" id="J4f-zG-GSR"/>
+                        <outletCollection property="buttons" destination="ef7-TS-I84" collectionClass="NSMutableArray" id="qwn-w6-ipF"/>
+                        <outletCollection property="buttons" destination="RWq-0a-jkN" collectionClass="NSMutableArray" id="FwC-wR-Eak"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mKR-GH-JXH" userLabel="First Responder" sceneMemberID="firstResponder"/>
