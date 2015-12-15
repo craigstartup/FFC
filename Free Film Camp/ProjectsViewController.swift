@@ -25,6 +25,7 @@ class ProjectsViewController: UITableViewController {
     
     @IBAction func donePressed(sender: UIBarButtonItem) {
         self.dismissViewControllerAnimated(true, completion: nil)
+        NSNotificationCenter.defaultCenter().postNotificationName("projectSelected", object: self)
     }
     
     @IBAction func addProject(sender: UIBarButtonItem) {

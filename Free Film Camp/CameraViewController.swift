@@ -415,8 +415,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             }
         } else if segue.identifier == "introUnwind" {
             let introVC = segue.destinationViewController as! IntroViewController
-            introVC.viewDidLoad()
-        }
+            introVC.getIntro()        }
     }
     
     // MARK: Path for shots going to photos framework

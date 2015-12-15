@@ -54,6 +54,12 @@ class SelectionViewController: UIViewController, UIScrollViewDelegate {
             selector: "dropboxComplete:",
             name: MediaController.Notifications.dropBoxUpFinish,
             object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: "projectChanged:",
+            name: "projectSelected", 
+            object: nil)
 
         self.getViewControllersForPages()
         
@@ -150,7 +156,7 @@ class SelectionViewController: UIViewController, UIScrollViewDelegate {
         self.buttons[currentButton].selected = true
     }
     
-    // MARK: Dropbox notification methods
+    // MARK: Notification methods
     func dropboxComplete(notification: NSNotification) {
         let dropboxAlert = UIAlertController(
             title: "Dropbox Upload Complete",
@@ -165,5 +171,12 @@ class SelectionViewController: UIViewController, UIScrollViewDelegate {
         
         dropboxAlert.addAction(okAction)
         self.presentViewController(dropboxAlert, animated: true, completion: nil)
+    }
+    
+    func projectChanged(notification: NSNotification) {
+        for view in scrollView.subviews {
+            view.removeFromSuperview()
+        }
+        self.populateScrollView()
     }
 }

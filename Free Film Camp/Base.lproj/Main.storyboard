@@ -33,7 +33,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n40-zf-h2S">
-                                            <rect key="frame" x="19" y="14" width="178" height="108"/>
+                                            <rect key="frame" x="14" y="14" width="187" height="108"/>
                                             <inset key="contentEdgeInsets" minX="55" minY="-3" maxX="0.0" maxY="0.0"/>
                                             <state key="normal" title="Camera" image="Camera"/>
                                             <connections>
@@ -47,7 +47,11 @@
                                 <constraints>
                                     <constraint firstItem="n40-zf-h2S" firstAttribute="centerY" secondItem="2Ky-zQ-wWE" secondAttribute="centerY" id="0lN-NI-80R"/>
                                     <constraint firstItem="n40-zf-h2S" firstAttribute="top" secondItem="2Ky-zQ-wWE" secondAttribute="topMargin" constant="6" id="2zJ-Bo-3Th"/>
+                                    <constraint firstItem="n40-zf-h2S" firstAttribute="leading" secondItem="2Ky-zQ-wWE" secondAttribute="leadingMargin" constant="6" id="6Yd-A1-xmR"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="n40-zf-h2S" secondAttribute="trailing" constant="6" id="OhM-YN-ieQ"/>
+                                    <constraint firstAttribute="bottomMargin" secondItem="n40-zf-h2S" secondAttribute="bottom" constant="6" id="W9b-yQ-w79"/>
                                     <constraint firstItem="n40-zf-h2S" firstAttribute="centerX" secondItem="2Ky-zQ-wWE" secondAttribute="centerX" id="XTW-eb-9FY"/>
+                                    <constraint firstItem="n40-zf-h2S" firstAttribute="top" secondItem="2Ky-zQ-wWE" secondAttribute="topMargin" constant="6" id="YbO-Kj-eag"/>
                                 </constraints>
                             </collectionViewCell>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ClipCell" id="haP-B8-Tyq" customClass="VideoLibraryCell" customModule="Free_Film_Camp" customModuleProvider="target">
@@ -955,7 +959,7 @@
                                             <color key="titleColor" red="0.20392156859999999" green="0.20392156859999999" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <segue destination="If4-1C-sto" kind="presentation" modalPresentationStyle="overCurrentContext" id="qgl-YG-GB4"/>
+                                            <segue destination="If4-1C-sto" kind="presentation" modalPresentationStyle="overFullScreen" id="qgl-YG-GB4"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8P3-sN-Kvk">
@@ -1179,6 +1183,6 @@
         <image name="plus_white_69" width="60" height="60"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="182-e7-4UI"/>
+        <segue reference="nYQ-Mx-U5W"/>
     </inferredMetricsTieBreakers>
 </document>
