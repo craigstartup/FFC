@@ -65,16 +65,13 @@ class SelectionViewController: UIViewController, UIScrollViewDelegate {
         self.navigationController?.navigationBarHidden = true
     }
     
-    override func viewWillLayoutSubviews() {
-            self.setupScrollView()
-            self.populateScrollView()
+    override func viewWillAppear(animated: Bool) {
+        self.scrollView.decelerationRate = UIScrollViewDecelerationRateFast
     }
     
-    override func viewDidAppear(animated: Bool) {
-        self.getPagePositions()
-        self.scrollView.scrollRectToVisible(self.scrollViewPages[self.currentVC], animated: false)
-        self.scrollView.decelerationRate = UIScrollViewDecelerationRateFast
-        self.buttonSelectedImage.frame.origin = self.buttons[self.currentButton].frame.origin
+    override func viewWillLayoutSubviews() {
+        self.setupScrollView()
+        self.populateScrollView()
     }
     
     // MARK: Scrollview setup methods
@@ -82,12 +79,12 @@ class SelectionViewController: UIViewController, UIScrollViewDelegate {
         var index = 0
         for viewId in self.viewControllerIds {
             if viewId == "SceneViewController" {
-                for var i = 0; i < MediaController.sharedMediaController.scenes.count; i++ {
+                for var i = 0; i < MediaController.sharedMediaController.scenes.count; i += 1 {
                     let sceneViewController = self.storyboard?.instantiateViewControllerWithIdentifier(viewId) as? SceneViewController
                     sceneViewController!.sceneNumber = i
                     sceneViewController!.index = index
                     self.viewControllers.append(sceneViewController!)
-                    index++
+                    index += 1
                 }
             } else {
                 var viewController: UIViewController!
@@ -103,7 +100,7 @@ class SelectionViewController: UIViewController, UIScrollViewDelegate {
                 }
                 
                 self.viewControllers.append(viewController!)
-                index++
+                index += 1
             }
         }
     }
@@ -112,6 +109,7 @@ class SelectionViewController: UIViewController, UIScrollViewDelegate {
         self.scrollView.delegate = self
         let pagesScrollViewFrame = self.scrollView.frame.size
         self.scrollView.contentSize = CGSize(width: pagesScrollViewFrame.width * CGFloat(self.viewControllers.count), height: pagesScrollViewFrame.height)
+        self.getPagePositions()
         self.buttons[self.currentButton].selected = true
     }
     

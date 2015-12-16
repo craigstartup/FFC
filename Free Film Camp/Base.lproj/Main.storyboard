@@ -610,9 +610,9 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow_right_200x45 (2)" translatesAutoresizingMaskIntoConstraints="NO" id="rPa-Vo-jIj">
-                                        <rect key="frame" x="114" y="0.0" width="130" height="44"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="114" height="44"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="130" id="8t4-iv-hNb"/>
+                                            <constraint firstAttribute="width" constant="114" id="8t4-iv-hNb"/>
                                             <constraint firstAttribute="height" constant="44" id="jah-Qz-kbV"/>
                                         </constraints>
                                     </imageView>
@@ -695,7 +695,7 @@
                                 <constraints>
                                     <constraint firstItem="rPa-Vo-jIj" firstAttribute="top" secondItem="9Q6-Fg-xEd" secondAttribute="top" id="0GX-Uw-oic"/>
                                     <constraint firstAttribute="trailing" secondItem="wqg-Vo-gs4" secondAttribute="trailing" id="9XK-gP-O5Y"/>
-                                    <constraint firstItem="rPa-Vo-jIj" firstAttribute="leading" secondItem="9Q6-Fg-xEd" secondAttribute="leading" constant="114" id="S3P-Hk-9Gm"/>
+                                    <constraint firstItem="rPa-Vo-jIj" firstAttribute="leading" secondItem="9Q6-Fg-xEd" secondAttribute="leading" id="S3P-Hk-9Gm"/>
                                     <constraint firstItem="wqg-Vo-gs4" firstAttribute="centerY" secondItem="9Q6-Fg-xEd" secondAttribute="centerY" id="ZaP-kW-E7T"/>
                                     <constraint firstItem="wqg-Vo-gs4" firstAttribute="leading" secondItem="9Q6-Fg-xEd" secondAttribute="leading" id="gkp-fs-Dmg"/>
                                     <constraint firstAttribute="bottom" secondItem="wqg-Vo-gs4" secondAttribute="bottom" id="i3U-t7-i7g"/>
