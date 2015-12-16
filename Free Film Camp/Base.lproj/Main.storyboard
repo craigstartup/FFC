@@ -609,17 +609,24 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Q6-Fg-xEd" userLabel="Buttons Scroll View">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                 <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow_right_200x45 (2)" translatesAutoresizingMaskIntoConstraints="NO" id="rPa-Vo-jIj">
+                                        <rect key="frame" x="114" y="0.0" width="130" height="44"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="130" id="8t4-iv-hNb"/>
+                                            <constraint firstAttribute="height" constant="44" id="jah-Qz-kbV"/>
+                                        </constraints>
+                                    </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="wqg-Vo-gs4" userLabel="Custom Tab Bar">
                                         <rect key="frame" x="0.0" y="4" width="600" height="36"/>
                                         <subviews>
                                             <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5y6-Ou-qt5">
                                                 <rect key="frame" x="0.0" y="0.0" width="100" height="36"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                <color key="tintColor" red="0.60392156860000001" green="0.60392156860000001" blue="0.60392156860000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <state key="normal" title="Intro">
                                                     <color key="titleColor" red="0.20392156859999999" green="0.20392156859999999" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
-                                                <state key="selected" title="Intro" backgroundImage="arrow_right_200x45 (2)">
+                                                <state key="selected">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
@@ -629,11 +636,11 @@
                                             <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XTz-rw-392">
                                                 <rect key="frame" x="125" y="0.0" width="100" height="36"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                <color key="tintColor" red="0.60392156860000001" green="0.60392156860000001" blue="0.60392156860000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <state key="normal" title="Scene 1">
                                                     <color key="titleColor" red="0.20392156862745098" green="0.20392156862745098" blue="0.20392156862745098" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
-                                                <state key="selected" title="Scene 1" backgroundImage="arrow_right_200x45 (2)">
+                                                <state key="selected" title="Scene 1">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
@@ -643,11 +650,11 @@
                                             <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hAP-7c-QFO">
                                                 <rect key="frame" x="250" y="0.0" width="100" height="36"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                <color key="tintColor" red="0.60392156860000001" green="0.60392156860000001" blue="0.60392156860000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <state key="normal" title="Scene 2">
                                                     <color key="titleColor" red="0.20392156859999999" green="0.20392156859999999" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
-                                                <state key="selected" backgroundImage="arrow_right_200x45 (2)">
+                                                <state key="selected">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
@@ -657,11 +664,11 @@
                                             <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ef7-TS-I84">
                                                 <rect key="frame" x="375" y="0.0" width="100" height="36"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                <color key="tintColor" red="0.60392156860000001" green="0.60392156860000001" blue="0.60392156860000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <state key="normal" title="Scene 3">
                                                     <color key="titleColor" red="0.20392156859999999" green="0.20392156859999999" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
-                                                <state key="selected" backgroundImage="arrow_right_200x45 (2)">
+                                                <state key="selected">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
@@ -671,11 +678,11 @@
                                             <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RWq-0a-jkN">
                                                 <rect key="frame" x="500" y="0.0" width="100" height="36"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                <color key="tintColor" red="0.60392156860000001" green="0.60392156860000001" blue="0.60392156860000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <state key="normal" title="Movie">
                                                     <color key="titleColor" red="0.20392156859999999" green="0.20392156859999999" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
-                                                <state key="selected" backgroundImage="arrow_right_200x45 (2)">
+                                                <state key="selected">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
@@ -686,7 +693,9 @@
                                     </stackView>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="rPa-Vo-jIj" firstAttribute="top" secondItem="9Q6-Fg-xEd" secondAttribute="top" id="0GX-Uw-oic"/>
                                     <constraint firstAttribute="trailing" secondItem="wqg-Vo-gs4" secondAttribute="trailing" id="9XK-gP-O5Y"/>
+                                    <constraint firstItem="rPa-Vo-jIj" firstAttribute="leading" secondItem="9Q6-Fg-xEd" secondAttribute="leading" constant="114" id="S3P-Hk-9Gm"/>
                                     <constraint firstItem="wqg-Vo-gs4" firstAttribute="centerY" secondItem="9Q6-Fg-xEd" secondAttribute="centerY" id="ZaP-kW-E7T"/>
                                     <constraint firstItem="wqg-Vo-gs4" firstAttribute="leading" secondItem="9Q6-Fg-xEd" secondAttribute="leading" id="gkp-fs-Dmg"/>
                                     <constraint firstAttribute="bottom" secondItem="wqg-Vo-gs4" secondAttribute="bottom" id="i3U-t7-i7g"/>
@@ -713,6 +722,7 @@
                     <navigationItem key="navigationItem" id="DZh-7X-CLG"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
+                        <outlet property="buttonSelectedImage" destination="rPa-Vo-jIj" id="Sxj-AB-W9o"/>
                         <outlet property="buttonsScrollView" destination="9Q6-Fg-xEd" id="P0d-LS-yA6"/>
                         <outlet property="buttonsStack" destination="wqg-Vo-gs4" id="jWM-Vb-yLS"/>
                         <outlet property="scrollView" destination="qyk-wd-wa7" id="BfR-7m-KUB"/>

@@ -16,7 +16,7 @@ class SelectionViewController: UIViewController, UIScrollViewDelegate {
         static let MOVIE   = 5
     }
     
-    var pageViewController: UIPageViewController!
+    @IBOutlet weak var buttonSelectedImage: UIImageView!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var buttonsScrollView: UIScrollView!
     @IBOutlet weak var buttonsStack: UIStackView!
@@ -35,7 +35,6 @@ class SelectionViewController: UIViewController, UIScrollViewDelegate {
     var currentVC = 1
     var currentButton = 1
     let transitionQueue = dispatch_queue_create("com.trans.Queue", nil)
-    var setupComplete = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,13 +60,12 @@ class SelectionViewController: UIViewController, UIScrollViewDelegate {
             name: "projectSelected", 
             object: nil)
 
+        self.buttonsScrollView.delegate = self
         self.getViewControllersForPages()
-        
         self.navigationController?.navigationBarHidden = true
     }
     
     override func viewWillLayoutSubviews() {
-            setupComplete = true
             self.setupScrollView()
             self.populateScrollView()
     }
@@ -76,6 +74,7 @@ class SelectionViewController: UIViewController, UIScrollViewDelegate {
         self.getPagePositions()
         self.scrollView.scrollRectToVisible(self.scrollViewPages[self.currentVC], animated: false)
         self.scrollView.decelerationRate = UIScrollViewDecelerationRateFast
+        self.buttonSelectedImage.frame.origin = self.buttons[self.currentButton].frame.origin
     }
     
     // MARK: Scrollview setup methods
@@ -141,19 +140,30 @@ class SelectionViewController: UIViewController, UIScrollViewDelegate {
         self.buttons[self.currentButton].selected = false
         // TODO: Check for capture of self.
         self.currentVC = sender.tag - 1
+        self.currentButton = sender.tag - 1
+        
         UIView.animateWithDuration(1.5) {() -> Void in
              self.scrollView.scrollRectToVisible(self.scrollViewPages[self.currentVC], animated: false)
+             self.buttonSelectedImage.frame.origin = self.buttons[self.currentButton].frame.origin
         }
-       
-        self.currentButton = sender.tag - 1
+
         self.buttons[self.currentButton].selected = true
     }
     
     // MARK: Scrollview delegate methods
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+    func scrollViewDidScroll(scrollView: UIScrollView) {
         self.buttons[currentButton].selected = false
         self.currentButton = Int(self.scrollView.contentOffset.x / scrollView.frame.size.width)
         self.buttons[currentButton].selected = true
+        
+        UIView.animateWithDuration(
+            0.2,
+            delay: 0,
+            options: UIViewAnimationOptions.CurveLinear,
+            animations: { () -> Void in
+                self.buttonSelectedImage.frame.origin = self.buttons[self.currentButton].frame.origin
+            },
+            completion: nil)
     }
     
     // MARK: Notification methods
