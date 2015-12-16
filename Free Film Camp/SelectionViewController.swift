@@ -151,19 +151,26 @@ class SelectionViewController: UIViewController, UIScrollViewDelegate {
     }
     
     // MARK: Scrollview delegate methods
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         self.buttons[currentButton].selected = false
-        self.currentButton = Int(self.scrollView.contentOffset.x / scrollView.frame.size.width)
+        self.currentButton = Int(targetContentOffset.memory.x / scrollView.frame.size.width)
+        
         self.buttons[currentButton].selected = true
         
-        UIView.animateWithDuration(
-            0.2,
-            delay: 0,
-            options: UIViewAnimationOptions.CurveLinear,
-            animations: { () -> Void in
-                self.buttonSelectedImage.frame.origin = self.buttons[self.currentButton].frame.origin
-            },
-            completion: nil)
+        UIView.animateWithDuration(0.42) {() -> Void in
+            self.buttonSelectedImage.frame.origin = self.buttons[self.currentButton].frame.origin
+        }
+    }
+    
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if !decelerate
+        {
+            let currentIndex = floor(scrollView.contentOffset.x / scrollView.bounds.size.width);
+            
+            let offset = CGPointMake(scrollView.bounds.size.width * currentIndex, 0)
+            
+            scrollView.setContentOffset(offset, animated: true)
+        }
     }
     
     // MARK: Notification methods
