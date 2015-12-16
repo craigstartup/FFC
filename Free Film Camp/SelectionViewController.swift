@@ -32,8 +32,8 @@ class SelectionViewController: UIViewController, UIScrollViewDelegate {
     var scrollViewPages      = [CGRect]()
     let viewControllerIds    = ["IntroViewController","SceneViewController","MovieBuilderViewController"]
     
-    var currentVC = 1
-    var currentButton = 1
+    var currentVC = 0
+    var currentButton = 0
     let transitionQueue = dispatch_queue_create("com.trans.Queue", nil)
     
     override func viewDidLoad() {
@@ -115,7 +115,7 @@ class SelectionViewController: UIViewController, UIScrollViewDelegate {
     
     func populateScrollView() {
         var frame = self.scrollView.bounds
-        for var i = 0; i < self.viewControllers.count; i++ {
+        for var i = 0; i < self.viewControllers.count; i += 1 {
             let pageView = viewControllers[i].view
             frame.origin.x = frame.size.width * CGFloat(i)
             frame.origin.y = 0.0
@@ -127,7 +127,7 @@ class SelectionViewController: UIViewController, UIScrollViewDelegate {
     
     func getPagePositions() {
         let pageWidth = self.scrollView.contentSize.width / CGFloat(self.viewControllers.count)
-        for var page = 0; page < self.viewControllers.count; page++ {
+        for var page = 0; page < self.viewControllers.count; page += 1 {
             let frame = CGRectMake(pageWidth * CGFloat(page), 0.0, self.scrollView.bounds.width, self.scrollView.bounds.height)
             self.scrollViewPages.append(frame)
         }

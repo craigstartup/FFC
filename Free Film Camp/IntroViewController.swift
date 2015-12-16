@@ -21,7 +21,6 @@ class IntroViewController: UIViewController {
     // MARK: View lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.navigationBarHidden = true
     }
     
     override func viewWillAppear(animated: Bool) {
