@@ -74,6 +74,10 @@ class SelectionViewController: UIViewController, UIScrollViewDelegate {
         self.populateScrollView()
     }
     
+    override func viewDidAppear(animated: Bool) {
+        self.getPagePositions()
+    }
+    
     // MARK: Scrollview setup methods
     func getViewControllersForPages() {
         var index = 0
@@ -109,7 +113,6 @@ class SelectionViewController: UIViewController, UIScrollViewDelegate {
         self.scrollView.delegate = self
         let pagesScrollViewFrame = self.scrollView.frame.size
         self.scrollView.contentSize = CGSize(width: pagesScrollViewFrame.width * CGFloat(self.viewControllers.count), height: pagesScrollViewFrame.height)
-        self.getPagePositions()
         self.buttons[self.currentButton].selected = true
     }
     
