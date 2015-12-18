@@ -86,6 +86,10 @@ class SceneViewController: UIViewController {
     }
     
     func setupView() {
+        defer {
+            self.selectedVideoAsset = nil
+            self.selectedVideoImage = nil
+        }
         if assetRequestNumber != nil && self.selectedVideoAsset != nil && self.selectedVideoImage != nil {
             self.scene.shotImages[assetRequestNumber - 1] = self.selectedVideoImage
             self.scene.shotVideos[assetRequestNumber - 1] = self.selectedVideoAsset

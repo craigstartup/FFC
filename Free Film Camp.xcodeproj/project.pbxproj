@@ -14,6 +14,8 @@
 		8C498D9D1BFE4D6300468CF0 /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C498D9C1BFE4D6300468CF0 /* IntroViewController.swift */; };
 		8C498DA21BFFC8AB00468CF0 /* Intro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C498DA11BFFC8AB00468CF0 /* Intro.swift */; };
 		8C4B705A1BCD7BBE00E54C5E /* MediaController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4B70591BCD7BBE00E54C5E /* MediaController.swift */; };
+		8C4ED21B1C23E176001D5C17 /* StarWars1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8C4ED2191C23E176001D5C17 /* StarWars1.mp3 */; };
+		8C4ED21C1C23E176001D5C17 /* StarWars2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8C4ED21A1C23E176001D5C17 /* StarWars2.mp3 */; };
 		8C5E51CD1BC7AD3B0028CBAA /* TheatreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5E51CC1BC7AD3B0028CBAA /* TheatreViewController.swift */; };
 		8C5E51D11BC7B2840028CBAA /* TheatreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5E51D01BC7B2840028CBAA /* TheatreCell.swift */; };
 		8C6456B21BD580B700B5CE11 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 8C6456B11BD580B700B5CE11 /* .gitignore */; };
@@ -64,6 +66,8 @@
 		8C498DA11BFFC8AB00468CF0 /* Intro.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Intro.swift; sourceTree = "<group>"; };
 		8C4B70591BCD7BBE00E54C5E /* MediaController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaController.swift; sourceTree = "<group>"; };
 		8C4B705B1BCFFCD400E54C5E /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = MyPlayground.playground; path = "Free Film Camp/MyPlayground.playground"; sourceTree = "<group>"; };
+		8C4ED2191C23E176001D5C17 /* StarWars1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = StarWars1.mp3; sourceTree = "<group>"; };
+		8C4ED21A1C23E176001D5C17 /* StarWars2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = StarWars2.mp3; sourceTree = "<group>"; };
 		8C5E51CC1BC7AD3B0028CBAA /* TheatreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TheatreViewController.swift; sourceTree = "<group>"; };
 		8C5E51D01BC7B2840028CBAA /* TheatreCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TheatreCell.swift; sourceTree = "<group>"; };
 		8C6456B11BD580B700B5CE11 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -145,6 +149,8 @@
 				8CF6649C1BE0E05800BC88EA /* Believe in your dreams.mp3 */,
 				8CF6649F1BE0E05800BC88EA /* Sounds like fun.mp3 */,
 				8CF664A11BE0E05800BC88EA /* Youve got mail.mp3 */,
+				8C4ED2191C23E176001D5C17 /* StarWars1.mp3 */,
+				8C4ED21A1C23E176001D5C17 /* StarWars2.mp3 */,
 			);
 			name = music;
 			sourceTree = "<group>";
@@ -386,9 +392,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C4ED21B1C23E176001D5C17 /* StarWars1.mp3 in Resources */,
 				8C6456B21BD580B700B5CE11 /* .gitignore in Resources */,
 				8CA57D751BC252EA0016762A /* LaunchScreen.storyboard in Resources */,
 				8CF664A31BE0E05900BC88EA /* Believe in your dreams.mp3 in Resources */,
+				8C4ED21C1C23E176001D5C17 /* StarWars2.mp3 in Resources */,
 				8CF664A51BE0E05900BC88EA /* Bumper_3 sec.mp4 in Resources */,
 				8CA57D721BC252EA0016762A /* Assets.xcassets in Resources */,
 				8CA57D6D1BC252EA0016762A /* Main.storyboard in Resources */,

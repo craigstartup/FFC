@@ -22,7 +22,7 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
     var currentCell: NSIndexPath!
     var vpVC           = AVPlayerViewController()
     var videoPlayer: AVPlayer!
-    let musicFileNames = ["Believe in your dreams", "Sounds like fun", "Youve got mail"]
+    let musicFileNames = ["Believe in your dreams", "Sounds like fun", "Youve got mail", "StarWars1", "StarWars2"]
     var index: Int!
     
     // MARK: View lifecycle methods
