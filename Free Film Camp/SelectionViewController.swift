@@ -76,6 +76,7 @@ class SelectionViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidAppear(animated: Bool) {
         self.getPagePositions()
+        self.selectScene(buttons[1])
     }
     
     // MARK: Scrollview setup methods
@@ -140,10 +141,13 @@ class SelectionViewController: UIViewController, UIScrollViewDelegate {
     @IBAction func selectScene(sender: UIButton) {
         self.buttons[self.currentButton].selected = false
         // TODO: Check for capture of self.
+        let itemTime = 1.5 / Double(self.buttons.count - 1)
+        let distance = Double(abs(currentButton - sender.tag + 1))
+        let totalAnimationTime = NSTimeInterval(itemTime * distance)
         self.currentVC = sender.tag - 1
         self.currentButton = sender.tag - 1
         
-        UIView.animateWithDuration(1.5) {() -> Void in
+        UIView.animateWithDuration(totalAnimationTime) {() -> Void in
              self.scrollView.scrollRectToVisible(self.scrollViewPages[self.currentVC], animated: false)
              self.buttonSelectedImage.frame.origin = self.buttons[self.currentButton].frame.origin
         }

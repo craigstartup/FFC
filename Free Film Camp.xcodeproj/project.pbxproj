@@ -25,7 +25,6 @@
 		8CA57D6D1BC252EA0016762A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CA57D6B1BC252EA0016762A /* Main.storyboard */; };
 		8CA57D701BC252EA0016762A /* Free_Film_Camp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8CA57D6E1BC252EA0016762A /* Free_Film_Camp.xcdatamodeld */; };
 		8CA57D721BC252EA0016762A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8CA57D711BC252EA0016762A /* Assets.xcassets */; };
-		8CA57D751BC252EA0016762A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CA57D731BC252EA0016762A /* LaunchScreen.storyboard */; };
 		8CA57D801BC252EB0016762A /* Free_Film_CampTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA57D7F1BC252EB0016762A /* Free_Film_CampTests.swift */; };
 		8CA57D8B1BC252EB0016762A /* Free_Film_CampUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA57D8A1BC252EB0016762A /* Free_Film_CampUITests.swift */; };
 		8CA57D9E1BC258850016762A /* MovieBuilderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA57D9D1BC258850016762A /* MovieBuilderViewController.swift */; };
@@ -33,6 +32,7 @@
 		8CA57DAA1BC4D4C50016762A /* VideosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA57DA91BC4D4C50016762A /* VideosViewController.swift */; };
 		8CA57DE91BC5F0710016762A /* VideoLibraryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA57DE81BC5F0710016762A /* VideoLibraryCell.swift */; };
 		8CBF277F1BC78A3A00EEFA27 /* VoiceOverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBF277E1BC78A3A00EEFA27 /* VoiceOverViewController.swift */; };
+		8CD2FF6E1C24E07D001F08E8 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CD2FF6D1C24E07D001F08E8 /* Launch Screen.storyboard */; };
 		8CF664A31BE0E05900BC88EA /* Believe in your dreams.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8CF6649C1BE0E05800BC88EA /* Believe in your dreams.mp3 */; };
 		8CF664A51BE0E05900BC88EA /* Bumper_3 sec.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 8CF6649E1BE0E05800BC88EA /* Bumper_3 sec.mp4 */; };
 		8CF664A61BE0E05900BC88EA /* Sounds like fun.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8CF6649F1BE0E05800BC88EA /* Sounds like fun.mp3 */; };
@@ -78,7 +78,6 @@
 		8CA57D6C1BC252EA0016762A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8CA57D6F1BC252EA0016762A /* Free_Film_Camp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Free_Film_Camp.xcdatamodel; sourceTree = "<group>"; };
 		8CA57D711BC252EA0016762A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		8CA57D741BC252EA0016762A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8CA57D761BC252EA0016762A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8CA57D7B1BC252EB0016762A /* Free Film CampTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Free Film CampTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CA57D7F1BC252EB0016762A /* Free_Film_CampTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Free_Film_CampTests.swift; sourceTree = "<group>"; };
@@ -91,6 +90,7 @@
 		8CA57DA91BC4D4C50016762A /* VideosViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideosViewController.swift; sourceTree = "<group>"; };
 		8CA57DE81BC5F0710016762A /* VideoLibraryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoLibraryCell.swift; sourceTree = "<group>"; };
 		8CBF277E1BC78A3A00EEFA27 /* VoiceOverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceOverViewController.swift; sourceTree = "<group>"; };
+		8CD2FF6D1C24E07D001F08E8 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		8CF6649C1BE0E05800BC88EA /* Believe in your dreams.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Believe in your dreams.mp3"; sourceTree = "<group>"; };
 		8CF6649E1BE0E05800BC88EA /* Bumper_3 sec.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Bumper_3 sec.mp4"; sourceTree = "<group>"; };
 		8CF6649F1BE0E05800BC88EA /* Sounds like fun.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Sounds like fun.mp3"; sourceTree = "<group>"; };
@@ -244,11 +244,11 @@
 			isa = PBXGroup;
 			children = (
 				8CA57D6B1BC252EA0016762A /* Main.storyboard */,
-				8CA57D731BC252EA0016762A /* LaunchScreen.storyboard */,
 				8CA57D711BC252EA0016762A /* Assets.xcassets */,
 				8CA57DE81BC5F0710016762A /* VideoLibraryCell.swift */,
 				8C5E51D01BC7B2840028CBAA /* TheatreCell.swift */,
 				8C42D0901BEC80E500A5B718 /* MusicCell.swift */,
+				8CD2FF6D1C24E07D001F08E8 /* Launch Screen.storyboard */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -394,13 +394,13 @@
 			files = (
 				8C4ED21B1C23E176001D5C17 /* StarWars1.mp3 in Resources */,
 				8C6456B21BD580B700B5CE11 /* .gitignore in Resources */,
-				8CA57D751BC252EA0016762A /* LaunchScreen.storyboard in Resources */,
 				8CF664A31BE0E05900BC88EA /* Believe in your dreams.mp3 in Resources */,
 				8C4ED21C1C23E176001D5C17 /* StarWars2.mp3 in Resources */,
 				8CF664A51BE0E05900BC88EA /* Bumper_3 sec.mp4 in Resources */,
 				8CA57D721BC252EA0016762A /* Assets.xcassets in Resources */,
 				8CA57D6D1BC252EA0016762A /* Main.storyboard in Resources */,
 				8CF664A81BE0E05900BC88EA /* Youve got mail.mp3 in Resources */,
+				8CD2FF6E1C24E07D001F08E8 /* Launch Screen.storyboard in Resources */,
 				8CF664A61BE0E05900BC88EA /* Sounds like fun.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -535,14 +535,6 @@
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		8CA57D731BC252EA0016762A /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8CA57D741BC252EA0016762A /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -634,6 +626,7 @@
 			baseConfigurationReference = 98AD5D7C32D9FC95DC7433AE /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Free Film Camp/Info.plist";
@@ -651,6 +644,7 @@
 			baseConfigurationReference = C2A5CECE88AB2468A31ECC89 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Free Film Camp/Info.plist";
