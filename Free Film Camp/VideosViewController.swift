@@ -94,10 +94,9 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
                 }
             }
         }
-        self.navigationController?.navigationBarHidden = true
+        
         self.navigationController?.navigationBar.translucent = true
     }
-
     
     // MARK: Collection view delegate methods
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -107,7 +106,6 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
             return 1
         }
     }
-    
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         if indexPath.item == 0 {
@@ -133,6 +131,10 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
     }
     
     // MARK: Media selection methods
+    @IBAction func cancelSelection(sender: UIButton) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
         if gestureRecognizer.state == UIGestureRecognizerState.Began {
             self.longItem = gestureRecognizer.locationInView(self.collectionView)
@@ -159,7 +161,6 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
             }
         }
     }
-    
     
     func handleTap(gestureRecognizer: UITapGestureRecognizer) {
         print("TAP")
@@ -188,7 +189,6 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
             }
         }
     }
-    
     
     func destroyClip(sender: UIButton) {
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
@@ -228,11 +228,9 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
         }
     }
     
-    
     @IBAction func cameraUnwind(unwindSegue: UIStoryboardSegue) {
         self.performSegueWithIdentifier(self.segueID, sender: self)
     }
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

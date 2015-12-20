@@ -102,6 +102,7 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     
     
     @IBAction func recordButtonPressed(sender: AnyObject) {
+        self.doneButton.setTitle("Done", forState: .Normal)
         // set up progress view for recording time
         self.progressBar.alpha = 1
         self.progress = NSTimer.scheduledTimerWithTimeInterval(0.009, target: self, selector: "updateProgress", userInfo: nil, repeats: true)

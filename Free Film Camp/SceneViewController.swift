@@ -76,7 +76,7 @@ class SceneViewController: UIViewController {
             button.enabled = false
         }
         
-        self.navigationController?.navigationBarHidden = true
+        self.navigationController?.navigationBar.translucent = true
         self.setupView()
     }
     
@@ -135,9 +135,6 @@ class SceneViewController: UIViewController {
     @IBAction func selectMedia(sender: UIButton) {
         self.assetRequestNumber = sender.tag
         let buttonPressed = sender.tag - 1
-        
-        self.sceneButtons[DESTROY_BUTTONS]![buttonPressed].alpha = 1
-        self.sceneButtons[DESTROY_BUTTONS]![buttonPressed].enabled = true
         
         if buttonPressed > SHOT3 {
             self.audioAsset = nil
@@ -291,7 +288,10 @@ class SceneViewController: UIViewController {
     
     
     @IBAction func sceneShotUnwindSegue(unwindSegue: UIStoryboardSegue) {
-        
+        if self.audioAsset != nil {
+            self.sceneButtons[DESTROY_BUTTONS]![self.assetRequestNumber].alpha = 1
+            self.sceneButtons[DESTROY_BUTTONS]![self.assetRequestNumber].enabled = true
+        }
     }
     
     @IBAction func sceneAudioUnwindSegue(unwindSegue: UIStoryboardSegue){

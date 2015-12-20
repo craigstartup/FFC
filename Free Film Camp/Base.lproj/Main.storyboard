@@ -13,7 +13,7 @@
         <!--Video View-->
         <scene sceneID="R3q-qt-yrF">
             <objects>
-                <collectionViewController storyboardIdentifier="videoVC" title="Video View" useStoryboardIdentifierAsRestorationIdentifier="YES" id="4to-zB-zdm" customClass="VideosViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController storyboardIdentifier="videoVC" title="Video View" definesPresentationContext="YES" modalPresentationStyle="overCurrentContext" useStoryboardIdentifierAsRestorationIdentifier="YES" id="4to-zB-zdm" customClass="VideosViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="Vjp-tg-RBq">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -40,6 +40,13 @@
                                                 <segue destination="KtM-ME-n2y" kind="presentation" identifier="pickingShot" modalPresentationStyle="overFullScreen" id="nYQ-Mx-U5W"/>
                                             </connections>
                                         </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VZa-Rp-k2C">
+                                            <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                                            <state key="normal" image="camera_cancel_btn_36"/>
+                                            <connections>
+                                                <action selector="cancelSelection:" destination="4to-zB-zdm" eventType="touchUpInside" id="eQD-NO-YxW"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
@@ -48,10 +55,12 @@
                                     <constraint firstItem="n40-zf-h2S" firstAttribute="centerY" secondItem="2Ky-zQ-wWE" secondAttribute="centerY" id="0lN-NI-80R"/>
                                     <constraint firstItem="n40-zf-h2S" firstAttribute="top" secondItem="2Ky-zQ-wWE" secondAttribute="topMargin" constant="6" id="2zJ-Bo-3Th"/>
                                     <constraint firstItem="n40-zf-h2S" firstAttribute="leading" secondItem="2Ky-zQ-wWE" secondAttribute="leadingMargin" constant="6" id="6Yd-A1-xmR"/>
+                                    <constraint firstItem="VZa-Rp-k2C" firstAttribute="top" secondItem="2Ky-zQ-wWE" secondAttribute="topMargin" constant="-8" id="J0b-K2-KKL"/>
                                     <constraint firstAttribute="trailingMargin" secondItem="n40-zf-h2S" secondAttribute="trailing" constant="6" id="OhM-YN-ieQ"/>
                                     <constraint firstAttribute="bottomMargin" secondItem="n40-zf-h2S" secondAttribute="bottom" constant="6" id="W9b-yQ-w79"/>
                                     <constraint firstItem="n40-zf-h2S" firstAttribute="centerX" secondItem="2Ky-zQ-wWE" secondAttribute="centerX" id="XTW-eb-9FY"/>
                                     <constraint firstItem="n40-zf-h2S" firstAttribute="top" secondItem="2Ky-zQ-wWE" secondAttribute="topMargin" constant="6" id="YbO-Kj-eag"/>
+                                    <constraint firstItem="VZa-Rp-k2C" firstAttribute="leading" secondItem="2Ky-zQ-wWE" secondAttribute="leadingMargin" constant="-8" id="ikT-zW-f4b"/>
                                 </constraints>
                             </collectionViewCell>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ClipCell" id="haP-B8-Tyq" customClass="VideoLibraryCell" customModule="Free_Film_Camp" customModuleProvider="target">
@@ -143,7 +152,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tiy-FS-viV">
                                         <rect key="frame" x="373" y="0.0" width="187" height="44"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="26"/>
-                                        <state key="normal" title="Save">
+                                        <state key="normal" title="Cancel">
                                             <color key="titleColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
@@ -314,12 +323,12 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HtI-cw-RDb" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="IJT-rK-ouy" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3097" y="-623"/>
+            <point key="canvasLocation" x="3113" y="-623"/>
         </scene>
         <!--Scene-->
         <scene sceneID="A32-Sa-mTl">
             <objects>
-                <viewController storyboardIdentifier="SceneViewController" title="Scene" modalTransitionStyle="flipHorizontal" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Rxg-ar-8Jr" customClass="SceneViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SceneViewController" title="Scene" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Rxg-ar-8Jr" customClass="SceneViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="8yL-1a-8JA"/>
                         <viewControllerLayoutGuide type="bottom" id="aaJ-mr-5ah"/>
@@ -950,7 +959,7 @@
         <!--Intro-->
         <scene sceneID="Ku2-kw-3lO">
             <objects>
-                <viewController storyboardIdentifier="IntroViewController" title="Intro" modalTransitionStyle="flipHorizontal" useStoryboardIdentifierAsRestorationIdentifier="YES" id="nf2-gJ-Z4I" customClass="IntroViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="IntroViewController" title="Intro" definesPresentationContext="YES" modalTransitionStyle="flipHorizontal" useStoryboardIdentifierAsRestorationIdentifier="YES" id="nf2-gJ-Z4I" customClass="IntroViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="9eI-c6-zQW"/>
                         <viewControllerLayoutGuide type="bottom" id="jjP-cF-WOg"/>
@@ -1198,6 +1207,6 @@
         <image name="plus_white_69" width="60" height="60"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="182-e7-4UI"/>
+        <segue reference="nYQ-Mx-U5W"/>
     </inferredMetricsTieBreakers>
 </document>
