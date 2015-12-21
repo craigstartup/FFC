@@ -200,6 +200,8 @@ class SelectionViewController: UIViewController, UIScrollViewDelegate {
             view.removeFromSuperview()
         }
         
+        self.viewControllers.removeAll()
+        self.getViewControllersForPages()
         self.populateScrollView()
     }
 }

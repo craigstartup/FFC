@@ -131,6 +131,7 @@ class SceneViewController: UIViewController {
             self.sceneButtons[ADD_BUTTONS]![VOICEOVER].enabled = false
         }
     }
+    
     // MARK: Button Actions
     @IBAction func selectMedia(sender: UIButton) {
         self.assetRequestNumber = sender.tag

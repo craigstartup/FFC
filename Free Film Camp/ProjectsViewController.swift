@@ -44,6 +44,7 @@ class ProjectsViewController: UITableViewController {
             // Add directory for project
             self.createProjectDirectory(projectTextField.text)
         }
+        
         addNewProject.enabled = false
         
         let cancel = UIAlertAction(title: "Cancel", style: .Destructive) { (_) -> Void in }
@@ -65,7 +66,6 @@ class ProjectsViewController: UITableViewController {
         
     }
     
-    
     // MARK: Table view methods
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.projects!.count
@@ -80,6 +80,7 @@ class ProjectsViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         let currentProject = NSUserDefaults.standardUserDefaults().stringForKey("currentProject")
+        
         if cell.textLabel!.text == currentProject {
             cell.setSelected(true, animated: false)
         }
