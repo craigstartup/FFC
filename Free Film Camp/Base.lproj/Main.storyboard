@@ -126,69 +126,84 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleAspectFit" distribution="fillEqually" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="nZ9-Zw-TTL">
-                                <rect key="frame" x="20" y="548" width="560" height="44"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NbM-Qb-Saa" userLabel="Voiceover View">
+                                <rect key="frame" x="20" y="143" width="560" height="315"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="na2-7t-mhh">
-                                        <rect key="frame" x="0.0" y="0.0" width="187" height="44"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="26"/>
-                                        <state key="normal" title="Record">
-                                            <color key="titleColor" red="1" green="0.054037065269999997" blue="0.25342486240000001" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="recordButtonPressed:" destination="t2l-7N-cdU" eventType="touchUpInside" id="kvA-g6-F5M"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MbU-Fj-Cdv">
-                                        <rect key="frame" x="187" y="0.0" width="186" height="44"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="26"/>
-                                        <state key="normal" title="Play">
-                                            <color key="titleColor" red="0.40000000600000002" green="1" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="playButtonPressed:" destination="t2l-7N-cdU" eventType="touchUpInside" id="Crp-Uu-puV"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tiy-FS-viV">
-                                        <rect key="frame" x="373" y="0.0" width="187" height="44"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="26"/>
-                                        <state key="normal" title="Cancel">
-                                            <color key="titleColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="doneButtonPressed:" destination="t2l-7N-cdU" eventType="touchUpInside" id="PMj-Z5-zu6"/>
-                                        </connections>
-                                    </button>
+                                    <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="zfb-Yi-cGw" userLabel="Preview Player">
+                                        <rect key="frame" x="0.0" y="0.0" width="560" height="271"/>
+                                        <subviews>
+                                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="0jd-6r-5pM">
+                                                <rect key="frame" x="155" y="261" width="250" height="2"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="250" id="8PI-qN-a02"/>
+                                                </constraints>
+                                                <color key="progressTintColor" red="1" green="0.054037065269999997" blue="0.25342486240000001" alpha="1" colorSpace="calibratedRGB"/>
+                                            </progressView>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstItem="0jd-6r-5pM" firstAttribute="bottom" secondItem="zfb-Yi-cGw" secondAttribute="bottomMargin" id="BDy-aE-X3k"/>
+                                            <constraint firstItem="0jd-6r-5pM" firstAttribute="centerX" secondItem="zfb-Yi-cGw" secondAttribute="centerX" id="GSP-mT-jWy"/>
+                                        </constraints>
+                                    </view>
+                                    <stackView contentMode="scaleAspectFit" distribution="fillEqually" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="nZ9-Zw-TTL">
+                                        <rect key="frame" x="0.0" y="271" width="560" height="44"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="na2-7t-mhh">
+                                                <rect key="frame" x="0.0" y="0.0" width="187" height="44"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                                <state key="normal" title="Record">
+                                                    <color key="titleColor" red="1" green="0.054037065269999997" blue="0.25342486240000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="recordButtonPressed:" destination="t2l-7N-cdU" eventType="touchUpInside" id="kvA-g6-F5M"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MbU-Fj-Cdv">
+                                                <rect key="frame" x="187" y="0.0" width="186" height="44"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                                <state key="normal" title="Play">
+                                                    <color key="titleColor" red="0.40000000600000002" green="1" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="playButtonPressed:" destination="t2l-7N-cdU" eventType="touchUpInside" id="Crp-Uu-puV"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tiy-FS-viV">
+                                                <rect key="frame" x="373" y="0.0" width="187" height="44"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                                <state key="normal" title="Cancel">
+                                                    <color key="titleColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="doneButtonPressed:" destination="t2l-7N-cdU" eventType="touchUpInside" id="PMj-Z5-zu6"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.57254901960000004" green="0.57254901960000004" blue="0.57254901960000004" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="tintColor" red="0.57254901960000004" green="0.57254901960000004" blue="0.57254901960000004" alpha="1" colorSpace="calibratedRGB"/>
+                                    </stackView>
                                 </subviews>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                            </stackView>
-                            <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="zfb-Yi-cGw" userLabel="Preview Player">
-                                <rect key="frame" x="20" y="233" width="560" height="315"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.2666666667" green="0.2666666667" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="315" id="Jbx-bV-tBS"/>
+                                    <constraint firstItem="nZ9-Zw-TTL" firstAttribute="top" secondItem="zfb-Yi-cGw" secondAttribute="bottom" id="0hZ-Id-PH5"/>
+                                    <constraint firstAttribute="bottom" secondItem="nZ9-Zw-TTL" secondAttribute="bottom" id="6Mg-X5-GTh"/>
+                                    <constraint firstAttribute="trailing" secondItem="nZ9-Zw-TTL" secondAttribute="trailing" id="Buv-Ve-fwz"/>
+                                    <constraint firstAttribute="width" secondItem="NbM-Qb-Saa" secondAttribute="height" multiplier="16:9" id="L2V-W1-Fa8"/>
+                                    <constraint firstItem="nZ9-Zw-TTL" firstAttribute="leading" secondItem="NbM-Qb-Saa" secondAttribute="leading" id="RlL-dS-qci"/>
+                                    <constraint firstItem="zfb-Yi-cGw" firstAttribute="trailing" secondItem="nZ9-Zw-TTL" secondAttribute="trailing" id="WcR-UN-pjp"/>
+                                    <constraint firstItem="nZ9-Zw-TTL" firstAttribute="top" secondItem="zfb-Yi-cGw" secondAttribute="bottom" id="bhC-Gb-2Ur"/>
+                                    <constraint firstItem="zfb-Yi-cGw" firstAttribute="leading" secondItem="nZ9-Zw-TTL" secondAttribute="leading" id="cDI-r0-ybK"/>
+                                    <constraint firstItem="zfb-Yi-cGw" firstAttribute="top" secondItem="NbM-Qb-Saa" secondAttribute="top" id="zpC-NX-4rO"/>
                                 </constraints>
                             </view>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="0jd-6r-5pM">
-                                <rect key="frame" x="175" y="538" width="250" height="2"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="250" id="8PI-qN-a02"/>
-                                </constraints>
-                                <color key="progressTintColor" red="1" green="0.054037065269999997" blue="0.25342486240000001" alpha="1" colorSpace="calibratedRGB"/>
-                            </progressView>
                         </subviews>
                         <color key="backgroundColor" red="0.2666666667" green="0.2666666667" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="nZ9-Zw-TTL" firstAttribute="leading" secondItem="Fyg-ug-AMe" secondAttribute="leadingMargin" id="8jn-Rx-fet"/>
-                            <constraint firstItem="nZ9-Zw-TTL" firstAttribute="top" secondItem="0jd-6r-5pM" secondAttribute="bottom" constant="8" id="H6h-IU-rNd"/>
-                            <constraint firstItem="0jd-6r-5pM" firstAttribute="centerX" secondItem="Fyg-ug-AMe" secondAttribute="centerX" id="KXy-Y1-jnu"/>
-                            <constraint firstItem="zfb-Yi-cGw" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Fyg-ug-AMe" secondAttribute="trailingMargin" id="gwK-TW-Jt9"/>
-                            <constraint firstItem="zfb-Yi-cGw" firstAttribute="centerX" secondItem="Fyg-ug-AMe" secondAttribute="centerX" id="gyo-le-ICD"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="nZ9-Zw-TTL" secondAttribute="trailing" id="kxt-zU-BES"/>
-                            <constraint firstItem="I6K-8R-b3A" firstAttribute="top" secondItem="nZ9-Zw-TTL" secondAttribute="bottom" constant="8" id="nla-c9-C4D"/>
-                            <constraint firstItem="nZ9-Zw-TTL" firstAttribute="top" secondItem="zfb-Yi-cGw" secondAttribute="bottom" id="qcS-6v-VLj"/>
-                            <constraint firstItem="zfb-Yi-cGw" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Fyg-ug-AMe" secondAttribute="leadingMargin" id="u4i-rf-bt3"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="NbM-Qb-Saa" secondAttribute="leading" id="7yQ-Fr-fHU"/>
+                            <constraint firstItem="NbM-Qb-Saa" firstAttribute="centerX" secondItem="Fyg-ug-AMe" secondAttribute="centerX" id="GCF-Rg-9w4"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="NbM-Qb-Saa" secondAttribute="trailing" id="Q8Z-Yp-0Q5"/>
+                            <constraint firstItem="NbM-Qb-Saa" firstAttribute="centerY" secondItem="Fyg-ug-AMe" secondAttribute="centerY" id="c0O-7A-b3S"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="bgm-vV-XIk"/>
