@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8C0712EF1BE6D4F600CC909E /* SelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0712EE1BE6D4F600CC909E /* SelectionViewController.swift */; };
+		8C41C5A01C292AD200CF446C /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C41C59F1C292AD200CF446C /* Launch Screen.storyboard */; };
 		8C42D08D1BEC115A00A5B718 /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C42D08C1BEC115A00A5B718 /* Scene.swift */; };
 		8C42D0911BEC80E500A5B718 /* MusicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C42D0901BEC80E500A5B718 /* MusicCell.swift */; };
 		8C498D9D1BFE4D6300468CF0 /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C498D9C1BFE4D6300468CF0 /* IntroViewController.swift */; };
@@ -29,7 +30,6 @@
 		8CA57DAA1BC4D4C50016762A /* VideosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA57DA91BC4D4C50016762A /* VideosViewController.swift */; };
 		8CA57DE91BC5F0710016762A /* VideoLibraryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA57DE81BC5F0710016762A /* VideoLibraryCell.swift */; };
 		8CBF277F1BC78A3A00EEFA27 /* VoiceOverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBF277E1BC78A3A00EEFA27 /* VoiceOverViewController.swift */; };
-		8CD2FF6E1C24E07D001F08E8 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CD2FF6D1C24E07D001F08E8 /* Launch Screen.storyboard */; };
 		8CF664A31BE0E05900BC88EA /* Believe in your dreams.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8CF6649C1BE0E05800BC88EA /* Believe in your dreams.mp3 */; };
 		8CF664A51BE0E05900BC88EA /* Bumper_3 sec.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 8CF6649E1BE0E05800BC88EA /* Bumper_3 sec.mp4 */; };
 		8CF664A61BE0E05900BC88EA /* Sounds like fun.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8CF6649F1BE0E05800BC88EA /* Sounds like fun.mp3 */; };
@@ -56,6 +56,7 @@
 
 /* Begin PBXFileReference section */
 		8C0712EE1BE6D4F600CC909E /* SelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionViewController.swift; sourceTree = "<group>"; };
+		8C41C59F1C292AD200CF446C /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		8C42D08C1BEC115A00A5B718 /* Scene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
 		8C42D0901BEC80E500A5B718 /* MusicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicCell.swift; sourceTree = "<group>"; };
 		8C498D9C1BFE4D6300468CF0 /* IntroViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
@@ -84,7 +85,6 @@
 		8CA57DA91BC4D4C50016762A /* VideosViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideosViewController.swift; sourceTree = "<group>"; };
 		8CA57DE81BC5F0710016762A /* VideoLibraryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoLibraryCell.swift; sourceTree = "<group>"; };
 		8CBF277E1BC78A3A00EEFA27 /* VoiceOverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceOverViewController.swift; sourceTree = "<group>"; };
-		8CD2FF6D1C24E07D001F08E8 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		8CF6649C1BE0E05800BC88EA /* Believe in your dreams.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Believe in your dreams.mp3"; sourceTree = "<group>"; };
 		8CF6649E1BE0E05800BC88EA /* Bumper_3 sec.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Bumper_3 sec.mp4"; sourceTree = "<group>"; };
 		8CF6649F1BE0E05800BC88EA /* Sounds like fun.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Sounds like fun.mp3"; sourceTree = "<group>"; };
@@ -231,7 +231,7 @@
 				8CA57DE81BC5F0710016762A /* VideoLibraryCell.swift */,
 				8C5E51D01BC7B2840028CBAA /* TheatreCell.swift */,
 				8C42D0901BEC80E500A5B718 /* MusicCell.swift */,
-				8CD2FF6D1C24E07D001F08E8 /* Launch Screen.storyboard */,
+				8C41C59F1C292AD200CF446C /* Launch Screen.storyboard */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -377,11 +377,11 @@
 			files = (
 				8C6456B21BD580B700B5CE11 /* .gitignore in Resources */,
 				8CF664A31BE0E05900BC88EA /* Believe in your dreams.mp3 in Resources */,
+				8C41C5A01C292AD200CF446C /* Launch Screen.storyboard in Resources */,
 				8CF664A51BE0E05900BC88EA /* Bumper_3 sec.mp4 in Resources */,
 				8CA57D721BC252EA0016762A /* Assets.xcassets in Resources */,
 				8CA57D6D1BC252EA0016762A /* Main.storyboard in Resources */,
 				8CF664A81BE0E05900BC88EA /* Youve got mail.mp3 in Resources */,
-				8CD2FF6E1C24E07D001F08E8 /* Launch Screen.storyboard in Resources */,
 				8CF664A61BE0E05900BC88EA /* Sounds like fun.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -606,6 +606,7 @@
 			baseConfigurationReference = 98AD5D7C32D9FC95DC7433AE /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Free Film Camp/Info.plist";
@@ -623,6 +624,7 @@
 			baseConfigurationReference = C2A5CECE88AB2468A31ECC89 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Free Film Camp/Info.plist";
