@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		8C0712EF1BE6D4F600CC909E /* SelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0712EE1BE6D4F600CC909E /* SelectionViewController.swift */; };
-		8C0712F11BE6ECF600CC909E /* SelectionSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0712F01BE6ECF600CC909E /* SelectionSegue.swift */; };
 		8C42D08D1BEC115A00A5B718 /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C42D08C1BEC115A00A5B718 /* Scene.swift */; };
 		8C42D0911BEC80E500A5B718 /* MusicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C42D0901BEC80E500A5B718 /* MusicCell.swift */; };
 		8C498D9D1BFE4D6300468CF0 /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C498D9C1BFE4D6300468CF0 /* IntroViewController.swift */; };
@@ -57,7 +56,6 @@
 
 /* Begin PBXFileReference section */
 		8C0712EE1BE6D4F600CC909E /* SelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionViewController.swift; sourceTree = "<group>"; };
-		8C0712F01BE6ECF600CC909E /* SelectionSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionSegue.swift; sourceTree = "<group>"; };
 		8C42D08C1BEC115A00A5B718 /* Scene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
 		8C42D0901BEC80E500A5B718 /* MusicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicCell.swift; sourceTree = "<group>"; };
 		8C498D9C1BFE4D6300468CF0 /* IntroViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
@@ -152,7 +150,6 @@
 		8C498D9E1BFE4D9D00468CF0 /* Main Navigation */ = {
 			isa = PBXGroup;
 			children = (
-				8C498DA01BFE90F100468CF0 /* Custom Tab Controller */,
 				8C0712EE1BE6D4F600CC909E /* SelectionViewController.swift */,
 				8C498D9C1BFE4D6300468CF0 /* IntroViewController.swift */,
 				8C6E1B2F1BFA7ABB009F3E86 /* SceneViewController.swift */,
@@ -171,14 +168,6 @@
 				8CA57DA91BC4D4C50016762A /* VideosViewController.swift */,
 			);
 			name = "Tools & Media Libraries";
-			sourceTree = "<group>";
-		};
-		8C498DA01BFE90F100468CF0 /* Custom Tab Controller */ = {
-			isa = PBXGroup;
-			children = (
-				8C0712F01BE6ECF600CC909E /* SelectionSegue.swift */,
-			);
-			name = "Custom Tab Controller";
 			sourceTree = "<group>";
 		};
 		8CA57D5B1BC252EA0016762A = {
@@ -471,7 +460,6 @@
 				8CBF277F1BC78A3A00EEFA27 /* VoiceOverViewController.swift in Sources */,
 				8C498DA21BFFC8AB00468CF0 /* Intro.swift in Sources */,
 				8CA57DE91BC5F0710016762A /* VideoLibraryCell.swift in Sources */,
-				8C0712F11BE6ECF600CC909E /* SelectionSegue.swift in Sources */,
 				8C6E1B301BFA7ABB009F3E86 /* SceneViewController.swift in Sources */,
 				8C42D08D1BEC115A00A5B718 /* Scene.swift in Sources */,
 				8CA57DA41BC49AE50016762A /* CameraViewController.swift in Sources */,

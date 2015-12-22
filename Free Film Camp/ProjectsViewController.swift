@@ -16,7 +16,8 @@ class ProjectsViewController: UITableViewController {
         super.viewDidLoad()
         self.tableView.allowsMultipleSelectionDuringEditing = false
     }
-
+    
+    // MARK: Action methods
     @IBAction func linkDropBox(sender: UIBarButtonItem) {
         if Dropbox.authorizedClient == nil {
         Dropbox.authorizeFromController(self)
@@ -24,8 +25,8 @@ class ProjectsViewController: UITableViewController {
     }
     
     @IBAction func donePressed(sender: UIBarButtonItem) {
-        self.dismissViewControllerAnimated(true, completion: nil)
         NSNotificationCenter.defaultCenter().postNotificationName("projectSelected", object: self)
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBAction func addProject(sender: UIBarButtonItem) {
@@ -38,11 +39,10 @@ class ProjectsViewController: UITableViewController {
             NSUserDefaults.standardUserDefaults().setObject(self.projects, forKey: "projects")
             NSUserDefaults.standardUserDefaults().setObject(projectTextField.text, forKey: "currentProject")
             NSUserDefaults.standardUserDefaults().synchronize()
-            MediaController.sharedMediaController.project = projectTextField.text!
-            MediaController.sharedMediaController.scenes = MediaController.sharedMediaController.loadScenes()!
-            self.tableView.reloadData()
             // Add directory for project
             self.createProjectDirectory(projectTextField.text)
+            MediaController.sharedMediaController.project = projectTextField.text!
+            self.tableView.reloadData()
         }
         
         addNewProject.enabled = false
@@ -91,7 +91,6 @@ class ProjectsViewController: UITableViewController {
         NSUserDefaults.standardUserDefaults().setObject(self.projects![indexPath.row], forKey: "currentProject")
         NSUserDefaults.standardUserDefaults().synchronize()
         MediaController.sharedMediaController.project = self.projects![indexPath.row] as? String
-        MediaController.sharedMediaController.scenes = MediaController.sharedMediaController.loadScenes()!
         self.tableView.reloadData()
     }
     
@@ -103,7 +102,6 @@ class ProjectsViewController: UITableViewController {
                 let currentProject = self.projects?.first
                 NSUserDefaults.standardUserDefaults().setObject(currentProject, forKey: "currentProject")
                 MediaController.sharedMediaController.project = self.projects?.first! as? String
-                MediaController.sharedMediaController.scenes = MediaController.sharedMediaController.loadScenes()!
             }
             
             destroyProject(self.projects![indexPath.row] as! String)

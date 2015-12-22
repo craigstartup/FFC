@@ -38,16 +38,6 @@ class SelectionViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Load scenes or initialize if none exist.
-        MediaController.sharedMediaController.scenes = MediaController.sharedMediaController.loadScenes()
-        
-        if MediaController.sharedMediaController.scenes.isEmpty {
-            for _ in 0..<3 {
-                let scene = Scene(shotVideos: Array(count: 3, repeatedValue: defaultVideoURL!), shotImages: Array(count: 3, repeatedValue: defaultImage!), voiceOver: defaultVoiceOverFile)
-                MediaController.sharedMediaController.scenes.append(scene!)
-            }
-        }
-        
         NSNotificationCenter.defaultCenter().addObserver(
             self,
             selector: "dropboxComplete:",
@@ -81,7 +71,18 @@ class SelectionViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: Scrollview setup methods
     func getViewControllersForPages() {
+        // Load scenes or initialize if none exist.
+        MediaController.sharedMediaController.scenes = MediaController.sharedMediaController.loadScenes()
+        
+        if MediaController.sharedMediaController.scenes.isEmpty {
+            for _ in 0..<3 {
+                let scene = Scene(shotVideos: Array(count: 3, repeatedValue: defaultVideoURL!), shotImages: Array(count: 3, repeatedValue: defaultImage!), voiceOver: defaultVoiceOverFile)
+                MediaController.sharedMediaController.scenes.append(scene!)
+            }
+        }
+        
         var index = 0
+        
         for viewId in self.viewControllerIds {
             if viewId == "SceneViewController" {
                 for var i = 0; i < MediaController.sharedMediaController.scenes.count; i += 1 {
