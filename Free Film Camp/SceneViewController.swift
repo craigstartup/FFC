@@ -177,6 +177,10 @@ class SceneViewController: UIViewController {
     
     
     @IBAction func previewSelection(sender: AnyObject) {
+        defer {
+            MediaController.sharedMediaController.preview = nil
+        }
+        
         MediaController.sharedMediaController.prepareMedia(
             intro: false,
             media: [self.scene],

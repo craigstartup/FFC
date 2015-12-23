@@ -220,10 +220,15 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     }
     
     func didFinishPlayingVideo(notification: NSNotification) {
+        let finishedPlayer = self.playerLayer.player as! AVQueuePlayer
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: AVPlayerItemDidPlayToEndTimeNotification, object: finishedPlayer.items().last)
+        finishedPlayer.removeAllItems()
         self.progressBar.progress = 0.0
         self.progressBar.alpha = 0
         self.progress.invalidate()
-        self.playerLayer.player?.seekToTime(kCMTimeZero)
+        self.playerLayer.player = nil
+        self.playerLayer = self.getPreview()
+        self.setupPreview()
     }
     
     

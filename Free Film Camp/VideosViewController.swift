@@ -109,7 +109,7 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize
     {
-        return CGSizeMake((UIScreen.mainScreen().bounds.width-20)/3,120); //use height whatever you wants.
+        return CGSizeMake((UIScreen.mainScreen().bounds.width-20)/3,136);
     }
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
@@ -236,21 +236,4 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
     @IBAction func cameraUnwind(unwindSegue: UIStoryboardSegue) {
         self.performSegueWithIdentifier(self.segueID, sender: self)
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
