@@ -122,7 +122,7 @@
                         <viewControllerLayoutGuide type="top" id="jb1-rH-8Ql"/>
                         <viewControllerLayoutGuide type="bottom" id="I6K-8R-b3A"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Fyg-ug-AMe">
+                    <view key="view" opaque="NO" contentMode="scaleToFill" id="Fyg-ug-AMe">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
