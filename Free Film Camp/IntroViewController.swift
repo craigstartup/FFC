@@ -21,6 +21,7 @@ class IntroViewController: UIViewController {
     // MARK: View lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.getIntro()
     }
     
     override func viewWillAppear(animated: Bool) {

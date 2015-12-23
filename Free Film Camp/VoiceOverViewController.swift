@@ -231,7 +231,6 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         self.setupPreview()
     }
     
-    
     func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
         playButton.alpha = 1.0
         playButton.enabled = true
@@ -239,11 +238,9 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         recordButton.enabled = true
     }
     
-    
     func audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer, error: NSError?) {
         print("Audio Play Decode Error")
     }
-    
     
     func audioRecorderDidFinishRecording(recorder: AVAudioRecorder, successfully flag: Bool) {
         recorder.stop()
