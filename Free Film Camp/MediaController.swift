@@ -12,6 +12,7 @@ import Photos
 import AVFoundation
 import AVKit
 import SwiftyDropbox
+import Social
 
 class MediaController {
     
@@ -25,6 +26,8 @@ class MediaController {
         static let previewReady      = "previewPrepped"
         static let dropBoxUpFinish   = "dropBoxUploadComplete"
         static let dropBoxFail       = "dropBoxFailure"
+        static let movieReady        = "movieReady"
+        static let sharingComplete   = "sharedMovie"
     }
     
     enum Albums {
@@ -45,6 +48,7 @@ class MediaController {
     var intro: Intro!
     var musicTrack: AVURLAsset!
     var preview: AVPlayerItem!
+    var movieToShare: NSURL!
     
     var dropboxIsLoading = false
 
@@ -87,7 +91,8 @@ class MediaController {
         
         // If movie, prepare voiceover, prepend intro and append bumper to video array
         if movie {
-            let bumper = AVURLAsset(URL: NSBundle.mainBundle().URLForResource("Bumper_3 sec", withExtension: "mp4")!)
+            let bumperPath = NSBundle.mainBundle().URLForResource("Bumper-3-sec", withExtension: "mp4")
+            let bumper = AVURLAsset(URL: bumperPath!)
             videoAssets.append(bumper)
             
             guard !voiceOverAssets.isEmpty else {
@@ -246,19 +251,20 @@ class MediaController {
             }
         }
         
-        
-        if save && !mixComposition.tracks.isEmpty {
-            self.saveMedia(mixComposition, videoComposition: mainComposition, movie: movie)
-        } else if !save && !mixComposition.tracks.isEmpty {
+        if !mixComposition.tracks.isEmpty {
+            self.mergeMedia(
+                mixComposition,
+                videoComposition: mainComposition,
+                movie: movie,
+                save: save)
             let preview = AVPlayerItem(asset: mixComposition)
             preview.videoComposition = mainComposition
             self.preview = preview
         }
     }
     
-    
-    // MARK: Media save methods
-    func saveMedia(mixComposition: AVMutableComposition, videoComposition: AVMutableVideoComposition, movie: Bool) {
+
+    func mergeMedia(mixComposition: AVMutableComposition, videoComposition: AVMutableVideoComposition, movie: Bool, save: Bool) {
         // setup to save
         let paths: NSArray = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
         let documentDirectory: String = paths[0] as! String
@@ -266,6 +272,7 @@ class MediaController {
         dateFormatter.dateStyle = .FullStyle
         dateFormatter.timeStyle = .MediumStyle
         let date = dateFormatter.stringFromDate(NSDate())
+        // check project for spaces and change name if needed.
         let projectToCheck = self.project!
         let projectName = projectToCheck.stringByReplacingOccurrencesOfString(" ", withString: "-")
         let url = NSURL(fileURLWithPath: documentDirectory).URLByAppendingPathComponent("\(projectName)-Movie-\(date).mov")
@@ -274,18 +281,37 @@ class MediaController {
             asset: mixComposition,
             presetName: AVAssetExportPresetHighestQuality)
         exporter!.outputURL = url
+        print(url)
         exporter!.outputFileType = AVFileTypeQuickTimeMovie
         exporter!.videoComposition = videoComposition
         exporter!
             .exportAsynchronouslyWithCompletionHandler() {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.exportDidFinish(exporter!, type: movie ? "movie" : "scene")
+                    if save {
+                        self.saveMedia(exporter!, type: movie ? "movie" : "scene")
+                    } else {
+                        self.shareMedia(exporter!.outputURL!)
+                        do {
+                            try NSFileManager.defaultManager().removeItemAtPath((exporter!.outputURL?.path)!)
+                        } catch let error as NSError {
+                            print(error.localizedDescription)
+                        }
+                    }
                 })
         }
     }
     
+    func shareMedia(movie: NSURL!) {
+        let paths: NSArray = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
+        let documentDirectory: String = paths[0] as! String
+        let file: String = movie.lastPathComponent!
+        let filePath = NSURL(fileURLWithPath: documentDirectory).URLByAppendingPathComponent(file)
+        self.movieToShare = filePath
+        
+        NSNotificationCenter.defaultCenter().postNotificationName(Notifications.movieReady, object: self)
+    }
     
-    func exportDidFinish(session:AVAssetExportSession, type: String) {
+    func saveMedia(session:AVAssetExportSession, type: String) {
         if session.status == AVAssetExportSessionStatus.Completed {
             let outputURL: NSURL = session.outputURL!
             

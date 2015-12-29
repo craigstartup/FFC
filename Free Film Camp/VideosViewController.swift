@@ -41,6 +41,7 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
     var initialEntry = true
     var videoImageToPass: UIImage!
     
+    // Mark: View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         // retrieve or creat clips album

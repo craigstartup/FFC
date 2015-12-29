@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8C0712EF1BE6D4F600CC909E /* SelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0712EE1BE6D4F600CC909E /* SelectionViewController.swift */; };
+		8C15610B1C32633A00EEAC14 /* Bumper-3-sec.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 8CB7F0501C325FB200078FBE /* Bumper-3-sec.mp4 */; };
 		8C41C5A01C292AD200CF446C /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C41C59F1C292AD200CF446C /* Launch Screen.storyboard */; };
 		8C42D08D1BEC115A00A5B718 /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C42D08C1BEC115A00A5B718 /* Scene.swift */; };
 		8C42D0911BEC80E500A5B718 /* MusicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C42D0901BEC80E500A5B718 /* MusicCell.swift */; };
@@ -29,9 +30,9 @@
 		8CA57DA41BC49AE50016762A /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA57DA31BC49AE50016762A /* CameraViewController.swift */; };
 		8CA57DAA1BC4D4C50016762A /* VideosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA57DA91BC4D4C50016762A /* VideosViewController.swift */; };
 		8CA57DE91BC5F0710016762A /* VideoLibraryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA57DE81BC5F0710016762A /* VideoLibraryCell.swift */; };
+		8CB7F04E1C31BC4A00078FBE /* SocialController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB7F04D1C31BC4A00078FBE /* SocialController.swift */; };
 		8CBF277F1BC78A3A00EEFA27 /* VoiceOverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBF277E1BC78A3A00EEFA27 /* VoiceOverViewController.swift */; };
 		8CF664A31BE0E05900BC88EA /* Believe in your dreams.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8CF6649C1BE0E05800BC88EA /* Believe in your dreams.mp3 */; };
-		8CF664A51BE0E05900BC88EA /* Bumper_3 sec.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 8CF6649E1BE0E05800BC88EA /* Bumper_3 sec.mp4 */; };
 		8CF664A61BE0E05900BC88EA /* Sounds like fun.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8CF6649F1BE0E05800BC88EA /* Sounds like fun.mp3 */; };
 		8CF664A81BE0E05900BC88EA /* Youve got mail.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8CF664A11BE0E05800BC88EA /* Youve got mail.mp3 */; };
 		EDD1BBDBB8EA44B2D48E70DB /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1859E88A3159FFAF35A6FD5 /* Pods.framework */; };
@@ -84,9 +85,10 @@
 		8CA57DA31BC49AE50016762A /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		8CA57DA91BC4D4C50016762A /* VideosViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideosViewController.swift; sourceTree = "<group>"; };
 		8CA57DE81BC5F0710016762A /* VideoLibraryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoLibraryCell.swift; sourceTree = "<group>"; };
+		8CB7F04D1C31BC4A00078FBE /* SocialController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialController.swift; sourceTree = "<group>"; };
+		8CB7F0501C325FB200078FBE /* Bumper-3-sec.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Bumper-3-sec.mp4"; sourceTree = "<group>"; };
 		8CBF277E1BC78A3A00EEFA27 /* VoiceOverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceOverViewController.swift; sourceTree = "<group>"; };
 		8CF6649C1BE0E05800BC88EA /* Believe in your dreams.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Believe in your dreams.mp3"; sourceTree = "<group>"; };
-		8CF6649E1BE0E05800BC88EA /* Bumper_3 sec.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Bumper_3 sec.mp4"; sourceTree = "<group>"; };
 		8CF6649F1BE0E05800BC88EA /* Sounds like fun.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Sounds like fun.mp3"; sourceTree = "<group>"; };
 		8CF664A11BE0E05800BC88EA /* Youve got mail.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Youve got mail.mp3"; sourceTree = "<group>"; };
 		98AD5D7C32D9FC95DC7433AE /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 				8CF664A11BE0E05800BC88EA /* Youve got mail.mp3 */,
 			);
 			name = music;
+			path = "Free Film Camp";
 			sourceTree = "<group>";
 		};
 		8C498D9E1BFE4D9D00468CF0 /* Main Navigation */ = {
@@ -162,10 +165,12 @@
 		8C498D9F1BFE4DE400468CF0 /* Tools & Media Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				8C4B70591BCD7BBE00E54C5E /* MediaController.swift */,
 				8C8DEC2C1C0681F1006607A1 /* ProjectsViewController.swift */,
 				8CA57DA31BC49AE50016762A /* CameraViewController.swift */,
 				8CBF277E1BC78A3A00EEFA27 /* VoiceOverViewController.swift */,
 				8CA57DA91BC4D4C50016762A /* VideosViewController.swift */,
+				8CB7F04D1C31BC4A00078FBE /* SocialController.swift */,
 			);
 			name = "Tools & Media Libraries";
 			sourceTree = "<group>";
@@ -173,9 +178,11 @@
 		8CA57D5B1BC252EA0016762A = {
 			isa = PBXGroup;
 			children = (
+				8CB7F0501C325FB200078FBE /* Bumper-3-sec.mp4 */,
 				8C4B705B1BCFFCD400E54C5E /* MyPlayground.playground */,
 				8C6456B11BD580B700B5CE11 /* .gitignore */,
 				8CF6649B1BE0DFA800BC88EA /* Supporting Files */,
+				8C42D08B1BEC0B6E00A5B718 /* music */,
 				8CA57D661BC252EA0016762A /* Free Film Camp */,
 				8CA57D7E1BC252EB0016762A /* Free Film CampTests */,
 				8CA57D891BC252EB0016762A /* Free Film CampUITests */,
@@ -251,7 +258,6 @@
 			children = (
 				8C498D9F1BFE4DE400468CF0 /* Tools & Media Libraries */,
 				8C498D9E1BFE4D9D00468CF0 /* Main Navigation */,
-				8C4B70591BCD7BBE00E54C5E /* MediaController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -259,9 +265,7 @@
 		8CF6649B1BE0DFA800BC88EA /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				8C42D08B1BEC0B6E00A5B718 /* music */,
 				8CA57D761BC252EA0016762A /* Info.plist */,
-				8CF6649E1BE0E05800BC88EA /* Bumper_3 sec.mp4 */,
 				8CA57D671BC252EA0016762A /* AppDelegate.swift */,
 			);
 			name = "Supporting Files";
@@ -375,10 +379,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C15610B1C32633A00EEAC14 /* Bumper-3-sec.mp4 in Resources */,
 				8C6456B21BD580B700B5CE11 /* .gitignore in Resources */,
 				8CF664A31BE0E05900BC88EA /* Believe in your dreams.mp3 in Resources */,
 				8C41C5A01C292AD200CF446C /* Launch Screen.storyboard in Resources */,
-				8CF664A51BE0E05900BC88EA /* Bumper_3 sec.mp4 in Resources */,
 				8CA57D721BC252EA0016762A /* Assets.xcassets in Resources */,
 				8CA57D6D1BC252EA0016762A /* Main.storyboard in Resources */,
 				8CF664A81BE0E05900BC88EA /* Youve got mail.mp3 in Resources */,
@@ -463,6 +467,7 @@
 				8C6E1B301BFA7ABB009F3E86 /* SceneViewController.swift in Sources */,
 				8C42D08D1BEC115A00A5B718 /* Scene.swift in Sources */,
 				8CA57DA41BC49AE50016762A /* CameraViewController.swift in Sources */,
+				8CB7F04E1C31BC4A00078FBE /* SocialController.swift in Sources */,
 				8C498D9D1BFE4D6300468CF0 /* IntroViewController.swift in Sources */,
 				8C4B705A1BCD7BBE00E54C5E /* MediaController.swift in Sources */,
 				8CA57D701BC252EA0016762A /* Free_Film_Camp.xcdatamodeld in Sources */,
