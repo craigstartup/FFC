@@ -15,7 +15,6 @@ import SwiftyDropbox
 class SceneViewController: UIViewController {
     // MARK: Properties
     @IBOutlet weak var savingProgress: UIActivityIndicatorView!
-    
     @IBOutlet var sceneAddMediaButtons: Array<UIButton>!
     @IBOutlet var sceneRemoveMediaButtons: Array<UIButton>!
     
@@ -26,6 +25,7 @@ class SceneViewController: UIViewController {
     let DESTROY_BUTTONS           = 1
     let SHOT1                     = 0, SHOT2 = 1, SHOT3 = 2, VOICEOVER = 3
 
+    //let soundwaveView: FVSoundWaveView = FVSoundWaveView()
     var vpVC                      = AVPlayerViewController()
     let library                   = PHPhotoLibrary.sharedPhotoLibrary()
 
@@ -48,6 +48,7 @@ class SceneViewController: UIViewController {
     let defaultImage              = UIImage(named: "plus_white_69")
     let defaultVideoURL           = NSURL(string: "placeholder")
     let defaultVoiceOverFile      = "placeholder"
+    
     // MARK: View Life Cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,6 +57,8 @@ class SceneViewController: UIViewController {
         } else {
             MediaController.sharedMediaController.dropboxIsLoading = false
         }
+        
+        // self.sceneAddMediaButtons.last?.addSubview(self.soundwaveView)
     }
     
     
@@ -125,6 +128,7 @@ class SceneViewController: UIViewController {
         
         if self.scene.voiceOver != defaultVoiceOverFile {
             let check = UIImage(named: "Check")
+            // self.soundwaveView.soundURL = filePath
             self.sceneButtons[ADD_BUTTONS]![VOICEOVER].setImage(check, forState: UIControlState.Normal)
             self.sceneButtons[DESTROY_BUTTONS]![VOICEOVER].alpha = 1
             self.sceneButtons[DESTROY_BUTTONS]![VOICEOVER].enabled = true

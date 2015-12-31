@@ -32,7 +32,12 @@ class SocialController {
         }
         // FACEBOOK READ AND WRITE
         let readOptions = [ACFacebookAppIdKey:"318605501597030", ACFacebookPermissionsKey:["email"], ACFacebookAudienceKey:ACFacebookAudienceOnlyMe]
-        let writeOptions = [ACFacebookAppIdKey:"318605501597030", ACFacebookPermissionsKey:["publish_actions"], ACFacebookAudienceKey:ACFacebookAudienceOnlyMe]
+        let writeOptions = [
+            ACFacebookAppIdKey:"318605501597030",
+            ACFacebookPermissionsKey:["publish_actions"],
+            ACFacebookAudienceKey:ACFacebookAudienceFriends,
+            ACFacebookAudienceKey:ACFacebookAudienceEveryone,
+            ACFacebookAudienceKey:ACFacebookAudienceOnlyMe]
         
         self.accounts.requestAccessToAccountsWithType(self.accountTypeFB, options: readOptions as [NSObject:AnyObject]) {[unowned self] (granted, error) -> Void in
             if granted {
@@ -89,13 +94,14 @@ class SocialController {
             URL: videoURL,
             parameters: parameters)
         
-        uploadRequest.addMultipartData(movieData,
+        uploadRequest.addMultipartData(
+            movieData,
             withName: "source",
             type: "video/quicktime",
             filename: movie.absoluteString)
         
         uploadRequest.account = facebookAccount
-        
+        print("Begin upload")
         uploadRequest.performRequestWithHandler { (dataResponse, urlResponse, error) -> Void in
             if (error != nil) {
                 print(error.localizedDescription)
