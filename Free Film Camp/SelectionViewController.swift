@@ -1,4 +1,3 @@
-//  assisted by http://swiftiostutorials.com/tutorial-custom-tabbar-storyboard/
 //  SelectionViewController.swift
 //  Free Film Camp
 //
@@ -8,7 +7,7 @@
 
 import UIKit
 
-class SelectionViewController: UIViewController {
+class SelectionViewController: UIViewController, UIScrollViewDelegate {
     enum TabButtons {
         static let INTRO   = 1
         static let SCENE_1 = 2
@@ -17,108 +16,193 @@ class SelectionViewController: UIViewController {
         static let MOVIE   = 5
     }
     
-    var currentViewController: UIViewController!
-    @IBOutlet weak var viewsView: UIView!
+    @IBOutlet weak var buttonSelectedImage: UIImageView!
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var buttonsScrollView: UIScrollView!
+    @IBOutlet weak var buttonsStack: UIStackView!
     @IBOutlet var buttons: Array<UIButton>!
-    let segueIDS = ["introVC","scene1VC","scene2VC","scene3VC","movieVC"]
+    
     var lastSegue: String!
+    
+    let defaultImage         = UIImage(named: "plus_white_69")
+    let defaultVideoURL      = NSURL(string: "placeholder")
+    let defaultVoiceOverFile = "placeholder"
+
+    var viewControllers      = [UIViewController]()
+    var scrollViewPages      = [CGRect]()
+    let viewControllerIds    = ["IntroViewController","SceneViewController","MovieBuilderViewController"]
+    
+    var currentVC = 0
+    var currentButton = 0
+    let transitionQueue = dispatch_queue_create("com.trans.Queue", nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if self.buttons.count > 0 {
-            self.performSegueWithIdentifier("scene1VC", sender: self.buttons[1])
-        }
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: "dropboxComplete:",
+            name: MediaController.Notifications.dropBoxUpFinish,
+            object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: "projectChanged:",
+            name: "projectSelected", 
+            object: nil)
+
+        self.buttonsScrollView.delegate = self
+        self.getViewControllersForPages()
         self.navigationController?.navigationBarHidden = true
     }
     
-    // MARK: View lifecycle for subviews
     override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        currentViewController.viewWillAppear(animated)
+        self.scrollView.decelerationRate = UIScrollViewDecelerationRateFast
     }
     
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        currentViewController.viewWillDisappear(animated)
+    override func viewWillLayoutSubviews() {
+        self.setupScrollView()
+        self.populateScrollView()
     }
-    
     
     override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        currentViewController.viewDidAppear(animated)
+        self.getPagePositions()
+        self.selectScene(buttons[1])
     }
     
-    
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-        currentViewController.viewDidDisappear(animated)
-    }
-    
-    // MARK: Tab bar navigation
-    @IBAction func selectScene(sender: UIButton) {
+    // MARK: Scrollview setup methods
+    func getViewControllersForPages() {
+        // Load scenes or initialize if none exist.
+        MediaController.sharedMediaController.scenes = MediaController.sharedMediaController.loadScenes()
         
-    }
-    
-    // MARK: Gesture navigation
-    @IBAction func swipedLeft(sender: AnyObject) {
-        if self.lastSegue != segueIDS.last {
-            let segueToPerform = (segueIDS.indexOf(self.lastSegue)! + 1)
-            self.performSegueWithIdentifier(segueIDS[segueToPerform], sender: self.buttons[segueToPerform])
-        }
-    }
-    
-    
-    @IBAction func swipedRight(sender: AnyObject) {
-        if self.lastSegue != segueIDS.first {
-            let segueToPerform = (segueIDS.indexOf(self.lastSegue)! - 1)
-            self.performSegueWithIdentifier(segueIDS[segueToPerform], sender: self.buttons[segueToPerform])
-        }
-    }
-    
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if self.segueIDS.contains(segue.identifier!) {
-            self.lastSegue = segue.identifier
-            for button in self.buttons {
-                button.selected = false
+        if MediaController.sharedMediaController.scenes.isEmpty {
+            for _ in 0..<3 {
+                let scene = Scene(shotVideos: Array(count: 3, repeatedValue: defaultVideoURL!), shotImages: Array(count: 3, repeatedValue: defaultImage!), voiceOver: defaultVoiceOverFile)
+                MediaController.sharedMediaController.scenes.append(scene!)
             }
-            let senderButton = sender as! UIButton
-            senderButton.selected = true
-            if senderButton.tag >= TabButtons.SCENE_1 && senderButton.tag <= TabButtons.SCENE_3 {
-                let navigationVC = segue.destinationViewController as! UINavigationController
-                let destinationVC = navigationVC.viewControllers.last as! SceneViewController
-                
-                switch(senderButton.tag) {
-                case 2:
-                    destinationVC.sceneNumber = 0
-                    break
-                case 3:
-                    destinationVC.sceneNumber = 1
-                    break
-                case 4:
-                    destinationVC.sceneNumber = 2
-                    break
-                default:
-                    print("NO MATCH")
+        }
+        
+        var index = 0
+        
+        for viewId in self.viewControllerIds {
+            if viewId == "SceneViewController" {
+                for var i = 0; i < MediaController.sharedMediaController.scenes.count; i += 1 {
+                    let sceneViewController = self.storyboard?.instantiateViewControllerWithIdentifier(viewId) as? SceneViewController
+                    sceneViewController!.sceneNumber = i
+                    sceneViewController!.index = index
+                    self.viewControllers.append(sceneViewController!)
+                    index += 1
                 }
+            } else {
+                var viewController: UIViewController!
+                
+                if viewId == "IntroViewController" {
+                    let introViewController = self.storyboard?.instantiateViewControllerWithIdentifier(viewId) as? IntroViewController
+                    introViewController!.index = index
+                    viewController = introViewController
+                } else if viewId == "MovieBuilderViewController" {
+                    let movieViewController = self.storyboard?.instantiateViewControllerWithIdentifier(viewId) as? MovieBuilderViewController
+                    movieViewController!.index = index
+                    viewController = movieViewController
+                }
+                
+                self.viewControllers.append(viewController!)
+                index += 1
             }
         }
     }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    func setupScrollView() {
+        self.scrollView.delegate = self
+        let pagesScrollViewFrame = self.scrollView.frame.size
+        self.scrollView.contentSize = CGSize(width: pagesScrollViewFrame.width * CGFloat(self.viewControllers.count), height: pagesScrollViewFrame.height)
+        self.buttons[self.currentButton].selected = true
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func populateScrollView() {
+        var frame = self.scrollView.bounds
+        for var i = 0; i < self.viewControllers.count; i += 1 {
+            let pageView = viewControllers[i].view
+            frame.origin.x = frame.size.width * CGFloat(i)
+            frame.origin.y = 0.0
+            pageView.contentMode = .ScaleAspectFit
+            pageView.frame = frame
+            self.scrollView.addSubview(pageView)
+        }
     }
-    */
+    
+    func getPagePositions() {
+        let pageWidth = self.scrollView.contentSize.width / CGFloat(self.viewControllers.count)
+        for var page = 0; page < self.viewControllers.count; page += 1 {
+            let frame = CGRectMake(pageWidth * CGFloat(page), 0.0, self.scrollView.bounds.width, self.scrollView.bounds.height)
+            self.scrollViewPages.append(frame)
+        }
+    }
+    
+    // MARK: Tab bar navigation button actions
+    @IBAction func selectScene(sender: UIButton) {
+        self.buttons[self.currentButton].selected = false
+        // TODO: Check for capture of self.
+        let itemTime = 1.5 / Double(self.buttons.count - 1)
+        let distance = Double(abs(currentButton - sender.tag + 1))
+        let totalAnimationTime = NSTimeInterval(itemTime * distance)
+        self.currentVC = sender.tag - 1
+        self.currentButton = sender.tag - 1
+        
+        UIView.animateWithDuration(totalAnimationTime) {() -> Void in
+             self.scrollView.scrollRectToVisible(self.scrollViewPages[self.currentVC], animated: false)
+             self.buttonSelectedImage.frame.origin = self.buttons[self.currentButton].frame.origin
+        }
 
+        self.buttons[self.currentButton].selected = true
+    }
+    
+    // MARK: Scrollview delegate methods
+    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        self.buttons[currentButton].selected = false
+        self.currentButton = Int(targetContentOffset.memory.x / scrollView.frame.size.width)
+        
+        self.buttons[currentButton].selected = true
+        
+        UIView.animateWithDuration(0.42) {() -> Void in
+            self.buttonSelectedImage.frame.origin = self.buttons[self.currentButton].frame.origin
+        }
+    }
+    
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if !decelerate
+        {
+            let currentIndex = floor(scrollView.contentOffset.x / scrollView.bounds.size.width);
+            
+            let offset = CGPointMake(scrollView.bounds.size.width * currentIndex, 0)
+            
+            scrollView.setContentOffset(offset, animated: true)
+        }
+    }
+    
+    // MARK: Notification methods
+    func dropboxComplete(notification: NSNotification) {
+        let dropboxAlert = UIAlertController(
+            title: "Dropbox Upload Complete",
+            message: "Video uploaded to app Dropbox folder",
+            preferredStyle: .Alert)
+        let okAction = UIAlertAction(
+            title: "OK",
+            style: .Default,
+            handler: { (action) -> Void in
+                NSNotificationCenter.defaultCenter().removeObserver(self, name: MediaController.Notifications.dropBoxUpFinish, object: nil)
+        })
+        
+        dropboxAlert.addAction(okAction)
+        self.presentViewController(dropboxAlert, animated: true, completion: nil)
+    }
+    
+    func projectChanged(notification: NSNotification) {
+        for view in scrollView.subviews {
+            view.removeFromSuperview()
+        }
+        
+        self.viewControllers.removeAll()
+        self.getViewControllersForPages()
+        self.populateScrollView()
+    }
 }

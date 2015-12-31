@@ -94,10 +94,9 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
                 }
             }
         }
-        self.navigationController?.navigationBarHidden = true
+        
         self.navigationController?.navigationBar.translucent = true
     }
-
     
     // MARK: Collection view delegate methods
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -108,6 +107,10 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
         }
     }
     
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize
+    {
+        return CGSizeMake((UIScreen.mainScreen().bounds.width-20)/3,136);
+    }
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         if indexPath.item == 0 {
@@ -133,6 +136,10 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
     }
     
     // MARK: Media selection methods
+    @IBAction func cancelSelection(sender: UIButton) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
         if gestureRecognizer.state == UIGestureRecognizerState.Began {
             self.longItem = gestureRecognizer.locationInView(self.collectionView)
@@ -160,7 +167,6 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
         }
     }
     
-    
     func handleTap(gestureRecognizer: UITapGestureRecognizer) {
         print("TAP")
         if gestureRecognizer.state != UIGestureRecognizerState.Ended {
@@ -174,11 +180,11 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
             manager.requestImageForAsset(video,
                 targetSize: CGSize(width: 215, height: 136),
                 contentMode: .AspectFill,
-                options: nil) { (result, _) -> Void in
+                options: nil) { [unowned self] (result, _) -> Void in
                     self.videoImageToPass = result!
             }
             manager.requestAVAssetForVideo(video, options: nil) { (videoAsset, audioMix, info) -> Void in
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                dispatch_async(dispatch_get_main_queue(), { [unowned self] () -> Void in
                     if (videoAsset?.isKindOfClass(AVURLAsset) != nil) {
                         let url = videoAsset as! AVURLAsset
                         self.videoAssetToPass = url.URL
@@ -188,7 +194,6 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
             }
         }
     }
-    
     
     func destroyClip(sender: UIButton) {
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
@@ -220,6 +225,7 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
             let sceneVC = segue.destinationViewController as! SceneViewController
             sceneVC.selectedVideoAsset = self.videoAssetToPass
             sceneVC.selectedVideoImage = self.videoImageToPass
+            sceneVC.setupView()
         } else if segue.identifier == "pickingShot" {
             let cameraVC = segue.destinationViewController as! CameraViewController
             cameraVC.pickingShot = true
@@ -227,26 +233,7 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
         }
     }
     
-    
     @IBAction func cameraUnwind(unwindSegue: UIStoryboardSegue) {
         self.performSegueWithIdentifier(self.segueID, sender: self)
     }
-    
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

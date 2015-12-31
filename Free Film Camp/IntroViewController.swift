@@ -16,25 +16,32 @@ class IntroViewController: UIViewController {
     @IBOutlet weak var destroyIntroButton: UIButton!
     
     var intro: Intro!
+    var index: Int!
     
     // MARK: View lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.navigationBarHidden = true
+        self.getIntro()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        self.setButtons()
+    }
+    
+    func getIntro() {
         // Load or initialize intro
         if self.intro == nil {
             guard let loadedIntro = MediaController.sharedMediaController.loadIntro()
                 else {
                     print("No intro!")
                     return
-                }
+            }
             MediaController.sharedMediaController.intro = loadedIntro
             self.intro = MediaController.sharedMediaController.intro
         }
     }
     
-    
-    override func viewWillAppear(animated: Bool) {
+    func setButtons() {
         // TODO: Clean up logic.
         if self.intro == nil {
             self.destroyIntroButton.alpha = 0
@@ -64,10 +71,8 @@ class IntroViewController: UIViewController {
         }
     }
     
-    
     // MARK: Actions
     @IBAction func selectIntro(sender: UIButton) {
-        
         
     }
     
@@ -98,6 +103,12 @@ class IntroViewController: UIViewController {
             let videoPlayer = AVPlayer(playerItem: preview)
             vpVC.player = videoPlayer
             vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
+            
+            guard let navigationController = self.view.window?.rootViewController as? UINavigationController else {return}
+            guard let topViewController = navigationController.viewControllers.first else {return}
+            
+            print(topViewController)
+            
             self.view.window?.rootViewController?.presentViewController(vpVC, animated: true, completion: nil)
         }
     }
@@ -113,6 +124,6 @@ class IntroViewController: UIViewController {
     
     
     @IBAction func introUnwind(unwindSegue: UIStoryboardSegue) {
-        self.viewWillAppear(false)
+        self.setButtons()
     }
 }
