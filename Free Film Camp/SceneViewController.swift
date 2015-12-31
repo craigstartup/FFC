@@ -68,15 +68,6 @@ class SceneViewController: UIViewController {
             self.selectedVideoAsset = nil
             self.selectedVideoImage = nil
         }
-        // Access stored voiceover.
-        let filePath = MediaController.sharedMediaController.getPathForFileInDocumentsDirectory(self.scene.voiceOver)
-        
-        if NSFileManager.defaultManager().fileExistsAtPath(filePath.path!) {
-            MediaController.sharedMediaController.saveScenes()
-        } else {
-            self.scene.voiceOver = self.defaultVoiceOverFile
-            MediaController.sharedMediaController.saveScenes()
-        }
         
         self.sceneButtons = [self.sceneAddMediaButtons, self.sceneRemoveMediaButtons]
         
@@ -85,8 +76,20 @@ class SceneViewController: UIViewController {
             button.enabled = false
         }
         
-        self.navigationController?.navigationBarHidden = true
-        
+        self.navigationController?.navigationBar.translucent = true
+        self.setupView()
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        self.videoPlayer = nil
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    func setupView() {
+        defer {
+            self.selectedVideoAsset = nil
+            self.selectedVideoImage = nil
+        }
         if assetRequestNumber != nil && self.selectedVideoAsset != nil && self.selectedVideoImage != nil {
             self.scene.shotImages[assetRequestNumber - 1] = self.selectedVideoImage
             self.scene.shotVideos[assetRequestNumber - 1] = self.selectedVideoAsset
@@ -109,6 +112,17 @@ class SceneViewController: UIViewController {
             }
         }
         
+        // Access stored voiceover.
+        let filePath = MediaController.sharedMediaController.getPathForFileInDocumentsDirectory(self.scene.voiceOver)
+        
+        if NSFileManager.defaultManager().fileExistsAtPath(filePath.path!) {
+            MediaController.sharedMediaController.saveScenes()
+        } else {
+            self.scene.voiceOver = self.defaultVoiceOverFile
+            MediaController.sharedMediaController.saveScenes()
+        }
+        
+        
         if self.scene.voiceOver != defaultVoiceOverFile {
             let check = UIImage(named: "Check")
             self.sceneButtons[ADD_BUTTONS]![VOICEOVER].setImage(check, forState: UIControlState.Normal)
@@ -118,19 +132,10 @@ class SceneViewController: UIViewController {
         }
     }
     
-    
-    override func viewDidDisappear(animated: Bool) {
-        self.videoPlayer = nil
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-    
     // MARK: Button Actions
     @IBAction func selectMedia(sender: UIButton) {
         self.assetRequestNumber = sender.tag
         let buttonPressed = sender.tag - 1
-        
-        self.sceneButtons[DESTROY_BUTTONS]![buttonPressed].alpha = 1
-        self.sceneButtons[DESTROY_BUTTONS]![buttonPressed].enabled = true
         
         if buttonPressed > SHOT3 {
             self.audioAsset = nil
@@ -172,6 +177,10 @@ class SceneViewController: UIViewController {
     
     
     @IBAction func previewSelection(sender: AnyObject) {
+        defer {
+            MediaController.sharedMediaController.preview = nil
+        }
+        
         MediaController.sharedMediaController.prepareMedia(
             intro: false,
             media: [self.scene],
@@ -284,12 +293,13 @@ class SceneViewController: UIViewController {
     
     
     @IBAction func sceneShotUnwindSegue(unwindSegue: UIStoryboardSegue) {
-        
+        if self.audioAsset != nil {
+            self.sceneButtons[DESTROY_BUTTONS]![self.assetRequestNumber].alpha = 1
+            self.sceneButtons[DESTROY_BUTTONS]![self.assetRequestNumber].enabled = true
+        }
     }
     
     @IBAction func sceneAudioUnwindSegue(unwindSegue: UIStoryboardSegue){
-        if self.audioAsset != nil {
-            self.scene.voiceOver = self.audioAsset.lastPathComponent!
-        }
+       
     }
 }

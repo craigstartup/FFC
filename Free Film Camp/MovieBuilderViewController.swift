@@ -20,7 +20,7 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
     var audioPlayer: AVAudioPlayer!
     var audioFileURL: NSURL!
     var currentCell: NSIndexPath!
-    var vpVC           = AVPlayerViewController()
+    var vpVC = AVPlayerViewController()
     var videoPlayer: AVPlayer!
     let musicFileNames = ["Believe in your dreams", "Sounds like fun", "Youve got mail"]
     var index: Int!

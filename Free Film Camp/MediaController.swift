@@ -89,11 +89,13 @@ class MediaController {
         if movie {
             let bumper = AVURLAsset(URL: NSBundle.mainBundle().URLForResource("Bumper_3 sec", withExtension: "mp4")!)
             videoAssets.append(bumper)
-            if !voiceOverAssets[0].tracks.isEmpty {
-                self.getMovieVoiceOver(voiceOverAssets, videoAssets: videoAssets, save: save)
-            } else {
-                self.composeMedia(videoAssets, voiceOverAssets: voiceOverAssets, movieVoiceOver: nil, movie: true, save: save)
+            
+            guard !voiceOverAssets.isEmpty else {
+                return self.composeMedia(videoAssets, voiceOverAssets: voiceOverAssets, movieVoiceOver: nil, movie: true, save: save)
             }
+            
+            self.getMovieVoiceOver(voiceOverAssets, videoAssets: videoAssets, save: save)
+            
         } else if !movie {
             self.composeMedia(videoAssets, voiceOverAssets: voiceOverAssets, movieVoiceOver: nil, movie: movie, save: save)
         }
@@ -245,9 +247,9 @@ class MediaController {
         }
         
         
-        if save {
+        if save && !mixComposition.tracks.isEmpty {
             self.saveMedia(mixComposition, videoComposition: mainComposition, movie: movie)
-        } else {
+        } else if !save && !mixComposition.tracks.isEmpty {
             let preview = AVPlayerItem(asset: mixComposition)
             preview.videoComposition = mainComposition
             self.preview = preview

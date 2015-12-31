@@ -20,7 +20,6 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     
     var audioPlayer: AVAudioPlayer!
     let audioSession = AVAudioSession.sharedInstance()
-    var videoPlayer: AVQueuePlayer!
     var playerLayer: AVPlayerLayer!
     var audioRecorder: AVAudioRecorder!
     var audioAssetToPass: NSURL!
@@ -36,6 +35,7 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         // setup progress bar
         progressBar.alpha = 0
         progressBar.progress = 0
+        
         // set up voice recorder
         AVAudioSession.sharedInstance().requestRecordPermission { (granted) -> Void in
             if granted {
@@ -67,12 +67,14 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         } catch let error as NSError {
             print("audioSession error: \(error.localizedDescription)")
         }
+        
         self.audioRecorder.delegate = self
+        self.playerLayer = self.getPreview()
     }
     
     
     override func viewWillLayoutSubviews() {
-       self.previewScene()
+       self.setupPreview()
     }
     
     
@@ -81,20 +83,50 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         playButton.enabled = false
         playButton.alpha = 0.4
         
-        if self.videoPlayer?.currentItem != nil && self.videoPlayer.currentItem?.status == AVPlayerItemStatus.ReadyToPlay {
-            
-        recordButton.alpha = 1
-        recordButton.enabled = true
+        if self.playerLayer.player!.currentItem != nil && self.playerLayer.player!.currentItem?.status == AVPlayerItemStatus.ReadyToPlay {
+            recordButton.alpha = 1
+            recordButton.enabled = true
         }
     }
     
     
     override func viewDidDisappear(animated: Bool) {
-        self.videoPlayer = nil
+        self.playerLayer.player = nil
         self.audioPlayer = nil
         self.audioRecorder = nil
     }
     
+    func setupPreview() {
+        self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
+        let player = self.playerLayer.player as! AVQueuePlayer
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didFinishPlayingVideo:", name: AVPlayerItemDidPlayToEndTimeNotification, object: player.items().last)
+        self.videoPreviewLayer.layer.addSublayer(playerLayer)
+        self.playerLayer.frame = self.videoPreviewLayer.bounds
+    }
+    
+    func getPreview() -> AVPlayerLayer! {
+        var firstAsset: AVAsset!, secondAsset: AVAsset!, thirdAsset: AVAsset!
+        
+        firstAsset  = AVAsset(URL: MediaController.sharedMediaController.scenes[self.sceneID].shotVideos[0])
+        secondAsset = AVAsset(URL: MediaController.sharedMediaController.scenes[self.sceneID].shotVideos[1])
+        thirdAsset  = AVAsset(URL: MediaController.sharedMediaController.scenes[self.sceneID].shotVideos[2])
+        
+        if firstAsset != nil && secondAsset != nil && thirdAsset != nil {
+            let assets = [firstAsset, secondAsset, thirdAsset]
+            var shots = [AVPlayerItem]()
+            
+            for item in assets {
+                let shot = AVPlayerItem(asset: item)
+                shots.append(shot)
+            }
+            
+            let videoPlayer = AVQueuePlayer(items: shots)
+            let playerLayer = AVPlayerLayer(player: videoPlayer)
+            return playerLayer
+        } else {
+            return nil
+        }
+    }
     
     func updateProgress() {
         self.progressBar.progress += 0.001
@@ -102,14 +134,23 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     
     
     @IBAction func recordButtonPressed(sender: AnyObject) {
+        self.doneButton.setTitle("Done", forState: .Normal)
         // set up progress view for recording time
         self.progressBar.alpha = 1
-        self.progress = NSTimer.scheduledTimerWithTimeInterval(0.009, target: self, selector: "updateProgress", userInfo: nil, repeats: true)
+        
+        self.progress = NSTimer.scheduledTimerWithTimeInterval(
+            0.009,
+            target: self,
+            selector: "updateProgress",
+            userInfo: nil,
+            repeats: true)
         
         self.hasRecorded = true
+        
         if self.audioPlayer?.playing == true {
             self.audioPlayer.stop()
         }
+        
         if self.audioRecorder.recording == false {
             do {
                 try self.audioSession.setActive(true)
@@ -124,7 +165,7 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
             doneButton.enabled = false
             doneButton.alpha = 0.4
             self.audioRecorder.recordForDuration(9.0)
-            self.videoPlayer.play()
+            self.playerLayer.player!.play()
         }
     }
     
@@ -136,6 +177,7 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
             playButton.alpha = 0.4
             playButton.enabled = false
             audioRecorder.stop()
+            
             do {
                 try self.audioPlayer = AVAudioPlayer(contentsOfURL: audioRecorder.url)
                 self.audioPlayer.play()
@@ -143,14 +185,16 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
                 
                 print("audioPlayer error: \(error.localizedDescription)")
             }
+            
             self.audioPlayer.delegate = self
-            self.videoPlayer.play()
+            self.playerLayer.player!.play()
         }
     }
     
     
     @IBAction func doneButtonPressed(sender: AnyObject) {
         self.audioRecorder.stop()
+        
         do {
             try self.audioSession.setActive(false)
         } catch let audioSessionError as NSError {
@@ -170,45 +214,22 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if self.audioAssetToPass != nil && segue.identifier ==  self.segueID {
             let sceneVC = segue.destinationViewController as! SceneViewController
-            sceneVC.audioAsset = self.audioAssetToPass
+            sceneVC.scene.voiceOver = self.audioAssetToPass.lastPathComponent!
+            sceneVC.setupView()
         }
     }
-    
-
-    func previewScene() {
-        var firstAsset: AVAsset!, secondAsset: AVAsset!, thirdAsset: AVAsset!
-        
-        firstAsset  = AVAsset(URL: MediaController.sharedMediaController.scenes[self.sceneID].shotVideos[0])
-        secondAsset = AVAsset(URL: MediaController.sharedMediaController.scenes[self.sceneID].shotVideos[1])
-        thirdAsset  = AVAsset(URL: MediaController.sharedMediaController.scenes[self.sceneID].shotVideos[2])
-        
-        
-        if firstAsset != nil && secondAsset != nil && thirdAsset != nil {
-            let assets = [firstAsset, secondAsset, thirdAsset]
-            var shots = [AVPlayerItem]()
-
-            for item in assets {
-                let shot = AVPlayerItem(asset: item)
-                shots.append(shot)
-            }
-            
-            self.videoPlayer = AVQueuePlayer(items: shots)
-            self.playerLayer = AVPlayerLayer(player: self.videoPlayer)
-            self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "didFinishPlayingVideo:", name: AVPlayerItemDidPlayToEndTimeNotification, object: self.videoPlayer.items().last)
-            self.videoPreviewLayer.layer.addSublayer(playerLayer)
-            self.playerLayer.frame = self.videoPreviewLayer.bounds
-        }
-    }
-    
     
     func didFinishPlayingVideo(notification: NSNotification) {
+        let finishedPlayer = self.playerLayer.player as! AVQueuePlayer
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: AVPlayerItemDidPlayToEndTimeNotification, object: finishedPlayer.items().last)
+        finishedPlayer.removeAllItems()
         self.progressBar.progress = 0.0
         self.progressBar.alpha = 0
         self.progress.invalidate()
-        previewScene()
+        self.playerLayer.player = nil
+        self.playerLayer = self.getPreview()
+        self.setupPreview()
     }
-    
     
     func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
         playButton.alpha = 1.0
@@ -217,11 +238,9 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         recordButton.enabled = true
     }
     
-    
     func audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer, error: NSError?) {
         print("Audio Play Decode Error")
     }
-    
     
     func audioRecorderDidFinishRecording(recorder: AVAudioRecorder, successfully flag: Bool) {
         recorder.stop()
@@ -238,15 +257,4 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         
         print("Audio Record Encode Error")
     }
-    
-    /*
-    // MARK: - Navigation
-    
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    // Get the new view controller using segue.destinationViewController.
-    // Pass the selected object to the new view controller.
-    }
-    */
-    
 }

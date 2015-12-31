@@ -21,21 +21,27 @@ class IntroViewController: UIViewController {
     // MARK: View lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.navigationBarHidden = true
+        self.getIntro()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        self.setButtons()
+    }
+    
+    func getIntro() {
         // Load or initialize intro
         if self.intro == nil {
             guard let loadedIntro = MediaController.sharedMediaController.loadIntro()
                 else {
                     print("No intro!")
                     return
-                }
+            }
             MediaController.sharedMediaController.intro = loadedIntro
             self.intro = MediaController.sharedMediaController.intro
         }
     }
     
-    
-    override func viewWillAppear(animated: Bool) {
+    func setButtons() {
         // TODO: Clean up logic.
         if self.intro == nil {
             self.destroyIntroButton.alpha = 0
@@ -65,10 +71,8 @@ class IntroViewController: UIViewController {
         }
     }
     
-    
     // MARK: Actions
     @IBAction func selectIntro(sender: UIButton) {
-        
         
     }
     
@@ -120,6 +124,6 @@ class IntroViewController: UIViewController {
     
     
     @IBAction func introUnwind(unwindSegue: UIStoryboardSegue) {
-        self.viewWillAppear(false)
+        self.setButtons()
     }
 }
