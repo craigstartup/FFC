@@ -16,9 +16,7 @@ class SelectionViewController: UIViewController, UIScrollViewDelegate {
         static let MOVIE   = 5
     }
     
-    @IBOutlet weak var buttonSelectedImage: UIImageView!
     @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var buttonsScrollView: UIScrollView!
     @IBOutlet weak var buttonsStack: UIStackView!
     @IBOutlet var buttons: Array<UIButton>!
     
@@ -50,7 +48,6 @@ class SelectionViewController: UIViewController, UIScrollViewDelegate {
             name: "projectSelected", 
             object: nil)
 
-        self.buttonsScrollView.delegate = self
         self.getViewControllersForPages()
         self.navigationController?.navigationBarHidden = true
     }
@@ -66,7 +63,7 @@ class SelectionViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidAppear(animated: Bool) {
         self.getPagePositions()
-        self.selectScene(buttons[1])
+        //self.selectScene(buttons[1])
     }
     
     // MARK: Scrollview setup methods
@@ -114,7 +111,7 @@ class SelectionViewController: UIViewController, UIScrollViewDelegate {
     func setupScrollView() {
         self.scrollView.delegate = self
         let pagesScrollViewFrame = self.scrollView.frame.size
-        self.scrollView.contentSize = CGSize(width: pagesScrollViewFrame.width * CGFloat(self.viewControllers.count), height: pagesScrollViewFrame.height)
+        self.scrollView.contentSize = CGSize(width: pagesScrollViewFrame.width, height: pagesScrollViewFrame.height * CGFloat(self.viewControllers.count))
         self.buttons[self.currentButton].selected = true
     }
     
@@ -122,8 +119,8 @@ class SelectionViewController: UIViewController, UIScrollViewDelegate {
         var frame = self.scrollView.bounds
         for var i = 0; i < self.viewControllers.count; i += 1 {
             let pageView = viewControllers[i].view
-            frame.origin.x = frame.size.width * CGFloat(i)
-            frame.origin.y = 0.0
+            frame.origin.x = 0.0
+            frame.origin.y = frame.size.height * CGFloat(i)
             pageView.contentMode = .ScaleAspectFit
             pageView.frame = frame
             self.scrollView.addSubview(pageView)
@@ -138,46 +135,46 @@ class SelectionViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
-    // MARK: Tab bar navigation button actions
-    @IBAction func selectScene(sender: UIButton) {
-        self.buttons[self.currentButton].selected = false
-        // TODO: Check for capture of self.
-        let itemTime = 1.5 / Double(self.buttons.count - 1)
-        let distance = Double(abs(currentButton - sender.tag + 1))
-        let totalAnimationTime = NSTimeInterval(itemTime * distance)
-        self.currentVC = sender.tag - 1
-        self.currentButton = sender.tag - 1
-        
-        UIView.animateWithDuration(totalAnimationTime) {() -> Void in
-             self.scrollView.scrollRectToVisible(self.scrollViewPages[self.currentVC], animated: false)
-             self.buttonSelectedImage.frame.origin = self.buttons[self.currentButton].frame.origin
-        }
-
-        self.buttons[self.currentButton].selected = true
-    }
+//    // MARK: Tab bar navigation button actions
+//    @IBAction func selectScene(sender: UIButton) {
+//        self.buttons[self.currentButton].selected = false
+//        // TODO: Check for capture of self.
+//        let itemTime = 1.5 / Double(self.buttons.count - 1)
+//        let distance = Double(abs(currentButton - sender.tag + 1))
+//        let totalAnimationTime = NSTimeInterval(itemTime * distance)
+//        self.currentVC = sender.tag - 1
+//        self.currentButton = sender.tag - 1
+//        
+//        UIView.animateWithDuration(totalAnimationTime) {() -> Void in
+//             self.scrollView.scrollRectToVisible(self.scrollViewPages[self.currentVC], animated: false)
+//             self.buttonSelectedImage.frame.origin = self.buttons[self.currentButton].frame.origin
+//        }
+//
+//        self.buttons[self.currentButton].selected = true
+//    }
     
-    // MARK: Scrollview delegate methods
-    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        self.buttons[currentButton].selected = false
-        self.currentButton = Int(targetContentOffset.memory.x / scrollView.frame.size.width)
-        
-        self.buttons[currentButton].selected = true
-        
-        UIView.animateWithDuration(0.42) {() -> Void in
-            self.buttonSelectedImage.frame.origin = self.buttons[self.currentButton].frame.origin
-        }
-    }
-    
-    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if !decelerate
-        {
-            let currentIndex = floor(scrollView.contentOffset.x / scrollView.bounds.size.width);
-            
-            let offset = CGPointMake(scrollView.bounds.size.width * currentIndex, 0)
-            
-            scrollView.setContentOffset(offset, animated: true)
-        }
-    }
+//    // MARK: Scrollview delegate methods
+//    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+//        self.buttons[currentButton].selected = false
+//        self.currentButton = Int(targetContentOffset.memory.x / scrollView.frame.size.width)
+//        
+//        self.buttons[currentButton].selected = true
+//        
+//        UIView.animateWithDuration(0.42) {() -> Void in
+//            self.buttonSelectedImage.frame.origin = self.buttons[self.currentButton].frame.origin
+//        }
+//    }
+//    
+//    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+//        if !decelerate
+//        {
+//            let currentIndex = floor(scrollView.contentOffset.x / scrollView.bounds.size.width);
+//            
+//            let offset = CGPointMake(scrollView.bounds.size.width * currentIndex, 0)
+//            
+//            scrollView.setContentOffset(offset, animated: true)
+//        }
+//    }
     
     // MARK: Notification methods
     func dropboxComplete(notification: NSNotification) {

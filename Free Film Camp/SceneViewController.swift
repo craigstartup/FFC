@@ -16,13 +16,11 @@ class SceneViewController: UIViewController {
     // MARK: Properties
     @IBOutlet weak var savingProgress: UIActivityIndicatorView!
     @IBOutlet var sceneAddMediaButtons: Array<UIButton>!
-    @IBOutlet var sceneRemoveMediaButtons: Array<UIButton>!
     
     var sceneButtons              = [[UIButton]?]()
 
     //Button types
     let ADD_BUTTONS               = 0
-    let DESTROY_BUTTONS           = 1
     let SHOT1                     = 0, SHOT2 = 1, SHOT3 = 2, VOICEOVER = 3
 
     //let soundwaveView: FVSoundWaveView = FVSoundWaveView()
@@ -57,7 +55,6 @@ class SceneViewController: UIViewController {
         } else {
             MediaController.sharedMediaController.dropboxIsLoading = false
         }
-        
         // self.sceneAddMediaButtons.last?.addSubview(self.soundwaveView)
     }
     
@@ -72,12 +69,7 @@ class SceneViewController: UIViewController {
             self.selectedVideoImage = nil
         }
         
-        self.sceneButtons = [self.sceneAddMediaButtons, self.sceneRemoveMediaButtons]
-        
-        for button in self.sceneButtons[DESTROY_BUTTONS]! {
-            button.alpha   = 0
-            button.enabled = false
-        }
+        self.sceneButtons = [self.sceneAddMediaButtons]
         
         self.navigationController?.navigationBar.translucent = true
         self.setupView()
@@ -103,15 +95,11 @@ class SceneViewController: UIViewController {
         for var i = 0; i < self.sceneButtons[ADD_BUTTONS]!.count ; i++ {
             let images = self.scene.shotImages
             let videos = self.scene.shotVideos
+            
             if images.count > i && videos[i] != self.defaultVideoURL {
                 self.sceneButtons[ADD_BUTTONS]![i].setImage(images[i], forState: UIControlState.Normal)
                 self.sceneButtons[ADD_BUTTONS]![i].contentMode = UIViewContentMode.ScaleAspectFit
                 self.sceneButtons[ADD_BUTTONS]![i].contentVerticalAlignment = UIControlContentVerticalAlignment.Center
-                if self.sceneButtons[ADD_BUTTONS]![i].currentImage != defaultImage {
-                    self.sceneButtons[DESTROY_BUTTONS]![i].alpha = 1
-                    self.sceneButtons[DESTROY_BUTTONS]![i].enabled = true
-                    self.sceneButtons[ADD_BUTTONS]![i].enabled = false
-                }
             }
         }
         
@@ -125,13 +113,10 @@ class SceneViewController: UIViewController {
             MediaController.sharedMediaController.saveScenes()
         }
         
-        
         if self.scene.voiceOver != defaultVoiceOverFile {
             let check = UIImage(named: "Check")
             // self.soundwaveView.soundURL = filePath
             self.sceneButtons[ADD_BUTTONS]![VOICEOVER].setImage(check, forState: UIControlState.Normal)
-            self.sceneButtons[DESTROY_BUTTONS]![VOICEOVER].alpha = 1
-            self.sceneButtons[DESTROY_BUTTONS]![VOICEOVER].enabled = true
             self.sceneButtons[ADD_BUTTONS]![VOICEOVER].enabled = false
         }
     }
@@ -172,9 +157,6 @@ class SceneViewController: UIViewController {
             }
             self.scene.voiceOver = self.defaultVoiceOverFile
         }
-        
-        self.sceneButtons[DESTROY_BUTTONS]![sender.tag - 1].alpha = 0
-        self.sceneButtons[DESTROY_BUTTONS]![sender.tag - 1].enabled = false
         
         MediaController.sharedMediaController.saveScenes()
     }
@@ -297,10 +279,6 @@ class SceneViewController: UIViewController {
     
     
     @IBAction func sceneShotUnwindSegue(unwindSegue: UIStoryboardSegue) {
-        if self.audioAsset != nil {
-            self.sceneButtons[DESTROY_BUTTONS]![self.assetRequestNumber].alpha = 1
-            self.sceneButtons[DESTROY_BUTTONS]![self.assetRequestNumber].enabled = true
-        }
     }
     
     @IBAction func sceneAudioUnwindSegue(unwindSegue: UIStoryboardSegue){

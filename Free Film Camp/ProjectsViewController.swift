@@ -20,7 +20,7 @@ class ProjectsViewController: UITableViewController {
     // MARK: Action methods
     @IBAction func linkDropBox(sender: UIBarButtonItem) {
         if Dropbox.authorizedClient == nil {
-        Dropbox.authorizeFromController(self)
+            Dropbox.authorizeFromController(self)
         }
     }
     
