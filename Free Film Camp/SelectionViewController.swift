@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SelectionViewController: UIViewController, UIScrollViewDelegate {
+class SelectionViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     enum TabButtons {
         static let INTRO   = 1
         static let SCENE_1 = 2
@@ -16,8 +16,8 @@ class SelectionViewController: UIViewController, UIScrollViewDelegate {
         static let MOVIE   = 5
     }
     
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var buttonsStack: UIStackView!
+    
+    @IBOutlet weak var tableView: UITableView!
     @IBOutlet var buttons: Array<UIButton>!
     
     var lastSegue: String!
@@ -47,23 +47,13 @@ class SelectionViewController: UIViewController, UIScrollViewDelegate {
             selector: "projectChanged:",
             name: "projectSelected", 
             object: nil)
-
-        self.getViewControllersForPages()
+        
         self.navigationController?.navigationBarHidden = true
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        self.scrollView.decelerationRate = UIScrollViewDecelerationRateFast
-    }
-    
-    override func viewWillLayoutSubviews() {
-        self.setupScrollView()
-        self.populateScrollView()
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        self.getPagePositions()
-        //self.selectScene(buttons[1])
+        
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+        self.tableView.pagingEnabled = true
+        self.getViewControllersForPages()
     }
     
     // MARK: Scrollview setup methods
@@ -108,73 +98,20 @@ class SelectionViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
-    func setupScrollView() {
-        self.scrollView.delegate = self
-        let pagesScrollViewFrame = self.scrollView.frame.size
-        self.scrollView.contentSize = CGSize(width: pagesScrollViewFrame.width, height: pagesScrollViewFrame.height * CGFloat(self.viewControllers.count))
-        self.buttons[self.currentButton].selected = true
+    // MARK: Table view delegate methods
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.viewControllers.count
     }
     
-    func populateScrollView() {
-        var frame = self.scrollView.bounds
-        for var i = 0; i < self.viewControllers.count; i += 1 {
-            let pageView = viewControllers[i].view
-            frame.origin.x = 0.0
-            frame.origin.y = frame.size.height * CGFloat(i)
-            pageView.contentMode = .ScaleAspectFit
-            pageView.frame = frame
-            self.scrollView.addSubview(pageView)
-        }
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return CGFloat(self.tableView.bounds.height / 2)
     }
     
-    func getPagePositions() {
-        let pageWidth = self.scrollView.contentSize.width / CGFloat(self.viewControllers.count)
-        for var page = 0; page < self.viewControllers.count; page += 1 {
-            let frame = CGRectMake(pageWidth * CGFloat(page), 0.0, self.scrollView.bounds.width, self.scrollView.bounds.height)
-            self.scrollViewPages.append(frame)
-        }
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("viewCell") as! SelectionViewCell
+        cell.cellViewView = self.viewControllers[indexPath.row].view
+        return cell
     }
-    
-//    // MARK: Tab bar navigation button actions
-//    @IBAction func selectScene(sender: UIButton) {
-//        self.buttons[self.currentButton].selected = false
-//        // TODO: Check for capture of self.
-//        let itemTime = 1.5 / Double(self.buttons.count - 1)
-//        let distance = Double(abs(currentButton - sender.tag + 1))
-//        let totalAnimationTime = NSTimeInterval(itemTime * distance)
-//        self.currentVC = sender.tag - 1
-//        self.currentButton = sender.tag - 1
-//        
-//        UIView.animateWithDuration(totalAnimationTime) {() -> Void in
-//             self.scrollView.scrollRectToVisible(self.scrollViewPages[self.currentVC], animated: false)
-//             self.buttonSelectedImage.frame.origin = self.buttons[self.currentButton].frame.origin
-//        }
-//
-//        self.buttons[self.currentButton].selected = true
-//    }
-    
-//    // MARK: Scrollview delegate methods
-//    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-//        self.buttons[currentButton].selected = false
-//        self.currentButton = Int(targetContentOffset.memory.x / scrollView.frame.size.width)
-//        
-//        self.buttons[currentButton].selected = true
-//        
-//        UIView.animateWithDuration(0.42) {() -> Void in
-//            self.buttonSelectedImage.frame.origin = self.buttons[self.currentButton].frame.origin
-//        }
-//    }
-//    
-//    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-//        if !decelerate
-//        {
-//            let currentIndex = floor(scrollView.contentOffset.x / scrollView.bounds.size.width);
-//            
-//            let offset = CGPointMake(scrollView.bounds.size.width * currentIndex, 0)
-//            
-//            scrollView.setContentOffset(offset, animated: true)
-//        }
-//    }
     
     // MARK: Notification methods
     func dropboxComplete(notification: NSNotification) {
@@ -194,12 +131,8 @@ class SelectionViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func projectChanged(notification: NSNotification) {
-        for view in scrollView.subviews {
-            view.removeFromSuperview()
-        }
         
         self.viewControllers.removeAll()
         self.getViewControllersForPages()
-        self.populateScrollView()
     }
 }
