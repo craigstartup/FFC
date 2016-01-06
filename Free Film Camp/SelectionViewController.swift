@@ -52,7 +52,6 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
         
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        self.tableView.pagingEnabled = true
         self.getViewControllersForPages()
     }
     
@@ -104,12 +103,14 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return CGFloat(self.tableView.bounds.height / 2)
+        return CGFloat(self.tableView.bounds.height / 1.5)
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("viewCell") as! SelectionViewCell
-        cell.cellViewView = self.viewControllers[indexPath.row].view
+        let view = self.viewControllers[indexPath.row].view
+        view.frame = cell.cellViewView.bounds
+        cell.cellViewView.addSubview(view)
         return cell
     }
     
