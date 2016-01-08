@@ -85,6 +85,7 @@ class SceneViewController: UIViewController {
             self.selectedVideoAsset = nil
             self.selectedVideoImage = nil
         }
+        
         if assetRequestNumber != nil && self.selectedVideoAsset != nil && self.selectedVideoImage != nil {
             self.scene.shotImages[assetRequestNumber - 1] = self.selectedVideoImage
             self.scene.shotVideos[assetRequestNumber - 1] = self.selectedVideoAsset
@@ -92,7 +93,7 @@ class SceneViewController: UIViewController {
         }
         
         // Set button images
-        for var i = 0; i < self.sceneButtons[ADD_BUTTONS]!.count ; i++ {
+        for var i = 0; i < self.sceneButtons[ADD_BUTTONS]!.count; i++ {
             let images = self.scene.shotImages
             let videos = self.scene.shotVideos
             
@@ -111,13 +112,6 @@ class SceneViewController: UIViewController {
         } else {
             self.scene.voiceOver = self.defaultVoiceOverFile
             MediaController.sharedMediaController.saveScenes()
-        }
-        
-        if self.scene.voiceOver != defaultVoiceOverFile {
-            let check = UIImage(named: "Check")
-            // self.soundwaveView.soundURL = filePath
-            self.sceneButtons[ADD_BUTTONS]![VOICEOVER].setImage(check, forState: UIControlState.Normal)
-            self.sceneButtons[ADD_BUTTONS]![VOICEOVER].enabled = false
         }
     }
     

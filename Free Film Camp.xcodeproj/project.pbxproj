@@ -22,7 +22,6 @@
 		8C6456B21BD580B700B5CE11 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 8C6456B11BD580B700B5CE11 /* .gitignore */; };
 		8C6E1B301BFA7ABB009F3E86 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C6E1B2F1BFA7ABB009F3E86 /* SceneViewController.swift */; };
 		8C70AA421C3B7AD700CD015B /* SelectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C70AA411C3B7AD600CD015B /* SelectionViewCell.swift */; };
-		8C70AA441C3CD9CF00CD015B /* SelectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C70AA431C3CD9CF00CD015B /* SelectionViewCell.xib */; };
 		8C8DEC2D1C0681F1006607A1 /* ProjectsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8DEC2C1C0681F1006607A1 /* ProjectsViewController.swift */; };
 		8CA57D681BC252EA0016762A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA57D671BC252EA0016762A /* AppDelegate.swift */; };
 		8CA57D6D1BC252EA0016762A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CA57D6B1BC252EA0016762A /* Main.storyboard */; };
@@ -78,7 +77,6 @@
 		8C6456B11BD580B700B5CE11 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		8C6E1B2F1BFA7ABB009F3E86 /* SceneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneViewController.swift; sourceTree = "<group>"; };
 		8C70AA411C3B7AD600CD015B /* SelectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionViewCell.swift; sourceTree = "<group>"; };
-		8C70AA431C3CD9CF00CD015B /* SelectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectionViewCell.xib; sourceTree = "<group>"; };
 		8C8DEC2C1C0681F1006607A1 /* ProjectsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectsViewController.swift; sourceTree = "<group>"; };
 		8CA57D641BC252EA0016762A /* Free Film Camp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Free Film Camp.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CA57D671BC252EA0016762A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -193,7 +191,6 @@
 				8C5E51D01BC7B2840028CBAA /* TheatreCell.swift */,
 				8C42D0901BEC80E500A5B718 /* MusicCell.swift */,
 				8C70AA411C3B7AD600CD015B /* SelectionViewCell.swift */,
-				8C70AA431C3CD9CF00CD015B /* SelectionViewCell.xib */,
 			);
 			name = "Custom Cells";
 			sourceTree = "<group>";
@@ -412,7 +409,6 @@
 				8C41C5A01C292AD200CF446C /* Launch Screen.storyboard in Resources */,
 				8CA57D721BC252EA0016762A /* Assets.xcassets in Resources */,
 				8CA57D6D1BC252EA0016762A /* Main.storyboard in Resources */,
-				8C70AA441C3CD9CF00CD015B /* SelectionViewCell.xib in Resources */,
 				8CF664A81BE0E05900BC88EA /* Youve got mail.mp3 in Resources */,
 				8CF664A61BE0E05900BC88EA /* Sounds like fun.mp3 in Resources */,
 			);
