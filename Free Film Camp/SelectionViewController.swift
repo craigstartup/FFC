@@ -6,6 +6,9 @@
 //
 
 import UIKit
+import AVKit
+import AVFoundation
+import Social
 
 class SelectionViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     enum TabButtons {
@@ -19,6 +22,7 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet var buttons: Array<UIButton>!
+    @IBOutlet weak var savingProgress: UIActivityIndicatorView!
     
     var lastSegue: String!
     
@@ -27,6 +31,9 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     let defaultVoiceOverFile = "placeholder"
 
     var viewControllers      = [UIViewController]()
+    let socialSharing = SocialController()
+    var audioPlayer: AVAudioPlayer!
+    var vpVC = AVPlayerViewController()
     var scrollViewPages      = [CGRect]()
     let viewControllerIds    = ["IntroViewController","SceneViewController","MovieBuilderViewController"]
     
@@ -97,6 +104,196 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
+    @IBAction func shareButtonPressed(sender: UIButton) {
+        self.progressSwitch(on: true)
+        
+        if MediaController.sharedMediaController.intro == nil {
+            MediaController.sharedMediaController.prepareMedia(
+                intro: false,
+                media: MediaController.sharedMediaController.scenes,
+                movie: true,
+                save: false)
+        } else {
+            MediaController.sharedMediaController.prepareMedia(
+                intro: true,
+                media: MediaController.sharedMediaController.scenes,
+                movie: true,
+                save: false)
+        }
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "movieReady:", name: MediaController.Notifications.movieReady, object: nil)
+        
+        self.vpVC.player          = nil
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: "saveCompleted:",
+            name: MediaController.Notifications.saveMovieFinished,
+            object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: "saveFailed:",
+            name: MediaController.Notifications.saveMovieFailed,
+            object: nil)
+        
+        self.progressSwitch(on: true)
+        
+        if MediaController.sharedMediaController.intro == nil {
+            MediaController.sharedMediaController.prepareMedia(
+                intro: false,
+                media: MediaController.sharedMediaController.scenes,
+                movie: true,
+                save: true
+            )
+        } else {
+            MediaController.sharedMediaController.prepareMedia(
+                intro: true,
+                media: MediaController.sharedMediaController.scenes,
+                movie: true,
+                save: true
+            )
+        }
+    }
+    
+    @IBAction func previewMoviePressed(sender: UIButton) {
+        self.vpVC.player = nil
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: "firePreview:",
+            name: MediaController.Notifications.previewReady,
+            object: nil)
+        
+        if self.audioPlayer != nil {
+            self.audioPlayer.stop()
+        }
+        
+        self.progressSwitch(on: true)
+        
+        if MediaController.sharedMediaController.intro == nil {
+            MediaController.sharedMediaController.prepareMedia(
+                intro: false,
+                media: MediaController.sharedMediaController.scenes,
+                movie: true,
+                save: false)
+        } else {
+            MediaController.sharedMediaController.prepareMedia(
+                intro: true,
+                media: MediaController.sharedMediaController.scenes,
+                movie: true,
+                save: false)
+        }
+
+    }
+    
+    func firePreview(notification: NSNotification) {
+        if MediaController.sharedMediaController.preview != nil {
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.progressSwitch(on: false)
+                let videoPlayer = AVPlayer(playerItem: MediaController.sharedMediaController.preview)
+                self.vpVC.player = videoPlayer
+                self.vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
+                self.view.window?.rootViewController?.presentViewController(self.vpVC, animated: true, completion: nil)
+            })
+        }
+        
+        NSNotificationCenter.defaultCenter().removeObserver(
+            self,
+            name: MediaController.Notifications.previewReady,
+            object: nil)
+        
+        // Make share button enabled
+    }
+    
+    // MARK: Notification handlers
+    func movieReady(notification: NSNotification) {
+        NSNotificationCenter.defaultCenter().removeObserver(
+            self,
+            name: MediaController.Notifications.movieReady,
+            object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: "movieShared:",
+            name: MediaController.Notifications.sharingComplete,
+            object: nil)
+        
+        
+        let videoURL = MediaController.sharedMediaController.movieToShare
+        self.socialSharing.postMovieToFacebook(videoURL)
+    }
+    
+    func movieShared(notification: NSNotification) {
+        NSNotificationCenter.defaultCenter().removeObserver(
+            self,
+            name: MediaController.Notifications.sharingComplete,
+            object: nil)
+        
+        self.progressSwitch(on: false)
+        
+    }
+    
+    func saveCompleted(notification: NSNotification) {
+        self.progressSwitch(on: false)
+        
+        NSNotificationCenter.defaultCenter().removeObserver(
+            self,
+            name: MediaController.Notifications.saveMovieFinished,
+            object: nil)
+        
+        var message: String
+        
+        if MediaController.sharedMediaController.dropboxIsLoading == false {
+            message = "Movie saved to Photos!"
+        } else {
+            message = "Movie saved to Photos! Video is being uploaded to Dropbox. Please do not close the app until you are notified that it is complete"
+        }
+        
+        let alertSuccess = UIAlertController(
+            title: "Success",
+            message: message,
+            preferredStyle: .Alert)
+        let okAction = UIAlertAction(
+            title: "Thanks!",
+            style: .Default) { (action) -> Void in
+                self.dismissViewControllerAnimated(true, completion: nil)
+        }
+        
+        alertSuccess.addAction(okAction)
+        self.presentViewController(alertSuccess, animated: true, completion: nil)
+    }
+    
+    func saveFailed(notification: NSNotification) {
+        self.progressSwitch(on: false)
+        
+        NSNotificationCenter.defaultCenter().removeObserver(
+            self,
+            name: MediaController.Notifications.saveMovieFailed,
+            object: nil)
+        
+        let alertFailure = UIAlertController(
+            title: "Failure",
+            message: "Movie failed to save. Re-select media and try again", preferredStyle: .Alert)
+        let okAction = UIAlertAction(
+            title: "Thanks!",
+            style: .Default) { (action) -> Void in
+                self.dismissViewControllerAnimated(true, completion: nil)
+        }
+        
+        alertFailure.addAction(okAction)
+        self.presentViewController(alertFailure, animated: true, completion: nil)
+        MediaController.sharedMediaController.dropboxIsLoading = false
+    }
+    
+    func progressSwitch(on on: Bool) {
+        if on {
+            self.savingProgress.alpha = 1
+            self.savingProgress.startAnimating()
+            self.view.alpha = 0.6
+        } else {
+            self.savingProgress.stopAnimating()
+            self.savingProgress.alpha = 0
+            self.view.alpha = 1
+        }
+    }
+
     // MARK: Table view delegate methods
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.viewControllers.count
