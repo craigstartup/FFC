@@ -571,7 +571,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="527" height="600"/>
                                 <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="viewCell" rowHeight="207" id="xKZ-fh-Enr" customClass="SelectionViewCell" customModule="Free_Film_Camp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" shouldIndentWhileEditing="NO" reuseIdentifier="viewCell" rowHeight="207" id="xKZ-fh-Enr" customClass="SelectionViewCell" customModule="Free_Film_Camp" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="527" height="207"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xKZ-fh-Enr" id="6B1-t2-WXy">

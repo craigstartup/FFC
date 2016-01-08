@@ -103,7 +103,7 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return CGFloat(self.tableView.bounds.height / 1.2)
+        return CGFloat(self.tableView.bounds.height / 1.3)
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
