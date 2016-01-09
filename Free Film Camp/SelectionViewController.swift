@@ -20,6 +20,7 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     
+    @IBOutlet weak var tableViewControllerView: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet var buttons: Array<UIButton>!
     @IBOutlet weak var savingProgress: UIActivityIndicatorView!
@@ -59,6 +60,7 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
         
         self.tableView.delegate = self
         self.tableView.dataSource = self
+        self.savingProgress.alpha = 0
         self.getViewControllersForPages()
     }
     
@@ -101,6 +103,22 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
                 self.viewControllers.append(viewController!)
                 index += 1
             }
+        }
+    }
+
+    @IBAction func projectsButtonPressed(sender: UIButton) {
+        // set up projects view to cover tableview
+    
+        let projectsVC = self.storyboard?.instantiateViewControllerWithIdentifier("projectsNav") as! UINavigationController
+        let projectsView = projectsVC.view
+        let relativeFrame = self.tableView.bounds
+        let startingFrame = CGRectMake(relativeFrame.origin.x - relativeFrame.size.width, relativeFrame.origin.y, relativeFrame.size.width, relativeFrame.size.height)
+        projectsView.frame = startingFrame
+        self.view.addSubview(projectsView)
+        
+        // present over table veiw and disable buttons until project selected and view dismissed
+        UIView.animateWithDuration(1) { () -> Void in
+            projectsVC.view.frame = self.tableView.bounds
         }
     }
     

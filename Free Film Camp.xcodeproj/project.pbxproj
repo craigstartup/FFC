@@ -59,7 +59,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8C0712EE1BE6D4F600CC909E /* SelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionViewController.swift; sourceTree = "<group>"; };
+		8C0712EE1BE6D4F600CC909E /* SelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionViewController.swift; sourceTree = "<group>"; usesTabs = 0; };
 		8C3FD0C31C3506A900455E9A /* Free Film Camp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Free Film Camp-Bridging-Header.h"; sourceTree = "<group>"; };
 		8C3FD0C41C3506AB00455E9A /* FVSoundWaveView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FVSoundWaveView.h; sourceTree = "<group>"; };
 		8C3FD0C51C3506AB00455E9A /* FVSoundWaveView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FVSoundWaveView.m; sourceTree = "<group>"; };
