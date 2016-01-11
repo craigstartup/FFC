@@ -195,6 +195,17 @@
 			name = "Custom Cells";
 			sourceTree = "<group>";
 		};
+		8C70AA451C4460AB00CD015B /* Sound Wave Generator */ = {
+			isa = PBXGroup;
+			children = (
+				8C3FD0C41C3506AB00455E9A /* FVSoundWaveView.h */,
+				8C3FD0C51C3506AB00455E9A /* FVSoundWaveView.m */,
+				8C3FD0C71C350AC400455E9A /* UIView+Geometry.h */,
+				8C3FD0C81C350AC400455E9A /* UIView+Geometry.m */,
+			);
+			name = "Sound Wave Generator";
+			sourceTree = "<group>";
+		};
 		8CA57D5B1BC252EA0016762A = {
 			isa = PBXGroup;
 			children = (
@@ -225,10 +236,7 @@
 		8CA57D661BC252EA0016762A /* Free Film Camp */ = {
 			isa = PBXGroup;
 			children = (
-				8C3FD0C41C3506AB00455E9A /* FVSoundWaveView.h */,
-				8C3FD0C51C3506AB00455E9A /* FVSoundWaveView.m */,
-				8C3FD0C71C350AC400455E9A /* UIView+Geometry.h */,
-				8C3FD0C81C350AC400455E9A /* UIView+Geometry.m */,
+				8C70AA451C4460AB00CD015B /* Sound Wave Generator */,
 				8CA57D9A1BC254C60016762A /* Controller */,
 				8CA57D991BC254BE0016762A /* Model */,
 				8CA57D981BC254B50016762A /* View */,

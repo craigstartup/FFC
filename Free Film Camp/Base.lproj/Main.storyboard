@@ -280,10 +280,12 @@
                                             <rect key="frame" x="0.0" y="0.0" width="142" height="136"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YXW-hI-fHe">
-                                                    <rect key="frame" x="10" y="14" width="123" height="108"/>
-                                                    <inset key="contentEdgeInsets" minX="55" minY="-3" maxX="0.0" maxY="0.0"/>
-                                                    <state key="normal" title="Camera" image="Camera"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YXW-hI-fHe" userLabel="Camera Button">
+                                                    <rect key="frame" x="14" y="14" width="114" height="108"/>
+                                                    <state key="normal" image="Camera"/>
+                                                    <connections>
+                                                        <segue destination="KtM-ME-n2y" kind="presentation" modalPresentationStyle="overFullScreen" id="x9O-ed-KKd"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -310,8 +312,8 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NoW-34-Md3">
                                                     <rect key="frame" x="0.0" y="0.0" width="148" height="136"/>
                                                 </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kmz-Ab-y9v">
-                                                    <rect key="frame" x="175" y="0.0" width="40" height="40"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kmz-Ab-y9v">
+                                                    <rect key="frame" x="108" y="0.0" width="40" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="40" id="FNF-WL-EgC"/>
                                                         <constraint firstAttribute="height" constant="40" id="NCE-wa-IGN"/>
@@ -322,10 +324,12 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
+                                            <constraint firstItem="Kmz-Ab-y9v" firstAttribute="top" secondItem="SaA-W4-odV" secondAttribute="topMargin" constant="-8" id="8zI-hM-MKC"/>
                                             <constraint firstAttribute="trailing" secondItem="NoW-34-Md3" secondAttribute="trailing" id="P86-jh-5dZ"/>
                                             <constraint firstItem="Kmz-Ab-y9v" firstAttribute="trailing" secondItem="NoW-34-Md3" secondAttribute="trailing" id="Wdb-Z0-Rgx"/>
                                             <constraint firstItem="Kmz-Ab-y9v" firstAttribute="top" secondItem="NoW-34-Md3" secondAttribute="top" id="elK-SX-C1z"/>
                                             <constraint firstItem="NoW-34-Md3" firstAttribute="top" secondItem="SaA-W4-odV" secondAttribute="top" id="fGx-0V-mnt"/>
+                                            <constraint firstAttribute="trailingMargin" secondItem="Kmz-Ab-y9v" secondAttribute="trailing" constant="-8" id="fLO-Ef-6aQ"/>
                                             <constraint firstItem="NoW-34-Md3" firstAttribute="leading" secondItem="SaA-W4-odV" secondAttribute="leading" id="klm-ak-yvF"/>
                                             <constraint firstAttribute="bottom" secondItem="NoW-34-Md3" secondAttribute="bottom" id="nZ4-s6-fk2"/>
                                         </constraints>
@@ -1044,6 +1048,6 @@
         <image name="plus_white_69" width="60" height="60"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="pgG-5N-lkc"/>
+        <segue reference="x9O-ed-KKd"/>
     </inferredMetricsTieBreakers>
 </document>
