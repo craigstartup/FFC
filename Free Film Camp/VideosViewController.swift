@@ -10,8 +10,10 @@ import UIKit
 import Photos
 import AVKit
 
-class VideosViewController: UICollectionViewController, UIGestureRecognizerDelegate {
+class VideosViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate {
 
+    @IBOutlet weak var collectionView: UICollectionView!
+    
     let library = PHPhotoLibrary.sharedPhotoLibrary()
     let manager = PHImageManager.defaultManager()
     let vpVC = AVPlayerViewController()
@@ -44,6 +46,9 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
     // Mark: View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.collectionView.delegate = self
+        self.collectionView.dataSource = self
         // retrieve or creat clips album
         fetchOptions.predicate = NSPredicate(format: "title = %@", albumTitle)
         clipsAlbumFetch = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: fetchOptions)
@@ -100,7 +105,7 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
     }
     
     // MARK: Collection view delegate methods
-    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if clipsAlbum.estimatedAssetCount > 0 {
             return clipsAlbum.estimatedAssetCount + 1
         } else {
@@ -113,7 +118,7 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
         return CGSizeMake((UIScreen.mainScreen().bounds.width-20)/3,136);
     }
     
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         if indexPath.item == 0 {
             let cameraCell = collectionView.dequeueReusableCellWithReuseIdentifier("cameraCell", forIndexPath: indexPath)
             return cameraCell

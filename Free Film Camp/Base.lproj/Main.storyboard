@@ -7,110 +7,6 @@
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
-        <!--Video View-->
-        <scene sceneID="R3q-qt-yrF">
-            <objects>
-                <collectionViewController storyboardIdentifier="videoVC" title="Video View" definesPresentationContext="YES" modalPresentationStyle="overCurrentContext" useStoryboardIdentifierAsRestorationIdentifier="YES" id="4to-zB-zdm" customClass="VideosViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="Vjp-tg-RBq">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.2666666667" green="0.2666666667" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="XK4-NA-xMA">
-                            <size key="itemSize" width="215" height="136"/>
-                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        </collectionViewFlowLayout>
-                        <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cameraCell" id="2Ky-zQ-wWE">
-                                <rect key="frame" x="0.0" y="0.0" width="215" height="136"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="215" height="136"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n40-zf-h2S">
-                                            <rect key="frame" x="14" y="14" width="187" height="108"/>
-                                            <inset key="contentEdgeInsets" minX="55" minY="-3" maxX="0.0" maxY="0.0"/>
-                                            <state key="normal" title="Camera" image="Camera"/>
-                                            <connections>
-                                                <segue destination="KtM-ME-n2y" kind="presentation" identifier="pickingShot" modalPresentationStyle="overFullScreen" id="nYQ-Mx-U5W"/>
-                                            </connections>
-                                        </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VZa-Rp-k2C">
-                                            <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
-                                            <state key="normal" image="camera_cancel_btn_36"/>
-                                            <connections>
-                                                <action selector="cancelSelection:" destination="4to-zB-zdm" eventType="touchUpInside" id="eQD-NO-YxW"/>
-                                            </connections>
-                                        </button>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstItem="n40-zf-h2S" firstAttribute="centerY" secondItem="2Ky-zQ-wWE" secondAttribute="centerY" id="0lN-NI-80R"/>
-                                    <constraint firstItem="n40-zf-h2S" firstAttribute="top" secondItem="2Ky-zQ-wWE" secondAttribute="topMargin" constant="6" id="2zJ-Bo-3Th"/>
-                                    <constraint firstItem="n40-zf-h2S" firstAttribute="leading" secondItem="2Ky-zQ-wWE" secondAttribute="leadingMargin" constant="6" id="6Yd-A1-xmR"/>
-                                    <constraint firstItem="VZa-Rp-k2C" firstAttribute="top" secondItem="2Ky-zQ-wWE" secondAttribute="topMargin" constant="-8" id="J0b-K2-KKL"/>
-                                    <constraint firstAttribute="trailingMargin" secondItem="n40-zf-h2S" secondAttribute="trailing" constant="6" id="OhM-YN-ieQ"/>
-                                    <constraint firstAttribute="bottomMargin" secondItem="n40-zf-h2S" secondAttribute="bottom" constant="6" id="W9b-yQ-w79"/>
-                                    <constraint firstItem="n40-zf-h2S" firstAttribute="centerX" secondItem="2Ky-zQ-wWE" secondAttribute="centerX" id="XTW-eb-9FY"/>
-                                    <constraint firstItem="n40-zf-h2S" firstAttribute="top" secondItem="2Ky-zQ-wWE" secondAttribute="topMargin" constant="6" id="YbO-Kj-eag"/>
-                                    <constraint firstItem="VZa-Rp-k2C" firstAttribute="leading" secondItem="2Ky-zQ-wWE" secondAttribute="leadingMargin" constant="-8" id="ikT-zW-f4b"/>
-                                </constraints>
-                            </collectionViewCell>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ClipCell" id="haP-B8-Tyq" customClass="VideoLibraryCell" customModule="Free_Film_Camp" customModuleProvider="target">
-                                <rect key="frame" x="385" y="0.0" width="215" height="136"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="215" height="136"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Erb-wg-flO">
-                                            <rect key="frame" x="0.0" y="0.0" width="215" height="136"/>
-                                        </imageView>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j3a-ju-Rrw">
-                                            <rect key="frame" x="175" y="0.0" width="40" height="40"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="40" id="E0r-xn-Uox"/>
-                                                <constraint firstAttribute="height" constant="40" id="gAk-8Q-pxZ"/>
-                                            </constraints>
-                                            <state key="normal" image="camera_cancel_btn_36"/>
-                                        </button>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                                <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="Erb-wg-flO" secondAttribute="bottom" id="Q8j-qX-3Xc"/>
-                                    <constraint firstAttribute="trailing" secondItem="Erb-wg-flO" secondAttribute="trailing" id="S63-69-S31"/>
-                                    <constraint firstItem="j3a-ju-Rrw" firstAttribute="top" secondItem="Erb-wg-flO" secondAttribute="top" id="TMi-kI-hxA"/>
-                                    <constraint firstItem="Erb-wg-flO" firstAttribute="leading" secondItem="haP-B8-Tyq" secondAttribute="leading" id="UMZ-sF-bAx"/>
-                                    <constraint firstItem="j3a-ju-Rrw" firstAttribute="trailing" secondItem="Erb-wg-flO" secondAttribute="trailing" id="UzY-op-JMa"/>
-                                    <constraint firstItem="Erb-wg-flO" firstAttribute="top" secondItem="haP-B8-Tyq" secondAttribute="top" id="YzC-QT-oR0"/>
-                                </constraints>
-                                <connections>
-                                    <outlet property="destroyClipButton" destination="j3a-ju-Rrw" id="81M-r8-xIr"/>
-                                    <outlet property="imageView" destination="Erb-wg-flO" id="bwy-a1-Lqr"/>
-                                </connections>
-                            </collectionViewCell>
-                        </cells>
-                        <connections>
-                            <outlet property="dataSource" destination="4to-zB-zdm" id="fIW-lc-mfk"/>
-                            <outlet property="delegate" destination="4to-zB-zdm" id="KDm-Yv-zdS"/>
-                        </connections>
-                    </collectionView>
-                    <toolbarItems/>
-                    <navigationItem key="navigationItem" id="L9T-1Q-1t3"/>
-                    <connections>
-                        <segue destination="HDm-P7-dyQ" kind="unwind" identifier="sceneShotSelectedSegue" unwindAction="sceneShotUnwindSegue:" id="yuw-o5-Dvg"/>
-                    </connections>
-                </collectionViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="yhe-FW-yes" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="HDm-P7-dyQ" userLabel="Exit" sceneMemberID="exit"/>
-            </objects>
-            <point key="canvasLocation" x="4445" y="-2917"/>
-        </scene>
         <!--Voice Over-->
         <scene sceneID="Q77-QL-bxb">
             <objects>
@@ -158,7 +54,7 @@
                                     <stackView contentMode="scaleAspectFit" distribution="fillEqually" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="nZ9-Zw-TTL" userLabel="Buttons Stack">
                                         <rect key="frame" x="87" y="287" width="426" height="47"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MbU-Fj-Cdv">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MbU-Fj-Cdv">
                                                 <rect key="frame" x="0.0" y="2" width="129" height="44"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                                 <state key="normal" title="Play">
@@ -168,7 +64,7 @@
                                                     <action selector="playButtonPressed:" destination="t2l-7N-cdU" eventType="touchUpInside" id="Crp-Uu-puV"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="na2-7t-mhh">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="na2-7t-mhh">
                                                 <rect key="frame" x="149" y="2" width="128" height="44"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                                 <state key="normal" title="Record">
@@ -178,7 +74,7 @@
                                                     <action selector="recordButtonPressed:" destination="t2l-7N-cdU" eventType="touchUpInside" id="kvA-g6-F5M"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tiy-FS-viV">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tiy-FS-viV">
                                                 <rect key="frame" x="297" y="2" width="129" height="44"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                                 <state key="normal" title="Cancel">
@@ -355,6 +251,136 @@
             </objects>
             <point key="canvasLocation" x="3737" y="-2925"/>
         </scene>
+        <!--Videos View-->
+        <scene sceneID="4M8-Fu-TNU">
+            <objects>
+                <viewController storyboardIdentifier="videoVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="LhK-ZH-UoI" userLabel="Videos View" customClass="VideosViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="OOL-9z-GfX"/>
+                        <viewControllerLayoutGuide type="bottom" id="k7i-DQ-Q1S"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ACd-nV-zJg">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="BuV-Yb-RWh">
+                                <rect key="frame" x="67" y="0.0" width="533" height="600"/>
+                                <color key="backgroundColor" red="0.2666666667" green="0.2666666667" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="NpO-Sr-pNS">
+                                    <size key="itemSize" width="215" height="136"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cameraCell" id="AiD-gY-xsL">
+                                        <rect key="frame" x="0.0" y="0.0" width="142" height="136"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="142" height="136"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YXW-hI-fHe">
+                                                    <rect key="frame" x="10" y="14" width="123" height="108"/>
+                                                    <inset key="contentEdgeInsets" minX="55" minY="-3" maxX="0.0" maxY="0.0"/>
+                                                    <state key="normal" title="Camera" image="Camera"/>
+                                                </button>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstItem="YXW-hI-fHe" firstAttribute="leading" secondItem="AiD-gY-xsL" secondAttribute="leadingMargin" constant="6" id="AOq-Vt-J0o"/>
+                                            <constraint firstItem="YXW-hI-fHe" firstAttribute="top" secondItem="AiD-gY-xsL" secondAttribute="topMargin" constant="6" id="CnH-aH-MY1"/>
+                                            <constraint firstAttribute="trailingMargin" secondItem="YXW-hI-fHe" secondAttribute="trailing" constant="6" id="EJY-hy-a6Z"/>
+                                            <constraint firstAttribute="bottomMargin" secondItem="YXW-hI-fHe" secondAttribute="bottom" constant="6" id="gdi-vO-aWu"/>
+                                            <constraint firstItem="YXW-hI-fHe" firstAttribute="centerX" secondItem="AiD-gY-xsL" secondAttribute="centerX" id="jI5-6t-7b8"/>
+                                            <constraint firstItem="YXW-hI-fHe" firstAttribute="top" secondItem="AiD-gY-xsL" secondAttribute="topMargin" constant="6" id="khr-Kj-1fd"/>
+                                            <constraint firstItem="YXW-hI-fHe" firstAttribute="centerY" secondItem="AiD-gY-xsL" secondAttribute="centerY" id="w8x-2M-tCm"/>
+                                        </constraints>
+                                        <size key="customSize" width="142" height="136"/>
+                                    </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ClipCell" id="SaA-W4-odV" customClass="VideoLibraryCell" customModule="Free_Film_Camp" customModuleProvider="target">
+                                        <rect key="frame" x="152" y="0.0" width="148" height="136"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="148" height="136"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NoW-34-Md3">
+                                                    <rect key="frame" x="0.0" y="0.0" width="148" height="136"/>
+                                                </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kmz-Ab-y9v">
+                                                    <rect key="frame" x="175" y="0.0" width="40" height="40"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="40" id="FNF-WL-EgC"/>
+                                                        <constraint firstAttribute="height" constant="40" id="NCE-wa-IGN"/>
+                                                    </constraints>
+                                                    <state key="normal" image="camera_cancel_btn_36"/>
+                                                </button>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="NoW-34-Md3" secondAttribute="trailing" id="P86-jh-5dZ"/>
+                                            <constraint firstItem="Kmz-Ab-y9v" firstAttribute="trailing" secondItem="NoW-34-Md3" secondAttribute="trailing" id="Wdb-Z0-Rgx"/>
+                                            <constraint firstItem="Kmz-Ab-y9v" firstAttribute="top" secondItem="NoW-34-Md3" secondAttribute="top" id="elK-SX-C1z"/>
+                                            <constraint firstItem="NoW-34-Md3" firstAttribute="top" secondItem="SaA-W4-odV" secondAttribute="top" id="fGx-0V-mnt"/>
+                                            <constraint firstItem="NoW-34-Md3" firstAttribute="leading" secondItem="SaA-W4-odV" secondAttribute="leading" id="klm-ak-yvF"/>
+                                            <constraint firstAttribute="bottom" secondItem="NoW-34-Md3" secondAttribute="bottom" id="nZ4-s6-fk2"/>
+                                        </constraints>
+                                        <size key="customSize" width="148" height="136"/>
+                                        <connections>
+                                            <outlet property="destroyClipButton" destination="Kmz-Ab-y9v" id="tYC-Jd-lXf"/>
+                                            <outlet property="imageView" destination="NoW-34-Md3" id="1bN-7e-JT7"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IXy-pa-LBR">
+                                <rect key="frame" x="0.0" y="0.0" width="67" height="600"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H6k-a4-dTJ">
+                                        <rect key="frame" x="8" y="8" width="51" height="48"/>
+                                        <state key="normal" image="camera_cancel_btn_36"/>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="67" id="zGd-CH-xSK"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Dj-ee-rtN">
+                                <rect key="frame" x="533" y="0.0" width="67" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="67" id="YCu-MA-Ile"/>
+                                    <constraint firstAttribute="width" constant="67" id="gIi-bb-qa9"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="BuV-Yb-RWh" firstAttribute="top" secondItem="ACd-nV-zJg" secondAttribute="topMargin" id="6Mt-Eo-Imp"/>
+                            <constraint firstItem="IXy-pa-LBR" firstAttribute="leading" secondItem="ACd-nV-zJg" secondAttribute="leadingMargin" constant="-20" id="Eet-nJ-ZAe"/>
+                            <constraint firstItem="IXy-pa-LBR" firstAttribute="top" secondItem="ACd-nV-zJg" secondAttribute="topMargin" id="ISh-qd-kfG"/>
+                            <constraint firstItem="2Dj-ee-rtN" firstAttribute="top" secondItem="ACd-nV-zJg" secondAttribute="topMargin" id="MDZ-KM-fQT"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="2Dj-ee-rtN" secondAttribute="trailing" constant="-20" id="Nky-9Y-M4N"/>
+                            <constraint firstItem="k7i-DQ-Q1S" firstAttribute="top" secondItem="2Dj-ee-rtN" secondAttribute="bottom" id="O1f-R8-j5i"/>
+                            <constraint firstItem="BuV-Yb-RWh" firstAttribute="leading" secondItem="IXy-pa-LBR" secondAttribute="trailing" id="mlw-rC-6Ug"/>
+                            <constraint firstItem="k7i-DQ-Q1S" firstAttribute="top" secondItem="BuV-Yb-RWh" secondAttribute="bottom" id="piW-wc-Ecp"/>
+                            <constraint firstItem="k7i-DQ-Q1S" firstAttribute="top" secondItem="IXy-pa-LBR" secondAttribute="bottom" id="vew-fC-y0z"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="BuV-Yb-RWh" secondAttribute="trailing" constant="-20" id="yh7-uz-4Nn"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="collectionView" destination="BuV-Yb-RWh" id="PIc-tk-oSE"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NKS-4a-Z36" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4400" y="-2925"/>
+        </scene>
         <!--Scene-->
         <scene sceneID="A32-Sa-mTl">
             <objects>
@@ -505,7 +531,7 @@
                         <outletCollection property="sceneAddMediaButtons" destination="zh0-jF-OTX" collectionClass="NSMutableArray" id="4Ku-I9-bqS"/>
                         <outletCollection property="sceneAddMediaButtons" destination="akN-Vz-J8y" collectionClass="NSMutableArray" id="6J3-Yp-i4d"/>
                         <outletCollection property="sceneAddMediaButtons" destination="jAP-bU-Obn" collectionClass="NSMutableArray" id="Oy0-Ae-bhy"/>
-                        <segue destination="4to-zB-zdm" kind="presentation" identifier="sceneSelectingShotSegue" modalPresentationStyle="overFullScreen" id="CH1-X3-ObO"/>
+                        <segue destination="LhK-ZH-UoI" kind="presentation" identifier="sceneSelectingShotSegue" modalPresentationStyle="overFullScreen" id="517-es-WJY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vaJ-dB-DbI" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -525,11 +551,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="wqg-Vo-gs4" userLabel="Custom Tab Bar">
-                                <rect key="frame" x="527" y="0.0" width="73" height="600"/>
+                                <rect key="frame" x="533" y="0.0" width="67" height="600"/>
                                 <subviews>
                                     <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5y6-Ou-qt5">
-                                        <rect key="frame" x="0.0" y="0.0" width="73" height="100"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="67" height="100"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <state key="normal" title="Projects">
                                             <color key="titleColor" red="0.20392156859999999" green="0.20392156859999999" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -542,8 +568,8 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" alpha="0.45000000000000001" tag="2" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XTz-rw-392">
-                                        <rect key="frame" x="0.0" y="125" width="73" height="100"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <rect key="frame" x="0.0" y="125" width="67" height="100"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <state key="normal" title="Add">
                                             <color key="titleColor" red="0.20392156862745098" green="0.20392156862745098" blue="0.20392156862745098" alpha="1" colorSpace="calibratedRGB"/>
@@ -553,8 +579,8 @@
                                         </state>
                                     </button>
                                     <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hAP-7c-QFO">
-                                        <rect key="frame" x="0.0" y="250" width="73" height="100"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <rect key="frame" x="0.0" y="250" width="67" height="100"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <state key="normal" title="Camera">
                                             <color key="titleColor" red="0.20392156859999999" green="0.20392156859999999" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -567,8 +593,8 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ef7-TS-I84">
-                                        <rect key="frame" x="0.0" y="375" width="73" height="100"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <rect key="frame" x="0.0" y="375" width="67" height="100"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <state key="normal" title="Share">
                                             <color key="titleColor" red="0.20392156859999999" green="0.20392156859999999" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -581,8 +607,8 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RWq-0a-jkN">
-                                        <rect key="frame" x="0.0" y="500" width="73" height="100"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <rect key="frame" x="0.0" y="500" width="67" height="100"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <state key="normal" title="Play">
                                             <color key="titleColor" red="0.20392156859999999" green="0.20392156859999999" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -596,24 +622,24 @@
                                     </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="73" id="Bz4-yd-S2O"/>
+                                    <constraint firstAttribute="width" constant="67" id="Bz4-yd-S2O"/>
                                 </constraints>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NFp-F1-DSb">
-                                <rect key="frame" x="0.0" y="0.0" width="527" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="533" height="600"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="207" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hVs-EY-j9o">
-                                        <rect key="frame" x="0.0" y="0.0" width="527" height="600"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="533" height="600"/>
                                         <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" shouldIndentWhileEditing="NO" reuseIdentifier="viewCell" rowHeight="207" id="xKZ-fh-Enr" customClass="SelectionViewCell" customModule="Free_Film_Camp" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="28" width="527" height="207"/>
+                                                <rect key="frame" x="0.0" y="28" width="533" height="207"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xKZ-fh-Enr" id="6B1-t2-WXy">
-                                                    <rect key="frame" x="0.0" y="0.0" width="527" height="207"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="533" height="207"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="djD-pD-nTf">
+                                                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="djD-pD-nTf">
                                                             <rect key="frame" x="0.0" y="23" width="527" height="161"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         </view>
@@ -643,7 +669,7 @@
                                 </constraints>
                             </view>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J6r-vB-KJz">
-                                <rect key="frame" x="-527" y="0.0" width="527" height="600"/>
+                                <rect key="frame" x="-533" y="0.0" width="533" height="600"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <segue destination="If4-1C-sto" kind="embed" id="kFq-No-4sO"/>
@@ -921,7 +947,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="projectsVC" title="Profiles" useStoryboardIdentifierAsRestorationIdentifier="YES" id="NSC-8O-mHG" userLabel="Projects" customClass="ProjectsViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleAspectFit" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="63" sectionHeaderHeight="28" sectionFooterHeight="28" id="Cxy-JE-YPX">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="527"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="533"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -1014,6 +1040,6 @@
         <image name="plus_white_69" width="60" height="60"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="182-e7-4UI"/>
+        <segue reference="pgG-5N-lkc"/>
     </inferredMetricsTieBreakers>
 </document>
