@@ -264,7 +264,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="BuV-Yb-RWh">
-                                <rect key="frame" x="67" y="0.0" width="533" height="600"/>
+                                <rect key="frame" x="67" y="0.0" width="466" height="600"/>
                                 <color key="backgroundColor" red="0.2666666667" green="0.2666666667" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="NpO-Sr-pNS">
                                     <size key="itemSize" width="215" height="136"/>
@@ -343,6 +343,9 @@
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H6k-a4-dTJ">
                                         <rect key="frame" x="8" y="8" width="51" height="48"/>
                                         <state key="normal" image="camera_cancel_btn_36"/>
+                                        <connections>
+                                            <action selector="cancelSelection:" destination="LhK-ZH-UoI" eventType="touchUpInside" id="QAn-DZ-Mzn"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -350,7 +353,7 @@
                                     <constraint firstAttribute="width" constant="67" id="zGd-CH-xSK"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Dj-ee-rtN">
+                            <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Dj-ee-rtN">
                                 <rect key="frame" x="533" y="0.0" width="67" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -359,7 +362,6 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="BuV-Yb-RWh" firstAttribute="top" secondItem="ACd-nV-zJg" secondAttribute="topMargin" id="6Mt-Eo-Imp"/>
                             <constraint firstItem="IXy-pa-LBR" firstAttribute="leading" secondItem="ACd-nV-zJg" secondAttribute="leadingMargin" constant="-20" id="Eet-nJ-ZAe"/>
@@ -367,17 +369,19 @@
                             <constraint firstItem="2Dj-ee-rtN" firstAttribute="top" secondItem="ACd-nV-zJg" secondAttribute="topMargin" id="MDZ-KM-fQT"/>
                             <constraint firstAttribute="trailingMargin" secondItem="2Dj-ee-rtN" secondAttribute="trailing" constant="-20" id="Nky-9Y-M4N"/>
                             <constraint firstItem="k7i-DQ-Q1S" firstAttribute="top" secondItem="2Dj-ee-rtN" secondAttribute="bottom" id="O1f-R8-j5i"/>
+                            <constraint firstItem="2Dj-ee-rtN" firstAttribute="leading" secondItem="BuV-Yb-RWh" secondAttribute="trailing" id="bym-wL-z81"/>
                             <constraint firstItem="BuV-Yb-RWh" firstAttribute="leading" secondItem="IXy-pa-LBR" secondAttribute="trailing" id="mlw-rC-6Ug"/>
                             <constraint firstItem="k7i-DQ-Q1S" firstAttribute="top" secondItem="BuV-Yb-RWh" secondAttribute="bottom" id="piW-wc-Ecp"/>
                             <constraint firstItem="k7i-DQ-Q1S" firstAttribute="top" secondItem="IXy-pa-LBR" secondAttribute="bottom" id="vew-fC-y0z"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="BuV-Yb-RWh" secondAttribute="trailing" constant="-20" id="yh7-uz-4Nn"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="BuV-Yb-RWh" id="PIc-tk-oSE"/>
+                        <segue destination="Cx3-0g-WBt" kind="unwind" identifier="sceneShotSelectedSegue" unwindAction="sceneShotUnwindSegue:" id="C9Y-bj-Zos"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NKS-4a-Z36" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="Cx3-0g-WBt" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="4400" y="-2925"/>
         </scene>

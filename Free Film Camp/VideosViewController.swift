@@ -135,6 +135,7 @@ class VideosViewController: UIViewController, UICollectionViewDataSource, UIColl
                 options: nil) { (result, _) -> Void in
                     cell.imageView.image = result
             })
+            
             cell.destroyClipButton.tag = indexPath.row
             cell.destroyClipButton.addTarget(self, action: "destroyClip:", forControlEvents: UIControlEvents.TouchUpInside)
             return cell
