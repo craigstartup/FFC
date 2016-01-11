@@ -20,26 +20,24 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     
+    @IBOutlet weak var toolViewContainer: UIView!
     @IBOutlet weak var tableViewControllerView: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet var buttons: Array<UIButton>!
     @IBOutlet weak var savingProgress: UIActivityIndicatorView!
     
-    var lastSegue: String!
+    var toolViewDormantPosition: CGRect!
     
     let defaultImage         = UIImage(named: "plus_white_69")
     let defaultVideoURL      = NSURL(string: "placeholder")
     let defaultVoiceOverFile = "placeholder"
 
     var viewControllers      = [UIViewController]()
-    let socialSharing = SocialController()
+    let socialSharing        = SocialController()
     var audioPlayer: AVAudioPlayer!
-    var vpVC = AVPlayerViewController()
-    var scrollViewPages      = [CGRect]()
+    var vpVC                 = AVPlayerViewController()
     let viewControllerIds    = ["IntroViewController","SceneViewController","MovieBuilderViewController"]
     
-    var currentVC = 0
-    var currentButton = 0
     let transitionQueue = dispatch_queue_create("com.trans.Queue", nil)
     
     override func viewDidLoad() {
@@ -56,11 +54,13 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
             name: "projectSelected", 
             object: nil)
         
+        self.toolViewDormantPosition = self.toolViewContainer.frame
         self.navigationController?.navigationBarHidden = true
         
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.savingProgress.alpha = 0
+        
         self.getViewControllersForPages()
     }
     
@@ -105,20 +105,11 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
             }
         }
     }
-
-    @IBAction func projectsButtonPressed(sender: UIButton) {
-        // set up projects view to cover tableview
     
-        let projectsVC = self.storyboard?.instantiateViewControllerWithIdentifier("projectsNav") as! UINavigationController
-        let projectsView = projectsVC.view
-        let relativeFrame = self.tableView.bounds
-        let startingFrame = CGRectMake(relativeFrame.origin.x - relativeFrame.size.width, relativeFrame.origin.y, relativeFrame.size.width, relativeFrame.size.height)
-        projectsView.frame = startingFrame
-        self.view.addSubview(projectsView)
+    @IBAction func projectsButtonPressed(sender: UIButton) {
         
-        // present over table veiw and disable buttons until project selected and view dismissed
         UIView.animateWithDuration(1) { () -> Void in
-            projectsVC.view.frame = self.tableView.bounds
+            self.toolViewContainer.frame.origin.x = self.tableView.frame.origin.x
         }
     }
     
