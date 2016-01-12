@@ -115,7 +115,7 @@ class VideosViewController: UIViewController, UICollectionViewDataSource, UIColl
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         
-        return CGSizeMake(self.collectionView.bounds.width / 4.3, self.collectionView .bounds.height / 3.5);
+        return CGSizeMake(self.collectionView.bounds.width / 3.9, self.collectionView .bounds.height / 3.25);
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
