@@ -30,9 +30,24 @@
                                 <subviews>
                                     <view alpha="0.84999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hwc-Tw-kA3" userLabel="Left Sidebar">
                                         <rect key="frame" x="0.0" y="0.0" width="67" height="600"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Boq-gz-JQA">
+                                                <rect key="frame" x="13" y="8" width="40" height="40"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="40" id="13s-W5-Ade"/>
+                                                    <constraint firstAttribute="height" constant="40" id="vzH-co-Yf6"/>
+                                                </constraints>
+                                                <state key="normal" image="camera_cancel_btn_36"/>
+                                                <connections>
+                                                    <action selector="cancelButtonPressed:" destination="t2l-7N-cdU" eventType="touchUpInside" id="uab-9g-tuW"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="67" id="Mcd-6j-Oys"/>
+                                            <constraint firstItem="Boq-gz-JQA" firstAttribute="centerX" secondItem="hwc-Tw-kA3" secondAttribute="centerX" id="XCb-VM-GYS"/>
+                                            <constraint firstItem="Boq-gz-JQA" firstAttribute="top" secondItem="hwc-Tw-kA3" secondAttribute="top" constant="8" id="o6d-Ct-IEa"/>
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ObS-vG-Ai5">
@@ -284,7 +299,7 @@
                                                     <rect key="frame" x="14" y="14" width="114" height="108"/>
                                                     <state key="normal" image="Camera"/>
                                                     <connections>
-                                                        <segue destination="KtM-ME-n2y" kind="presentation" modalPresentationStyle="overFullScreen" id="x9O-ed-KKd"/>
+                                                        <segue destination="KtM-ME-n2y" kind="presentation" identifier="pickingShot" modalPresentationStyle="overFullScreen" id="x9O-ed-KKd"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -344,8 +359,12 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IXy-pa-LBR">
                                 <rect key="frame" x="0.0" y="0.0" width="67" height="600"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H6k-a4-dTJ">
-                                        <rect key="frame" x="8" y="8" width="51" height="48"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H6k-a4-dTJ">
+                                        <rect key="frame" x="13" y="8" width="40" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="40" id="g8w-2u-7PU"/>
+                                            <constraint firstAttribute="height" constant="40" id="zla-XD-Jlx"/>
+                                        </constraints>
                                         <state key="normal" image="camera_cancel_btn_36"/>
                                         <connections>
                                             <action selector="cancelSelection:" destination="LhK-ZH-UoI" eventType="touchUpInside" id="QAn-DZ-Mzn"/>
@@ -354,6 +373,8 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="H6k-a4-dTJ" firstAttribute="top" secondItem="IXy-pa-LBR" secondAttribute="top" constant="8" id="2tU-cO-dnQ"/>
+                                    <constraint firstItem="H6k-a4-dTJ" firstAttribute="centerX" secondItem="IXy-pa-LBR" secondAttribute="centerX" id="Upq-4H-C2N"/>
                                     <constraint firstAttribute="width" constant="67" id="zGd-CH-xSK"/>
                                 </constraints>
                             </view>
@@ -382,6 +403,7 @@
                     <connections>
                         <outlet property="collectionView" destination="BuV-Yb-RWh" id="PIc-tk-oSE"/>
                         <segue destination="Cx3-0g-WBt" kind="unwind" identifier="sceneShotSelectedSegue" unwindAction="sceneShotUnwindSegue:" id="C9Y-bj-Zos"/>
+                        <segue destination="Cx3-0g-WBt" kind="unwind" unwindAction="cameraUnwind:" id="KSu-8L-9yg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NKS-4a-Z36" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -906,24 +928,20 @@
                                         <color key="textColor" red="0.57254901960000004" green="0.57254901960000004" blue="0.57254901960000004" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Intro Scene" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mOE-8i-L0l">
-                                        <rect key="frame" x="8" y="0.0" width="130" height="38"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="130" id="OjX-B9-qjA"/>
-                                            <constraint firstAttribute="height" constant="38" id="aox-ME-2MU"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Intro Scene" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mOE-8i-L0l">
+                                        <rect key="frame" x="30" y="10" width="102" height="24"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="mOE-8i-L0l" firstAttribute="top" secondItem="Z1J-1y-8ts" secondAttribute="top" constant="10" id="1Kg-ZW-dpd"/>
+                                    <constraint firstItem="mOE-8i-L0l" firstAttribute="leading" secondItem="Z1J-1y-8ts" secondAttribute="leading" constant="30" id="CuP-8v-8YM"/>
                                     <constraint firstItem="eP9-Lk-G5R" firstAttribute="centerY" secondItem="Z1J-1y-8ts" secondAttribute="centerY" id="Dll-gN-ima"/>
-                                    <constraint firstItem="mOE-8i-L0l" firstAttribute="leading" secondItem="Z1J-1y-8ts" secondAttribute="leading" id="R4t-GQ-eSd"/>
                                     <constraint firstItem="eP9-Lk-G5R" firstAttribute="leading" secondItem="8rU-Ng-yIH" secondAttribute="trailing" constant="-64" id="ROP-9Y-WL4"/>
                                     <constraint firstItem="eP9-Lk-G5R" firstAttribute="centerX" secondItem="Z1J-1y-8ts" secondAttribute="centerX" id="fRh-z5-y8E"/>
                                     <constraint firstItem="8rU-Ng-yIH" firstAttribute="top" secondItem="eP9-Lk-G5R" secondAttribute="top" id="uBk-E5-oIm"/>
-                                    <constraint firstItem="mOE-8i-L0l" firstAttribute="top" secondItem="Z1J-1y-8ts" secondAttribute="top" id="uzL-zq-9f6"/>
                                 </constraints>
                             </view>
                         </subviews>

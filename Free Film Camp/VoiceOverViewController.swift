@@ -132,7 +132,11 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         self.progressBar.progress += 0.001
     }
     
+    @IBAction func cancelButtonPressed(sender: UIButton) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
     
+    // MARK: Voiceover buttons.
     @IBAction func recordButtonPressed(sender: AnyObject) {
         self.doneButton.setTitle("Done", forState: .Normal)
         // set up progress view for recording time

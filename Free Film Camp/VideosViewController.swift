@@ -113,12 +113,13 @@ class VideosViewController: UIViewController, UICollectionViewDataSource, UIColl
         }
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize
-    {
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        
         return CGSizeMake(self.collectionView.bounds.width / 4.3, self.collectionView .bounds.height / 3.5);
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        
         if indexPath.item == 0 {
             let cameraCell = collectionView.dequeueReusableCellWithReuseIdentifier("cameraCell", forIndexPath: indexPath)
             return cameraCell
@@ -128,7 +129,9 @@ class VideosViewController: UIViewController, UICollectionViewDataSource, UIColl
             if cell.tag != 0 {
                 manager.cancelImageRequest(PHImageRequestID(cell.tag))
             }
+            
             let video = videos[indexPath.row - 1]
+            
             cell.tag = Int(manager.requestImageForAsset(video,
                 targetSize: CGSize(width: 215, height: 136),
                 contentMode: .AspectFill,
