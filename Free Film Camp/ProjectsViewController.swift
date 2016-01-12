@@ -24,11 +24,6 @@ class ProjectsViewController: UITableViewController {
         }
     }
     
-    @IBAction func donePressed(sender: UIBarButtonItem) {
-        NSNotificationCenter.defaultCenter().postNotificationName("projectSelected", object: self)
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
     @IBAction func addProject(sender: UIBarButtonItem) {
         // Present an alert veiw with text box to enter new project name, confirm button and cancel button.
         let addProjectView = UIAlertController(title: "Add Project", message: "Please enter a project name.", preferredStyle: .Alert)
@@ -92,6 +87,7 @@ class ProjectsViewController: UITableViewController {
         NSUserDefaults.standardUserDefaults().synchronize()
         MediaController.sharedMediaController.project = self.projects![indexPath.row] as? String
         self.tableView.reloadData()
+        NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.projectSelected, object: self)
     }
     
     

@@ -15,7 +15,6 @@ import SwiftyDropbox
 import Social
 
 class MediaController {
-    
     enum Notifications {
         static let audioExportStart  = "audioExportBegan"
         static let audioExportFinish = "audioExportComplete"
@@ -28,6 +27,7 @@ class MediaController {
         static let dropBoxFail       = "dropBoxFailure"
         static let movieReady        = "movieReady"
         static let sharingComplete   = "sharedMovie"
+        static let projectSelected   = "projectSelected"
     }
     
     enum Albums {
@@ -145,17 +145,17 @@ class MediaController {
         vOExporter!.shouldOptimizeForNetworkUse = true
         vOExporter!
             .exportAsynchronouslyWithCompletionHandler() {
-                    // TODO: Handle nil.
-                    if vOExporter!.status == AVAssetExportSessionStatus.Completed {
-                        print("Export finished")
-                        let movieVoiceOver = AVURLAsset(URL: (vOExporter?.outputURL)!)
-                        self.composeMedia(videoAssets, voiceOverAssets: voiceOvers, movieVoiceOver: movieVoiceOver, movie: true, save: save)
-                    } else if vOExporter!.status == AVAssetExportSessionStatus.Waiting {
-                        print("Export waiting")
-                    } else if vOExporter!.status == AVAssetExportSessionStatus.Failed {
-                        print("Export failure")
-                        self.composeMedia(videoAssets, voiceOverAssets: voiceOvers, movieVoiceOver: nil, movie: true, save: save)
-                    }
+                // TODO: Handle nil.
+                if vOExporter!.status == AVAssetExportSessionStatus.Completed {
+                    print("Export finished")
+                    let movieVoiceOver = AVURLAsset(URL: (vOExporter?.outputURL)!)
+                    self.composeMedia(videoAssets, voiceOverAssets: voiceOvers, movieVoiceOver: movieVoiceOver, movie: true, save: save)
+                } else if vOExporter!.status == AVAssetExportSessionStatus.Waiting {
+                    print("Export waiting")
+                } else if vOExporter!.status == AVAssetExportSessionStatus.Failed {
+                    print("Export failure")
+                    self.composeMedia(videoAssets, voiceOverAssets: voiceOvers, movieVoiceOver: nil, movie: true, save: save)
+                }
         }
     }
 

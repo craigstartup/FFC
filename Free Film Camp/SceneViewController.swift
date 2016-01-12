@@ -16,6 +16,7 @@ class SceneViewController: UIViewController {
     // MARK: Properties
     @IBOutlet weak var savingProgress: UIActivityIndicatorView!
     @IBOutlet var sceneAddMediaButtons: Array<UIButton>!
+    @IBOutlet weak var sceneLabel: UILabel!
     
     var sceneButtons              = [[UIButton]?]()
 
@@ -73,6 +74,7 @@ class SceneViewController: UIViewController {
         
         self.navigationController?.navigationBar.translucent = true
         self.setupView()
+        self.sceneLabel.text = "Scene \(self.sceneNumber + 1)"
     }
     
     override func viewDidDisappear(animated: Bool) {

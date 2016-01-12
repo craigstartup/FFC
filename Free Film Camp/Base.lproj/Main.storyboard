@@ -557,6 +557,7 @@
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
                         <outlet property="savingProgress" destination="XiB-Hr-apA" id="gfh-zS-Yzd"/>
+                        <outlet property="sceneLabel" destination="xT4-HV-XuS" id="8hA-im-zcl"/>
                         <outletCollection property="sceneAddMediaButtons" destination="Qxs-2x-Cgo" collectionClass="NSMutableArray" id="Xtu-Fe-J41"/>
                         <outletCollection property="sceneAddMediaButtons" destination="zh0-jF-OTX" collectionClass="NSMutableArray" id="4Ku-I9-bqS"/>
                         <outletCollection property="sceneAddMediaButtons" destination="akN-Vz-J8y" collectionClass="NSMutableArray" id="6J3-Yp-i4d"/>
@@ -669,8 +670,8 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="533" height="207"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="djD-pD-nTf">
-                                                            <rect key="frame" x="0.0" y="23" width="527" height="161"/>
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="djD-pD-nTf">
+                                                            <rect key="frame" x="0.0" y="23" width="533" height="161"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         </view>
                                                     </subviews>
@@ -1066,6 +1067,6 @@
         <image name="plus_white_69" width="60" height="60"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="x9O-ed-KKd"/>
+        <segue reference="pgG-5N-lkc"/>
     </inferredMetricsTieBreakers>
 </document>

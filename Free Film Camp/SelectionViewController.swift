@@ -26,8 +26,6 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet var buttons: Array<UIButton>!
     @IBOutlet weak var savingProgress: UIActivityIndicatorView!
     
-    var toolViewDormantPosition: CGRect!
-    
     let defaultImage         = UIImage(named: "plus_white_69")
     let defaultVideoURL      = NSURL(string: "placeholder")
     let defaultVoiceOverFile = "placeholder"
@@ -38,7 +36,7 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     var vpVC                 = AVPlayerViewController()
     let viewControllerIds    = ["IntroViewController","SceneViewController","MovieBuilderViewController"]
     
-    let transitionQueue = dispatch_queue_create("com.trans.Queue", nil)
+    let transitionQueue      = dispatch_queue_create("com.trans.Queue", nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,13 +49,12 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
         NSNotificationCenter.defaultCenter().addObserver(
             self,
             selector: "projectChanged:",
-            name: "projectSelected", 
+            name: MediaController.Notifications.projectSelected,
             object: nil)
         
-        self.toolViewDormantPosition = self.toolViewContainer.frame
         self.navigationController?.navigationBarHidden = true
         
-        self.tableView.delegate = self
+        self.tableView.delegate   = self
         self.tableView.dataSource = self
         self.savingProgress.alpha = 0
         
@@ -107,7 +104,6 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     @IBAction func projectsButtonPressed(sender: UIButton) {
-        
         UIView.animateWithDuration(1) { () -> Void in
             self.toolViewContainer.frame.origin.x = self.tableView.frame.origin.x
         }
@@ -138,6 +134,7 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
             selector: "saveCompleted:",
             name: MediaController.Notifications.saveMovieFinished,
             object: nil)
+        
         NSNotificationCenter.defaultCenter().addObserver(
             self,
             selector: "saveFailed:",
@@ -236,7 +233,6 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
             object: nil)
         
         self.progressSwitch(on: false)
-        
     }
     
     func saveCompleted(notification: NSNotification) {
@@ -338,8 +334,12 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func projectChanged(notification: NSNotification) {
-        
         self.viewControllers.removeAll()
         self.getViewControllersForPages()
+        self.tableView.reloadData()
+        
+        UIView.animateWithDuration(1) { () -> Void in
+            self.toolViewContainer.frame.origin.x = self.toolViewContainer.frame.origin.x - 600
+        }
     }
 }
