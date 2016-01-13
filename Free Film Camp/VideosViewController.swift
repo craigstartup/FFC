@@ -27,22 +27,22 @@ class VideosViewController: UIViewController, UICollectionViewDataSource, UIColl
     var clipsAlbum: PHAssetCollection!
     let reuseIdentifier = "ClipCell"
     var videos = [PHAsset]()
-    
+
     // handle interaction
     var longPress: UILongPressGestureRecognizer!
     var tap: UITapGestureRecognizer!
     var timer: NSTimer!
     var longItem: CGPoint!
-    
+
     // handle logic based on presenting VC
     var segueID = "sceneShotSelectedSegue"
     var shotNumber: Int!
-    
+
     // pass back selected video and image
     var videoAssetToPass: NSURL!
     var initialEntry = true
     var videoImageToPass: UIImage!
-    
+
     // Mark: View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()

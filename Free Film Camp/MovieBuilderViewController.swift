@@ -26,6 +26,7 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
         super.viewDidLoad()
         tableView.delegate                          = self
         tableView.dataSource                        = self
+        tableView.scrollEnabled                     = false
 
         guard let loadedIntro                       = MediaController.sharedMediaController.loadIntro()
             else {
@@ -33,7 +34,6 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
                 return
         }
         MediaController.sharedMediaController.intro = loadedIntro
-        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -124,7 +124,7 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
         if audioPlayer?.playing == true {
             cell.playMusicTrackButton.setTitle("Play", forState: UIControlState.Selected)
             audioPlayer.stop()
-        } else if audioPlayer?.playing == false{
+        } else if audioPlayer?.playing == false {
             cell.playMusicTrackButton.setTitle("Stop", forState: UIControlState.Selected)
             self.audioPlayer.play()
         }

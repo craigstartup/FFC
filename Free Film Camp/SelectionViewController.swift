@@ -305,6 +305,11 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+        if indexPath.row == self.viewControllers.count - 1 {
+            return CGFloat(self.tableView.bounds.height * 1.2)
+        }
+        
         return CGFloat(self.tableView.bounds.height / 1.3)
     }
     

@@ -760,7 +760,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleAspectFit" alwaysBounceVertical="YES" indicatorStyle="white" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="80" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="rPv-Lt-ha7">
-                                <rect key="frame" x="50" y="20" width="500" height="580"/>
+                                <rect key="frame" x="50" y="20" width="500" height="549"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <inset key="scrollIndicatorInsets" minX="0.0" minY="5" maxX="0.0" maxY="5"/>
                                 <color key="separatorColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -787,7 +787,7 @@
                                     </constraints>
                                 </view>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="musicCell" rowHeight="80" id="bp1-fw-EOe" customClass="MusicCell" customModule="Free_Film_Camp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="musicCell" rowHeight="80" id="bp1-fw-EOe" customClass="MusicCell" customModule="Free_Film_Camp" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="109" width="500" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bp1-fw-EOe" id="mMB-2a-eQc">
@@ -858,7 +858,7 @@
                             <constraint firstItem="rPv-Lt-ha7" firstAttribute="top" secondItem="GsR-Xa-Yfa" secondAttribute="bottom" id="MNR-N7-Ohl"/>
                             <constraint firstAttribute="trailingMargin" secondItem="rPv-Lt-ha7" secondAttribute="trailing" constant="30" id="PpM-kF-EYb"/>
                             <constraint firstItem="rPv-Lt-ha7" firstAttribute="centerX" secondItem="uCq-IG-yDm" secondAttribute="centerX" id="l5K-59-lWD"/>
-                            <constraint firstItem="Ueq-ek-GNU" firstAttribute="top" secondItem="rPv-Lt-ha7" secondAttribute="bottom" id="uMC-eq-l3a"/>
+                            <constraint firstItem="Ueq-ek-GNU" firstAttribute="top" secondItem="rPv-Lt-ha7" secondAttribute="bottom" constant="31" id="uMC-eq-l3a"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" id="CNn-C8-U6A"/>

@@ -57,6 +57,11 @@ class SceneViewController: UIViewController {
             MediaController.sharedMediaController.dropboxIsLoading = false
         }
         // self.sceneAddMediaButtons.last?.addSubview(self.soundwaveView)
+        
+        for button in self.sceneAddMediaButtons {
+            button.layer.borderWidth = 2
+            button.layer.borderColor = UIColor.blueColor().CGColor
+        }
     }
     
     
