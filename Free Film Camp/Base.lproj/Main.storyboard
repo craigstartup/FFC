@@ -278,6 +278,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5MK-1E-zet">
+                                <rect key="frame" x="533" y="267" width="67" height="66"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="67" id="0RS-2H-Iif"/>
+                                    <constraint firstAttribute="height" constant="66" id="pHE-5J-0zZ"/>
+                                </constraints>
+                                <state key="normal">
+                                    <color key="titleColor" red="0.2666666667" green="0.2666666667" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <segue destination="KtM-ME-n2y" kind="presentation" modalPresentationStyle="overFullScreen" id="0ql-4U-NHC"/>
+                                </connections>
+                            </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="BuV-Yb-RWh">
                                 <rect key="frame" x="67" y="0.0" width="466" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -351,22 +364,10 @@
                             </view>
                             <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Dj-ee-rtN">
                                 <rect key="frame" x="533" y="0.0" width="67" height="600"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5MK-1E-zet">
-                                        <rect key="frame" x="0.0" y="220" width="67" height="160"/>
-                                        <connections>
-                                            <segue destination="KtM-ME-n2y" kind="presentation" modalPresentationStyle="overFullScreen" id="0ql-4U-NHC"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="5MK-1E-zet" firstAttribute="top" secondItem="2Dj-ee-rtN" secondAttribute="top" constant="220" id="4ve-K6-afH"/>
-                                    <constraint firstItem="5MK-1E-zet" firstAttribute="leading" secondItem="2Dj-ee-rtN" secondAttribute="leading" id="8x8-TP-uEN"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="67" id="YCu-MA-Ile"/>
-                                    <constraint firstAttribute="bottom" secondItem="5MK-1E-zet" secondAttribute="bottom" constant="220" id="feh-gq-9nf"/>
                                     <constraint firstAttribute="width" constant="67" id="gIi-bb-qa9"/>
-                                    <constraint firstAttribute="trailing" secondItem="5MK-1E-zet" secondAttribute="trailing" id="sUK-ze-AYP"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -374,10 +375,12 @@
                             <constraint firstItem="BuV-Yb-RWh" firstAttribute="top" secondItem="ACd-nV-zJg" secondAttribute="topMargin" id="6Mt-Eo-Imp"/>
                             <constraint firstItem="IXy-pa-LBR" firstAttribute="leading" secondItem="ACd-nV-zJg" secondAttribute="leadingMargin" constant="-20" id="Eet-nJ-ZAe"/>
                             <constraint firstItem="IXy-pa-LBR" firstAttribute="top" secondItem="ACd-nV-zJg" secondAttribute="topMargin" id="ISh-qd-kfG"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="5MK-1E-zet" secondAttribute="trailing" constant="-20" id="Ir2-ap-Qy6"/>
                             <constraint firstItem="2Dj-ee-rtN" firstAttribute="top" secondItem="ACd-nV-zJg" secondAttribute="topMargin" id="MDZ-KM-fQT"/>
                             <constraint firstAttribute="trailingMargin" secondItem="2Dj-ee-rtN" secondAttribute="trailing" constant="-20" id="Nky-9Y-M4N"/>
                             <constraint firstItem="k7i-DQ-Q1S" firstAttribute="top" secondItem="2Dj-ee-rtN" secondAttribute="bottom" id="O1f-R8-j5i"/>
                             <constraint firstItem="2Dj-ee-rtN" firstAttribute="leading" secondItem="BuV-Yb-RWh" secondAttribute="trailing" id="bym-wL-z81"/>
+                            <constraint firstItem="5MK-1E-zet" firstAttribute="centerY" secondItem="ACd-nV-zJg" secondAttribute="centerY" id="cao-yl-u5m"/>
                             <constraint firstItem="BuV-Yb-RWh" firstAttribute="leading" secondItem="IXy-pa-LBR" secondAttribute="trailing" id="mlw-rC-6Ug"/>
                             <constraint firstItem="k7i-DQ-Q1S" firstAttribute="top" secondItem="BuV-Yb-RWh" secondAttribute="bottom" id="piW-wc-Ecp"/>
                             <constraint firstItem="k7i-DQ-Q1S" firstAttribute="top" secondItem="IXy-pa-LBR" secondAttribute="bottom" id="vew-fC-y0z"/>
