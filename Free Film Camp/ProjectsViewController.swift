@@ -55,11 +55,6 @@ class ProjectsViewController: UITableViewController {
         
         self.presentViewController(addProjectView, animated: true, completion: nil)
     }
-
-    
-    @IBAction func switchMediaToShow(sender: UISwitch) {
-        
-    }
     
     // MARK: Table view methods
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

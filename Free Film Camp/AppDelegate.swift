@@ -13,11 +13,9 @@ import SwiftyDropbox
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
     var window: UIWindow?
     
     func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
-        
         if let authResult = Dropbox.handleRedirectURL(url) {
             switch authResult {
             case .Success(let token):

@@ -44,10 +44,11 @@ class IntroViewController: UIViewController {
     func setButtons() {
         // TODO: Clean up logic.
         if self.intro == nil {
+            self.introButton.layer.borderWidth = 2
+            self.introButton.layer.borderColor = UIColor.grayColor().CGColor
+
         
         } else {
-          
-            self.introButton.enabled = false
             self.introButton.setImage(self.intro.image, forState: .Normal)
             let video = AVURLAsset(URL: MediaController.sharedMediaController.getPathForFileInDocumentsDirectory(self.intro.video))
             print(intro.video)
@@ -71,7 +72,8 @@ class IntroViewController: UIViewController {
     
     // MARK: Actions
     @IBAction func selectIntro(sender: UIButton) {
-        
+       self.intro = nil
+        MediaController.sharedMediaController.intro = nil
     }
     
     

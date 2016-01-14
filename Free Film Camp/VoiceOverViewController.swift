@@ -72,11 +72,9 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         self.playerLayer = self.getPreview()
     }
     
-    
     override func viewWillLayoutSubviews() {
        self.setupPreview()
     }
-    
     
     override func viewDidAppear(animated: Bool) {
         // set up initial button states
@@ -88,7 +86,6 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
             recordButton.enabled = true
         }
     }
-    
     
     override func viewDidDisappear(animated: Bool) {
         self.playerLayer.player = nil
@@ -173,7 +170,6 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         }
     }
     
-    
     @IBAction func playButtonPressed(sender: AnyObject) {
         if audioRecorder.recording == false {
             recordButton.enabled = false
@@ -194,7 +190,6 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
             self.playerLayer.player!.play()
         }
     }
-    
     
     @IBAction func doneButtonPressed(sender: AnyObject) {
         self.audioRecorder.stop()
@@ -255,7 +250,6 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         self.doneButton.enabled = true
         self.doneButton.alpha = 1
     }
-    
     
     func audioRecorderEncodeErrorDidOccur(recorder: AVAudioRecorder, error: NSError?) {
         

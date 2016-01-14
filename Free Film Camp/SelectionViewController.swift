@@ -26,6 +26,8 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet var buttons: Array<UIButton>!
     @IBOutlet weak var savingProgress: UIActivityIndicatorView!
     
+    var projectChanged = false
+    var cellClearedCount = 0
     let defaultImage         = UIImage(named: "plus_white_69")
     let defaultVideoURL      = NSURL(string: "placeholder")
     let defaultVoiceOverFile = "placeholder"
@@ -106,6 +108,11 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBAction func projectsButtonPressed(sender: UIButton) {
         UIView.animateWithDuration(1) { () -> Void in
             self.toolViewContainer.frame.origin.x = self.tableView.frame.origin.x
+        }
+        
+        for button in self.buttons {
+            button.enabled = false
+            button.alpha = 0.5
         }
     }
     
@@ -305,19 +312,32 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        
         if indexPath.row == self.viewControllers.count - 1 {
-            return CGFloat(self.tableView.bounds.height * 1.2)
+            return CGFloat(self.tableView.bounds.height)
         }
-        
-        return CGFloat(self.tableView.bounds.height / 1.3)
+        return CGFloat(self.tableView.bounds.height * 0.8)
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("viewCell") as! SelectionViewCell
+        
+        if cell.cellViewView.subviews.count > 0 && self.projectChanged {
+            for view in cell.cellViewView.subviews {
+                view.removeFromSuperview()
+            }
+            
+            self.cellClearedCount += 1
+        }
+        
         let view = self.viewControllers[indexPath.row].view
         view.frame = cell.cellViewView.bounds
         cell.cellViewView.addSubview(view)
+        
+        if cellClearedCount == self.viewControllers.count {
+            self.projectChanged = false
+            self.cellClearedCount = 0
+        }
+        
         return cell
     }
     
@@ -327,6 +347,7 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
             title: "Dropbox Upload Complete",
             message: "Video uploaded to app Dropbox folder",
             preferredStyle: .Alert)
+        
         let okAction = UIAlertAction(
             title: "OK",
             style: .Default,
@@ -339,6 +360,12 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func projectChanged(notification: NSNotification) {
+        for button in self.buttons {
+            button.enabled = true
+            button.alpha = 1
+        }
+        
+        self.projectChanged = true
         self.viewControllers.removeAll()
         self.getViewControllersForPages()
         self.tableView.reloadData()

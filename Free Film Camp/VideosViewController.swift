@@ -106,11 +106,7 @@ class VideosViewController: UIViewController, UICollectionViewDataSource, UIColl
     
     // MARK: Collection view delegate methods
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if clipsAlbum.estimatedAssetCount > 0 {
-            return clipsAlbum.estimatedAssetCount + 1
-        } else {
-            return 1
-        }
+        return clipsAlbum.estimatedAssetCount
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
@@ -120,29 +116,29 @@ class VideosViewController: UIViewController, UICollectionViewDataSource, UIColl
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        if indexPath.item == 0 {
-            let cameraCell = collectionView.dequeueReusableCellWithReuseIdentifier("cameraCell", forIndexPath: indexPath)
-            return cameraCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! VideoLibraryCell
+        manager.cancelImageRequest(PHImageRequestID(cell.tag))
+        
+        var index: Int!
+        
+        if indexPath.row == 0 {
+            index = 0
         } else {
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! VideoLibraryCell
-            
-            if cell.tag != 0 {
-                manager.cancelImageRequest(PHImageRequestID(cell.tag))
-            }
-            
-            let video = videos[indexPath.row - 1]
-            
-            cell.tag = Int(manager.requestImageForAsset(video,
-                targetSize: CGSize(width: 215, height: 136),
-                contentMode: .AspectFill,
-                options: nil) { (result, _) -> Void in
-                    cell.imageView.image = result
-            })
-            
-            cell.destroyClipButton.tag = indexPath.row
-            cell.destroyClipButton.addTarget(self, action: "destroyClip:", forControlEvents: UIControlEvents.TouchUpInside)
-            return cell
+            index = indexPath.row - 1
         }
+        
+        let video = videos[index]
+        
+        cell.tag = Int(manager.requestImageForAsset(video,
+            targetSize: CGSize(width: 215, height: 136),
+            contentMode: .AspectFill,
+            options: nil) { (result, _) -> Void in
+                cell.imageView.image = result
+            })
+        
+        cell.destroyClipButton.tag = indexPath.row
+        cell.destroyClipButton.addTarget(self, action: "destroyClip:", forControlEvents: UIControlEvents.TouchUpInside)
+        return cell
     }
     
     // MARK: Media selection methods
@@ -179,20 +175,24 @@ class VideosViewController: UIViewController, UICollectionViewDataSource, UIColl
     
     func handleTap(gestureRecognizer: UITapGestureRecognizer) {
         print("TAP")
+        
         if gestureRecognizer.state != UIGestureRecognizerState.Ended {
             return
         }
+        
         let itemTouched = gestureRecognizer.locationInView(self.collectionView)
         let indexPath = self.collectionView?.indexPathForItemAtPoint(itemTouched)
         
         if indexPath?.row > 0 {
             let video = videos[(indexPath?.row)! - 1]
+            
             manager.requestImageForAsset(video,
                 targetSize: CGSize(width: 215, height: 136),
                 contentMode: .AspectFill,
                 options: nil) { [unowned self] (result, _) -> Void in
                     self.videoImageToPass = result!
             }
+            
             manager.requestAVAssetForVideo(video, options: nil) { (videoAsset, audioMix, info) -> Void in
                 dispatch_async(dispatch_get_main_queue(), { [unowned self] () -> Void in
                     if (videoAsset?.isKindOfClass(AVURLAsset) != nil) {

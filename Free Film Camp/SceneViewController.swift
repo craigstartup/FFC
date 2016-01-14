@@ -60,7 +60,7 @@ class SceneViewController: UIViewController {
         
         for button in self.sceneAddMediaButtons {
             button.layer.borderWidth = 2
-            button.layer.borderColor = UIColor.blueColor().CGColor
+            button.layer.borderColor = UIColor.grayColor().CGColor
         }
     }
     
