@@ -28,6 +28,9 @@ class MediaController {
         static let movieReady        = "movieReady"
         static let sharingComplete   = "sharedMovie"
         static let projectSelected   = "projectSelected"
+        static let toolViewDismissed = "toolViewVanished"
+        static let voiceoverCalled   = "voiceoverCalled"
+        static let selectShotCalled  = "shotCalled"
     }
     
     enum Albums {

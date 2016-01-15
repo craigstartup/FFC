@@ -54,6 +54,24 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
             name: MediaController.Notifications.projectSelected,
             object: nil)
         
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: "viewWasDismissed:",
+            name: MediaController.Notifications.toolViewDismissed,
+            object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: "voiceoverCalled:",
+            name: MediaController.Notifications.voiceoverCalled,
+            object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: "shotCalled:",
+            name: MediaController.Notifications.selectShotCalled,
+            object: nil)
+        
         self.navigationController?.navigationBarHidden = true
         
         self.tableView.delegate   = self
@@ -105,15 +123,13 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
+    // MARK: Button Actions
     @IBAction func projectsButtonPressed(sender: UIButton) {
         UIView.animateWithDuration(1) { () -> Void in
             self.toolViewContainer.frame.origin.x = self.tableView.frame.origin.x
         }
         
-        for button in self.buttons {
-            button.enabled = false
-            button.alpha = 0.5
-        }
+        self.buttonsOn(on: false)
     }
     
     @IBAction func shareButtonPressed(sender: UIButton) {
@@ -197,6 +213,95 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
 
     }
     
+    // MARK: Helper Methods
+    func progressSwitch(on on: Bool) {
+        if on {
+            self.savingProgress.alpha = 1
+            self.savingProgress.startAnimating()
+            self.view.alpha = 0.6
+        } else {
+            self.savingProgress.stopAnimating()
+            self.savingProgress.alpha = 0
+            self.view.alpha = 1
+        }
+    }
+    
+    func buttonsOn(on on: Bool) {
+        let visibility: CGFloat = on ? 1 : 0.5
+        let active = on ? true : false
+        
+        for button in self.buttons {
+            button.enabled = active
+            button.alpha = visibility
+        }
+    }
+
+    // MARK: Table view delegate methods
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.viewControllers.count
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if indexPath.row == self.viewControllers.count - 1 {
+            return CGFloat(self.tableView.bounds.height)
+        }
+        return CGFloat(self.tableView.bounds.height * 0.8)
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("viewCell") as! SelectionViewCell
+        
+        if cell.cellViewView.subviews.count > 0 && self.projectChanged {
+            for view in cell.cellViewView.subviews {
+                view.removeFromSuperview()
+            }
+            
+            self.cellClearedCount += 1
+        }
+        
+        let view = self.viewControllers[indexPath.row].view
+        view.frame = cell.cellViewView.bounds
+        cell.cellViewView.addSubview(view)
+        
+        if cellClearedCount == self.viewControllers.count {
+            self.projectChanged = false
+            self.cellClearedCount = 0
+        }
+        
+        return cell
+    }
+    
+    // MARK: Notification methods
+    func dropboxComplete(notification: NSNotification) {
+        let dropboxAlert = UIAlertController(
+            title: "Dropbox Upload Complete",
+            message: "Video uploaded to app Dropbox folder",
+            preferredStyle: .Alert)
+        
+        let okAction = UIAlertAction(
+            title: "OK",
+            style: .Default,
+            handler: { (action) -> Void in
+                NSNotificationCenter.defaultCenter().removeObserver(self, name: MediaController.Notifications.dropBoxUpFinish, object: nil)
+        })
+        
+        dropboxAlert.addAction(okAction)
+        self.presentViewController(dropboxAlert, animated: true, completion: nil)
+    }
+    
+    func projectChanged(notification: NSNotification) {
+        self.buttonsOn(on: true)
+        
+        self.projectChanged = true
+        self.viewControllers.removeAll()
+        self.getViewControllersForPages()
+        self.tableView.reloadData()
+        
+        UIView.animateWithDuration(1) { () -> Void in
+            self.toolViewContainer.frame.origin.x = self.toolViewContainer.frame.origin.x - 600
+        }
+    }
+    
     func firePreview(notification: NSNotification) {
         if MediaController.sharedMediaController.preview != nil {
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -216,7 +321,19 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
         // Make share button enabled
     }
     
-    // MARK: Notification handlers
+    func viewWasDismissed(notification: NSNotification) {
+        self.buttonsOn(on: true)
+    }
+    
+    func shotCalled(notification: NSNotification) {
+        self.buttonsOn(on: false)
+        self.buttons.last!.alpha = 1
+    }
+    
+    func voiceoverCalled(notification: NSNotification) {
+        self.buttonsOn(on: false)
+    }
+    
     func movieReady(notification: NSNotification) {
         NSNotificationCenter.defaultCenter().removeObserver(
             self,
@@ -292,86 +409,5 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
         alertFailure.addAction(okAction)
         self.presentViewController(alertFailure, animated: true, completion: nil)
         MediaController.sharedMediaController.dropboxIsLoading = false
-    }
-    
-    func progressSwitch(on on: Bool) {
-        if on {
-            self.savingProgress.alpha = 1
-            self.savingProgress.startAnimating()
-            self.view.alpha = 0.6
-        } else {
-            self.savingProgress.stopAnimating()
-            self.savingProgress.alpha = 0
-            self.view.alpha = 1
-        }
-    }
-
-    // MARK: Table view delegate methods
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.viewControllers.count
-    }
-    
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.row == self.viewControllers.count - 1 {
-            return CGFloat(self.tableView.bounds.height)
-        }
-        return CGFloat(self.tableView.bounds.height * 0.8)
-    }
-    
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("viewCell") as! SelectionViewCell
-        
-        if cell.cellViewView.subviews.count > 0 && self.projectChanged {
-            for view in cell.cellViewView.subviews {
-                view.removeFromSuperview()
-            }
-            
-            self.cellClearedCount += 1
-        }
-        
-        let view = self.viewControllers[indexPath.row].view
-        view.frame = cell.cellViewView.bounds
-        cell.cellViewView.addSubview(view)
-        
-        if cellClearedCount == self.viewControllers.count {
-            self.projectChanged = false
-            self.cellClearedCount = 0
-        }
-        
-        return cell
-    }
-    
-    // MARK: Notification methods
-    func dropboxComplete(notification: NSNotification) {
-        let dropboxAlert = UIAlertController(
-            title: "Dropbox Upload Complete",
-            message: "Video uploaded to app Dropbox folder",
-            preferredStyle: .Alert)
-        
-        let okAction = UIAlertAction(
-            title: "OK",
-            style: .Default,
-            handler: { (action) -> Void in
-                NSNotificationCenter.defaultCenter().removeObserver(self, name: MediaController.Notifications.dropBoxUpFinish, object: nil)
-        })
-        
-        dropboxAlert.addAction(okAction)
-        self.presentViewController(dropboxAlert, animated: true, completion: nil)
-    }
-    
-    func projectChanged(notification: NSNotification) {
-        for button in self.buttons {
-            button.enabled = true
-            button.alpha = 1
-        }
-        
-        self.projectChanged = true
-        self.viewControllers.removeAll()
-        self.getViewControllersForPages()
-        self.tableView.reloadData()
-        
-        UIView.animateWithDuration(1) { () -> Void in
-            self.toolViewContainer.frame.origin.x = self.toolViewContainer.frame.origin.x - 600
-        }
     }
 }

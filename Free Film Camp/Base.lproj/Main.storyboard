@@ -461,7 +461,7 @@
                                     <stackView opaque="NO" contentMode="scaleAspectFit" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="Zza-JB-Xud">
                                         <rect key="frame" x="30" y="74" width="540" height="86"/>
                                         <subviews>
-                                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qxs-2x-Cgo" userLabel="Shot 1">
+                                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qxs-2x-Cgo" userLabel="Shot 1">
                                                 <rect key="frame" x="0.0" y="0.0" width="154" height="86"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
@@ -474,7 +474,7 @@
                                                     <action selector="selectMedia:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="o1K-os-Tuu"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zh0-jF-OTX" userLabel="Shot 2">
+                                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zh0-jF-OTX" userLabel="Shot 2">
                                                 <rect key="frame" x="194" y="0.0" width="152" height="86"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
@@ -486,7 +486,7 @@
                                                     <action selector="selectMedia:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="hld-zy-8vB"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="akN-Vz-J8y" userLabel="Shot 3">
+                                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="akN-Vz-J8y" userLabel="Shot 3">
                                                 <rect key="frame" x="386" y="0.0" width="154" height="86"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
@@ -1073,6 +1073,6 @@
         <image name="plus_white_69" width="60" height="60"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="0ql-4U-NHC"/>
+        <segue reference="pgG-5N-lkc"/>
     </inferredMetricsTieBreakers>
 </document>

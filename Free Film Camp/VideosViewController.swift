@@ -143,6 +143,7 @@ class VideosViewController: UIViewController, UICollectionViewDataSource, UIColl
     
     // MARK: Media selection methods
     @IBAction func cancelSelection(sender: UIButton) {
+        NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.toolViewDismissed, object: self)
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -184,6 +185,7 @@ class VideosViewController: UIViewController, UICollectionViewDataSource, UIColl
         let indexPath = self.collectionView?.indexPathForItemAtPoint(itemTouched)
         
         if indexPath?.row > 0 {
+             NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.toolViewDismissed, object: self)
             let video = videos[(indexPath?.row)! - 1]
             
             manager.requestImageForAsset(video,

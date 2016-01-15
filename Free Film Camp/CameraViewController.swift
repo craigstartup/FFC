@@ -143,6 +143,9 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         videoCapture.stopRunning()
         self.progress = nil
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIDeviceOrientationDidChangeNotification, object: UIDevice.currentDevice())
+        if pickingShot {
+            NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.toolViewDismissed, object: self)
+        }
     }
     
     

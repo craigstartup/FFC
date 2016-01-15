@@ -130,6 +130,7 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     }
     
     @IBAction func cancelButtonPressed(sender: UIButton) {
+        NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.toolViewDismissed, object: self)
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -206,6 +207,7 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
             self.audioAssetToPass = MediaController.sharedMediaController.getVoiceOverSavePath(self.audioSaveID)
         }
         
+        NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.toolViewDismissed, object: self)
         self.performSegueWithIdentifier("sceneAudioSelectedSegue", sender: self)
     }
     

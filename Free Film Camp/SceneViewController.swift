@@ -128,40 +128,12 @@ class SceneViewController: UIViewController {
         let buttonPressed = sender.tag - 1
         
         if buttonPressed > SHOT3 {
-            self.audioAsset = nil
+            NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.voiceoverCalled, object: self)
         } else {
-            self.selectedVideoAsset = nil
             self.performSegueWithIdentifier(self.selectingShotSegueID, sender: self)
+            NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.selectShotCalled, object: self)
         }
     }
-    
-    
-    @IBAction func removeMedia(sender: AnyObject) {
-        if sender.tag < 4 {
-            self.scene.shotVideos[sender.tag - 1] = self.defaultVideoURL!
-            self.scene.shotImages[sender.tag - 1] = self.defaultImage!
-            self.sceneButtons[ADD_BUTTONS]![sender.tag - 1].contentVerticalAlignment = UIControlContentVerticalAlignment.Center
-            self.sceneButtons[ADD_BUTTONS]![sender.tag - 1].imageView?.contentMode = UIViewContentMode.ScaleAspectFit
-            self.sceneButtons[ADD_BUTTONS]![sender.tag - 1].setImage(self.scene.shotImages[sender.tag - 1], forState: UIControlState.Normal)
-            self.sceneButtons[ADD_BUTTONS]![sender.tag - 1].enabled = true
-        } else if sender.tag == 4 {
-            self.sceneButtons[ADD_BUTTONS]![VOICEOVER].contentVerticalAlignment = UIControlContentVerticalAlignment.Center
-            self.sceneButtons[ADD_BUTTONS]![VOICEOVER].imageView?.contentMode = UIViewContentMode.ScaleAspectFit
-            self.sceneButtons[ADD_BUTTONS]![VOICEOVER].setImage(self.defaultImage, forState: UIControlState.Normal)
-            self.sceneButtons[ADD_BUTTONS]![VOICEOVER].enabled = true
-            let voiceOverToRemove = MediaController.sharedMediaController.getPathForFileInDocumentsDirectory(self.scene.voiceOver).path!
-            
-            do {
-                try NSFileManager.defaultManager().removeItemAtPath(voiceOverToRemove)
-            } catch let error as NSError {
-                print(error.localizedDescription)
-            }
-            self.scene.voiceOver = self.defaultVoiceOverFile
-        }
-        
-        MediaController.sharedMediaController.saveScenes()
-    }
-    
     
     @IBAction func previewSelection(sender: AnyObject) {
         defer {
