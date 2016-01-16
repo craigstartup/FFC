@@ -193,10 +193,17 @@
                                     <action selector="recordTime:" destination="KtM-ME-n2y" eventType="touchUpInside" id="tFS-MB-S80"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6fx-vh-WYk">
-                                <rect key="frame" x="505" y="262" width="75" height="75"/>
+                            <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QZ9-xt-Jb3">
+                                <rect key="frame" x="533" y="0.0" width="67" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="75" id="a13-8s-aDI"/>
+                                    <constraint firstAttribute="width" constant="67" id="zxH-Mp-wEF"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6fx-vh-WYk">
+                                <rect key="frame" x="533" y="263" width="67" height="75"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="67" id="a13-8s-aDI"/>
                                     <constraint firstAttribute="height" constant="75" id="o7W-Av-t2i"/>
                                 </constraints>
                                 <state key="normal" image="camera_record_btn_70">
@@ -230,16 +237,19 @@
                             <constraint firstItem="LUE-oc-VoD" firstAttribute="leading" secondItem="Peq-8Z-zMT" secondAttribute="leadingMargin" id="8CC-wm-mEQ"/>
                             <constraint firstItem="wmB-a5-e8R" firstAttribute="centerY" secondItem="Peq-8Z-zMT" secondAttribute="centerY" id="CJr-pN-wbd"/>
                             <constraint firstItem="D3s-mU-XgP" firstAttribute="top" secondItem="2e3-6R-qjb" secondAttribute="bottom" constant="20" id="GNp-3B-iDM"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="6fx-vh-WYk" secondAttribute="trailing" constant="-20" id="HhU-Qe-L7g"/>
+                            <constraint firstItem="QZ9-xt-Jb3" firstAttribute="top" secondItem="BG8-UZ-oCb" secondAttribute="bottom" id="JGK-Wt-PPK"/>
+                            <constraint firstItem="6fx-vh-WYk" firstAttribute="centerY" secondItem="Peq-8Z-zMT" secondAttribute="centerY" id="JSc-gA-D0j"/>
                             <constraint firstItem="ugW-wz-3wW" firstAttribute="centerX" secondItem="Peq-8Z-zMT" secondAttribute="centerX" id="M8e-Gc-qsL"/>
                             <constraint firstItem="Eoh-jG-C7J" firstAttribute="top" secondItem="BG8-UZ-oCb" secondAttribute="bottom" id="RWA-NH-2NE"/>
                             <constraint firstItem="D3s-mU-XgP" firstAttribute="top" secondItem="L1L-08-2Tw" secondAttribute="bottom" constant="438" id="Vze-Ym-85Y"/>
-                            <constraint firstItem="6fx-vh-WYk" firstAttribute="trailing" secondItem="Peq-8Z-zMT" secondAttribute="trailingMargin" id="chv-ce-m63"/>
                             <constraint firstItem="wmB-a5-e8R" firstAttribute="centerX" secondItem="Peq-8Z-zMT" secondAttribute="centerX" id="dSc-zn-0Ah"/>
                             <constraint firstItem="LUE-oc-VoD" firstAttribute="top" secondItem="BG8-UZ-oCb" secondAttribute="bottom" constant="8" id="e50-rt-Ii9"/>
                             <constraint firstItem="ugW-wz-3wW" firstAttribute="top" secondItem="BG8-UZ-oCb" secondAttribute="bottom" constant="8" id="eZ0-In-bNQ"/>
                             <constraint firstItem="2e3-6R-qjb" firstAttribute="centerX" secondItem="Peq-8Z-zMT" secondAttribute="centerX" id="ehc-vW-fLz"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="QZ9-xt-Jb3" secondAttribute="trailing" constant="-20" id="obt-zP-GNw"/>
                             <constraint firstItem="Eoh-jG-C7J" firstAttribute="leading" secondItem="Peq-8Z-zMT" secondAttribute="leading" id="vVH-C6-hr2"/>
-                            <constraint firstItem="6fx-vh-WYk" firstAttribute="centerY" secondItem="Peq-8Z-zMT" secondAttribute="centerY" id="yi8-Md-0Wj"/>
+                            <constraint firstItem="D3s-mU-XgP" firstAttribute="top" secondItem="QZ9-xt-Jb3" secondAttribute="bottom" id="ypj-KR-53v"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Camera" id="Bfw-lX-11z"/>
@@ -439,6 +449,7 @@
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
+                                        <state key="highlighted" image="Voiceover-Ripples-Icon"/>
                                         <connections>
                                             <action selector="selectMedia:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="GaV-Hw-aed"/>
                                             <segue destination="t2l-7N-cdU" kind="presentation" identifier="sceneSelectingVoiceOverSegue" modalPresentationStyle="overFullScreen" id="bJ2-dg-x9E"/>
@@ -1128,6 +1139,7 @@
         <image name="Voiceover-Check" width="30" height="24"/>
         <image name="Voiceover-Mic-Icon" width="26" height="26"/>
         <image name="Voiceover-Play" width="30" height="30"/>
+        <image name="Voiceover-Ripples-Icon" width="466" height="21"/>
         <image name="camera_record_btn_70" width="60" height="60"/>
         <image name="camera_reverse_btn_50 (1)" width="45" height="40"/>
         <image name="plus_white_69" width="60" height="60"/>

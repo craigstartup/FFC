@@ -78,7 +78,6 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
         MediaController.sharedMediaController.musicTrack = nil
         let cell = tableView.cellForRowAtIndexPath(indexPath) as! MusicCell
         cell.trackCheck.highlighted = true
-        cell.playMusicTrackButton.setTitle("Play", forState: UIControlState.Selected)
         self.currentCell = indexPath
         
         if indexPath.row < musicFileNames.count {
@@ -98,7 +97,6 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
         }
         
         cell.trackCheck.highlighted = false
-        cell.playMusicTrackButton.setTitle("Play", forState: UIControlState.Selected)
         
         if cell.audioPlayer != nil {
             cell.audioPlayer.stop()

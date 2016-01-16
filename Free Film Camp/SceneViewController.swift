@@ -117,6 +117,8 @@ class SceneViewController: UIViewController {
         
         if NSFileManager.defaultManager().fileExistsAtPath(filePath.path!) {
             MediaController.sharedMediaController.saveScenes()
+            self.sceneButtons[ADD_BUTTONS]![VOICEOVER].highlighted = true
+            self.sceneButtons[ADD_BUTTONS]![VOICEOVER].setTitle("", forState: .Highlighted)
         } else {
             self.scene.voiceOver = self.defaultVoiceOverFile
             MediaController.sharedMediaController.saveScenes()

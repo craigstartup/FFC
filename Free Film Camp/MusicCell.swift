@@ -28,10 +28,8 @@ class MusicCell: UITableViewCell {
         }
         
         if audioPlayer?.playing == true {
-            self.playMusicTrackButton.setTitle("Play", forState: UIControlState.Selected)
             audioPlayer.stop()
         } else if audioPlayer?.playing == false {
-            self.playMusicTrackButton.setTitle("Stop", forState: UIControlState.Selected)
             self.audioPlayer.play()
         }
     }
