@@ -12,6 +12,8 @@ import AVKit
 
 class IntroViewController: UIViewController {
     // MARK: Outlets
+    @IBOutlet weak var introBoxLabel: UILabel!
+    @IBOutlet weak var introLabel: UIButton!
     @IBOutlet weak var introButton: UIButton!
     @IBOutlet weak var destroyIntroButton: UIButton!
     

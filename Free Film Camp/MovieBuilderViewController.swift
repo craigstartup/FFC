@@ -77,6 +77,7 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         MediaController.sharedMediaController.musicTrack = nil
         let cell = tableView.cellForRowAtIndexPath(indexPath) as! MusicCell
+        cell.trackCheck.highlighted = true
         cell.playMusicTrackButton.setTitle("Play", forState: UIControlState.Selected)
         self.currentCell = indexPath
         
@@ -96,6 +97,7 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
             return print("no cell")
         }
         
+        cell.trackCheck.highlighted = false
         cell.playMusicTrackButton.setTitle("Play", forState: UIControlState.Selected)
         
         if cell.audioPlayer != nil {
