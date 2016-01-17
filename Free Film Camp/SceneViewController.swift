@@ -80,7 +80,8 @@ class SceneViewController: UIViewController {
         
         self.navigationController?.navigationBar.translucent = true
         self.setupView()
-        self.sceneLabel.titleLabel?.text = "Scene \(self.sceneNumber + 1)"
+        self.sceneLabel.setTitle("  Scene \(self.sceneNumber + 1)", forState: .Normal)
+        self.sceneLabel.setTitle("  Scene \(self.sceneNumber + 1)", forState: .Highlighted)
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -123,6 +124,24 @@ class SceneViewController: UIViewController {
             self.scene.voiceOver = self.defaultVoiceOverFile
             MediaController.sharedMediaController.saveScenes()
         }
+        self.checkForCompletedScene()
+    }
+    
+    func checkForCompletedScene() {
+        var completedShots = 0
+        
+        for shot in self.scene.shotVideos {
+            if shot != self.defaultVideoURL {
+                completedShots += 1
+            }
+        }
+        
+        if completedShots == 3 {
+            self.sceneLabel.highlighted = true
+        } else {
+            self.sceneLabel.highlighted = false
+        }
+
     }
     
     // MARK: Button Actions
@@ -255,7 +274,7 @@ class SceneViewController: UIViewController {
     
     
     @IBAction func sceneShotUnwindSegue(unwindSegue: UIStoryboardSegue) {
-        
+        self.checkForCompletedScene()
     }
     
     @IBAction func sceneAudioUnwindSegue(unwindSegue: UIStoryboardSegue){

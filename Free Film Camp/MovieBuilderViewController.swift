@@ -13,6 +13,7 @@ import AVFoundation
 class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     // MARK: Properties
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var musicSelectedLabel: UIButton!
     
     var audioFileURL: NSURL!
     var currentCell: NSIndexPath!
@@ -83,8 +84,10 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
         if indexPath.row < musicFileNames.count {
             MediaController.sharedMediaController.musicTrack = AVURLAsset(URL: cell.musicURL)
             self.audioFileURL = cell.musicURL
+            self.musicSelectedLabel.highlighted = true
         } else {
             MediaController.sharedMediaController.musicTrack = nil
+            self.musicSelectedLabel.highlighted = false
             self.audioFileURL = nil
         }
     }

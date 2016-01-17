@@ -508,6 +508,7 @@
                                             <color key="titleColor" red="0.2666666667" green="0.2666666667" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <state key="selected" title="Scene 1" image="Complete-Selected"/>
+                                        <state key="highlighted" image="Complete-Selected"/>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -812,21 +813,20 @@
                                     <rect key="frame" x="0.0" y="0.0" width="500" height="59"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Background Music" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="exE-6c-hQg">
-                                            <rect key="frame" x="0.0" y="10" width="176" height="29"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="176" id="C2u-UX-rF0"/>
-                                                <constraint firstAttribute="height" constant="29" id="Zsy-W6-brL"/>
-                                            </constraints>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="84b-Jz-5TI">
+                                            <rect key="frame" x="1" y="10" width="189" height="40"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
+                                            <state key="normal" title="  Background Music" image="Incomplete-Unselected">
+                                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <state key="highlighted" title="  Background Music" image="Complete-Selected"/>
+                                        </button>
                                     </subviews>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
-                                        <constraint firstItem="exE-6c-hQg" firstAttribute="leading" secondItem="d2u-pn-ByD" secondAttribute="leading" id="DXq-hM-6ob"/>
-                                        <constraint firstItem="exE-6c-hQg" firstAttribute="top" secondItem="d2u-pn-ByD" secondAttribute="top" constant="10" id="hmG-2K-GAo"/>
+                                        <constraint firstItem="84b-Jz-5TI" firstAttribute="centerY" secondItem="d2u-pn-ByD" secondAttribute="centerY" id="Faa-Kb-BPa"/>
+                                        <constraint firstItem="84b-Jz-5TI" firstAttribute="top" secondItem="d2u-pn-ByD" secondAttribute="top" constant="10" id="J7s-Zv-qwH"/>
+                                        <constraint firstAttribute="trailing" secondItem="84b-Jz-5TI" secondAttribute="trailing" constant="310" id="bcF-GW-Xp8"/>
                                     </constraints>
                                 </view>
                                 <prototypes>
@@ -908,6 +908,7 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
+                        <outlet property="musicSelectedLabel" destination="84b-Jz-5TI" id="AB6-ms-NGH"/>
                         <outlet property="tableView" destination="rPv-Lt-ha7" id="1p5-LV-gri"/>
                     </connections>
                 </viewController>
@@ -992,10 +993,12 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DIK-V5-Pih">
-                                        <rect key="frame" x="30" y="10" width="114" height="22"/>
+                                        <rect key="frame" x="30" y="10" width="124" height="24"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title="  Intro Scene" image="Incomplete-Unselected">
                                             <color key="titleColor" red="0.2666666667" green="0.2666666667" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
+                                        <state key="highlighted" image="Complete-Selected"/>
                                     </button>
                                 </subviews>
                                 <constraints>
