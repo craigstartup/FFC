@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SwiftyDropbox
 
 class ProjectsViewController: UITableViewController {
     var projects = NSUserDefaults.standardUserDefaults().arrayForKey("projects")
@@ -19,9 +18,7 @@ class ProjectsViewController: UITableViewController {
     
     // MARK: Action methods
     @IBAction func linkDropBox(sender: UIBarButtonItem) {
-        if Dropbox.authorizedClient == nil {
-            Dropbox.authorizeFromController(self)
-        }
+        
     }
     
     @IBAction func addProject(sender: UIBarButtonItem) {

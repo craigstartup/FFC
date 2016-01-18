@@ -9,6 +9,7 @@ import UIKit
 import AVKit
 import AVFoundation
 import Social
+import SwiftyDropbox
 
 class SelectionViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     enum TabButtons {
@@ -39,6 +40,11 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     let viewControllerIds    = ["IntroViewController","SceneViewController","MovieBuilderViewController"]
     
     let transitionQueue      = dispatch_queue_create("com.trans.Queue", nil)
+    
+    var photosPost   = false
+    var facebookPost = false
+    var twitterPost  = false
+    var dropboxPost  = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -135,23 +141,49 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBAction func shareButtonPressed(sender: UIButton) {
         self.progressSwitch(on: true)
         
-        if MediaController.sharedMediaController.intro == nil {
-            MediaController.sharedMediaController.prepareMedia(
-                intro: false,
-                media: MediaController.sharedMediaController.scenes,
-                movie: true,
-                save: false)
-        } else {
-            MediaController.sharedMediaController.prepareMedia(
-                intro: true,
-                media: MediaController.sharedMediaController.scenes,
-                movie: true,
-                save: false)
+        let shareView = UIAlertController(
+            title: "Post Movie",
+            message: "Choose a place to post/save movie.",
+            preferredStyle: .ActionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) -> Void in
+            self.progressSwitch(on: false)
+        }
+        let photosAction = UIAlertAction(title: "Save to Photos", style: .Default) { (action) -> Void in
+            self.photosPost = true
+            MediaController.sharedMediaController.prepareMediaFor(scene: nil, movie: true, save: true)
+        }
+        let dropboxAction = UIAlertAction(title: "Save to Dropbox", style: .Default) { (action) -> Void in
+            self.dropboxPost = true
+            
+            if Dropbox.authorizedClient == nil {
+                Dropbox.authorizeFromController(self)
+            }
+            
+            MediaController.sharedMediaController.prepareMediaFor(scene: nil, movie: true, save: false)
+        }
+        let facebookAction = UIAlertAction(title: "Post to Facebook", style: .Default) { (action) -> Void in
+            self.facebookPost = true
+            MediaController.sharedMediaController.prepareMediaFor(scene: nil, movie: true, save: false)
+        }
+        let twitterAction = UIAlertAction(title: "Post to Twitter", style: .Default) { (action) -> Void in
+            self.twitterPost = true
+            MediaController.sharedMediaController.prepareMediaFor(scene: nil, movie: true, save: false)
         }
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "movieReady:", name: MediaController.Notifications.movieReady, object: nil)
+        let actions = [cancelAction, photosAction, dropboxAction, facebookAction, twitterAction]
         
-        self.vpVC.player          = nil
+        for action in actions {
+            shareView.addAction(action)
+        }
+        
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: "movieReady:",
+            name: MediaController.Notifications.movieReady,
+            object: nil)
+        
+        
         NSNotificationCenter.defaultCenter().addObserver(
             self,
             selector: "saveCompleted:",
@@ -164,27 +196,14 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
             name: MediaController.Notifications.saveMovieFailed,
             object: nil)
         
+        self.vpVC.player          = nil
         self.progressSwitch(on: true)
-        
-        if MediaController.sharedMediaController.intro == nil {
-            MediaController.sharedMediaController.prepareMedia(
-                intro: false,
-                media: MediaController.sharedMediaController.scenes,
-                movie: true,
-                save: true
-            )
-        } else {
-            MediaController.sharedMediaController.prepareMedia(
-                intro: true,
-                media: MediaController.sharedMediaController.scenes,
-                movie: true,
-                save: true
-            )
-        }
+        self.presentViewController(shareView, animated: true, completion: nil)
     }
     
     @IBAction func previewMoviePressed(sender: UIButton) {
         self.vpVC.player = nil
+        
         NSNotificationCenter.defaultCenter().addObserver(
             self,
             selector: "firePreview:",
@@ -196,21 +215,7 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         
         self.progressSwitch(on: true)
-        
-        if MediaController.sharedMediaController.intro == nil {
-            MediaController.sharedMediaController.prepareMedia(
-                intro: false,
-                media: MediaController.sharedMediaController.scenes,
-                movie: true,
-                save: false)
-        } else {
-            MediaController.sharedMediaController.prepareMedia(
-                intro: true,
-                media: MediaController.sharedMediaController.scenes,
-                movie: true,
-                save: false)
-        }
-
+        MediaController.sharedMediaController.prepareMediaFor(scene: nil, movie: true, save: false)
     }
     
     // MARK: Helper Methods
@@ -321,6 +326,7 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
         // Make share button enabled
     }
     
+    // MARK: Buttons state
     func viewWasDismissed(notification: NSNotification) {
         self.buttonsOn(on: true)
     }
@@ -334,6 +340,7 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
         self.buttonsOn(on: false)
     }
     
+    // MARK: Save and share
     func movieReady(notification: NSNotification) {
         NSNotificationCenter.defaultCenter().removeObserver(
             self,

@@ -59,12 +59,12 @@ class MediaController {
     var newScene: PHObjectPlaceholder!
     
     // MARK: Media methods
-    func prepareMedia(intro intro: Bool, media: [Scene]!, movie: Bool, save: Bool) {
+    func prepareMediaFor(scene scene: Int!, movie: Bool, save: Bool) {
         // Exactract and assemble media assets
         var videoAssets = [AVURLAsset]()
         var voiceOverAssets = [AVURLAsset]()
         
-        if intro && self.intro != nil {
+        if self.intro != nil && movie {
             // Intro has audio and video tracks. Append it to both assets arrays.
             let introPath = self.getPathForFileInDocumentsDirectory(self.intro.video)
             let introVideo = AVURLAsset(URL: introPath)
@@ -72,9 +72,18 @@ class MediaController {
             voiceOverAssets.append(introVideo)
         }
         
+        var scenes: [Scene]!
+        
+        if scene != nil && !movie {
+            scenes = [self.scenes[scene]]
+        } else if movie && scene == nil {
+            scenes = self.scenes
+        } else {
+            return print("Scene || Movie!!")
+        }
         // TODO: Check assets and post notification for what is missing.
-        if media != nil {
-            for scene in media {
+        if scenes != nil {
+            for scene in scenes {
                 for video in scene.shotVideos {
                     let videoAsset = AVURLAsset(URL: video)
                     
