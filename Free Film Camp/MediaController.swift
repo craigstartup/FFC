@@ -12,7 +12,6 @@ import Photos
 import AVFoundation
 import AVKit
 import SwiftyDropbox
-import Social
 
 class MediaController {
     enum Notifications {
@@ -23,8 +22,8 @@ class MediaController {
         static let saveMovieFinished = "saveMovieComplete"
         static let saveMovieFailed   = "saveMovieFailed"
         static let previewReady      = "previewPrepped"
-        static let dropBoxUpFinish   = "dropBoxUploadComplete"
-        static let dropBoxFail       = "dropBoxFailure"
+        static let uploadComplete    = "uploadComplete"
+        static let uploadFailed      = "uploadFailure"
         static let movieReady        = "movieReady"
         static let sharingComplete   = "sharedMovie"
         static let projectSelected   = "projectSelected"
@@ -140,6 +139,7 @@ class MediaController {
                 
             }
         }
+        
         // get path
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = .LongStyle
@@ -300,7 +300,7 @@ class MediaController {
             .exportAsynchronouslyWithCompletionHandler() {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     if save {
-                        self.saveMedia(exporter!, type: movie ? "movie" : "scene")
+                        self.saveMedia(exporter!)
                     } else {
                         self.shareMedia(exporter!.outputURL!)
                         do {
@@ -323,15 +323,12 @@ class MediaController {
         NSNotificationCenter.defaultCenter().postNotificationName(Notifications.movieReady, object: self)
     }
     
-    func saveMedia(session:AVAssetExportSession, type: String) {
+    func saveMedia(session:AVAssetExportSession) {
         if session.status == AVAssetExportSessionStatus.Completed {
+            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.movieReady, object: self)
             let outputURL: NSURL = session.outputURL!
             
             // check if authorized to save to photos
-            if type == "movie" || type == "scene" {
-                saveToDropBox(outputURL)
-            }
-            
             PHPhotoLibrary.requestAuthorization({ (status:PHAuthorizationStatus) -> Void in
                 if status == PHAuthorizationStatus.Authorized {
                     // move scene to Photos library
@@ -363,11 +360,7 @@ class MediaController {
                                 print("SUCCESS")
                             }
                             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                if type == "movie" {
-                                    NSNotificationCenter.defaultCenter().postNotificationName(Notifications.saveMovieFinished, object: self)
-                                } else if type == "scene" {
-                                    NSNotificationCenter.defaultCenter().postNotificationName(Notifications.saveSceneFinished, object: self)
-                                }
+                                NSNotificationCenter.defaultCenter().postNotificationName(Notifications.saveMovieFinished, object: self)
                             })
                     })
                 }
@@ -375,11 +368,7 @@ class MediaController {
         } else {
             print("\(session.status)SESSION STATUS NOT COMPLETED")
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                if type == "movie" {
-                    NSNotificationCenter.defaultCenter().postNotificationName(Notifications.saveMovieFailed, object: self)
-                } else if type == "scene" {
-                    NSNotificationCenter.defaultCenter().postNotificationName(Notifications.saveSceneFailed, object: self)
-                }
+                NSNotificationCenter.defaultCenter().postNotificationName(Notifications.saveMovieFailed, object: self)
             })
         }
     }
@@ -505,6 +494,7 @@ class MediaController {
                 print("*** Get current account ***")
                 if let account = response {
                     print("Hello \(account.name.givenName)! Dropbox saving has begun.")
+                    NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.sharingComplete, object: self)
                 } else {
                     print(error!.description)
                 }
@@ -517,10 +507,10 @@ class MediaController {
                     print("*** Upload file ****")
                     print("Uploaded file name: \(metadata.name)")
                     print("Uploaded file revision: \(metadata.rev)")
-                    NSNotificationCenter.defaultCenter().postNotificationName(Notifications.dropBoxUpFinish, object: self)
+                    NSNotificationCenter.defaultCenter().postNotificationName(Notifications.uploadComplete, object: self)
                 } else {
                     print("DROPBOX FAILURE\(error!.description)")
-                    NSNotificationCenter.defaultCenter().postNotificationName(Notifications.dropBoxFail, object: self)
+                    NSNotificationCenter.defaultCenter().postNotificationName(Notifications.uploadFailed, object: self)
                 }
             }
         }

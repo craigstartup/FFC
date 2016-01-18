@@ -549,7 +549,6 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
-                        <outlet property="savingProgress" destination="XiB-Hr-apA" id="gfh-zS-Yzd"/>
                         <outlet property="sceneLabel" destination="bqD-cN-ENx" id="6tf-FO-iU5"/>
                         <outletCollection property="sceneAddMediaButtons" destination="Qxs-2x-Cgo" collectionClass="NSMutableArray" id="Xtu-Fe-J41"/>
                         <outletCollection property="sceneAddMediaButtons" destination="zh0-jF-OTX" collectionClass="NSMutableArray" id="4Ku-I9-bqS"/>

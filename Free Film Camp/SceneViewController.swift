@@ -15,7 +15,6 @@ import SwiftyDropbox
 class SceneViewController: UIViewController {
     // MARK: Properties
     @IBOutlet weak var sceneLabel: UIButton!
-    @IBOutlet weak var savingProgress: UIActivityIndicatorView!
     @IBOutlet var sceneAddMediaButtons: Array<UIButton>!
     
     
@@ -52,11 +51,6 @@ class SceneViewController: UIViewController {
     // MARK: View Life Cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        if Dropbox.authorizedClient != nil {
-            MediaController.sharedMediaController.dropboxIsLoading = true
-        } else {
-            MediaController.sharedMediaController.dropboxIsLoading = false
-        }
         // self.sceneAddMediaButtons.last?.addSubview(self.soundwaveView)
         
         for button in self.sceneAddMediaButtons {
@@ -170,85 +164,6 @@ class SceneViewController: UIViewController {
             vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
             self.view.window?.rootViewController?.presentViewController(self.vpVC, animated: true, completion: nil)
         }
-    }
-    
-    
-    @IBAction func saveScene(sender: AnyObject) {
-        NSNotificationCenter.defaultCenter().addObserver(
-            self,
-            selector: "saveCompleted:",
-            name: MediaController.Notifications.saveSceneFinished,
-            object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(
-            self,
-            selector: "saveFailed:",
-            name: MediaController.Notifications.saveSceneFailed,
-            object: nil)
-
-        self.savingProgress.alpha = 1
-        self.savingProgress.startAnimating()
-        self.view.alpha = 0.6
-
-        MediaController.sharedMediaController.prepareMediaFor(scene: self.sceneNumber, movie: false, save: true)
-    }
-    
-    // MARK: Save notifications
-    func saveCompleted(notification: NSNotification) {
-        self.savingProgress.stopAnimating()
-        self.savingProgress.alpha = 0
-        self.view.alpha = 1
-        
-        NSNotificationCenter.defaultCenter().removeObserver(
-            self,
-            name: MediaController.Notifications.saveSceneFailed,
-            object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(
-            self,
-            name: MediaController.Notifications.saveSceneFinished,
-            object: nil)
-        
-        var message: String
-        
-        if MediaController.sharedMediaController.dropboxIsLoading == false {
-            message = "Scene saved to Photos!"
-        } else {
-            message = "Scene saved to Photos! Video is being uploaded to Dropbox. Please do not close the app until you are notified that it is complete"
-        }
-        
-        let alertSuccess = UIAlertController(title: "Success", message: message, preferredStyle: .Alert)
-        let okAction = UIAlertAction(title: "Thanks!", style: .Default) { (action) -> Void in
-            self.dismissViewControllerAnimated(true, completion: nil)
-        }
-        alertSuccess.addAction(okAction)
-        self.presentViewController(alertSuccess, animated: true, completion: nil)
-        MediaController.sharedMediaController.dropboxIsLoading = false
-    }
-    
-    
-    func saveFailed(notification: NSNotification) {
-        self.savingProgress.stopAnimating()
-        self.savingProgress.alpha = 0
-        self.view.alpha = 1
-        NSNotificationCenter.defaultCenter().removeObserver(
-            self,
-            name: MediaController.Notifications.saveSceneFinished,
-            object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(
-            self,
-            name: MediaController.Notifications.saveSceneFailed,
-            object: nil)
-        
-        let alertFailure = UIAlertController(
-            title: "Failure",
-            message: "Scene failed to save. Re-select media and try again", preferredStyle: .Alert)
-        let okAction = UIAlertAction(
-            title: "Thanks!",
-            style: .Default) { (action) -> Void in
-            self.dismissViewControllerAnimated(true, completion: nil)
-        }
-        
-        alertFailure.addAction(okAction)
-        self.presentViewController(alertFailure, animated: true, completion: nil)
     }
     
     // MARK: segue methods

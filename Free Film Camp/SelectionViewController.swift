@@ -45,15 +45,10 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     var facebookPost = false
     var twitterPost  = false
     var dropboxPost  = false
+    var service: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NSNotificationCenter.defaultCenter().addObserver(
-            self,
-            selector: "dropboxComplete:",
-            name: MediaController.Notifications.dropBoxUpFinish,
-            object: nil)
-        
         NSNotificationCenter.defaultCenter().addObserver(
             self,
             selector: "projectChanged:",
@@ -87,7 +82,7 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
         self.getViewControllersForPages()
     }
     
-    // MARK: Scrollview setup methods
+    // MARK: Tableview setup methods
     func getViewControllersForPages() {
         // Load scenes or initialize if none exist.
         MediaController.sharedMediaController.scenes = MediaController.sharedMediaController.loadScenes()
@@ -141,63 +136,15 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBAction func shareButtonPressed(sender: UIButton) {
         self.progressSwitch(on: true)
         
-        let shareView = UIAlertController(
-            title: "Post Movie",
-            message: "Choose a place to post/save movie.",
-            preferredStyle: .ActionSheet)
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) -> Void in
-            self.progressSwitch(on: false)
-        }
-        let photosAction = UIAlertAction(title: "Save to Photos", style: .Default) { (action) -> Void in
-            self.photosPost = true
-            MediaController.sharedMediaController.prepareMediaFor(scene: nil, movie: true, save: true)
-        }
-        let dropboxAction = UIAlertAction(title: "Save to Dropbox", style: .Default) { (action) -> Void in
-            self.dropboxPost = true
-            
-            if Dropbox.authorizedClient == nil {
-                Dropbox.authorizeFromController(self)
-            }
-            
-            MediaController.sharedMediaController.prepareMediaFor(scene: nil, movie: true, save: false)
-        }
-        let facebookAction = UIAlertAction(title: "Post to Facebook", style: .Default) { (action) -> Void in
-            self.facebookPost = true
-            MediaController.sharedMediaController.prepareMediaFor(scene: nil, movie: true, save: false)
-        }
-        let twitterAction = UIAlertAction(title: "Post to Twitter", style: .Default) { (action) -> Void in
-            self.twitterPost = true
-            MediaController.sharedMediaController.prepareMediaFor(scene: nil, movie: true, save: false)
-        }
-        
-        let actions = [cancelAction, photosAction, dropboxAction, facebookAction, twitterAction]
-        
-        for action in actions {
-            shareView.addAction(action)
-        }
-        
         NSNotificationCenter.defaultCenter().addObserver(
             self,
             selector: "movieReady:",
             name: MediaController.Notifications.movieReady,
             object: nil)
         
-        
-        NSNotificationCenter.defaultCenter().addObserver(
-            self,
-            selector: "saveCompleted:",
-            name: MediaController.Notifications.saveMovieFinished,
-            object: nil)
-        
-        NSNotificationCenter.defaultCenter().addObserver(
-            self,
-            selector: "saveFailed:",
-            name: MediaController.Notifications.saveMovieFailed,
-            object: nil)
-        
-        self.vpVC.player          = nil
+        self.vpVC.player = nil
         self.progressSwitch(on: true)
+        let shareView: UIAlertController = self.getShareView()
         self.presentViewController(shareView, animated: true, completion: nil)
     }
     
@@ -240,6 +187,48 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
             button.alpha = visibility
         }
     }
+    
+    func getShareView() -> UIAlertController {
+        let shareView = UIAlertController(
+            title: "Post Movie",
+            message: "Choose a place to post/save movie.",
+            preferredStyle: .ActionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) -> Void in
+            self.progressSwitch(on: false)
+        }
+        let photosAction = UIAlertAction(title: "Save to Photos", style: .Default) { (action) -> Void in
+            self.photosPost = true
+            MediaController.sharedMediaController.prepareMediaFor(scene: nil, movie: true, save: true)
+        }
+        let dropboxAction = UIAlertAction(title: "Save to Dropbox", style: .Default) { (action) -> Void in
+            self.dropboxPost = true
+            self.service = "Dropbox"
+            if Dropbox.authorizedClient == nil {
+                Dropbox.authorizeFromController(self)
+            }
+            
+            MediaController.sharedMediaController.prepareMediaFor(scene: nil, movie: true, save: false)
+        }
+        let facebookAction = UIAlertAction(title: "Post to Facebook", style: .Default) { (action) -> Void in
+            self.facebookPost = true
+            self.service = "Facebook"
+            MediaController.sharedMediaController.prepareMediaFor(scene: nil, movie: true, save: false)
+        }
+        let twitterAction = UIAlertAction(title: "Post to Twitter", style: .Default) { (action) -> Void in
+            self.twitterPost = true
+            self.service = "Twitter"
+            MediaController.sharedMediaController.prepareMediaFor(scene: nil, movie: true, save: false)
+        }
+        
+        let actions = [cancelAction, photosAction, dropboxAction, facebookAction, twitterAction]
+        
+        for action in actions {
+            shareView.addAction(action)
+        }
+        
+        return shareView
+    }
 
     // MARK: Table view delegate methods
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -277,23 +266,6 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     // MARK: Notification methods
-    func dropboxComplete(notification: NSNotification) {
-        let dropboxAlert = UIAlertController(
-            title: "Dropbox Upload Complete",
-            message: "Video uploaded to app Dropbox folder",
-            preferredStyle: .Alert)
-        
-        let okAction = UIAlertAction(
-            title: "OK",
-            style: .Default,
-            handler: { (action) -> Void in
-                NSNotificationCenter.defaultCenter().removeObserver(self, name: MediaController.Notifications.dropBoxUpFinish, object: nil)
-        })
-        
-        dropboxAlert.addAction(okAction)
-        self.presentViewController(dropboxAlert, animated: true, completion: nil)
-    }
-    
     func projectChanged(notification: NSNotification) {
         self.buttonsOn(on: true)
         
@@ -346,15 +318,38 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
             self,
             name: MediaController.Notifications.movieReady,
             object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(
-            self,
-            selector: "movieShared:",
-            name: MediaController.Notifications.sharingComplete,
-            object: nil)
-        
         
         let videoURL = MediaController.sharedMediaController.movieToShare
-        self.socialSharing.postMovieToFacebook(videoURL)
+        
+        if self.facebookPost || self.twitterPost || self.dropboxPost {
+            NSNotificationCenter.defaultCenter().addObserver(
+                self,
+                selector: "movieShared:",
+                name: MediaController.Notifications.sharingComplete,
+                object: nil)
+        }
+        
+        if self.facebookPost {
+            self.socialSharing.postMovieToFacebook(videoURL)
+            self.facebookPost = false
+        } else if self.twitterPost {
+            self.twitterPost = false
+        } else if dropboxPost {
+            MediaController.sharedMediaController.saveToDropBox(videoURL)
+            self.dropboxPost = false
+        } else if photosPost {
+            NSNotificationCenter.defaultCenter().addObserver(
+                self,
+                selector: "saveCompleted:",
+                name: MediaController.Notifications.saveMovieFinished,
+                object: nil)
+            
+            NSNotificationCenter.defaultCenter().addObserver(
+                self,
+                selector: "saveFailed:",
+                name: MediaController.Notifications.saveMovieFailed,
+                object: nil)
+        }
     }
     
     func movieShared(notification: NSNotification) {
@@ -362,8 +357,41 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
             self,
             name: MediaController.Notifications.sharingComplete,
             object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: "uploadComplete:",
+            name: MediaController.Notifications.uploadComplete,
+            object: nil)
         
         self.progressSwitch(on: false)
+        let uploadAlert = UIAlertController(
+            title: "Uploading Video",
+            message: "Video being uploaded to \(service). Do not close the app until you are notified that this is done.",
+            preferredStyle: .Alert)
+        
+        let okAction = UIAlertAction(
+            title: "OK",
+            style: .Default,
+            handler: nil)
+        
+        uploadAlert.addAction(okAction)
+        self.presentViewController(uploadAlert, animated: true, completion: nil)
+    }
+    
+    func uploadComplete(notification: NSNotification) {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MediaController.Notifications.uploadComplete, object: nil)
+        let uploadAlert = UIAlertController(
+            title: "Upload Complete",
+            message: "Video uploaded to \(service)",
+            preferredStyle: .Alert)
+        
+        let okAction = UIAlertAction(
+            title: "OK",
+            style: .Default,
+            handler: nil)
+        
+        uploadAlert.addAction(okAction)
+        self.presentViewController(uploadAlert, animated: true, completion: nil)
     }
     
     func saveCompleted(notification: NSNotification) {
@@ -374,13 +402,7 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
             name: MediaController.Notifications.saveMovieFinished,
             object: nil)
         
-        var message: String
-        
-        if MediaController.sharedMediaController.dropboxIsLoading == false {
-            message = "Movie saved to Photos!"
-        } else {
-            message = "Movie saved to Photos! Video is being uploaded to Dropbox. Please do not close the app until you are notified that it is complete"
-        }
+        let message = "Movie saved to Photos!"
         
         let alertSuccess = UIAlertController(
             title: "Success",
@@ -415,6 +437,5 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
         
         alertFailure.addAction(okAction)
         self.presentViewController(alertFailure, animated: true, completion: nil)
-        MediaController.sharedMediaController.dropboxIsLoading = false
     }
 }
