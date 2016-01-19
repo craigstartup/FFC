@@ -102,13 +102,15 @@ class SocialController {
         
         uploadRequest.account = facebookAccount
         print("Begin upload")
+        NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.sharingComplete, object: self)
         uploadRequest.performRequestWithHandler { (dataResponse, urlResponse, error) -> Void in
             if (error != nil) {
                 print(error.localizedDescription)
+                NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.uploadFailed, object: self)
             } else {
                 print(dataResponse.description)
                 print(urlResponse.description)
-                NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.sharingComplete, object: self)
+                NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.uploadComplete, object: self)
             }
         }
     }

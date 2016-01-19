@@ -46,6 +46,7 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     var twitterPost  = false
     var dropboxPost  = false
     var service: String!
+    var playTimer: NSTimer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -280,23 +281,24 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func firePreview(notification: NSNotification) {
-        if MediaController.sharedMediaController.preview != nil {
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.progressSwitch(on: false)
-                let videoPlayer = AVPlayer(playerItem: MediaController.sharedMediaController.preview)
-                self.vpVC.player = videoPlayer
-                self.vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
-                self.view.window?.rootViewController?.presentViewController(self.vpVC, animated: true, completion: nil)
-            })
+        defer {
+            MediaController.sharedMediaController.preview = nil
         }
         
         NSNotificationCenter.defaultCenter().removeObserver(
             self,
             name: MediaController.Notifications.previewReady,
             object: nil)
-        
-        // Make share button enabled
+       
+        if let preview = MediaController.sharedMediaController.preview {
+            let videoPlayer = AVPlayer(playerItem: preview)
+            self.vpVC.player = videoPlayer
+            self.vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
+            self.progressSwitch(on: false)
+            self.presentViewController(self.vpVC, animated: true, completion: nil)
+        }
     }
+
     
     // MARK: Buttons state
     func viewWasDismissed(notification: NSNotification) {

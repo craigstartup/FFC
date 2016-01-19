@@ -173,9 +173,6 @@ class MediaController {
 
     
     func composeMedia(videoAssets: [AVURLAsset], voiceOverAssets: [AVURLAsset], movieVoiceOver: AVURLAsset?, movie: Bool, save: Bool) {
-        defer {
-                NSNotificationCenter.defaultCenter().postNotificationName(Notifications.previewReady, object: self)
-        }
         
         // Get total time for movie assets.
         var totalTime: CMTime = kCMTimeZero
@@ -272,6 +269,8 @@ class MediaController {
             let preview = AVPlayerItem(asset: mixComposition)
             preview.videoComposition = mainComposition
             self.preview = preview
+           
+            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.previewReady, object: self)
         }
     }
     
