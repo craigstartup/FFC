@@ -13,23 +13,13 @@ import Accounts
 class SocialController {
     let accounts = ACAccountStore()
     var accountTypeFB: ACAccountType
-    var accountTypeTwit: ACAccountType
     
     init() {
         self.accountTypeFB = self.accounts.accountTypeWithAccountTypeIdentifier(ACAccountTypeIdentifierFacebook)
-        self.accountTypeTwit = self.accounts.accountTypeWithAccountTypeIdentifier(ACAccountTypeIdentifierTwitter)
         self.setupAccounts()
     }
     
     func setupAccounts() {
-        // TWITTER
-        self.accounts.requestAccessToAccountsWithType(self.accountTypeTwit, options: nil) {(granted, error) -> Void in
-            if granted {
-                print("Twitter Account!")
-            } else {
-                print("Twitter access denied.")
-            }
-        }
         // FACEBOOK READ AND WRITE
         let readOptions = [ACFacebookAppIdKey:"318605501597030", ACFacebookPermissionsKey:["email"], ACFacebookAudienceKey:ACFacebookAudienceOnlyMe]
         let writeOptions = [
@@ -86,7 +76,7 @@ class SocialController {
         
         let videoURL = NSURL(string: "https://graph-video.facebook.com/me/videos")
         let movieData = NSData(contentsOfURL: movie)
-        let parameters = ["access_token": facebookAccount.credential.oauthToken, "title": "My Movie", "description":"test video"]
+        let parameters = ["access_token": facebookAccount.credential.oauthToken, "title": "My Movie", "description":"Created with Digital Film Camp on iOS"]
         
         let uploadRequest = SLRequest(
             forServiceType: SLServiceTypeFacebook,
@@ -114,6 +104,4 @@ class SocialController {
             }
         }
     }
-    
-    
 }

@@ -40,6 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let projects = [currentProject]
             NSUserDefaults.standardUserDefaults().setObject(projects, forKey: "projects")
             NSUserDefaults.standardUserDefaults().setObject(currentProject, forKey: "currentProject")
+            NSUserDefaults.standardUserDefaults().setObject(["intro":false,"music":false], forKey: currentProject)
             NSUserDefaults.standardUserDefaults().synchronize()
             
             // Create a file directory for the default project

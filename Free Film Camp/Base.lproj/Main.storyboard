@@ -32,10 +32,10 @@
                                         <rect key="frame" x="0.0" y="0.0" width="67" height="600"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Boq-gz-JQA">
-                                                <rect key="frame" x="22" y="8" width="22" height="32"/>
+                                                <rect key="frame" x="22" y="8" width="22" height="50"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="22" id="13s-W5-Ade"/>
-                                                    <constraint firstAttribute="height" constant="32" id="vzH-co-Yf6"/>
+                                                    <constraint firstAttribute="height" constant="50" id="vzH-co-Yf6"/>
                                                 </constraints>
                                                 <state key="normal" image="Back-Chevron"/>
                                                 <connections>
@@ -161,26 +161,26 @@
                             <view opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" semanticContentAttribute="playback" translatesAutoresizingMaskIntoConstraints="NO" id="Eoh-jG-C7J">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ugW-wz-3wW">
-                                <rect key="frame" x="278" y="8" width="45" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="cZG-LH-u8R"/>
-                                    <constraint firstAttribute="width" constant="45" id="dyL-Ux-FBU"/>
-                                </constraints>
-                                <state key="normal" image="camera_reverse_btn_50 (1)"/>
-                                <connections>
-                                    <action selector="flipCamera:" destination="KtM-ME-n2y" eventType="touchUpInside" id="pd9-zh-31Y"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LUE-oc-VoD" userLabel="Cancel">
-                                <rect key="frame" x="20" y="8" width="22" height="32"/>
+                                <rect key="frame" x="32" y="12" width="22" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="32" id="TW8-3N-cfI"/>
+                                    <constraint firstAttribute="height" constant="50" id="CVN-j7-yTx"/>
                                     <constraint firstAttribute="width" constant="22" id="VHf-Hf-XGh"/>
                                 </constraints>
                                 <state key="normal" image="Back-Chevron"/>
                                 <connections>
                                     <action selector="cancelCamera:" destination="KtM-ME-n2y" eventType="touchUpInside" id="s73-6V-g6F"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ugW-wz-3wW">
+                                <rect key="frame" x="533" y="6" width="67" height="63"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="63" id="Zic-6t-bKs"/>
+                                    <constraint firstAttribute="width" constant="67" id="gAj-v8-0BW"/>
+                                </constraints>
+                                <state key="normal" image="camera_reverse_btn_50 (1)"/>
+                                <connections>
+                                    <action selector="flipCamera:" destination="KtM-ME-n2y" eventType="touchUpInside" id="pd9-zh-31Y"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L1L-08-2Tw">
@@ -234,23 +234,30 @@
                             <constraint firstAttribute="trailing" secondItem="Eoh-jG-C7J" secondAttribute="trailing" id="2cf-Yk-V7O"/>
                             <constraint firstItem="Eoh-jG-C7J" firstAttribute="bottom" secondItem="D3s-mU-XgP" secondAttribute="top" id="2k0-RI-44h"/>
                             <constraint firstItem="L1L-08-2Tw" firstAttribute="leading" secondItem="Peq-8Z-zMT" secondAttribute="leadingMargin" id="5jG-Di-ObI"/>
-                            <constraint firstItem="LUE-oc-VoD" firstAttribute="leading" secondItem="Peq-8Z-zMT" secondAttribute="leadingMargin" id="8CC-wm-mEQ"/>
+                            <constraint firstItem="LUE-oc-VoD" firstAttribute="leading" secondItem="Peq-8Z-zMT" secondAttribute="leadingMargin" constant="12" id="9St-i5-aZh"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="QZ9-xt-Jb3" secondAttribute="trailing" constant="-20" id="B3L-33-IEe"/>
                             <constraint firstItem="wmB-a5-e8R" firstAttribute="centerY" secondItem="Peq-8Z-zMT" secondAttribute="centerY" id="CJr-pN-wbd"/>
                             <constraint firstItem="D3s-mU-XgP" firstAttribute="top" secondItem="2e3-6R-qjb" secondAttribute="bottom" constant="20" id="GNp-3B-iDM"/>
                             <constraint firstAttribute="trailingMargin" secondItem="6fx-vh-WYk" secondAttribute="trailing" constant="-20" id="HhU-Qe-L7g"/>
                             <constraint firstItem="QZ9-xt-Jb3" firstAttribute="top" secondItem="BG8-UZ-oCb" secondAttribute="bottom" id="JGK-Wt-PPK"/>
                             <constraint firstItem="6fx-vh-WYk" firstAttribute="centerY" secondItem="Peq-8Z-zMT" secondAttribute="centerY" id="JSc-gA-D0j"/>
-                            <constraint firstItem="ugW-wz-3wW" firstAttribute="centerX" secondItem="Peq-8Z-zMT" secondAttribute="centerX" id="M8e-Gc-qsL"/>
+                            <constraint firstItem="ugW-wz-3wW" firstAttribute="leading" secondItem="6fx-vh-WYk" secondAttribute="leading" id="NCC-tC-SCM"/>
                             <constraint firstItem="Eoh-jG-C7J" firstAttribute="top" secondItem="BG8-UZ-oCb" secondAttribute="bottom" id="RWA-NH-2NE"/>
+                            <constraint firstItem="ugW-wz-3wW" firstAttribute="centerY" secondItem="LUE-oc-VoD" secondAttribute="centerY" id="Sc3-wX-ZEL"/>
                             <constraint firstItem="D3s-mU-XgP" firstAttribute="top" secondItem="L1L-08-2Tw" secondAttribute="bottom" constant="438" id="Vze-Ym-85Y"/>
+                            <constraint firstItem="ugW-wz-3wW" firstAttribute="top" secondItem="BG8-UZ-oCb" secondAttribute="bottom" constant="8" id="cVY-90-di5"/>
                             <constraint firstItem="wmB-a5-e8R" firstAttribute="centerX" secondItem="Peq-8Z-zMT" secondAttribute="centerX" id="dSc-zn-0Ah"/>
-                            <constraint firstItem="LUE-oc-VoD" firstAttribute="top" secondItem="BG8-UZ-oCb" secondAttribute="bottom" constant="8" id="e50-rt-Ii9"/>
-                            <constraint firstItem="ugW-wz-3wW" firstAttribute="top" secondItem="BG8-UZ-oCb" secondAttribute="bottom" constant="8" id="eZ0-In-bNQ"/>
                             <constraint firstItem="2e3-6R-qjb" firstAttribute="centerX" secondItem="Peq-8Z-zMT" secondAttribute="centerX" id="ehc-vW-fLz"/>
+                            <constraint firstItem="LUE-oc-VoD" firstAttribute="top" secondItem="BG8-UZ-oCb" secondAttribute="bottom" constant="12" id="gHh-VC-sli"/>
                             <constraint firstAttribute="trailingMargin" secondItem="QZ9-xt-Jb3" secondAttribute="trailing" constant="-20" id="obt-zP-GNw"/>
                             <constraint firstItem="Eoh-jG-C7J" firstAttribute="leading" secondItem="Peq-8Z-zMT" secondAttribute="leading" id="vVH-C6-hr2"/>
                             <constraint firstItem="D3s-mU-XgP" firstAttribute="top" secondItem="QZ9-xt-Jb3" secondAttribute="bottom" id="ypj-KR-53v"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="cVY-90-di5"/>
+                            </mask>
+                        </variation>
                     </view>
                     <tabBarItem key="tabBarItem" title="Camera" id="Bfw-lX-11z"/>
                     <navigationItem key="navigationItem" id="1A5-x8-sY5"/>
@@ -352,10 +359,10 @@
                                 <rect key="frame" x="0.0" y="0.0" width="67" height="600"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H6k-a4-dTJ">
-                                        <rect key="frame" x="22" y="8" width="22" height="32"/>
+                                        <rect key="frame" x="22" y="8" width="22" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="22" id="g8w-2u-7PU"/>
-                                            <constraint firstAttribute="height" constant="32" id="zla-XD-Jlx"/>
+                                            <constraint firstAttribute="height" constant="50" id="zla-XD-Jlx"/>
                                         </constraints>
                                         <state key="normal" image="Back-Chevron"/>
                                         <connections>
@@ -598,29 +605,8 @@
                                             </label>
                                         </subviews>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="KR5-kn-0o0">
-                                        <rect key="frame" x="0.0" y="130" width="67" height="63"/>
-                                        <subviews>
-                                            <button opaque="NO" alpha="0.5" tag="2" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XTz-rw-392" userLabel="Plus">
-                                                <rect key="frame" x="0.0" y="0.0" width="67" height="43"/>
-                                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                <state key="normal" image="Add-Icon">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <state key="selected" title="Scene 1">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                            </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Scene" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EIf-Yi-wfY">
-                                                <rect key="frame" x="0.0" y="48" width="67" height="15"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                    </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="RGC-pF-S2v">
-                                        <rect key="frame" x="0.0" y="263" width="67" height="55"/>
+                                        <rect key="frame" x="0.0" y="178" width="67" height="55"/>
                                         <subviews>
                                             <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hAP-7c-QFO" userLabel="Camera">
                                                 <rect key="frame" x="0.0" y="0.0" width="67" height="35"/>
@@ -643,8 +629,33 @@
                                             </label>
                                         </subviews>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Bhx-4U-gjs">
-                                        <rect key="frame" x="0.0" y="389" width="67" height="59"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="lHT-7n-1kh">
+                                        <rect key="frame" x="0.0" y="352" width="67" height="50"/>
+                                        <subviews>
+                                            <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RWq-0a-jkN" userLabel="Movie">
+                                                <rect key="frame" x="0.0" y="0.0" width="67" height="30"/>
+                                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <state key="normal" image="Voiceover-Play">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="selected">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="previewMoviePressed:" destination="FaC-O6-ufg" eventType="touchUpInside" id="8HB-Lw-3Hu"/>
+                                                </connections>
+                                            </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Movie" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fes-uc-CBg">
+                                                <rect key="frame" x="0.0" y="35" width="67" height="15"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                                <size key="shadowOffset" width="0.0" height="0.0"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Bhx-4U-gjs">
+                                        <rect key="frame" x="0.0" y="521" width="67" height="59"/>
                                         <subviews>
                                             <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ef7-TS-I84" userLabel="Share">
                                                 <rect key="frame" x="0.0" y="0.0" width="67" height="39"/>
@@ -661,31 +672,6 @@
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Share" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JqL-cj-aJB">
                                                 <rect key="frame" x="0.0" y="44" width="67" height="15"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <nil key="highlightedColor"/>
-                                                <size key="shadowOffset" width="0.0" height="0.0"/>
-                                            </label>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="lHT-7n-1kh">
-                                        <rect key="frame" x="0.0" y="518" width="67" height="62"/>
-                                        <subviews>
-                                            <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RWq-0a-jkN" userLabel="Movie">
-                                                <rect key="frame" x="0.0" y="0.0" width="67" height="42"/>
-                                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                <state key="normal" image="Movie-Icon">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <state key="selected">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="previewMoviePressed:" destination="FaC-O6-ufg" eventType="touchUpInside" id="8HB-Lw-3Hu"/>
-                                                </connections>
-                                            </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Movie" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fes-uc-CBg">
-                                                <rect key="frame" x="0.0" y="47" width="67" height="15"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
@@ -779,7 +765,6 @@
                         <outlet property="tableViewControllerView" destination="NFp-F1-DSb" id="dkV-xU-tAq"/>
                         <outlet property="toolViewContainer" destination="J6r-vB-KJz" id="e9X-bm-Me0"/>
                         <outletCollection property="buttons" destination="5y6-Ou-qt5" collectionClass="NSMutableArray" id="YWm-Ax-Upp"/>
-                        <outletCollection property="buttons" destination="XTz-rw-392" collectionClass="NSMutableArray" id="zBR-NC-dGT"/>
                         <outletCollection property="buttons" destination="hAP-7c-QFO" collectionClass="NSMutableArray" id="J4f-zG-GSR"/>
                         <outletCollection property="buttons" destination="ef7-TS-I84" collectionClass="NSMutableArray" id="qwn-w6-ipF"/>
                         <outletCollection property="buttons" destination="RWq-0a-jkN" collectionClass="NSMutableArray" id="FwC-wR-Eak"/>
@@ -813,7 +798,7 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="84b-Jz-5TI">
-                                            <rect key="frame" x="1" y="10" width="189" height="40"/>
+                                            <rect key="frame" x="-7" y="10" width="197" height="40"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                             <state key="normal" title="  Background Music" image="Incomplete-Unselected">
                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -975,7 +960,7 @@
                                             <constraint firstAttribute="width" constant="240" id="0yC-AD-ILJ"/>
                                             <constraint firstAttribute="height" constant="149" id="MSL-wc-7cv"/>
                                         </constraints>
-                                        <state key="normal" image="plus_white_69"/>
+                                        <state key="normal" image="Add-Shot-Icon@"/>
                                         <connections>
                                             <action selector="selectIntro:" destination="nf2-gJ-Z4I" eventType="touchUpInside" id="upF-Vb-Rhb"/>
                                             <segue destination="KtM-ME-n2y" kind="presentation" identifier="pickingIntroShot" modalPresentationStyle="overFullScreen" id="182-e7-4UI"/>
@@ -992,7 +977,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DIK-V5-Pih">
-                                        <rect key="frame" x="30" y="10" width="124" height="24"/>
+                                        <rect key="frame" x="30" y="10" width="132" height="24"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title="  Intro Scene" image="Incomplete-Unselected">
                                             <color key="titleColor" red="0.2666666667" green="0.2666666667" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
@@ -1124,15 +1109,13 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Add-Icon" width="43" height="43"/>
         <image name="Add-Shot-Icon@" width="21" height="21"/>
         <image name="Back-Chevron" width="20" height="33"/>
         <image name="Camera-Icon" width="43" height="35"/>
-        <image name="Complete-Selected" width="12" height="12"/>
+        <image name="Complete-Selected" width="20" height="20"/>
         <image name="Delete-X" width="20" height="20"/>
-        <image name="Incomplete-Unselected" width="12" height="12"/>
+        <image name="Incomplete-Unselected" width="20" height="20"/>
         <image name="Mic-Icon" width="30" height="30"/>
-        <image name="Movie-Icon" width="43" height="42"/>
         <image name="Play-Scene-Icon" width="13" height="14"/>
         <image name="Preview-Track-Thumbnail" width="40" height="40"/>
         <image name="Projects Icon" width="43" height="39"/>
@@ -1144,7 +1127,6 @@
         <image name="Voiceover-Ripples-Icon" width="466" height="21"/>
         <image name="camera_record_btn_70" width="60" height="60"/>
         <image name="camera_reverse_btn_50 (1)" width="45" height="40"/>
-        <image name="plus_white_69" width="60" height="60"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="182-e7-4UI"/>

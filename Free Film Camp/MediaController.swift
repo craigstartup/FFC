@@ -43,6 +43,8 @@ class MediaController {
     
     var albumTitle: String!
     var project = NSUserDefaults.standardUserDefaults().stringForKey("currentProject")
+    var numberOfScenes = 1
+    var movieEnds: [String:Bool]!
     let library = PHPhotoLibrary.sharedPhotoLibrary()
     
     // Media components
@@ -473,14 +475,20 @@ class MediaController {
     func loadScenes() -> [Scene]! {
         guard let loadedScenes = NSKeyedUnarchiver.unarchiveObjectWithFile(getScenesArchivePathURL().path!) as! [Scene]! else {
             let scenesContainer = [Scene]()
+            self.scenes = scenesContainer
+            self.movieEnds = NSUserDefaults.standardUserDefaults().objectForKey(self.project!) as! [String:Bool]
             return scenesContainer
         }
+        self.movieEnds = NSUserDefaults.standardUserDefaults().objectForKey(self.project!) as! [String:Bool]
+        self.scenes = loadedScenes
         return loadedScenes
     }
     
     
     func loadIntro() -> Intro? {
-        return NSKeyedUnarchiver.unarchiveObjectWithFile(self.getIntroArchivePathURL().path!) as? Intro
+        let intro = NSKeyedUnarchiver.unarchiveObjectWithFile(self.getIntroArchivePathURL().path!) as? Intro
+        self.intro = intro
+        return intro
     }
     
     

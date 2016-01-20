@@ -12,15 +12,6 @@ import Social
 import SwiftyDropbox
 
 class SelectionViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    enum TabButtons {
-        static let INTRO   = 1
-        static let SCENE_1 = 2
-        static let SCENE_2 = 3
-        static let SCENE_3 = 4
-        static let MOVIE   = 5
-    }
-    
-    
     @IBOutlet weak var toolViewContainer: UIView!
     @IBOutlet weak var tableViewControllerView: UIView!
     @IBOutlet weak var tableView: UITableView!
@@ -86,13 +77,19 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     // MARK: Tableview setup methods
     func getViewControllersForPages() {
         // Load scenes or initialize if none exist.
-        MediaController.sharedMediaController.scenes = MediaController.sharedMediaController.loadScenes()
+        MediaController.sharedMediaController.loadScenes()
+        
+        let movieExtras = MediaController.sharedMediaController.movieEnds
+        var introIsPresent:Bool = movieExtras["intro"]!
+        var musicIsPresent:Bool = movieExtras["music"]!
+        let numberOfScenes = MediaController.sharedMediaController.numberOfScenes
         
         if MediaController.sharedMediaController.scenes.isEmpty {
-            for _ in 0..<3 {
+            for _ in 0..<numberOfScenes {
                 let scene = Scene(shotVideos: Array(count: 3, repeatedValue: defaultVideoURL!), shotImages: Array(count: 3, repeatedValue: defaultImage!), voiceOver: defaultVoiceOverFile)
                 MediaController.sharedMediaController.scenes.append(scene!)
             }
+            MediaController.sharedMediaController.saveScenes()
         }
         
         var index = 0
@@ -109,17 +106,20 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
             } else {
                 var viewController: UIViewController!
                 
-                if viewId == "IntroViewController" {
+                if viewId == "IntroViewController" && introIsPresent == true {
                     let introViewController = self.storyboard?.instantiateViewControllerWithIdentifier(viewId) as? IntroViewController
                     introViewController!.index = index
                     viewController = introViewController
-                } else if viewId == "MovieBuilderViewController" {
+                    introIsPresent = false
+                    self.viewControllers.append(viewController!)
+                } else if viewId == "MovieBuilderViewController" && musicIsPresent == true {
                     let movieViewController = self.storyboard?.instantiateViewControllerWithIdentifier(viewId) as? MovieBuilderViewController
                     movieViewController!.index = index
                     viewController = movieViewController
+                    musicIsPresent = false
+                    self.viewControllers.append(viewController!)
                 }
-                
-                self.viewControllers.append(viewController!)
+            
                 index += 1
             }
         }
