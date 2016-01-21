@@ -53,6 +53,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     var shotNumber: Int!
     var scene: String!
     var segueToPerform: String!
+    var recorded = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -298,7 +299,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             self.cancelButton.alpha = 1
             self.cancelButton.enabled = true
         }
-        self.cancelButton.setImage(UIImage(named: "Check"), forState: UIControlState.Normal)
+        self.recorded = true
         print("End recording")
     }
     
@@ -324,9 +325,6 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                 })
             }
         } else {
-            if pickingShot {
-                self.performSegueWithIdentifier(self.segueToPerform, sender: self)
-            }
             self.dismissViewControllerAnimated(true, completion: nil)
         }
     }
