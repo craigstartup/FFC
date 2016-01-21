@@ -16,7 +16,7 @@ class SceneViewController: UIViewController {
     // MARK: Properties
     @IBOutlet weak var sceneLabel: UIButton!
     @IBOutlet var sceneAddMediaButtons: Array<UIButton>!
-    
+    @IBOutlet var shotLabels: Array<UILabel>!
     
     var sceneButtons              = [[UIButton]?]()
 
@@ -44,7 +44,7 @@ class SceneViewController: UIViewController {
     var selectedVideoImage: UIImage!
     var audioAsset: NSURL!
     // placeholder values
-    let defaultImage              = UIImage(named: "plus_white_69")
+    let defaultImage              = UIImage(named: "Add-Shot-Icon@")
     let defaultVideoURL           = NSURL(string: "placeholder")
     let defaultVoiceOverFile      = "placeholder"
     
@@ -54,7 +54,7 @@ class SceneViewController: UIViewController {
         // self.sceneAddMediaButtons.last?.addSubview(self.soundwaveView)
         
         for button in self.sceneAddMediaButtons {
-            button.layer.borderWidth = 2
+            button.layer.borderWidth = 1
             button.layer.borderColor = UIColor.grayColor().CGColor
         }
     }
@@ -74,8 +74,8 @@ class SceneViewController: UIViewController {
         
         self.navigationController?.navigationBar.translucent = true
         self.setupView()
-        self.sceneLabel.setTitle("  Scene \(self.sceneNumber + 1)", forState: .Normal)
-        self.sceneLabel.setTitle("  Scene \(self.sceneNumber + 1)", forState: .Highlighted)
+        self.sceneLabel.setTitle("    Scene \(self.sceneNumber + 1)", forState: .Normal)
+        self.sceneLabel.setTitle("    Scene \(self.sceneNumber + 1)", forState: .Highlighted)
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -147,6 +147,7 @@ class SceneViewController: UIViewController {
             NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.voiceoverCalled, object: self)
         } else {
             self.performSegueWithIdentifier(self.selectingShotSegueID, sender: self)
+            self.shotLabels[buttonPressed].alpha = 0
             NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.selectShotCalled, object: self)
         }
     }

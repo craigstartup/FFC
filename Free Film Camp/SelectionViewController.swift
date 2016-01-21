@@ -20,7 +20,7 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     
     var projectChanged = false
     var cellClearedCount = 0
-    let defaultImage         = UIImage(named: "plus_white_69")
+    let defaultImage         = UIImage(named: "Add-Shot-Icon@")
     let defaultVideoURL      = NSURL(string: "placeholder")
     let defaultVoiceOverFile = "placeholder"
 

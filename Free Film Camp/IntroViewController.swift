@@ -91,7 +91,7 @@ class IntroViewController: UIViewController {
         }
         self.introButton.contentMode = .ScaleAspectFit
         self.introButton.contentVerticalAlignment = .Center
-        self.introButton.setImage(UIImage(named: "plus_white_69"), forState: UIControlState.Normal)
+        self.introButton.setImage(UIImage(named: "Add-Shot-Icon@"), forState: UIControlState.Normal)
         self.destroyIntroButton.alpha = 0
         self.destroyIntroButton.enabled = false
         self.introButton.enabled = true
