@@ -707,7 +707,7 @@
                                 </constraints>
                             </view>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J6r-vB-KJz">
-                                <rect key="frame" x="-533" y="0.0" width="533" height="600"/>
+                                <rect key="frame" x="633" y="0.0" width="533" height="600"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <segue destination="If4-1C-sto" kind="embed" id="kFq-No-4sO"/>
@@ -728,7 +728,7 @@
                             <constraint firstItem="wqg-Vo-gs4" firstAttribute="leading" secondItem="NFp-F1-DSb" secondAttribute="trailing" id="JE4-Fm-nYe"/>
                             <constraint firstItem="NFp-F1-DSb" firstAttribute="width" secondItem="J6r-vB-KJz" secondAttribute="width" id="OpR-OA-oHc"/>
                             <constraint firstItem="wqg-Vo-gs4" firstAttribute="top" secondItem="Qny-YC-xRj" secondAttribute="bottom" constant="10" id="S9W-AF-WH6"/>
-                            <constraint firstItem="J6r-vB-KJz" firstAttribute="trailing" secondItem="NFp-F1-DSb" secondAttribute="leading" id="WUX-9c-etc"/>
+                            <constraint firstItem="J6r-vB-KJz" firstAttribute="leading" secondItem="NFp-F1-DSb" secondAttribute="trailing" constant="100" id="WUX-9c-etc"/>
                             <constraint firstItem="X09-Zg-YXs" firstAttribute="centerY" secondItem="mSE-z2-Ciy" secondAttribute="centerY" id="Wbq-jD-rE2"/>
                             <constraint firstItem="J6r-vB-KJz" firstAttribute="top" secondItem="NFp-F1-DSb" secondAttribute="top" id="cwZ-8b-TzU"/>
                             <constraint firstItem="X09-Zg-YXs" firstAttribute="centerX" secondItem="mSE-z2-Ciy" secondAttribute="centerX" id="fdw-4b-7dZ"/>
@@ -1014,7 +1014,7 @@
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zUT-We-J75">
                                             <rect key="frame" x="90" y="0.0" width="475" height="63"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -1043,7 +1043,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CVW-91-YMa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3026" y="-2244.5"/>
+            <point key="canvasLocation" x="2884" y="-2190.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="VYy-QV-Bz3">
@@ -1079,7 +1079,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aTZ-uN-nW1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3026.5" y="-2197"/>
+            <point key="canvasLocation" x="2822.5" y="-2197"/>
         </scene>
     </scenes>
     <resources>
@@ -1108,6 +1108,6 @@
         <image name="camera_reverse_btn_50 (1)" width="45" height="40"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="182-e7-4UI"/>
+        <segue reference="pgG-5N-lkc"/>
     </inferredMetricsTieBreakers>
 </document>

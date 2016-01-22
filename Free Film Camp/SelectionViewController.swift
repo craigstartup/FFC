@@ -125,7 +125,7 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     
     // MARK: Button Actions
     @IBAction func projectsButtonPressed(sender: UIButton) {
-        UIView.animateWithDuration(1) { () -> Void in
+        UIView.animateWithDuration(0.6) { () -> Void in
             self.toolViewContainer.frame.origin.x = self.tableView.frame.origin.x
         }
         
@@ -272,8 +272,8 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
         self.getViewControllersForPages()
         self.tableView.reloadData()
         
-        UIView.animateWithDuration(1) { () -> Void in
-            self.toolViewContainer.frame.origin.x = self.toolViewContainer.frame.origin.x - 600
+        UIView.animateWithDuration(0.6) { () -> Void in
+            self.toolViewContainer.frame.origin.x = self.toolViewContainer.frame.origin.x + 700
         }
     }
     
