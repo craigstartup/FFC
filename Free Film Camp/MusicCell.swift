@@ -28,10 +28,10 @@ class MusicCell: UITableViewCell {
         }
         
         if audioPlayer?.playing == true {
-            self.playMusicTrackButton.highlighted = false
+            self.playMusicTrackButton.setImage(UIImage(named: "Preview-Track-Thumbnail"), forState: .Normal)
             audioPlayer.stop()
         } else if audioPlayer?.playing == false {
-            self.playMusicTrackButton.highlighted = true
+            self.playMusicTrackButton.setImage(UIImage(named: "Stop Button"), forState: .Normal)
             self.audioPlayer.play()
         }
     }

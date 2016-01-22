@@ -161,7 +161,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LUE-oc-VoD" userLabel="Cancel">
-                                <rect key="frame" x="32" y="12" width="22" height="50"/>
+                                <rect key="frame" x="30" y="12" width="22" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="CVN-j7-yTx"/>
                                     <constraint firstAttribute="width" constant="22" id="VHf-Hf-XGh"/>
@@ -169,16 +169,6 @@
                                 <state key="normal" image="Back-Chevron"/>
                                 <connections>
                                     <action selector="cancelCamera:" destination="KtM-ME-n2y" eventType="touchUpInside" id="s73-6V-g6F"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L1L-08-2Tw">
-                                <rect key="frame" x="20" y="122" width="40" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="40" id="95b-8k-tjg"/>
-                                    <constraint firstAttribute="height" constant="40" id="ieO-Qi-dXx"/>
-                                </constraints>
-                                <connections>
-                                    <action selector="recordTime:" destination="KtM-ME-n2y" eventType="touchUpInside" id="tFS-MB-S80"/>
                                 </connections>
                             </button>
                             <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QZ9-xt-Jb3">
@@ -232,8 +222,7 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Eoh-jG-C7J" secondAttribute="trailing" id="2cf-Yk-V7O"/>
                             <constraint firstItem="Eoh-jG-C7J" firstAttribute="bottom" secondItem="D3s-mU-XgP" secondAttribute="top" id="2k0-RI-44h"/>
-                            <constraint firstItem="L1L-08-2Tw" firstAttribute="leading" secondItem="Peq-8Z-zMT" secondAttribute="leadingMargin" id="5jG-Di-ObI"/>
-                            <constraint firstItem="LUE-oc-VoD" firstAttribute="leading" secondItem="Peq-8Z-zMT" secondAttribute="leadingMargin" constant="12" id="9St-i5-aZh"/>
+                            <constraint firstItem="LUE-oc-VoD" firstAttribute="leading" secondItem="Peq-8Z-zMT" secondAttribute="leadingMargin" constant="10" id="9St-i5-aZh"/>
                             <constraint firstAttribute="trailingMargin" secondItem="QZ9-xt-Jb3" secondAttribute="trailing" constant="-20" id="B3L-33-IEe"/>
                             <constraint firstItem="wmB-a5-e8R" firstAttribute="centerY" secondItem="Peq-8Z-zMT" secondAttribute="centerY" id="CJr-pN-wbd"/>
                             <constraint firstItem="D3s-mU-XgP" firstAttribute="top" secondItem="2e3-6R-qjb" secondAttribute="bottom" constant="20" id="GNp-3B-iDM"/>
@@ -243,7 +232,6 @@
                             <constraint firstItem="ugW-wz-3wW" firstAttribute="leading" secondItem="6fx-vh-WYk" secondAttribute="leading" constant="14" id="NCC-tC-SCM"/>
                             <constraint firstItem="Eoh-jG-C7J" firstAttribute="top" secondItem="BG8-UZ-oCb" secondAttribute="bottom" id="RWA-NH-2NE"/>
                             <constraint firstItem="ugW-wz-3wW" firstAttribute="centerY" secondItem="LUE-oc-VoD" secondAttribute="centerY" constant="-9" id="Sc3-wX-ZEL"/>
-                            <constraint firstItem="D3s-mU-XgP" firstAttribute="top" secondItem="L1L-08-2Tw" secondAttribute="bottom" constant="438" id="Vze-Ym-85Y"/>
                             <constraint firstItem="ugW-wz-3wW" firstAttribute="top" secondItem="BG8-UZ-oCb" secondAttribute="bottom" constant="8" id="cVY-90-di5"/>
                             <constraint firstItem="wmB-a5-e8R" firstAttribute="centerX" secondItem="Peq-8Z-zMT" secondAttribute="centerX" id="dSc-zn-0Ah"/>
                             <constraint firstItem="2e3-6R-qjb" firstAttribute="centerX" secondItem="Peq-8Z-zMT" secondAttribute="centerX" id="ehc-vW-fLz"/>
@@ -269,7 +257,6 @@
                         <outlet property="flipCameraButton" destination="ugW-wz-3wW" id="wa6-v8-nJn"/>
                         <outlet property="progressBar" destination="2e3-6R-qjb" id="fbq-76-vTo"/>
                         <outlet property="recordButton" destination="6fx-vh-WYk" id="p5d-Zl-9eP"/>
-                        <outlet property="recordTimeButton" destination="L1L-08-2Tw" id="aR3-td-6U6"/>
                         <outlet property="rotateCameraToShoot" destination="wmB-a5-e8R" id="0Im-rf-zJJ"/>
                         <segue destination="IJT-rK-ouy" kind="unwind" identifier="cameraUnwindSegue" unwindAction="cameraUnwind:" id="3QR-m9-gbF"/>
                         <segue destination="IJT-rK-ouy" kind="unwind" identifier="introUnwind" unwindAction="introUnwind:" id="Jd3-my-eOC"/>
@@ -832,11 +819,9 @@
                                                     <state key="normal" image="Preview-Track-Thumbnail">
                                                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     </state>
-                                                    <state key="disabled" image="No Track"/>
                                                     <state key="selected">
                                                         <color key="titleColor" red="0.35686274509999999" green="1" blue="0.32549019610000002" alpha="1" colorSpace="calibratedRGB"/>
                                                     </state>
-                                                    <state key="highlighted" image="Stop Button"/>
                                                     <connections>
                                                         <action selector="playMusicForCell:" destination="bp1-fw-EOe" eventType="touchUpInside" id="ZPr-hR-t1y"/>
                                                     </connections>
@@ -902,29 +887,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hnQ-oa-2Rr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4375" y="-1407"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="cur-cN-5ub">
-            <objects>
-                <viewController id="qJO-Ez-Ltf" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="1cZ-jJ-Nj1"/>
-                        <viewControllerLayoutGuide type="bottom" id="6ey-Nv-Sme"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="eDX-am-yid">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Screen Shot 2016-01-22 at 2.18.14 PM" translatesAutoresizingMaskIntoConstraints="NO" id="Prx-Ac-2Gb">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="580"/>
-                            </imageView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="xGt-x1-jCg" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="5057" y="-1414"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="T3O-Op-14a">
@@ -1042,20 +1004,24 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="projectCell" textLabel="pOE-Yx-xtR" rowHeight="63" style="IBUITableViewCellStyleDefault" id="VS3-3p-tcM">
+                            <tableViewCell clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="projectCell" textLabel="zUT-We-J75" imageView="ndI-tp-wpY" rowHeight="63" style="IBUITableViewCellStyleDefault" id="VS3-3p-tcM">
                                 <rect key="frame" x="0.0" y="72" width="600" height="63"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VS3-3p-tcM" id="BMq-He-Rez">
                                     <rect key="frame" x="0.0" y="0.0" width="567" height="63"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pOE-Yx-xtR">
-                                            <rect key="frame" x="15" y="0.0" width="550" height="63"/>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zUT-We-J75">
+                                            <rect key="frame" x="90" y="0.0" width="475" height="63"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="Mask" id="ndI-tp-wpY">
+                                            <rect key="frame" x="15" y="1" width="60" height="60"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
                                     </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -1127,15 +1093,13 @@
         <image name="Complete-Selected" width="12" height="12"/>
         <image name="Delete-X" width="15" height="15"/>
         <image name="Incomplete-Unselected" width="14" height="14"/>
+        <image name="Mask" width="60" height="60"/>
         <image name="Mic-Icon" width="20" height="20"/>
-        <image name="No Track" width="27" height="27"/>
         <image name="Play-Scene-Icon" width="11" height="12"/>
         <image name="Preview-Track-Thumbnail" width="30" height="30"/>
         <image name="Projects Icon" width="36" height="32"/>
         <image name="RotateCamera" width="240" height="240"/>
-        <image name="Screen Shot 2016-01-22 at 2.18.14 PM" width="1024" height="566"/>
         <image name="Share-Icon" width="35" height="35"/>
-        <image name="Stop Button" width="32" height="32"/>
         <image name="Voiceover-Check" width="18" height="14"/>
         <image name="Voiceover-Mic-Icon" width="20" height="20"/>
         <image name="Voiceover-Play" width="12" height="13"/>
@@ -1144,6 +1108,6 @@
         <image name="camera_reverse_btn_50 (1)" width="45" height="40"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="pgG-5N-lkc"/>
+        <segue reference="182-e7-4UI"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -64,7 +64,7 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
             return cell
         } else {
             cell.cellTitle.text = "None"
-            cell.playMusicTrackButton.enabled = false
+            cell.playMusicTrackButton.setImage(UIImage(named: "No Track"), forState: .Normal)
             return cell
         }
     }
