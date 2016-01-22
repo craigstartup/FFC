@@ -64,7 +64,6 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
             return cell
         } else {
             cell.cellTitle.text = "None"
-            cell.playMusicTrackButton.alpha = 0
             cell.playMusicTrackButton.enabled = false
             return cell
         }

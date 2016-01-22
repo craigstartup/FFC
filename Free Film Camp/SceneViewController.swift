@@ -16,7 +16,6 @@ class SceneViewController: UIViewController {
     // MARK: Properties
     @IBOutlet weak var sceneLabel: UIButton!
     @IBOutlet var sceneAddMediaButtons: Array<UIButton>!
-    @IBOutlet var shotLabels: Array<UILabel>!
     
     var sceneButtons              = [[UIButton]?]()
 
@@ -140,7 +139,6 @@ class SceneViewController: UIViewController {
             NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.voiceoverCalled, object: self)
         } else {
             self.performSegueWithIdentifier(self.selectingShotSegueID, sender: self)
-            self.shotLabels[buttonPressed].alpha = 0
             NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.selectShotCalled, object: self)
         }
     }

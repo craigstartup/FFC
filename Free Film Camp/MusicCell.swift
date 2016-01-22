@@ -28,8 +28,10 @@ class MusicCell: UITableViewCell {
         }
         
         if audioPlayer?.playing == true {
+            self.playMusicTrackButton.highlighted = false
             audioPlayer.stop()
         } else if audioPlayer?.playing == false {
+            self.playMusicTrackButton.highlighted = true
             self.audioPlayer.play()
         }
     }

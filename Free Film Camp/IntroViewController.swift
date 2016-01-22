@@ -12,7 +12,6 @@ import AVKit
 
 class IntroViewController: UIViewController {
     // MARK: Outlets
-    @IBOutlet weak var introBoxLabel: UILabel!
     @IBOutlet weak var introLabel: UIButton!
     @IBOutlet weak var introButton: UIButton!
     @IBOutlet weak var destroyIntroButton: UIButton!
@@ -48,10 +47,8 @@ class IntroViewController: UIViewController {
         if self.intro == nil {
             self.introButton.layer.borderWidth = 2
             self.introButton.layer.borderColor = UIColor.grayColor().CGColor
-            self.introBoxLabel.text = "Intro"
             self.introLabel.highlighted = false
         } else {
-            self.introBoxLabel.text = ""
             self.introLabel.highlighted = true
             self.introButton.setImage(self.intro.image, forState: .Normal)
             let video = AVURLAsset(URL: MediaController.sharedMediaController.getPathForFileInDocumentsDirectory(self.intro.video))
