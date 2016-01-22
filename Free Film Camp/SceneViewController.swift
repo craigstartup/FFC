@@ -25,7 +25,7 @@ class SceneViewController: UIViewController {
     let SHOT1                     = 0, SHOT2 = 1, SHOT3 = 2, VOICEOVER = 3
 
     //let soundwaveView: FVSoundWaveView = FVSoundWaveView()
-    var vpVC                      = AVPlayerViewController()
+    var vpVC: AVPlayerViewController!
     let library                   = PHPhotoLibrary.sharedPhotoLibrary()
 
     // Scene specific identifiers
@@ -53,6 +53,8 @@ class SceneViewController: UIViewController {
             button.layer.borderWidth = 1
             button.layer.borderColor = UIColor.grayColor().CGColor
         }
+        
+        self.vpVC = AVPlayerViewController()
     }
     
     
@@ -145,16 +147,11 @@ class SceneViewController: UIViewController {
     
     @IBAction func previewSelection(sender: AnyObject) {
         MediaController.sharedMediaController.prepareMediaFor(scene: self.sceneNumber, movie: false, save: false)
+        let vpVC = MediaController.sharedMediaController.playerForPreview()
         
-        if let preview = MediaController.sharedMediaController.scenePreview {
-            self.vpVC.player = nil
-            let videoPlayer = AVPlayer(playerItem: preview)
-            self.vpVC.player = videoPlayer
-            vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.presentViewController(self.vpVC, animated: true, completion: nil)
-            })
-        }
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            self.presentViewController(vpVC, animated: true, completion: nil)
+        })
     }
     
     // MARK: segue methods

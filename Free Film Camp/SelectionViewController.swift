@@ -26,7 +26,6 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
 
     var viewControllers      = [UIViewController]()
     let socialSharing        = SocialController()
-    var vpVC                 = AVPlayerViewController()
     let viewControllerIds    = ["IntroViewController","SceneViewController","MovieBuilderViewController"]
     
     let transitionQueue      = dispatch_queue_create("com.trans.Queue", nil)
@@ -154,7 +153,6 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
             name: MediaController.Notifications.previewReady,
             object: nil)
         
-        self.vpVC.player = nil
         self.progressSwitch(on: true)
         MediaController.sharedMediaController.prepareMediaFor(scene: nil, movie: true, save: false)
     }
@@ -285,15 +283,11 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
             name: MediaController.Notifications.previewReady,
             object: nil)
        
-            if let preview = MediaController.sharedMediaController.moviePreview {
-                let videoPlayer = AVPlayer(playerItem: preview)
-                self.vpVC.player = videoPlayer
-                self.vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
-                self.progressSwitch(on: false)
-                
-                dispatch_async(dispatch_get_main_queue()) { () -> Void in
-                    self.presentViewController(self.vpVC, animated: true, completion: nil)
-                }
+            self.progressSwitch(on: false)
+            let vpVC = MediaController.sharedMediaController.playerForPreview()
+        
+            dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                self.presentViewController(vpVC, animated: true, completion: nil)
             }
     }
 

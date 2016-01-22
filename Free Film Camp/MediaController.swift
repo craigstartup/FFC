@@ -46,13 +46,13 @@ class MediaController {
     var numberOfScenes = 1
     var movieEnds: [String:Bool]!
     let library = PHPhotoLibrary.sharedPhotoLibrary()
+    let vpVC = AVPlayerViewController()
     
     // Media components
     var scenes: [Scene]!
     var intro: Intro!
     var musicTrack: AVURLAsset!
-    var scenePreview: AVPlayerItem!
-    var moviePreview: AVPlayerItem!
+    var preview: AVPlayerItem!
     var movieToShare: NSURL!
     
     var dropboxIsLoading = false
@@ -64,8 +64,7 @@ class MediaController {
     
     // MARK: Media methods
     func prepareMediaFor(scene scene: Int!, movie: Bool, save: Bool) {
-        self.scenePreview = nil
-        self.moviePreview = nil
+        self.preview = nil
         // Exactract and assemble media assets
         var videoAssets = [AVURLAsset]()
         var voiceOverAssets = [AVURLAsset]()
@@ -285,8 +284,8 @@ class MediaController {
                     movie: movie,
                     save: save)
             } else {
-                self.scenePreview = AVPlayerItem(asset: mixComposition)
-                self.scenePreview.videoComposition = mainComposition
+                self.preview = AVPlayerItem(asset: mixComposition)
+                self.preview.videoComposition = mainComposition
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     NSNotificationCenter.defaultCenter().postNotificationName(Notifications.previewReady, object: self)
                 })
@@ -330,7 +329,7 @@ class MediaController {
                 } else {
                     let movie = AVURLAsset(URL: exporter!.outputURL!)
                     self.shareMedia(exporter!.outputURL!)
-                    self.moviePreview = AVPlayerItem(asset: movie)
+                    self.preview = AVPlayerItem(asset: movie)
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         NSNotificationCenter.defaultCenter().postNotificationName(Notifications.previewReady, object: self)
                     })
@@ -516,6 +515,18 @@ class MediaController {
         let intro = NSKeyedUnarchiver.unarchiveObjectWithFile(self.getIntroArchivePathURL().path!) as? Intro
         self.intro = intro
         return intro
+    }
+    
+    // MARK: Preview helper
+    func playerForPreview() -> AVPlayerViewController {
+        if let preview = self.preview {
+            self.vpVC.player = nil
+            let videoPlayer = AVPlayer(playerItem: preview)
+            self.vpVC.player = videoPlayer
+            vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
+        }
+        
+        return self.vpVC
     }
     
     // MARK: DropBox
