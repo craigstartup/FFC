@@ -143,7 +143,6 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
             name: MediaController.Notifications.movieReady,
             object: nil)
         
-        self.vpVC.player = nil
         self.progressSwitch(on: true)
         let shareView: UIAlertController = self.getShareView()
         self.presentViewController(shareView, animated: true, completion: nil)
@@ -180,12 +179,14 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func buttonsOn(on on: Bool) {
-        let visibility: CGFloat = on ? 1 : 0.5
-        let active = on ? true : false
-        
-        for button in self.buttons {
-            button.enabled = active
-            button.alpha = visibility
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            let visibility: CGFloat = on ? 1 : 0.5
+            let active = on ? true : false
+            
+            for button in self.buttons {
+                button.enabled = active
+                button.alpha = visibility
+            }
         }
     }
     
@@ -290,13 +291,15 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
             name: MediaController.Notifications.previewReady,
             object: nil)
        
-        if let preview = MediaController.sharedMediaController.preview {
-            let videoPlayer = AVPlayer(playerItem: preview)
-            self.vpVC.player = videoPlayer
-            self.vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
-            self.progressSwitch(on: false)
-            self.presentViewController(self.vpVC, animated: true, completion: nil)
-        }
+            if let preview = MediaController.sharedMediaController.preview {
+                let videoPlayer = AVPlayer(playerItem: preview)
+                self.vpVC.player = videoPlayer
+                self.vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
+                self.progressSwitch(on: false)
+                dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                    self.presentViewController(self.vpVC, animated: true, completion: nil)
+                }
+            }
     }
 
     

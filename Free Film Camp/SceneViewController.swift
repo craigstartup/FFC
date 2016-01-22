@@ -163,7 +163,9 @@ class SceneViewController: UIViewController {
             self.videoPlayer = AVPlayer(playerItem: preview)
             self.vpVC.player = videoPlayer
             vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
-            self.view.window?.rootViewController?.presentViewController(self.vpVC, animated: true, completion: nil)
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.view.window?.rootViewController?.presentViewController(self.vpVC, animated: true, completion: nil)
+            })
         }
     }
     

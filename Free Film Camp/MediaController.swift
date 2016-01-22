@@ -119,7 +119,6 @@ class MediaController {
         }
     }
     
-    
     func getMovieVoiceOver(voiceOvers: [AVURLAsset], videoAssets: [AVURLAsset], save: Bool) {
         let audioComposition = AVMutableComposition()
         var audioTrackTime = kCMTimeZero
@@ -172,7 +171,6 @@ class MediaController {
                 }
         }
     }
-
     
     func composeMedia(videoAssets: [AVURLAsset], voiceOverAssets: [AVURLAsset], movieVoiceOver: AVURLAsset?, movie: Bool, save: Bool) {
         
@@ -268,14 +266,8 @@ class MediaController {
                 videoComposition: mainComposition,
                 movie: movie,
                 save: save)
-            let preview = AVPlayerItem(asset: mixComposition)
-            preview.videoComposition = mainComposition
-            self.preview = preview
-           
-            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.previewReady, object: self)
         }
     }
-    
 
     func mergeMedia(mixComposition: AVMutableComposition, videoComposition: AVMutableVideoComposition, movie: Bool, save: Bool) {
         // setup to save
@@ -303,7 +295,12 @@ class MediaController {
                     if save {
                         self.saveMedia(exporter!)
                     } else {
+                        let movie = AVURLAsset(URL: exporter!.outputURL!)
                         self.shareMedia(exporter!.outputURL!)
+                        self.preview = AVPlayerItem(asset: movie)
+                        
+                        NSNotificationCenter.defaultCenter().postNotificationName(Notifications.previewReady, object: self)
+                        
                         do {
                             try NSFileManager.defaultManager().removeItemAtPath((exporter!.outputURL?.path)!)
                         } catch let error as NSError {
@@ -321,12 +318,17 @@ class MediaController {
         let filePath = NSURL(fileURLWithPath: documentDirectory).URLByAppendingPathComponent(file)
         self.movieToShare = filePath
         
-        NSNotificationCenter.defaultCenter().postNotificationName(Notifications.movieReady, object: self)
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.movieReady, object: self)
+        })
     }
     
     func saveMedia(session:AVAssetExportSession) {
         if session.status == AVAssetExportSessionStatus.Completed {
-            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.movieReady, object: self)
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                NSNotificationCenter.defaultCenter().postNotificationName(Notifications.movieReady, object: self)
+            })
+            
             let outputURL: NSURL = session.outputURL!
             
             // check if authorized to save to photos
@@ -392,7 +394,6 @@ class MediaController {
         return (assetOrientation, isPortrait)
     }
     
-    
     func videoCompositionInstructionForTrack(track: AVCompositionTrack, asset: AVAsset) -> AVMutableVideoCompositionLayerInstruction {
         let instruction = AVMutableVideoCompositionLayerInstruction(assetTrack: track)
         let assetTrack = asset.tracksWithMediaType(AVMediaTypeVideo)[0] 
@@ -409,7 +410,6 @@ class MediaController {
         }
         return instruction
     }
-    
     
     // MARK: Archiving path methods
     func getScenesArchivePathURL() -> NSURL {
@@ -445,7 +445,6 @@ class MediaController {
         return url
     }
     
-    
     func getPathForFileInDocumentsDirectory(fileName: String) -> NSURL {
         let documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
         let directoryPath = documentsPath + "/\(self.project!)"
@@ -463,14 +462,12 @@ class MediaController {
         }
     }
     
-    
     func saveIntro() {
         let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(intro, toFile: self.getIntroArchivePathURL().path!)
         if !isSuccessfulSave {
             print("Intro save failure!!")
         }
     }
-    
     
     func loadScenes() -> [Scene]! {
         guard let loadedScenes = NSKeyedUnarchiver.unarchiveObjectWithFile(getScenesArchivePathURL().path!) as! [Scene]! else {
@@ -484,13 +481,11 @@ class MediaController {
         return loadedScenes
     }
     
-    
     func loadIntro() -> Intro? {
         let intro = NSKeyedUnarchiver.unarchiveObjectWithFile(self.getIntroArchivePathURL().path!) as? Intro
         self.intro = intro
         return intro
     }
-    
     
     // MARK: DropBox
     func saveToDropBox(filePath: NSURL!) {
@@ -501,7 +496,9 @@ class MediaController {
                 print("*** Get current account ***")
                 if let account = response {
                     print("Hello \(account.name.givenName)! Dropbox saving has begun.")
-                    NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.sharingComplete, object: self)
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.sharingComplete, object: self)
+                    })
                 } else {
                     print(error!.description)
                 }
@@ -510,15 +507,22 @@ class MediaController {
             // Upload a file
             let fileData = NSData(contentsOfFile: filePath.path!)
             client.files.upload(path: "/\(filePath!.lastPathComponent!)", body: fileData!).response { response, error in
-                if let metadata = response {
-                    print("*** Upload file ****")
-                    print("Uploaded file name: \(metadata.name)")
-                    print("Uploaded file revision: \(metadata.rev)")
-                    NSNotificationCenter.defaultCenter().postNotificationName(Notifications.uploadComplete, object: self)
-                } else {
-                    print("DROPBOX FAILURE\(error!.description)")
-                    NSNotificationCenter.defaultCenter().postNotificationName(Notifications.uploadFailed, object: self)
-                }
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    if let metadata = response {
+                        print("*** Upload file ****")
+                        print("Uploaded file name: \(metadata.name)")
+                        print("Uploaded file revision: \(metadata.rev)")
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.uploadComplete, object: self)
+                        })
+                    } else {
+                        print("DROPBOX FAILURE\(error!.description)")
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.uploadFailed, object: self)
+                        })
+                    }
+                })
+                
             }
         }
     }

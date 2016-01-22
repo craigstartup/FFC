@@ -17,11 +17,6 @@ class ProjectsViewController: UITableViewController {
     }
     
     // MARK: Action methods
-    // linkDropbox == Settings.
-    @IBAction func linkDropBox(sender: UIBarButtonItem) {
-        
-    }
-    
     @IBAction func addProject(sender: UIBarButtonItem) {
         // Present an alert veiw with text box to enter new project name, confirm button and cancel button.
         let addProjectView = UIAlertController(title: "Add Project", message: "Please enter a project name.", preferredStyle: .Alert)

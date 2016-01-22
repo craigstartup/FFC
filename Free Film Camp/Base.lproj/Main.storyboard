@@ -172,17 +172,6 @@
                                     <action selector="cancelCamera:" destination="KtM-ME-n2y" eventType="touchUpInside" id="s73-6V-g6F"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ugW-wz-3wW">
-                                <rect key="frame" x="533" y="6" width="67" height="63"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="63" id="Zic-6t-bKs"/>
-                                    <constraint firstAttribute="width" constant="67" id="gAj-v8-0BW"/>
-                                </constraints>
-                                <state key="normal" image="camera_reverse_btn_50 (1)"/>
-                                <connections>
-                                    <action selector="flipCamera:" destination="KtM-ME-n2y" eventType="touchUpInside" id="pd9-zh-31Y"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L1L-08-2Tw">
                                 <rect key="frame" x="20" y="122" width="40" height="40"/>
                                 <constraints>
@@ -212,6 +201,17 @@
                                 </state>
                                 <connections>
                                     <action selector="record:" destination="KtM-ME-n2y" eventType="touchUpInside" id="FzA-xJ-QUd"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ugW-wz-3wW">
+                                <rect key="frame" x="533" y="6" width="67" height="63"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="63" id="Zic-6t-bKs"/>
+                                    <constraint firstAttribute="width" constant="67" id="gAj-v8-0BW"/>
+                                </constraints>
+                                <state key="normal" image="camera_reverse_btn_50 (1)"/>
+                                <connections>
+                                    <action selector="flipCamera:" destination="KtM-ME-n2y" eventType="touchUpInside" id="pd9-zh-31Y"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="RotateCamera" translatesAutoresizingMaskIntoConstraints="NO" id="wmB-a5-e8R">
@@ -616,10 +616,10 @@
                                 <rect key="frame" x="533" y="10" width="67" height="580"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="0Ty-WH-qLh">
-                                        <rect key="frame" x="0.0" y="0.0" width="67" height="52"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="67" height="49"/>
                                         <subviews>
                                             <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5y6-Ou-qt5" userLabel="Projects">
-                                                <rect key="frame" x="0.0" y="0.0" width="67" height="35"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="67" height="32"/>
                                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
                                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <state key="normal" image="Projects Icon">
@@ -630,18 +630,18 @@
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Projects" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rXE-f6-nAg">
-                                                <rect key="frame" x="0.0" y="37" width="67" height="15"/>
+                                                <rect key="frame" x="0.0" y="34" width="67" height="15"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="RGC-pF-S2v">
-                                        <rect key="frame" x="0.0" y="179" width="67" height="49"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="RGC-pF-S2v">
+                                        <rect key="frame" x="0.0" y="175" width="67" height="47"/>
                                         <subviews>
                                             <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hAP-7c-QFO" userLabel="Camera">
-                                                <rect key="frame" x="0.0" y="0.0" width="67" height="32"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="67" height="30"/>
                                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <state key="normal" image="Camera-Icon">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -654,20 +654,20 @@
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Camera" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gVv-HA-EJo">
-                                                <rect key="frame" x="0.0" y="34" width="67" height="15"/>
+                                                <rect key="frame" x="0.0" y="32" width="67" height="15"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="lHT-7n-1kh">
-                                        <rect key="frame" x="0.0" y="354" width="67" height="47"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="lHT-7n-1kh">
+                                        <rect key="frame" x="0.0" y="349" width="67" height="53"/>
                                         <subviews>
-                                            <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RWq-0a-jkN" userLabel="Movie">
-                                                <rect key="frame" x="0.0" y="0.0" width="67" height="30"/>
+                                            <button opaque="NO" tag="5" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RWq-0a-jkN" userLabel="Movie">
+                                                <rect key="frame" x="0.0" y="0.0" width="67" height="36"/>
                                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                <state key="normal" image="Voiceover-Play">
+                                                <state key="normal" image="Apple Play Icon@1x">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <state key="selected">
@@ -677,8 +677,8 @@
                                                     <action selector="previewMoviePressed:" destination="FaC-O6-ufg" eventType="touchUpInside" id="8HB-Lw-3Hu"/>
                                                 </connections>
                                             </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Movie" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fes-uc-CBg">
-                                                <rect key="frame" x="0.0" y="32" width="67" height="15"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Movie" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fes-uc-CBg">
+                                                <rect key="frame" x="0.0" y="38" width="67" height="15"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
@@ -1094,11 +1094,6 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Projects" id="EdG-4J-ZF2">
-                        <barButtonItem key="leftBarButtonItem" title="Settings" id="Dh8-aJ-kuz">
-                            <connections>
-                                <action selector="linkDropBox:" destination="NSC-8O-mHG" id="8az-iS-eHf"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="New Project" id="ZIB-Qo-C4K">
                             <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
@@ -1151,15 +1146,16 @@
     </scenes>
     <resources>
         <image name="Add-Shot-Icon@" width="36" height="36"/>
+        <image name="Apple Play Icon@1x" width="36" height="36"/>
         <image name="Back-Chevron" width="20" height="33"/>
-        <image name="Camera-Icon" width="38" height="32"/>
+        <image name="Camera-Icon" width="39" height="30"/>
         <image name="Complete-Selected" width="18" height="18"/>
         <image name="Delete-X" width="20" height="20"/>
         <image name="Incomplete-Unselected" width="18" height="18"/>
         <image name="Mic-Icon" width="30" height="30"/>
         <image name="Play-Scene-Icon" width="13" height="14"/>
         <image name="Preview-Track-Thumbnail" width="40" height="40"/>
-        <image name="Projects Icon" width="35" height="35"/>
+        <image name="Projects Icon" width="36" height="32"/>
         <image name="RotateCamera" width="240" height="240"/>
         <image name="Share-Icon" width="35" height="35"/>
         <image name="Voiceover-Check" width="30" height="24"/>
