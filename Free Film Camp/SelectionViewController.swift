@@ -26,7 +26,6 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
 
     var viewControllers      = [UIViewController]()
     let socialSharing        = SocialController()
-    var audioPlayer: AVAudioPlayer!
     var vpVC                 = AVPlayerViewController()
     let viewControllerIds    = ["IntroViewController","SceneViewController","MovieBuilderViewController"]
     
@@ -149,33 +148,31 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     @IBAction func previewMoviePressed(sender: UIButton) {
-        self.vpVC.player = nil
-        
         NSNotificationCenter.defaultCenter().addObserver(
             self,
             selector: "firePreview:",
             name: MediaController.Notifications.previewReady,
             object: nil)
         
-        if self.audioPlayer != nil {
-            self.audioPlayer.stop()
-        }
-        
+        self.vpVC.player = nil
         self.progressSwitch(on: true)
         MediaController.sharedMediaController.prepareMediaFor(scene: nil, movie: true, save: false)
     }
     
     // MARK: Helper Methods
     func progressSwitch(on on: Bool) {
-        if on {
-            self.savingProgress.alpha = 1
-            self.savingProgress.startAnimating()
-            self.view.alpha = 0.6
-        } else {
-            self.savingProgress.stopAnimating()
-            self.savingProgress.alpha = 0
-            self.view.alpha = 1
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            if on {
+                self.savingProgress.alpha = 1
+                self.savingProgress.startAnimating()
+                self.view.alpha = 0.6
+            } else {
+                self.savingProgress.stopAnimating()
+                self.savingProgress.alpha = 0
+                self.view.alpha = 1
+            }
         }
+        
     }
     
     func buttonsOn(on on: Bool) {
@@ -201,6 +198,7 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         let photosAction = UIAlertAction(title: "Save to Photos", style: .Default) { (action) -> Void in
             self.photosPost = true
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveFailed:", name: MediaController.Notifications.saveMovieFailed, object: nil)
             MediaController.sharedMediaController.prepareMediaFor(scene: nil, movie: true, save: true)
         }
         let dropboxAction = UIAlertAction(title: "Save to Dropbox", style: .Default) { (action) -> Void in
@@ -282,20 +280,17 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func firePreview(notification: NSNotification) {
-        defer {
-            MediaController.sharedMediaController.preview = nil
-        }
-        
         NSNotificationCenter.defaultCenter().removeObserver(
             self,
             name: MediaController.Notifications.previewReady,
             object: nil)
        
-            if let preview = MediaController.sharedMediaController.preview {
+            if let preview = MediaController.sharedMediaController.moviePreview {
                 let videoPlayer = AVPlayer(playerItem: preview)
                 self.vpVC.player = videoPlayer
                 self.vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
                 self.progressSwitch(on: false)
+                
                 dispatch_async(dispatch_get_main_queue()) { () -> Void in
                     self.presentViewController(self.vpVC, animated: true, completion: nil)
                 }

@@ -51,16 +51,21 @@ class MediaController {
     var scenes: [Scene]!
     var intro: Intro!
     var musicTrack: AVURLAsset!
-    var preview: AVPlayerItem!
+    var scenePreview: AVPlayerItem!
+    var moviePreview: AVPlayerItem!
     var movieToShare: NSURL!
     
     var dropboxIsLoading = false
+    var lastPreview: String!
+    var lastVoiceover: String!
 
     // place holder for scene
     var newScene: PHObjectPlaceholder!
     
     // MARK: Media methods
     func prepareMediaFor(scene scene: Int!, movie: Bool, save: Bool) {
+        self.scenePreview = nil
+        self.moviePreview = nil
         // Exactract and assemble media assets
         var videoAssets = [AVURLAsset]()
         var voiceOverAssets = [AVURLAsset]()
@@ -161,6 +166,18 @@ class MediaController {
                 // TODO: Handle nil.
                 if vOExporter!.status == AVAssetExportSessionStatus.Completed {
                     print("Export finished")
+                    
+                    if self.lastVoiceover != nil {
+                        do {
+                            try NSFileManager.defaultManager().removeItemAtPath(self.lastVoiceover)
+                        } catch let error as NSError {
+                            print(error.localizedDescription)
+                        }
+                    }
+                    if !save {
+                        self.lastVoiceover = (vOExporter!.outputURL?.path)!
+                    }
+                    
                     let movieVoiceOver = AVURLAsset(URL: (vOExporter?.outputURL)!)
                     self.composeMedia(videoAssets, voiceOverAssets: voiceOvers, movieVoiceOver: movieVoiceOver, movie: true, save: save)
                 } else if vOExporter!.status == AVAssetExportSessionStatus.Waiting {
@@ -261,15 +278,32 @@ class MediaController {
         }
         
         if !mixComposition.tracks.isEmpty {
-            self.mergeMedia(
-                mixComposition,
-                videoComposition: mainComposition,
-                movie: movie,
-                save: save)
+            if movie {
+                self.mergeMedia(
+                    mixComposition,
+                    videoComposition: mainComposition,
+                    movie: movie,
+                    save: save)
+            } else {
+                self.scenePreview = AVPlayerItem(asset: mixComposition)
+                self.scenePreview.videoComposition = mainComposition
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    NSNotificationCenter.defaultCenter().postNotificationName(Notifications.previewReady, object: self)
+                })
+            }
+            
         }
     }
 
     func mergeMedia(mixComposition: AVMutableComposition, videoComposition: AVMutableVideoComposition, movie: Bool, save: Bool) {
+        if self.lastPreview != nil {
+            do {
+                try NSFileManager.defaultManager().removeItemAtPath(self.lastPreview)
+            } catch let error as NSError {
+                print(error.localizedDescription)
+            }
+        }
+
         // setup to save
         let paths: NSArray = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
         let documentDirectory: String = paths[0] as! String
@@ -291,23 +325,20 @@ class MediaController {
         exporter!.videoComposition = videoComposition
         exporter!
             .exportAsynchronouslyWithCompletionHandler() {
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    if save {
-                        self.saveMedia(exporter!)
-                    } else {
-                        let movie = AVURLAsset(URL: exporter!.outputURL!)
-                        self.shareMedia(exporter!.outputURL!)
-                        self.preview = AVPlayerItem(asset: movie)
-                        
+                if save {
+                    self.saveMedia(exporter!)
+                } else {
+                    let movie = AVURLAsset(URL: exporter!.outputURL!)
+                    self.shareMedia(exporter!.outputURL!)
+                    self.moviePreview = AVPlayerItem(asset: movie)
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         NSNotificationCenter.defaultCenter().postNotificationName(Notifications.previewReady, object: self)
-                        
-                        do {
-                            try NSFileManager.defaultManager().removeItemAtPath((exporter!.outputURL?.path)!)
-                        } catch let error as NSError {
-                            print(error.localizedDescription)
-                        }
-                    }
-                })
+                    })
+                }
+                
+                if !save {
+                    self.lastPreview = (exporter!.outputURL?.path)!
+                }
         }
     }
     

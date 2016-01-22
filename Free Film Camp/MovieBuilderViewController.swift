@@ -48,11 +48,6 @@ class MovieBuilderViewController: UIViewController, UITableViewDataSource, UITab
         tableFrame.size.height = cellsHeight
         self.tableView.frame = tableFrame
     }
-    
-    
-    override func viewWillDisappear(animated: Bool) {
-        MediaController.sharedMediaController.preview = nil
-    }
 
     // MARK: Tableview methods
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -28,8 +28,6 @@ class SceneViewController: UIViewController {
     var vpVC                      = AVPlayerViewController()
     let library                   = PHPhotoLibrary.sharedPhotoLibrary()
 
-    var videoPlayer: AVPlayer!
-
     // Scene specific identifiers
     var shotSelectedSegueID       = "sceneShotSelectedSegue"
     var voiceOverSelectedSegueID  = "sceneVoiceOverSelectedSegue"
@@ -51,9 +49,7 @@ class SceneViewController: UIViewController {
     // MARK: View Life Cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        // self.sceneAddMediaButtons.last?.addSubview(self.soundwaveView)
-        
-        for button in self.sceneAddMediaButtons {
+            for button in self.sceneAddMediaButtons {
             button.layer.borderWidth = 1
             button.layer.borderColor = UIColor.grayColor().CGColor
         }
@@ -76,11 +72,6 @@ class SceneViewController: UIViewController {
         self.setupView()
         self.sceneLabel.setTitle("    Scene \(self.sceneNumber + 1)", forState: .Normal)
         self.sceneLabel.setTitle("    Scene \(self.sceneNumber + 1)", forState: .Highlighted)
-    }
-    
-    override func viewDidDisappear(animated: Bool) {
-        self.videoPlayer = nil
-        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     func setupView() {
@@ -153,18 +144,15 @@ class SceneViewController: UIViewController {
     }
     
     @IBAction func previewSelection(sender: AnyObject) {
-        defer {
-            MediaController.sharedMediaController.preview = nil
-        }
-        
         MediaController.sharedMediaController.prepareMediaFor(scene: self.sceneNumber, movie: false, save: false)
         
-        if let preview = MediaController.sharedMediaController.preview {
-            self.videoPlayer = AVPlayer(playerItem: preview)
+        if let preview = MediaController.sharedMediaController.scenePreview {
+            self.vpVC.player = nil
+            let videoPlayer = AVPlayer(playerItem: preview)
             self.vpVC.player = videoPlayer
             vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.view.window?.rootViewController?.presentViewController(self.vpVC, animated: true, completion: nil)
+                self.presentViewController(self.vpVC, animated: true, completion: nil)
             })
         }
     }
