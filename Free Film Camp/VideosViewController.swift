@@ -119,15 +119,7 @@ class VideosViewController: UIViewController, UICollectionViewDataSource, UIColl
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! VideoLibraryCell
         manager.cancelImageRequest(PHImageRequestID(cell.tag))
         
-        var index: Int!
-        
-        if indexPath.row == 0 {
-            index = 0
-        } else {
-            index = indexPath.row - 1
-        }
-        
-        let video = videos[index]
+        let video = videos[indexPath.row]
         
         cell.tag = Int(manager.requestImageForAsset(video,
             targetSize: CGSize(width: 215, height: 136),
@@ -184,9 +176,9 @@ class VideosViewController: UIViewController, UICollectionViewDataSource, UIColl
         let itemTouched = gestureRecognizer.locationInView(self.collectionView)
         let indexPath = self.collectionView?.indexPathForItemAtPoint(itemTouched)
         
-        if indexPath?.row > 0 {
+        if indexPath?.row >= 0 {
              NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.toolViewDismissed, object: self)
-            let video = videos[(indexPath?.row)! - 1]
+            let video = videos[(indexPath?.row)!]
             
             manager.requestImageForAsset(video,
                 targetSize: CGSize(width: 215, height: 136),
@@ -212,15 +204,15 @@ class VideosViewController: UIViewController, UICollectionViewDataSource, UIColl
             print("DESTROYED")
             print(sender.tag)
             PHPhotoLibrary.sharedPhotoLibrary().performChanges({ () -> Void in
-                if self.videos[sender.tag - 1].canPerformEditOperation(PHAssetEditOperation.Delete){
-                    let target = self.videos[sender.tag - 1]
+                if self.videos[sender.tag].canPerformEditOperation(PHAssetEditOperation.Delete){
+                    let target = self.videos[sender.tag]
                     PHAssetChangeRequest.deleteAssets([target])
                     }
                 }, completionHandler: { (success, error) -> Void in
                     if success {
                         print("DESTROYED")
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.videos.removeAtIndex(sender.tag - 1)
+                        self.videos.removeAtIndex(sender.tag)
                         self.collectionView?.reloadData()
                     })
                         
