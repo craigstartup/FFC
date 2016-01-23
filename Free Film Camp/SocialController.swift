@@ -82,7 +82,7 @@ class SocialController {
         
         let videoURL = NSURL(string: "https://graph-video.facebook.com/me/videos")
         let movieData = NSData(contentsOfURL: movie)
-        let parameters = ["access_token": facebookAccount.credential.oauthToken, "title": "My Movie", "description":"Created with Digital Film Camp on iOS"]
+        let parameters = ["access_token": facebookAccount.credential.oauthToken, "title": "My Movie", "description":"Created with Film Camp on iOS"]
         
         let uploadRequest = SLRequest(
             forServiceType: SLServiceTypeFacebook,

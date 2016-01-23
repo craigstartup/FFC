@@ -83,8 +83,8 @@ class ProjectsViewController: UITableViewController {
         
         addProjectView.addAction(cancel)
         addProjectView.addAction(addNewProject1)
-        addProjectView.addAction(addNewProject2)
         addProjectView.addAction(addNewProject3)
+        addProjectView.addAction(addNewProject2)
         
         self.presentViewController(addProjectView, animated: true, completion: nil)
     }

@@ -69,7 +69,6 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
         
         self.tableView.delegate   = self
         self.tableView.dataSource = self
-        self.progressSwitch(on: false)
         
         self.getViewControllersForPages()
     }
