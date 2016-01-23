@@ -442,7 +442,7 @@
                                             <color key="titleColor" red="0.57254901960000004" green="0.57254901960000004" blue="0.57254901960000004" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
-                                        <state key="highlighted" image="Voiceover-Ripples-Icon"/>
+                                        <state key="selected" image="Voiceover-Ripples-Icon"/>
                                         <connections>
                                             <action selector="selectMedia:" destination="Rxg-ar-8Jr" eventType="touchUpInside" id="GaV-Hw-aed"/>
                                             <segue destination="t2l-7N-cdU" kind="presentation" identifier="sceneSelectingVoiceOverSegue" modalPresentationStyle="overFullScreen" id="bJ2-dg-x9E"/>
@@ -516,7 +516,7 @@
                                     <constraint firstAttribute="bottom" relation="lessThanOrEqual" secondItem="jAP-bU-Obn" secondAttribute="bottom" priority="750" constant="361" id="W19-Wm-Vy1"/>
                                     <constraint firstAttribute="trailing" secondItem="Zza-JB-Xud" secondAttribute="trailing" constant="15" id="aam-k4-3TD"/>
                                     <constraint firstItem="Zza-JB-Xud" firstAttribute="leading" secondItem="isG-7n-Zo2" secondAttribute="leading" constant="15" id="iWH-75-u8U"/>
-                                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="jAP-bU-Obn" secondAttribute="bottom" id="lqS-RV-iPk"/>
+                                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="jAP-bU-Obn" secondAttribute="bottom" constant="20" id="lqS-RV-iPk"/>
                                     <constraint firstAttribute="trailing" secondItem="bD9-Tr-f0X" secondAttribute="trailing" constant="15" id="re4-g9-CmE"/>
                                 </constraints>
                             </view>
@@ -713,8 +713,12 @@
                                     <segue destination="If4-1C-sto" kind="embed" id="kFq-No-4sO"/>
                                 </connections>
                             </containerView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="X09-Zg-YXs">
-                                <rect key="frame" x="290" y="290" width="20" height="20"/>
+                            <view alpha="0.34999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4n5-Fu-bLs" userLabel="Blocker">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="X09-Zg-YXs">
+                                <rect key="frame" x="282" y="281" width="37" height="37"/>
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.57254901960000004" green="0.57254901960000004" blue="0.57254901960000004" alpha="1" colorSpace="calibratedRGB"/>
@@ -731,22 +735,31 @@
                             <constraint firstItem="J6r-vB-KJz" firstAttribute="leading" secondItem="NFp-F1-DSb" secondAttribute="trailing" constant="100" id="WUX-9c-etc"/>
                             <constraint firstItem="X09-Zg-YXs" firstAttribute="centerY" secondItem="mSE-z2-Ciy" secondAttribute="centerY" id="Wbq-jD-rE2"/>
                             <constraint firstItem="J6r-vB-KJz" firstAttribute="top" secondItem="NFp-F1-DSb" secondAttribute="top" id="cwZ-8b-TzU"/>
+                            <constraint firstItem="J6r-vB-KJz" firstAttribute="leading" secondItem="4n5-Fu-bLs" secondAttribute="trailing" constant="33" id="dae-md-XSD"/>
                             <constraint firstItem="X09-Zg-YXs" firstAttribute="centerX" secondItem="mSE-z2-Ciy" secondAttribute="centerX" id="fdw-4b-7dZ"/>
+                            <constraint firstItem="4n5-Fu-bLs" firstAttribute="top" secondItem="Qny-YC-xRj" secondAttribute="bottom" id="iER-Qq-hUy"/>
+                            <constraint firstItem="WzA-Mv-cPQ" firstAttribute="top" secondItem="4n5-Fu-bLs" secondAttribute="bottom" id="idh-8I-Ser"/>
                             <constraint firstAttribute="bottomMargin" secondItem="NFp-F1-DSb" secondAttribute="bottom" id="oVF-ZS-qMQ"/>
+                            <constraint firstItem="4n5-Fu-bLs" firstAttribute="leading" secondItem="mSE-z2-Ciy" secondAttribute="leadingMargin" constant="-20" id="wfl-lb-dL9"/>
                             <constraint firstItem="NFp-F1-DSb" firstAttribute="height" secondItem="J6r-vB-KJz" secondAttribute="height" id="yOK-0J-5Q5"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="DZh-7X-CLG"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
+                        <outlet property="blockerView" destination="4n5-Fu-bLs" id="ffA-yV-IVJ"/>
                         <outlet property="savingProgress" destination="X09-Zg-YXs" id="td1-wE-F5P"/>
                         <outlet property="tableView" destination="hVs-EY-j9o" id="aNl-R3-kDz"/>
                         <outlet property="tableViewControllerView" destination="NFp-F1-DSb" id="dkV-xU-tAq"/>
                         <outlet property="toolViewContainer" destination="J6r-vB-KJz" id="e9X-bm-Me0"/>
                         <outletCollection property="buttons" destination="5y6-Ou-qt5" collectionClass="NSMutableArray" id="YWm-Ax-Upp"/>
                         <outletCollection property="buttons" destination="hAP-7c-QFO" collectionClass="NSMutableArray" id="J4f-zG-GSR"/>
-                        <outletCollection property="buttons" destination="ef7-TS-I84" collectionClass="NSMutableArray" id="qwn-w6-ipF"/>
-                        <outletCollection property="buttons" destination="RWq-0a-jkN" collectionClass="NSMutableArray" id="FwC-wR-Eak"/>
+                        <outletCollection property="buttonLabels" destination="rXE-f6-nAg" collectionClass="NSMutableArray" id="20e-oo-WfR"/>
+                        <outletCollection property="buttonLabels" destination="gVv-HA-EJo" collectionClass="NSMutableArray" id="9tz-a3-XJ4"/>
+                        <outletCollection property="buttonLabels" destination="fes-uc-CBg" collectionClass="NSMutableArray" id="ge7-AT-jai"/>
+                        <outletCollection property="buttonLabels" destination="JqL-cj-aJB" collectionClass="NSMutableArray" id="tLn-yb-zZK"/>
+                        <outletCollection property="buttons" destination="RWq-0a-jkN" collectionClass="NSMutableArray" id="igx-RU-mbH"/>
+                        <outletCollection property="buttons" destination="ef7-TS-I84" collectionClass="NSMutableArray" id="L65-SI-VFI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mKR-GH-JXH" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -964,8 +977,10 @@
                                     </button>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="eP9-Lk-G5R" firstAttribute="top" relation="greaterThanOrEqual" secondItem="DIK-V5-Pih" secondAttribute="bottom" constant="20" id="2PT-rJ-ZlT"/>
                                     <constraint firstItem="eP9-Lk-G5R" firstAttribute="centerY" secondItem="Z1J-1y-8ts" secondAttribute="centerY" id="Dll-gN-ima"/>
                                     <constraint firstItem="DIK-V5-Pih" firstAttribute="leading" secondItem="Z1J-1y-8ts" secondAttribute="leading" constant="15" id="Ke3-26-jeo"/>
+                                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="eP9-Lk-G5R" secondAttribute="bottom" constant="20" id="dkf-Te-74x"/>
                                     <constraint firstItem="eP9-Lk-G5R" firstAttribute="centerX" secondItem="Z1J-1y-8ts" secondAttribute="centerX" id="fRh-z5-y8E"/>
                                     <constraint firstItem="DIK-V5-Pih" firstAttribute="top" secondItem="Z1J-1y-8ts" secondAttribute="top" constant="18" id="pmG-of-0VX"/>
                                 </constraints>
@@ -999,7 +1014,7 @@
         <scene sceneID="148-iL-JcC">
             <objects>
                 <tableViewController storyboardIdentifier="projectsVC" title="Profiles" useStoryboardIdentifierAsRestorationIdentifier="YES" id="NSC-8O-mHG" userLabel="Projects" customClass="ProjectsViewController" customModule="Free_Film_Camp" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleAspectFit" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="63" sectionHeaderHeight="28" sectionFooterHeight="28" id="Cxy-JE-YPX">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleAspectFit" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="63" sectionHeaderHeight="28" sectionFooterHeight="28" id="Cxy-JE-YPX">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="533"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

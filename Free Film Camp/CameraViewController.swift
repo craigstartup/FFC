@@ -167,7 +167,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         recordButton.alpha = 0
         recordButton.enabled = false
         flipCameraButton.alpha = 0
-        flipCameraButton.userInteractionEnabled = false
+        flipCameraButton.enabled = false
         cancelButton.alpha = 0
         cancelButton.enabled = false
         
@@ -296,6 +296,8 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             self.recordButton.alpha = 1
             self.cancelButton.alpha = 1
             self.cancelButton.enabled = true
+            self.flipCameraButton.alpha = 1
+            self.flipCameraButton.enabled = true
         }
         self.recorded = true
         print("End recording")

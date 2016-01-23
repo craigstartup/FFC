@@ -13,9 +13,11 @@ import SwiftyDropbox
 
 class SelectionViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var toolViewContainer: UIView!
+    @IBOutlet weak var blockerView: UIView!
     @IBOutlet weak var tableViewControllerView: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet var buttons: Array<UIButton>!
+    @IBOutlet var buttonLabels: Array<UILabel>!
     @IBOutlet weak var savingProgress: UIActivityIndicatorView!
     
     var projectChanged = false
@@ -67,7 +69,7 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
         
         self.tableView.delegate   = self
         self.tableView.dataSource = self
-        self.savingProgress.alpha = 0
+        self.progressSwitch(on: false)
         
         self.getViewControllersForPages()
     }
@@ -154,6 +156,7 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
             object: nil)
         
         self.progressSwitch(on: true)
+        MediaController.sharedMediaController.prepareMediaFor(scene: nil, movie: true, save: false)
     }
     
     // MARK: Helper Methods
@@ -162,11 +165,13 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
             if on {
                 self.savingProgress.alpha = 1
                 self.savingProgress.startAnimating()
-                self.view.alpha = 0.6
+                self.blockerView.userInteractionEnabled = true
+                self.blockerView.alpha = 0.35
             } else {
                 self.savingProgress.stopAnimating()
                 self.savingProgress.alpha = 0
-                self.view.alpha = 1
+                self.blockerView.userInteractionEnabled = false
+                self.blockerView.alpha = 0
             }
         }
         
@@ -180,6 +185,10 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
             for button in self.buttons {
                 button.enabled = active
                 button.alpha = visibility
+            }
+            
+            for label in self.buttonLabels {
+                label.alpha = visibility
             }
         }
     }
@@ -319,7 +328,11 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func shotCalled(notification: NSNotification) {
         self.buttonsOn(on: false)
-        self.buttons.last!.alpha = 1
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            self.buttons![1].alpha = 1
+            self.buttons![1].enabled = true
+            self.buttonLabels![1].alpha = 1
+        }
     }
     
     func voiceoverCalled(notification: NSNotification) {

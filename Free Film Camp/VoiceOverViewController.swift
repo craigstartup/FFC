@@ -78,8 +78,10 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     
     override func viewDidAppear(animated: Bool) {
         // set up initial button states
-        playButton.enabled = false
-        playButton.alpha = 0.4
+        self.playButton.enabled = false
+        self.playButton.alpha = 0.4
+        self.doneButton.enabled = false
+        self.doneButton.alpha = 0.4
         
         if self.playerLayer.player!.currentItem != nil && self.playerLayer.player!.currentItem?.status == AVPlayerItemStatus.ReadyToPlay {
             recordButton.alpha = 1
@@ -232,10 +234,12 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     }
     
     func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
-        playButton.alpha = 1.0
-        playButton.enabled = true
-        recordButton.alpha = 1.0
-        recordButton.enabled = true
+        self.playButton.alpha = 1.0
+        self.playButton.enabled = true
+        self.recordButton.alpha = 1.0
+        self.recordButton.enabled = true
+        self.doneButton.alpha = 1
+        self.doneButton.enabled = true
     }
     
     func audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer, error: NSError?) {
