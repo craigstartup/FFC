@@ -80,7 +80,7 @@
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="na2-7t-mhh">
                                                 <rect key="frame" x="149" y="13" width="128" height="22"/>
-                                                <state key="normal" image="Mic-Icon">
+                                                <state key="normal" image="Voiceover-Mic-Icon">
                                                     <color key="titleColor" red="1" green="0.054037065269999997" blue="0.25342486240000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
                                                 <connections>
@@ -438,7 +438,7 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="49" id="E72-1o-gsY"/>
                                         </constraints>
-                                        <state key="normal" title="  Voiceover" image="Voiceover-Mic-Icon">
+                                        <state key="normal" title="  Voiceover" image="Mic-Icon">
                                             <color key="titleColor" red="0.57254901960000004" green="0.57254901960000004" blue="0.57254901960000004" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>

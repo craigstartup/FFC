@@ -49,21 +49,26 @@ class SocialController {
                 
                 if facebookAccounts.count > 0 {
                     print("GOT FACEBOOK ACCOUNT WRITE")
-                    MediaController.sharedMediaController.prepareMediaFor(scene: nil, movie: true, save: false)
+
                 }
             } else {
                 print("Facebook access denied.")
+                
                 if error != nil {
                     print(error.localizedDescription)
-                    NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.noSocialSetup, object: self)
                 }
+                
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.noSocialSetup, object: self)
+                })
             }
         }
     }
     
     func postMovieToFacebook(movie: NSURL) {
-        guard let facebookAccount = self.accounts.accountsWithAccountType(self.accountTypeFB)[0] as? ACAccount else {
+        guard let facebookAccount = self.accounts.accountsWithAccountType(self.accountTypeFB)?[0] as? ACAccount else {
             print("FACEBOOK ACCOUNT FAILED")
+            self.setupAccounts()
             return
         }
         

@@ -166,8 +166,6 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         // disable and hide buttons
         recordButton.alpha = 0
         recordButton.enabled = false
-        recordTimeButton.alpha = 0
-        recordTimeButton.userInteractionEnabled = false
         flipCameraButton.alpha = 0
         flipCameraButton.userInteractionEnabled = false
         cancelButton.alpha = 0

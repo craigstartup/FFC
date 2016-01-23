@@ -154,7 +154,6 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
             object: nil)
         
         self.progressSwitch(on: true)
-        MediaController.sharedMediaController.prepareMediaFor(scene: nil, movie: true, save: false)
     }
     
     // MARK: Helper Methods
@@ -220,7 +219,7 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
             
             self.facebookPost = true
             self.service = "Facebook"
-            self.socialSharing.setupAccounts()
+            MediaController.sharedMediaController.prepareMediaFor(scene: nil, movie: true, save: false)
         }
         let twitterAction = UIAlertAction(title: "Post to Twitter", style: .Default) { (action) -> Void in
             self.twitterPost = true
@@ -347,8 +346,6 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
         if self.facebookPost {
             self.socialSharing.postMovieToFacebook(videoURL)
             self.facebookPost = false
-        } else if self.twitterPost {
-            self.twitterPost = false
         } else if dropboxPost {
             MediaController.sharedMediaController.saveToDropBox(videoURL)
             self.dropboxPost = false
