@@ -16,7 +16,6 @@ class SocialController {
     
     init() {
         self.accountTypeFB = self.accounts.accountTypeWithAccountTypeIdentifier(ACAccountTypeIdentifierFacebook)
-        self.setupAccounts()
     }
     
     func setupAccounts() {
@@ -50,11 +49,13 @@ class SocialController {
                 
                 if facebookAccounts.count > 0 {
                     print("GOT FACEBOOK ACCOUNT WRITE")
+                    MediaController.sharedMediaController.prepareMediaFor(scene: nil, movie: true, save: false)
                 }
             } else {
                 print("Facebook access denied.")
                 if error != nil {
                     print(error.localizedDescription)
+                    NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.noSocialSetup, object: self)
                 }
             }
         }

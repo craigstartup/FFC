@@ -30,6 +30,7 @@ class MediaController {
         static let toolViewDismissed = "toolViewVanished"
         static let voiceoverCalled   = "voiceoverCalled"
         static let selectShotCalled  = "shotCalled"
+        static let noSocialSetup     = "setupFacebook"
     }
     
     enum Albums {
@@ -542,6 +543,7 @@ class MediaController {
                         NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.sharingComplete, object: self)
                     })
                 } else {
+                    
                     print(error!.description)
                 }
             }

@@ -20,7 +20,7 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     
     var projectChanged = false
     var cellClearedCount = 0
-    let defaultImage         = UIImage(named: "Add-Shot-Icon@")
+    let defaultImage         = UIImage(named: "Add Shot 1")
     let defaultVideoURL      = NSURL(string: "placeholder")
     let defaultVoiceOverFile = "placeholder"
 
@@ -202,16 +202,25 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
         let dropboxAction = UIAlertAction(title: "Save to Dropbox", style: .Default) { (action) -> Void in
             self.dropboxPost = true
             self.service = "Dropbox"
+            
             if Dropbox.authorizedClient == nil {
                 Dropbox.authorizeFromController(self)
+                self.progressSwitch(on: false)
             }
             
             MediaController.sharedMediaController.prepareMediaFor(scene: nil, movie: true, save: false)
+            
         }
         let facebookAction = UIAlertAction(title: "Post to Facebook", style: .Default) { (action) -> Void in
+            NSNotificationCenter.defaultCenter().addObserver(
+                self,
+                selector: "facebookSetupNeeded:",
+                name: MediaController.Notifications.noSocialSetup,
+                object: nil)
+            
             self.facebookPost = true
             self.service = "Facebook"
-            MediaController.sharedMediaController.prepareMediaFor(scene: nil, movie: true, save: false)
+            self.socialSharing.setupAccounts()
         }
         let twitterAction = UIAlertAction(title: "Post to Twitter", style: .Default) { (action) -> Void in
             self.twitterPost = true
@@ -291,8 +300,20 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
             }
     }
 
+    func facebookSetupNeeded(notifictaion: NSNotification) {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MediaController.Notifications.noSocialSetup, object: nil)
+        self.facebookPost = false
+        self.progressSwitch(on: false)
+        let facebookSetupAlert = UIAlertController(title: "Facebook Setup", message: "Please setup Facebook in your device settings and try again.", preferredStyle: .Alert)
+        let ok = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
+        facebookSetupAlert.addAction(ok)
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            self.presentViewController(facebookSetupAlert, animated: true, completion: nil)
+        }
+    }
+
     
-    // MARK: Buttons state
+    // MARK: Buttons state notification methods
     func viewWasDismissed(notification: NSNotification) {
         self.buttonsOn(on: true)
     }
@@ -351,6 +372,7 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
             self,
             name: MediaController.Notifications.sharingComplete,
             object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MediaController.Notifications.noSocialSetup, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(
             self,
             selector: "uploadComplete:",
