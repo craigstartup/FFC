@@ -17,19 +17,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Digital Film Camp" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XgE-aO-Pyb">
-                                <rect key="frame" x="38" y="227" width="524" height="145"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="60"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vwB-Rv-lfO">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="XgE-aO-Pyb" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="207" id="1Lx-8E-yEs"/>
-                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="XgE-aO-Pyb" secondAttribute="bottom" constant="228" id="Hbk-hy-PJc"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="XgE-aO-Pyb" secondAttribute="trailing" constant="18" id="bUi-Md-0sS"/>
-                            <constraint firstItem="XgE-aO-Pyb" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="18" id="uqJ-Vv-P13"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="vwB-Rv-lfO" secondAttribute="bottom" id="G1P-yL-Wag"/>
+                            <constraint firstItem="vwB-Rv-lfO" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="-20" id="UXw-1R-xbD"/>
+                            <constraint firstItem="vwB-Rv-lfO" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="topMargin" id="hbf-sS-m4J"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="vwB-Rv-lfO" secondAttribute="trailing" constant="-20" id="iT4-YQ-Vcb"/>
                         </constraints>
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>

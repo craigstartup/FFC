@@ -18,75 +18,66 @@ class ProjectsViewController: UITableViewController {
     
     // MARK: Action methods
     @IBAction func addProject(sender: UIBarButtonItem) {
+        // TODO: Present alert with text field. After text is entered for name, have that alert present an action sheet that sets project template.
+        
+        
         // Present an alert veiw with text box to enter new project name, confirm button and cancel button.
-        let addProjectView = UIAlertController(title: "Add Project", message: "Please enter a project name.", preferredStyle: .Alert)
+        let addProjectView = UIAlertController(title: "Project Type", message: "Please choose a project type.", preferredStyle: .ActionSheet)
         
         let addNewProject1 = UIAlertAction(title: "1 scene", style: .Default) { (_) -> Void in
             // Capture project name and store it in array to populate table view.
-            let projectTextField = addProjectView.textFields![0] as UITextField
-            self.projects!.append(projectTextField.text!)
-            NSUserDefaults.standardUserDefaults().setObject(self.projects, forKey: "projects")
-            NSUserDefaults.standardUserDefaults().setObject(projectTextField.text, forKey: "currentProject")
-            NSUserDefaults.standardUserDefaults().setObject(["intro":false,"music":false], forKey: projectTextField.text!)
-            NSUserDefaults.standardUserDefaults().synchronize()
-            // Add directory for project
-            self.createProjectDirectory(projectTextField.text)
-            MediaController.sharedMediaController.project = projectTextField.text!
+            NSUserDefaults.standardUserDefaults().setObject(["intro":false,"music":true], forKey: MediaController.sharedMediaController.project!)
             MediaController.sharedMediaController.numberOfScenes = 1
             self.tableView.reloadData()
         }
         
-        let addNewProject2 = UIAlertAction(title: "Intro, 3 Scenes & Music Track", style: .Default) { (_) -> Void in
+        let addNewProject2 = UIAlertAction(title: "3 Scenes", style: .Default) { (_) -> Void in
             // Capture project name and store it in array to populate table view.
-            let projectTextField = addProjectView.textFields![0] as UITextField
-            self.projects!.append(projectTextField.text!)
-            NSUserDefaults.standardUserDefaults().setObject(self.projects, forKey: "projects")
-            NSUserDefaults.standardUserDefaults().setObject(projectTextField.text, forKey: "currentProject")
-            NSUserDefaults.standardUserDefaults().setObject(["intro":true,"music":true], forKey: projectTextField.text!)
+            NSUserDefaults.standardUserDefaults().setObject(["intro":false,"music":true], forKey: MediaController.sharedMediaController.project!)
             NSUserDefaults.standardUserDefaults().synchronize()
-            // Add directory for project
-            self.createProjectDirectory(projectTextField.text)
-            MediaController.sharedMediaController.project = projectTextField.text!
             MediaController.sharedMediaController.numberOfScenes = 3
             self.tableView.reloadData()
         }
         
         let addNewProject3 = UIAlertAction(title: "Intro & 3 Scenes", style: .Default) { (_) -> Void in
             // Capture project name and store it in array to populate table view.
-            let projectTextField = addProjectView.textFields![0] as UITextField
+            NSUserDefaults.standardUserDefaults().setObject(["intro":true,"music":true], forKey: MediaController.sharedMediaController.project!)
+            NSUserDefaults.standardUserDefaults().synchronize()
+            MediaController.sharedMediaController.numberOfScenes = 3
+            self.tableView.reloadData()
+        }
+        
+        let nameProjectView = UIAlertController(title: "Name A New Project", message: "Please enter a project name.", preferredStyle: .Alert)
+        
+        let confirmName = UIAlertAction(title: "Yes", style: .Default) { (_) -> Void in
+            let projectTextField = nameProjectView.textFields![0] as UITextField
             self.projects!.append(projectTextField.text!)
             NSUserDefaults.standardUserDefaults().setObject(self.projects, forKey: "projects")
             NSUserDefaults.standardUserDefaults().setObject(projectTextField.text, forKey: "currentProject")
-            NSUserDefaults.standardUserDefaults().setObject(["intro":true,"music":false], forKey: projectTextField.text!)
             NSUserDefaults.standardUserDefaults().synchronize()
             // Add directory for project
             self.createProjectDirectory(projectTextField.text)
             MediaController.sharedMediaController.project = projectTextField.text!
-            MediaController.sharedMediaController.numberOfScenes = 3
-            
-            self.tableView.reloadData()
+            self.presentViewController(addProjectView, animated: true, completion: nil)
         }
         
-        addNewProject1.enabled = false
-        addNewProject2.enabled = false
-        addNewProject3.enabled = false
+        let cancelName = UIAlertAction(title: "No", style: .Destructive, handler: nil)
         
-        let cancel = UIAlertAction(title: "Cancel", style: .Destructive) { (_) -> Void in }
-        addProjectView.addTextFieldWithConfigurationHandler { (textField) -> Void in
+        nameProjectView.addTextFieldWithConfigurationHandler { (textField) -> Void in
             textField.placeholder = "Project Name"
             NSNotificationCenter.defaultCenter().addObserverForName(UITextFieldTextDidChangeNotification, object: textField, queue: NSOperationQueue.mainQueue(), usingBlock: { (notification) -> Void in
-                addNewProject1.enabled = textField.text != ""
-                addNewProject2.enabled = textField.text != ""
-                addNewProject3.enabled = textField.text != ""
+                confirmName.enabled = textField.text != ""
             })
         }
         
-        addProjectView.addAction(cancel)
-        addProjectView.addAction(addNewProject1)
-        addProjectView.addAction(addNewProject3)
-        addProjectView.addAction(addNewProject2)
+        nameProjectView.addAction(confirmName)
+        nameProjectView.addAction(cancelName)
         
-        self.presentViewController(addProjectView, animated: true, completion: nil)
+        addProjectView.addAction(addNewProject1)
+        addProjectView.addAction(addNewProject2)
+        addProjectView.addAction(addNewProject3)
+        
+        self.presentViewController(nameProjectView, animated: true, completion: nil)
     }
     
     // MARK: Table view methods
@@ -166,4 +157,6 @@ class ProjectsViewController: UITableViewController {
             print(directoryDestroyError.localizedDescription)
         }
     }
+    
+    // MARK: Alert Views
 }
