@@ -486,6 +486,7 @@
                                                 </connections>
                                             </button>
                                         </subviews>
+                                        <variation key="heightClass=compact-widthClass=compact" spacing="25"/>
                                     </stackView>
                                     <activityIndicatorView opaque="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="XiB-Hr-apA">
                                         <rect key="frame" x="0.0" y="0.0" width="37" height="37"/>

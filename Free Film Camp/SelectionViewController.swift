@@ -201,11 +201,13 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) -> Void in
             self.progressSwitch(on: false)
         }
+        
         let photosAction = UIAlertAction(title: "Save to Photos", style: .Default) { (action) -> Void in
             self.photosPost = true
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveFailed:", name: MediaController.Notifications.saveMovieFailed, object: nil)
             MediaController.sharedMediaController.prepareMediaFor(scene: nil, movie: true, save: true)
         }
+        
         let dropboxAction = UIAlertAction(title: "Save to Dropbox", style: .Default) { (action) -> Void in
             self.dropboxPost = true
             self.service = "Dropbox"
@@ -218,6 +220,7 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
             MediaController.sharedMediaController.prepareMediaFor(scene: nil, movie: true, save: false)
             
         }
+        
         let facebookAction = UIAlertAction(title: "Post to Facebook", style: .Default) { (action) -> Void in
             NSNotificationCenter.defaultCenter().addObserver(
                 self,
@@ -229,6 +232,7 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
             self.service = "Facebook"
             MediaController.sharedMediaController.prepareMediaFor(scene: nil, movie: true, save: false)
         }
+        
         let twitterAction = UIAlertAction(title: "Post to Twitter", style: .Default) { (action) -> Void in
             self.twitterPost = true
             self.service = "Twitter"
@@ -289,7 +293,7 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
         self.tableView.reloadData()
         
         UIView.animateWithDuration(0.6) { () -> Void in
-            self.toolViewContainer.frame.origin.x = self.toolViewContainer.frame.origin.x + 700
+            self.toolViewContainer.frame.origin.x = self.toolViewContainer.frame.origin.x + self.view.frame.width + 100
         }
     }
     

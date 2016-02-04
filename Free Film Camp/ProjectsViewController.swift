@@ -18,15 +18,16 @@ class ProjectsViewController: UITableViewController {
     
     // MARK: Action methods
     @IBAction func addProject(sender: UIBarButtonItem) {
-        // TODO: Present alert with text field. After text is entered for name, have that alert present an action sheet that sets project template.
-        
-        
         // Present an alert veiw with text box to enter new project name, confirm button and cancel button.
         let addProjectView = UIAlertController(title: "Project Type", message: "Please choose a project type.", preferredStyle: .ActionSheet)
+        
+        addProjectView.popoverPresentationController?.sourceView = self.view
+        addProjectView.popoverPresentationController?.sourceRect = self.view.bounds
         
         let addNewProject1 = UIAlertAction(title: "1 scene", style: .Default) { (_) -> Void in
             // Capture project name and store it in array to populate table view.
             NSUserDefaults.standardUserDefaults().setObject(["intro":false,"music":true], forKey: MediaController.sharedMediaController.project!)
+            NSUserDefaults.standardUserDefaults().synchronize()
             MediaController.sharedMediaController.numberOfScenes = 1
             self.tableView.reloadData()
         }
