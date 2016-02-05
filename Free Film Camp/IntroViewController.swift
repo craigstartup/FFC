@@ -45,10 +45,12 @@ class IntroViewController: UIViewController {
     func setButtons() {
         // TODO: Clean up logic.
         if self.intro == nil {
-            self.introButton.layer.borderWidth = 2
+            self.introButton.layer.borderWidth = 1
             self.introButton.layer.borderColor = UIColor.grayColor().CGColor
+            self.introLabel.setImage(UIImage(named: "Incomplete-Unselected"), forState: .Normal)
             self.introLabel.highlighted = false
         } else {
+            self.introLabel.setImage(UIImage(named: "Complete-Selected"), forState: .Highlighted)
             self.introLabel.highlighted = true
             self.introButton.setImage(self.intro.image, forState: .Normal)
             let video = AVURLAsset(URL: MediaController.sharedMediaController.getPathForFileInDocumentsDirectory(self.intro.video))
