@@ -116,7 +116,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         // setup preview for displaying what the camera sees
         preview = AVCaptureVideoPreviewLayer(session: videoCapture)
         self.cameraView.layer.addSublayer(preview)
-        }
+    }
     
     
     override func viewWillLayoutSubviews() {
@@ -126,7 +126,6 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         }
         
     }
-    
     
     override func viewWillAppear(animated: Bool) {
         MediaController.sharedMediaController.albumTitle = MediaController.Albums.shots
@@ -138,7 +137,6 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         videoCapture.startRunning()
     }
     
-    
     override func viewDidDisappear(animated: Bool) {
         self.pickingShot = false
         videoCapture.stopRunning()
@@ -149,16 +147,16 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         }
     }
     
-    
     func updateProgress() {
         self.progressBar.progress += 0.01
     }
     
-
+    // MARK: Action methods
     @IBAction func record(sender: AnyObject) {
         if camera.isFocusModeSupported(.Locked) {
             camera.focusMode = .Locked
         }
+        
         videoForFileOutput.maxRecordedDuration = maxVideoTime
         // set up progress view for recording time
         self.progressBar.alpha = 1
@@ -199,6 +197,82 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             }
         }
     }
+ 
+    @IBAction func cancelCamera(sender: AnyObject) {
+        if self.pickingShot && self.shots != nil {
+            let shotFetch = PHAsset.fetchAssetsInAssetCollection(self.shots.firstObject as! PHAssetCollection, options: nil)
+            self.video = shotFetch.firstObject as! PHAsset
+            let manager = PHImageManager()
+            manager.requestImageForAsset(self.video,
+                targetSize: CGSize(width: 215, height: 136),
+                contentMode: .AspectFill,
+                options: nil) { (result, _) -> Void in
+                    self.shotImage = result!
+            }
+            manager.requestAVAssetForVideo(self.video, options: nil) { (videoAsset, audioMix, info) -> Void in
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    if (videoAsset?.isKindOfClass(AVURLAsset) != nil) {
+                        let url = videoAsset as! AVURLAsset
+                        self.shotAsset = url
+                        self.performSegueWithIdentifier(self.segueToPerform, sender: self)
+                    }
+                })
+            }
+        } else {
+            if pickingShot {
+                self.performSegueWithIdentifier(self.segueToPerform, sender: self)
+            }
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
+    }
+    
+    @IBAction func flipCamera(sender: AnyObject) {
+        self.videoCapture.beginConfiguration()
+        
+        let currentVideoDevice = self.videoCapture.inputs.first as! AVCaptureDeviceInput
+        
+        for device in self.videoCapture.inputs {
+            self.videoCapture.removeInput(device as! AVCaptureInput)
+        }
+        
+        var newDevice: AVCaptureDevice!
+        let microphone = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeAudio)
+        
+        var videoInput: AVCaptureDeviceInput!
+        var audioInput: AVCaptureDeviceInput!
+        
+        if currentVideoDevice.device.position == AVCaptureDevicePosition.Back {
+            newDevice = self.selfieCam
+        } else if currentVideoDevice.device.position == AVCaptureDevicePosition.Front {
+            newDevice = self.camera
+        }
+        
+        do {
+            videoInput = try AVCaptureDeviceInput(device: newDevice)
+            
+        } catch let captureError as NSError {
+            print(captureError.localizedDescription)
+        }
+        videoCapture.addInput(videoInput)
+        
+        if self.segueToPerform != nil && self.segueToPerform == "introUnwind" {
+            
+            do {
+                audioInput = try AVCaptureDeviceInput(device: microphone)
+                
+            } catch let captureError as NSError {
+                print(captureError.localizedDescription)
+            }
+            videoCapture.addInput(audioInput)
+        }
+        self.videoCapture.commitConfiguration()
+    }
+    
+    @IBAction func recordTime(sender: AnyObject) {
+        
+        
+        
+    }
     
     // MARK: Output recording delegate methods
     func captureOutput(captureOutput: AVCaptureFileOutput!, didStartRecordingToOutputFileAtURL fileURL: NSURL!, fromConnections connections: [AnyObject]!) {
@@ -212,9 +286,11 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         self.progressBar.progress = 0.0
         self.progressBar.alpha = 0
         self.progress.invalidate()
+        
         if camera.isFocusModeSupported(.ContinuousAutoFocus) {
             camera.focusMode = .ContinuousAutoFocus
         }
+        
         // prepare cleanup function to reset recording file for next recording
         let currentBackgroundRecordingID = self.backgroundRecordingID
         self.backgroundRecordingID = UIBackgroundTaskInvalid
@@ -233,6 +309,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         
         // handle success or failure of previous recording
         var success = true
+        
         if (error != nil) {
             print("Did Finish Recording:",error.localizedDescription)
             success = error.userInfo[AVErrorRecordingSuccessfullyFinishedKey] as! Bool
@@ -299,85 +376,12 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             self.flipCameraButton.alpha = 1
             self.flipCameraButton.enabled = true
         }
+        
         self.recorded = true
         print("End recording")
     }
     
-    // MARK: Action methods
-    @IBAction func cancelCamera(sender: AnyObject) {
-        if self.pickingShot && self.shots != nil {
-            let shotFetch = PHAsset.fetchAssetsInAssetCollection(self.shots.firstObject as! PHAssetCollection, options: nil)
-            self.video = shotFetch.firstObject as! PHAsset
-            let manager = PHImageManager()
-            manager.requestImageForAsset(self.video,
-                targetSize: CGSize(width: 215, height: 136),
-                contentMode: .AspectFill,
-                options: nil) { (result, _) -> Void in
-                    self.shotImage = result!
-            }
-            manager.requestAVAssetForVideo(self.video, options: nil) { (videoAsset, audioMix, info) -> Void in
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    if (videoAsset?.isKindOfClass(AVURLAsset) != nil) {
-                        let url = videoAsset as! AVURLAsset
-                        self.shotAsset = url
-                        self.performSegueWithIdentifier(self.segueToPerform, sender: self)
-                    }
-                })
-            }
-        } else {
-            self.dismissViewControllerAnimated(true, completion: nil)
-        }
-    }
-    
-    
-    @IBAction func flipCamera(sender: AnyObject) {
-        self.videoCapture.beginConfiguration()
-        
-        let currentVideoDevice = self.videoCapture.inputs.first as! AVCaptureDeviceInput
-        
-        for device in self.videoCapture.inputs {
-            self.videoCapture.removeInput(device as! AVCaptureInput)
-        }
-        
-        var newDevice: AVCaptureDevice!
-        let microphone = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeAudio)
-        
-        var videoInput: AVCaptureDeviceInput!
-        var audioInput: AVCaptureDeviceInput!
-        
-        if currentVideoDevice.device.position == AVCaptureDevicePosition.Back {
-            newDevice = self.selfieCam
-        } else if currentVideoDevice.device.position == AVCaptureDevicePosition.Front {
-            newDevice = self.camera
-        }
-        
-        do {
-            videoInput = try AVCaptureDeviceInput(device: newDevice)
-            
-        } catch let captureError as NSError {
-            print(captureError.localizedDescription)
-        }
-        videoCapture.addInput(videoInput)
-        
-        if self.segueToPerform != nil && self.segueToPerform == "introUnwind" {
-            
-            do {
-                audioInput = try AVCaptureDeviceInput(device: microphone)
-                
-            } catch let captureError as NSError {
-                print(captureError.localizedDescription)
-            }
-            videoCapture.addInput(audioInput)
-        }
-        self.videoCapture.commitConfiguration()
-    }
-    
-    @IBAction func recordTime(sender: AnyObject) {
-        
-        
-        
-    }
-    
+    // MARK: Helper methods
     func orientationChanged(notificaton: NSNotification) {
         let device: UIDevice = notificaton.object as! UIDevice
         
@@ -411,12 +415,14 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         if segue.identifier == "cameraUnwindSegue" {
             let videosVC = segue.destinationViewController as! VideosViewController
             if self.shotAsset != nil && self.shotAsset != nil {
-            videosVC.videoAssetToPass = self.shotAsset.URL
-            videosVC.videoImageToPass = self.shotImage
+                videosVC.videoAssetToPass = self.shotAsset.URL
+                videosVC.videoImageToPass = self.shotImage
             }
         } else if segue.identifier == "introUnwind" {
             let introVC = segue.destinationViewController as! IntroViewController
-            introVC.getIntro()        }
+            introVC.getIntro()
+            introVC.setButtons()
+        }
     }
     
     // MARK: Path for shots going to photos framework

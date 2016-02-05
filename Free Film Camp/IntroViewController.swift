@@ -127,6 +127,6 @@ class IntroViewController: UIViewController {
     
     
     @IBAction func introUnwind(unwindSegue: UIStoryboardSegue) {
-        self.setButtons()
+    
     }
 }

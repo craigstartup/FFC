@@ -250,6 +250,8 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
 
     // MARK: Table view delegate methods
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print("View Controllers are = to:")
+        print(self.viewControllers.count)
         return self.viewControllers.count
     }
     
