@@ -354,7 +354,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                     cleanup()
                 }
             })
-        } else if success {
+        } else if success && segueToPerform == "introUnwind" {
             // Access stored intro.
             let videoPath = MediaController.sharedMediaController.getIntroShotSavePath()
             
@@ -414,7 +414,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "cameraUnwindSegue" {
             let videosVC = segue.destinationViewController as! VideosViewController
-            if self.shotAsset != nil && self.shotAsset != nil {
+            if self.shotAsset != nil {
                 videosVC.videoAssetToPass = self.shotAsset.URL
                 videosVC.videoImageToPass = self.shotImage
             }

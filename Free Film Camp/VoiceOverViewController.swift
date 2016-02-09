@@ -12,6 +12,7 @@ import Photos
 
 class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDelegate {
     
+    @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var recordButton: UIButton!
     @IBOutlet weak var playButton: UIButton!
@@ -138,6 +139,7 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     
     // MARK: Voiceover buttons.
     @IBAction func recordButtonPressed(sender: AnyObject) {
+        self.cancelButton.enabled = false
         // set up progress view for recording time
         self.progressBar.alpha = 1
         self.doneButton.enabled = false
