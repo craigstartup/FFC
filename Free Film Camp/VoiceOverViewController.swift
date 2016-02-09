@@ -16,7 +16,6 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var recordButton: UIButton!
     @IBOutlet weak var playButton: UIButton!
-    @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var videoPreviewLayer: UIView!
     
     var audioPlayer: AVAudioPlayer!
@@ -81,8 +80,6 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         // set up initial button states
         self.playButton.enabled = false
         self.playButton.alpha = 0.4
-        self.doneButton.enabled = false
-        self.doneButton.alpha = 0.4
         
         if self.playerLayer.player!.currentItem != nil && self.playerLayer.player!.currentItem?.status == AVPlayerItemStatus.ReadyToPlay {
             recordButton.alpha = 1
@@ -134,15 +131,32 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     
     @IBAction func cancelButtonPressed(sender: UIButton) {
         NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.toolViewDismissed, object: self)
-        self.dismissViewControllerAnimated(true, completion: nil)
+        if hasRecorded {
+            self.audioRecorder.stop()
+            
+            do {
+                try self.audioSession.setActive(false)
+            } catch let audioSessionError as NSError {
+                print(audioSessionError.localizedDescription)
+            }
+            
+            print(audioRecorder.url.absoluteURL)
+            
+            if hasRecorded {
+                self.audioAssetToPass = MediaController.sharedMediaController.getVoiceOverSavePath(self.audioSaveID)
+            }
+            
+            NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.toolViewDismissed, object: self)
+            self.performSegueWithIdentifier("sceneAudioSelectedSegue", sender: self)
+        } else {
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
     }
     
     // MARK: Voiceover buttons.
     @IBAction func recordButtonPressed(sender: AnyObject) {
-        self.cancelButton.enabled = false
         // set up progress view for recording time
         self.progressBar.alpha = 1
-        self.doneButton.enabled = false
         
         self.progress = NSTimer.scheduledTimerWithTimeInterval(
             0.009,
@@ -168,8 +182,6 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
             recordButton.alpha = 0.5
             playButton.enabled = false
             playButton.alpha = 0.4
-            doneButton.enabled = false
-            doneButton.alpha = 0.4
             self.audioRecorder.recordForDuration(9.0)
             self.playerLayer.player!.play()
         }
@@ -197,22 +209,7 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     }
     
     @IBAction func doneButtonPressed(sender: AnyObject) {
-        self.audioRecorder.stop()
         
-        do {
-            try self.audioSession.setActive(false)
-        } catch let audioSessionError as NSError {
-            print(audioSessionError.localizedDescription)
-        }
-        
-        print(audioRecorder.url.absoluteURL)
-    
-        if hasRecorded {
-            self.audioAssetToPass = MediaController.sharedMediaController.getVoiceOverSavePath(self.audioSaveID)
-        }
-        
-        NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.toolViewDismissed, object: self)
-        self.performSegueWithIdentifier("sceneAudioSelectedSegue", sender: self)
     }
     
     // get audio file
@@ -241,8 +238,6 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         self.playButton.enabled = true
         self.recordButton.alpha = 1.0
         self.recordButton.enabled = true
-        self.doneButton.alpha = 1
-        self.doneButton.enabled = true
     }
     
     func audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer, error: NSError?) {
@@ -255,8 +250,6 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         self.playButton.alpha = 1
         self.recordButton.enabled = true
         self.recordButton.alpha = 1
-        self.doneButton.enabled = true
-        self.doneButton.alpha = 1
     }
     
     func audioRecorderEncodeErrorDidOccur(recorder: AVAudioRecorder, error: NSError?) {
