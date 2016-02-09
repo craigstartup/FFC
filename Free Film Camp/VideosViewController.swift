@@ -252,6 +252,7 @@ class VideosViewController: UIViewController, UICollectionViewDataSource, UIColl
     }
     
     @IBAction func cameraUnwind(unwindSegue: UIStoryboardSegue) {
+        NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.toolViewDismissed, object: self)
         self.performSegueWithIdentifier(self.segueID, sender: self)
     }
     
