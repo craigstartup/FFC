@@ -73,9 +73,6 @@
                                                 <state key="normal" image="Voiceover-Mic-Icon">
                                                     <color key="titleColor" red="1" green="0.054037065269999997" blue="0.25342486240000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
-                                                <variation key="heightClass=compact-widthClass=regular" misplaced="YES">
-                                                    <rect key="frame" x="0.0" y="0.0" width="303" height="1"/>
-                                                </variation>
                                                 <connections>
                                                     <action selector="recordButtonPressed:" destination="t2l-7N-cdU" eventType="touchUpInside" id="kvA-g6-F5M"/>
                                                 </connections>
@@ -86,9 +83,6 @@
                                                 <state key="normal" image="Voiceover-Play">
                                                     <color key="titleColor" red="0.40000000600000002" green="1" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
-                                                <variation key="heightClass=compact-widthClass=regular" misplaced="YES">
-                                                    <rect key="frame" x="323" y="0.0" width="303" height="1"/>
-                                                </variation>
                                                 <connections>
                                                     <action selector="playButtonPressed:" destination="t2l-7N-cdU" eventType="touchUpInside" id="Crp-Uu-puV"/>
                                                 </connections>
@@ -1124,8 +1118,7 @@
                                                 <exclude reference="q62-Ic-Kz0"/>
                                             </mask>
                                         </variation>
-                                        <variation key="heightClass=compact-widthClass=regular" ambiguous="YES" misplaced="YES">
-                                            <rect key="frame" x="757" y="26" width="20" height="36"/>
+                                        <variation key="heightClass=compact-widthClass=regular">
                                             <mask key="constraints">
                                                 <include reference="Ay0-Cq-an2"/>
                                                 <include reference="q62-Ic-Kz0"/>
@@ -1135,66 +1128,45 @@
                                             <action selector="previewIntro:" destination="nf2-gJ-Z4I" eventType="touchUpInside" id="Q6Y-tu-3dP"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eP9-Lk-G5R" userLabel="Intro">
-                                        <rect key="frame" x="218" y="74" width="164" height="93"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="eP9-Lk-G5R" secondAttribute="height" multiplier="16:9" id="rac-4n-3Ju"/>
-                                        </constraints>
-                                        <state key="normal" image="Add Intro Shot"/>
-                                        <variation key="default">
-                                            <mask key="constraints">
-                                                <exclude reference="rac-4n-3Ju"/>
-                                            </mask>
-                                        </variation>
-                                        <variation key="heightClass=compact">
-                                            <mask key="constraints">
-                                                <include reference="rac-4n-3Ju"/>
-                                            </mask>
-                                        </variation>
-                                        <connections>
-                                            <action selector="selectIntro:" destination="nf2-gJ-Z4I" eventType="touchUpInside" id="upF-Vb-Rhb"/>
-                                            <segue destination="KtM-ME-n2y" kind="presentation" identifier="pickingIntroShot" modalPresentationStyle="overFullScreen" id="182-e7-4UI"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="DIK-V5-Pih" firstAttribute="leading" secondItem="Z1J-1y-8ts" secondAttribute="leadingMargin" constant="15" id="EUk-pG-yoi"/>
-                                    <constraint firstItem="eP9-Lk-G5R" firstAttribute="centerY" secondItem="Z1J-1y-8ts" secondAttribute="centerY" id="G4F-LV-6cm">
-                                        <variation key="heightClass=compact" constant="10.5"/>
-                                    </constraint>
                                     <constraint firstAttribute="trailingMargin" secondItem="W16-Di-TIk" secondAttribute="trailing" constant="15" id="KYM-uy-tfy"/>
                                     <constraint firstItem="W16-Di-TIk" firstAttribute="centerY" secondItem="DIK-V5-Pih" secondAttribute="centerY" id="Okd-rB-lRi"/>
                                     <constraint firstItem="DIK-V5-Pih" firstAttribute="leading" secondItem="Z1J-1y-8ts" secondAttribute="leadingMargin" constant="15" id="R17-NF-hIc"/>
                                     <constraint firstItem="DIK-V5-Pih" firstAttribute="top" secondItem="Z1J-1y-8ts" secondAttribute="top" constant="20" id="pmG-of-0VX"/>
-                                    <constraint firstItem="eP9-Lk-G5R" firstAttribute="centerX" secondItem="Z1J-1y-8ts" secondAttribute="centerX" id="z97-WL-oe6"/>
                                 </constraints>
                                 <variation key="default">
-                                    <mask key="subviews">
-                                        <exclude reference="eP9-Lk-G5R"/>
-                                    </mask>
                                     <mask key="constraints">
-                                        <exclude reference="G4F-LV-6cm"/>
-                                        <exclude reference="z97-WL-oe6"/>
                                         <exclude reference="R17-NF-hIc"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=compact">
-                                    <mask key="subviews">
-                                        <include reference="eP9-Lk-G5R"/>
-                                    </mask>
                                     <mask key="constraints">
-                                        <include reference="G4F-LV-6cm"/>
-                                        <include reference="z97-WL-oe6"/>
                                         <include reference="R17-NF-hIc"/>
                                     </mask>
                                 </variation>
                             </view>
+                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KIM-f2-ebl" userLabel="Intro">
+                                <rect key="frame" x="217" y="263" width="166" height="93"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="KIM-f2-ebl" secondAttribute="height" multiplier="16:9" id="6uE-oF-Bbm"/>
+                                    <constraint firstAttribute="height" constant="93" id="oeR-8I-4F9"/>
+                                </constraints>
+                                <state key="normal" image="Add Intro Shot"/>
+                                <connections>
+                                    <action selector="selectIntro:" destination="nf2-gJ-Z4I" eventType="touchUpInside" id="Fnp-b5-ruk"/>
+                                    <segue destination="KtM-ME-n2y" kind="presentation" identifier="pickingIntroShot" modalPresentationStyle="overFullScreen" id="ep1-Lp-XbT"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstItem="KIM-f2-ebl" firstAttribute="centerY" secondItem="nzh-pm-yPc" secondAttribute="centerY" constant="9.5" id="1Iw-y7-OWD"/>
                             <constraint firstItem="Z1J-1y-8ts" firstAttribute="top" secondItem="nzh-pm-yPc" secondAttribute="topMargin" id="D2S-mu-m63"/>
+                            <constraint firstItem="KIM-f2-ebl" firstAttribute="centerX" secondItem="nzh-pm-yPc" secondAttribute="centerX" id="Ov8-7A-xja"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Z1J-1y-8ts" secondAttribute="trailing" constant="-20" id="PCW-K9-K7l"/>
                             <constraint firstItem="Z1J-1y-8ts" firstAttribute="centerX" secondItem="nzh-pm-yPc" secondAttribute="centerX" id="ScE-IT-7Xz"/>
                             <constraint firstItem="jjP-cF-WOg" firstAttribute="top" secondItem="Z1J-1y-8ts" secondAttribute="bottom" id="TiR-j5-FJB"/>
@@ -1207,7 +1179,7 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
-                        <outlet property="introButton" destination="eP9-Lk-G5R" id="ex6-It-XGl"/>
+                        <outlet property="introButton" destination="KIM-f2-ebl" id="peZ-I5-41d"/>
                         <outlet property="introLabel" destination="DIK-V5-Pih" id="0Rq-MS-1Xc"/>
                     </connections>
                 </viewController>
@@ -1327,6 +1299,6 @@
         <image name="camera_reverse_btn_50 (1)" width="45" height="40"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="fKu-vX-FkU"/>
+        <segue reference="ep1-Lp-XbT"/>
     </inferredMetricsTieBreakers>
 </document>

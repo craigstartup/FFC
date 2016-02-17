@@ -14,7 +14,6 @@ class IntroViewController: UIViewController {
     // MARK: Outlets
     @IBOutlet weak var introLabel: UIButton!
     @IBOutlet weak var introButton: UIButton!
-    @IBOutlet weak var destroyIntroButton: UIButton!
     
     var intro: Intro!
     var index: Int!
@@ -75,12 +74,6 @@ class IntroViewController: UIViewController {
     
     // MARK: Actions
     @IBAction func selectIntro(sender: UIButton) {
-       self.intro = nil
-        MediaController.sharedMediaController.intro = nil
-    }
-    
-    
-    @IBAction func destroyIntro(sender: UIButton) {
         MediaController.sharedMediaController.intro = nil
         self.intro = nil
         do {
@@ -91,11 +84,8 @@ class IntroViewController: UIViewController {
         self.introButton.contentMode = .ScaleAspectFit
         self.introButton.contentVerticalAlignment = .Center
         self.introButton.setImage(UIImage(named: "Add-Shot-Icon@"), forState: UIControlState.Normal)
-        self.destroyIntroButton.alpha = 0
-        self.destroyIntroButton.enabled = false
         self.introButton.enabled = true
     }
-    
     
     @IBAction func previewIntro(sender: UIButton) {
         // TODO: Use Media CONTROLLER for preview
