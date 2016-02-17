@@ -112,10 +112,6 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         
         videoCapture.addOutput(videoPreviewOutput)
         videoCapture.addOutput(videoForFileOutput)
-        
-        // setup preview for displaying what the camera sees
-        preview = AVCaptureVideoPreviewLayer(session: videoCapture)
-        self.cameraView.layer.addSublayer(preview)
     }
     
     
@@ -124,7 +120,6 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         if preview.connection.supportsVideoOrientation {
             preview.connection.videoOrientation = AVCaptureVideoOrientation.LandscapeRight
         }
-        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -134,6 +129,10 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         if videoCaptureOutput.supportsVideoStabilization {
             videoCaptureOutput.preferredVideoStabilizationMode = .Auto
         }
+        
+        // setup preview for displaying what the camera sees
+        preview = AVCaptureVideoPreviewLayer(session: videoCapture)
+        self.cameraView.layer.addSublayer(preview)
         videoCapture.startRunning()
     }
     

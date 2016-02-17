@@ -30,6 +30,7 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
     var audioSaveID: String!
     var hasRecorded = false
     
+    // MARK: View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         // setup progress bar
@@ -92,6 +93,7 @@ class VoiceOverViewController: UIViewController, AVAudioPlayerDelegate, AVAudioR
         self.audioPlayer = nil
         self.audioRecorder = nil
     }
+    
     
     func setupPreview() {
         self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill

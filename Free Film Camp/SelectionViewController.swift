@@ -133,6 +133,10 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
         self.buttonsOn(on: false)
     }
     
+    @IBAction func cameraButtonPressed(sender: AnyObject) {
+        self.performSegueWithIdentifier("cameraSegue", sender: self)
+    }
+    
     @IBAction func shareButtonPressed(sender: UIButton) {
         self.progressSwitch(on: true)
         
