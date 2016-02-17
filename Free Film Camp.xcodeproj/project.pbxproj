@@ -10,8 +10,6 @@
 		8C0712EF1BE6D4F600CC909E /* SelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0712EE1BE6D4F600CC909E /* SelectionViewController.swift */; };
 		8C15610B1C32633A00EEAC14 /* Bumper-3-sec.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 8CB7F0501C325FB200078FBE /* Bumper-3-sec.mp4 */; };
 		8C302B251C52E8C600130AC6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8C302B241C52E8C600130AC6 /* Images.xcassets */; };
-		8C3FD0C61C3506AB00455E9A /* FVSoundWaveView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C3FD0C51C3506AB00455E9A /* FVSoundWaveView.m */; };
-		8C3FD0C91C350AC400455E9A /* UIView+Geometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C3FD0C81C350AC400455E9A /* UIView+Geometry.m */; };
 		8C41C5A01C292AD200CF446C /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C41C59F1C292AD200CF446C /* Launch Screen.storyboard */; };
 		8C42D08D1BEC115A00A5B718 /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C42D08C1BEC115A00A5B718 /* Scene.swift */; };
 		8C42D0911BEC80E500A5B718 /* MusicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C42D0901BEC80E500A5B718 /* MusicCell.swift */; };
@@ -67,10 +65,6 @@
 		8C0712EE1BE6D4F600CC909E /* SelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionViewController.swift; sourceTree = "<group>"; usesTabs = 0; };
 		8C302B241C52E8C600130AC6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		8C3FD0C31C3506A900455E9A /* Free Film Camp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Free Film Camp-Bridging-Header.h"; sourceTree = "<group>"; };
-		8C3FD0C41C3506AB00455E9A /* FVSoundWaveView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FVSoundWaveView.h; sourceTree = "<group>"; };
-		8C3FD0C51C3506AB00455E9A /* FVSoundWaveView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FVSoundWaveView.m; sourceTree = "<group>"; };
-		8C3FD0C71C350AC400455E9A /* UIView+Geometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Geometry.h"; sourceTree = "<group>"; };
-		8C3FD0C81C350AC400455E9A /* UIView+Geometry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Geometry.m"; sourceTree = "<group>"; };
 		8C41C59F1C292AD200CF446C /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		8C42D08C1BEC115A00A5B718 /* Scene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
 		8C42D0901BEC80E500A5B718 /* MusicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicCell.swift; sourceTree = "<group>"; };
@@ -205,17 +199,6 @@
 			name = "Custom Cells";
 			sourceTree = "<group>";
 		};
-		8C70AA451C4460AB00CD015B /* Sound Wave Generator */ = {
-			isa = PBXGroup;
-			children = (
-				8C3FD0C41C3506AB00455E9A /* FVSoundWaveView.h */,
-				8C3FD0C51C3506AB00455E9A /* FVSoundWaveView.m */,
-				8C3FD0C71C350AC400455E9A /* UIView+Geometry.h */,
-				8C3FD0C81C350AC400455E9A /* UIView+Geometry.m */,
-			);
-			name = "Sound Wave Generator";
-			sourceTree = "<group>";
-		};
 		8C79B6F61C7461AF0079F8AA /* Placeholders */ = {
 			isa = PBXGroup;
 			children = (
@@ -258,7 +241,6 @@
 		8CA57D661BC252EA0016762A /* Free Film Camp */ = {
 			isa = PBXGroup;
 			children = (
-				8C70AA451C4460AB00CD015B /* Sound Wave Generator */,
 				8CA57D9A1BC254C60016762A /* Controller */,
 				8CA57D991BC254BE0016762A /* Model */,
 				8CA57D981BC254B50016762A /* View */,
@@ -527,7 +509,6 @@
 				8C6E1B301BFA7ABB009F3E86 /* SceneViewController.swift in Sources */,
 				8C42D08D1BEC115A00A5B718 /* Scene.swift in Sources */,
 				8C70AA421C3B7AD700CD015B /* SelectionViewCell.swift in Sources */,
-				8C3FD0C91C350AC400455E9A /* UIView+Geometry.m in Sources */,
 				8CA57DA41BC49AE50016762A /* CameraViewController.swift in Sources */,
 				8CB7F04E1C31BC4A00078FBE /* SocialController.swift in Sources */,
 				8C498D9D1BFE4D6300468CF0 /* IntroViewController.swift in Sources */,
@@ -539,7 +520,6 @@
 				8CA57D681BC252EA0016762A /* AppDelegate.swift in Sources */,
 				8C5E51CD1BC7AD3B0028CBAA /* TheatreViewController.swift in Sources */,
 				8C0712EF1BE6D4F600CC909E /* SelectionViewController.swift in Sources */,
-				8C3FD0C61C3506AB00455E9A /* FVSoundWaveView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

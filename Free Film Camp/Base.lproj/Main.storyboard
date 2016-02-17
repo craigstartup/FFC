@@ -444,7 +444,7 @@
                     <connections>
                         <outlet property="collectionView" destination="BuV-Yb-RWh" id="PIc-tk-oSE"/>
                         <segue destination="Cx3-0g-WBt" kind="unwind" identifier="sceneShotSelectedSegue" unwindAction="sceneShotUnwindSegue:" id="C9Y-bj-Zos"/>
-                        <segue destination="Cx3-0g-WBt" kind="unwind" unwindAction="cameraUnwind:" id="KSu-8L-9yg"/>
+                        <segue destination="Cx3-0g-WBt" kind="unwind" identifier="cameraUnwindSegue" unwindAction="cameraUnwind:" id="KSu-8L-9yg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NKS-4a-Z36" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -468,7 +468,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bD9-Tr-f0X" userLabel="Preview">
-                                        <rect key="frame" x="557" y="18" width="20" height="36"/>
+                                        <rect key="frame" x="557" y="20" width="20" height="36"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="36" id="7q4-aK-Cxi"/>
                                             <constraint firstAttribute="height" constant="36" id="AnA-JE-Sya"/>
@@ -487,7 +487,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="4" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jAP-bU-Obn" userLabel="Record Voiceover">
-                                        <rect key="frame" x="23" y="187" width="554" height="52"/>
+                                        <rect key="frame" x="23" y="189" width="554" height="50"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="jAP-bU-Obn" secondAttribute="height" multiplier="554:49" id="eVb-0r-Q0B"/>
@@ -513,7 +513,7 @@
                                         </connections>
                                     </button>
                                     <stackView opaque="NO" contentMode="scaleAspectFit" distribution="fillEqually" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="Zza-JB-Xud">
-                                        <rect key="frame" x="23" y="74" width="554" height="93"/>
+                                        <rect key="frame" x="23" y="76" width="554" height="93"/>
                                         <subviews>
                                             <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qxs-2x-Cgo" userLabel="Shot 1">
                                                 <rect key="frame" x="0.0" y="0.0" width="165" height="93"/>
@@ -561,7 +561,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="37" height="37"/>
                                     </activityIndicatorView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bqD-cN-ENx">
-                                        <rect key="frame" x="23" y="18" width="98" height="36"/>
+                                        <rect key="frame" x="23" y="20" width="98" height="36"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="36" id="kpN-Mg-1KD"/>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="98" id="zud-ND-Wwt"/>
@@ -814,7 +814,7 @@
                                 <rect key="frame" x="633" y="0.0" width="533" height="600"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
-                                    <segue destination="If4-1C-sto" kind="embed" id="kFq-No-4sO"/>
+                                    <segue destination="If4-1C-sto" kind="embed" identifier="navSegue" id="kFq-No-4sO"/>
                                 </connections>
                             </containerView>
                             <view userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4n5-Fu-bLs" userLabel="Blocker">
@@ -895,7 +895,7 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="84b-Jz-5TI">
-                                            <rect key="frame" x="23" y="10" width="205" height="40"/>
+                                            <rect key="frame" x="23" y="12" width="205" height="36"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="205" id="KP7-xx-147"/>
                                             </constraints>
@@ -1085,7 +1085,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DIK-V5-Pih">
-                                        <rect key="frame" x="23" y="26" width="125" height="36"/>
+                                        <rect key="frame" x="23" y="20" width="125" height="36"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="36" id="4vg-gz-t5g"/>
                                             <constraint firstAttribute="height" constant="36" id="J0p-dS-hex"/>
@@ -1110,7 +1110,7 @@
                                         </variation>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W16-Di-TIk" userLabel="Preview">
-                                        <rect key="frame" x="557" y="26" width="20" height="36"/>
+                                        <rect key="frame" x="557" y="20" width="20" height="36"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="20" id="1BU-yO-OcR"/>
                                             <constraint firstAttribute="height" constant="36" id="Ay0-Cq-an2"/>
@@ -1139,7 +1139,6 @@
                                         <rect key="frame" x="218" y="74" width="164" height="93"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="93" id="cNb-0n-Vsk"/>
                                             <constraint firstAttribute="width" secondItem="eP9-Lk-G5R" secondAttribute="height" multiplier="16:9" id="rac-4n-3Ju"/>
                                         </constraints>
                                         <state key="normal" image="Add Intro Shot"/>
@@ -1175,9 +1174,9 @@
                                         <exclude reference="eP9-Lk-G5R"/>
                                     </mask>
                                     <mask key="constraints">
-                                        <exclude reference="R17-NF-hIc"/>
                                         <exclude reference="G4F-LV-6cm"/>
                                         <exclude reference="z97-WL-oe6"/>
+                                        <exclude reference="R17-NF-hIc"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=compact">
@@ -1185,9 +1184,9 @@
                                         <include reference="eP9-Lk-G5R"/>
                                     </mask>
                                     <mask key="constraints">
-                                        <include reference="R17-NF-hIc"/>
                                         <include reference="G4F-LV-6cm"/>
                                         <include reference="z97-WL-oe6"/>
+                                        <include reference="R17-NF-hIc"/>
                                     </mask>
                                 </variation>
                             </view>
@@ -1328,6 +1327,6 @@
         <image name="camera_reverse_btn_50 (1)" width="45" height="40"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="182-e7-4UI"/>
+        <segue reference="fKu-vX-FkU"/>
     </inferredMetricsTieBreakers>
 </document>
