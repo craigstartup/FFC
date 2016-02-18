@@ -10,8 +10,10 @@ import UIKit
 import Photos
 import AVKit
 
-class VideosViewController: UICollectionViewController, UIGestureRecognizerDelegate {
+class VideosViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate {
 
+    @IBOutlet weak var collectionView: UICollectionView!
+    
     let library = PHPhotoLibrary.sharedPhotoLibrary()
     let manager = PHImageManager.defaultManager()
     let vpVC = AVPlayerViewController()
@@ -25,27 +27,32 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
     var clipsAlbum: PHAssetCollection!
     let reuseIdentifier = "ClipCell"
     var videos = [PHAsset]()
-    
+
     // handle interaction
     var longPress: UILongPressGestureRecognizer!
     var tap: UITapGestureRecognizer!
     var timer: NSTimer!
     var longItem: CGPoint!
-    
+
     // handle logic based on presenting VC
     var segueID = "sceneShotSelectedSegue"
     var shotNumber: Int!
-    
+
     // pass back selected video and image
     var videoAssetToPass: NSURL!
     var initialEntry = true
     var videoImageToPass: UIImage!
-    
+
+    // Mark: View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.collectionView.delegate = self
+        self.collectionView.dataSource = self
+        
         // retrieve or creat clips album
         fetchOptions.predicate = NSPredicate(format: "title = %@", albumTitle)
-        clipsAlbumFetch = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: fetchOptions)
+        clipsAlbumFetch = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .AlbumRegular, options: fetchOptions)
         
         if let _: AnyObject = clipsAlbumFetch.firstObject {
             clipsAlbum = clipsAlbumFetch.firstObject as! PHAssetCollection
@@ -87,56 +94,62 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
         }
         
         self.videos = [PHAsset]()
+        
         if self.clipsAlbumVideosFetch != nil {
             clipsAlbumVideosFetch.enumerateObjectsUsingBlock { (object, _, _) in
                 if let asset = object as? PHAsset {
+                    
                     self.videos.append(asset)
                 }
             }
         }
-        
+        //self.setCollectionViewLayout()
         self.navigationController?.navigationBar.translucent = true
     }
     
+    // MARK: Collection view layout.
+    func setCollectionViewLayout() {
+        let nCells: CGFloat = 3
+        let layout = self.collectionView.collectionViewLayout as! UICollectionViewFlowLayout
+        let availableCellWidth = CGRectGetWidth(self.collectionView.frame)
+        let cellWidth = availableCellWidth / nCells
+        layout.itemSize = CGSizeMake(cellWidth, cellWidth)
+    }
+    
     // MARK: Collection view delegate methods
-    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if clipsAlbum.estimatedAssetCount > 0 {
-            return clipsAlbum.estimatedAssetCount + 1
-        } else {
-            return 1
-        }
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.videos.count
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize
-    {
-        return CGSizeMake((UIScreen.mainScreen().bounds.width-20)/3,136);
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        
+        let cellWidth = self.collectionView.bounds.width / 3
+        return CGSizeMake(cellWidth, cellWidth);
     }
     
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        if indexPath.item == 0 {
-            let cameraCell = collectionView.dequeueReusableCellWithReuseIdentifier("cameraCell", forIndexPath: indexPath)
-            return cameraCell
-        } else {
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! VideoLibraryCell
-            
-            if cell.tag != 0 {
-                manager.cancelImageRequest(PHImageRequestID(cell.tag))
-            }
-            let video = videos[indexPath.row - 1]
-            cell.tag = Int(manager.requestImageForAsset(video,
-                targetSize: CGSize(width: 215, height: 136),
-                contentMode: .AspectFill,
-                options: nil) { (result, _) -> Void in
-                    cell.imageView.image = result
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! VideoLibraryCell
+        manager.cancelImageRequest(PHImageRequestID(cell.tag))
+        
+        let video = videos[indexPath.row]
+        
+        cell.tag = Int(manager.requestImageForAsset(video,
+            targetSize: CGSize(width: 215, height: 136),
+            contentMode: .AspectFill,
+            options: nil) { (result, resultInfo) -> Void in
+                cell.imageView.image = result
             })
-            cell.destroyClipButton.tag = indexPath.row
-            cell.destroyClipButton.addTarget(self, action: "destroyClip:", forControlEvents: UIControlEvents.TouchUpInside)
-            return cell
-        }
+        
+        cell.destroyClipButton.tag = indexPath.row
+        cell.destroyClipButton.addTarget(self, action: "destroyClip:", forControlEvents: UIControlEvents.TouchUpInside)
+        return cell
     }
     
     // MARK: Media selection methods
     @IBAction func cancelSelection(sender: UIButton) {
+        NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.toolViewDismissed, object: self)
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -154,8 +167,8 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
     func endLongPress(timer: NSTimer!) {
         let indexPath = self.collectionView?.indexPathForItemAtPoint(self.longItem)
         var videoPlayer: AVPlayer!
-        if indexPath!.row > 0 {
-            let video = videos[(indexPath?.row)! - 1]
+        if indexPath?.row >= 0 {
+            let video = videos[(indexPath?.row)!]
             manager.requestPlayerItemForVideo(video, options: nil) { (playerItem, info) -> Void in
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     videoPlayer = AVPlayer(playerItem: playerItem!)
@@ -169,20 +182,25 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
     
     func handleTap(gestureRecognizer: UITapGestureRecognizer) {
         print("TAP")
+        
         if gestureRecognizer.state != UIGestureRecognizerState.Ended {
             return
         }
+        
         let itemTouched = gestureRecognizer.locationInView(self.collectionView)
         let indexPath = self.collectionView?.indexPathForItemAtPoint(itemTouched)
         
-        if indexPath?.row > 0 {
-            let video = videos[(indexPath?.row)! - 1]
+        if indexPath?.row >= 0 {
+             NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.toolViewDismissed, object: self)
+            let video = videos[(indexPath?.row)!]
+            
             manager.requestImageForAsset(video,
                 targetSize: CGSize(width: 215, height: 136),
                 contentMode: .AspectFill,
                 options: nil) { [unowned self] (result, _) -> Void in
                     self.videoImageToPass = result!
             }
+            
             manager.requestAVAssetForVideo(video, options: nil) { (videoAsset, audioMix, info) -> Void in
                 dispatch_async(dispatch_get_main_queue(), { [unowned self] () -> Void in
                     if (videoAsset?.isKindOfClass(AVURLAsset) != nil) {
@@ -200,15 +218,15 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
             print("DESTROYED")
             print(sender.tag)
             PHPhotoLibrary.sharedPhotoLibrary().performChanges({ () -> Void in
-                if self.videos[sender.tag - 1].canPerformEditOperation(PHAssetEditOperation.Delete){
-                    let target = self.videos[sender.tag - 1]
+                if self.videos[sender.tag].canPerformEditOperation(PHAssetEditOperation.Delete){
+                    let target = self.videos[sender.tag]
                     PHAssetChangeRequest.deleteAssets([target])
                     }
                 }, completionHandler: { (success, error) -> Void in
                     if success {
                         print("DESTROYED")
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.videos.removeAtIndex(sender.tag - 1)
+                        self.videos.removeAtIndex(sender.tag)
                         self.collectionView?.reloadData()
                     })
                         
@@ -234,6 +252,70 @@ class VideosViewController: UICollectionViewController, UIGestureRecognizerDeleg
     }
     
     @IBAction func cameraUnwind(unwindSegue: UIStoryboardSegue) {
+        NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.toolViewDismissed, object: self)
         self.performSegueWithIdentifier(self.segueID, sender: self)
     }
+    
+    // MARK: Photos observation
+//    func indexPathsFromIndexSet(indexSet: NSIndexSet) -> NSArray {
+//        let indexPaths = NSMutableArray()
+//        
+//        indexSet.enumerateIndexesUsingBlock { (indecie, stop) -> Void in
+//            let indexPath = NSIndexPath(forItem: indecie, inSection: 0)
+//            indexPaths.addObject(indexPath)
+//        }
+//        return indexPaths
+//    }
+    
+//    func photoLibraryDidChange(changeInstance: PHChange) {
+//        dispatch_async(dispatch_get_main_queue()) {
+//            if let collectionChanges = changeInstance.changeDetailsForFetchResult(self.clipsAlbumVideosFetch) {
+//                self.clipsAlbumVideosFetch = collectionChanges.fetchResultAfterChanges
+//                
+//                if collectionChanges.hasIncrementalChanges {
+//                    
+//                    // Get the changes as lists of index paths for updating the UI.
+//                    var removedPaths: [NSIndexPath]?
+//                    var insertedPaths: [NSIndexPath]?
+//                    var changedPaths: [NSIndexPath]?
+//                    
+//                    if let removed = collectionChanges.removedIndexes {
+//                        removedPaths = self.indexPathsFromIndexSet(removed) as? [NSIndexPath]
+//                    }
+//                    if let inserted = collectionChanges.insertedIndexes {
+//                        insertedPaths = self.indexPathsFromIndexSet(inserted) as? [NSIndexPath]
+//                    }
+//                    if let changed = collectionChanges.changedIndexes {
+//                        changedPaths = self.indexPathsFromIndexSet(changed) as? [NSIndexPath]
+//                    }
+//                    
+//                    // Tell the collection view to animate insertions/deletions/moves
+//                    // and to refresh any cells that have changed content.
+//                    self.collectionView.performBatchUpdates(
+//                        {
+//                            if (removedPaths != nil) {
+//                                self.collectionView.deleteItemsAtIndexPaths(removedPaths!)
+//                            }
+//                            if (insertedPaths != nil) {
+//                                self.collectionView.insertItemsAtIndexPaths(insertedPaths!)
+//                            }
+//                            if (changedPaths != nil) {
+//                                self.collectionView.reloadItemsAtIndexPaths(changedPaths!)
+//                            }
+//                            if (collectionChanges.hasMoves) {
+//                                collectionChanges.enumerateMovesWithBlock() { fromIndex, toIndex in
+//                                    let fromIndexPath = NSIndexPath(forItem: fromIndex, inSection: 0)
+//                                    let toIndexPath = NSIndexPath(forItem: toIndex, inSection: 0)
+//                                    self.collectionView.moveItemAtIndexPath(fromIndexPath, toIndexPath: toIndexPath)
+//                                }
+//                            }
+//                        }, completion: nil)
+//                } else {
+//                    // Detailed change information is not available;
+//                    // repopulate the UI from the current fetch result.
+//                    self.collectionView.reloadData()
+//                }
+//            }
+//        }
+//    }
 }

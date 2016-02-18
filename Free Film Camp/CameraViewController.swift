@@ -53,6 +53,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     var shotNumber: Int!
     var scene: String!
     var segueToPerform: String!
+    var recorded = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -111,11 +112,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         
         videoCapture.addOutput(videoPreviewOutput)
         videoCapture.addOutput(videoForFileOutput)
-        
-        // setup preview for displaying what the camera sees
-        preview = AVCaptureVideoPreviewLayer(session: videoCapture)
-        self.cameraView.layer.addSublayer(preview)
-        }
+    }
     
     
     override func viewWillLayoutSubviews() {
@@ -123,9 +120,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         if preview.connection.supportsVideoOrientation {
             preview.connection.videoOrientation = AVCaptureVideoOrientation.LandscapeRight
         }
-        
     }
-    
     
     override func viewWillAppear(animated: Bool) {
         MediaController.sharedMediaController.albumTitle = MediaController.Albums.shots
@@ -134,9 +129,12 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         if videoCaptureOutput.supportsVideoStabilization {
             videoCaptureOutput.preferredVideoStabilizationMode = .Auto
         }
+        
+        // setup preview for displaying what the camera sees
+        preview = AVCaptureVideoPreviewLayer(session: videoCapture)
+        self.cameraView.layer.addSublayer(preview)
         videoCapture.startRunning()
     }
-    
     
     override func viewDidDisappear(animated: Bool) {
         self.pickingShot = false
@@ -145,16 +143,16 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIDeviceOrientationDidChangeNotification, object: UIDevice.currentDevice())
     }
     
-    
     func updateProgress() {
         self.progressBar.progress += 0.01
     }
     
-
+    // MARK: Action methods
     @IBAction func record(sender: AnyObject) {
         if camera.isFocusModeSupported(.Locked) {
             camera.focusMode = .Locked
         }
+        
         videoForFileOutput.maxRecordedDuration = maxVideoTime
         // set up progress view for recording time
         self.progressBar.alpha = 1
@@ -162,10 +160,8 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         // disable and hide buttons
         recordButton.alpha = 0
         recordButton.enabled = false
-        recordTimeButton.alpha = 0
-        recordTimeButton.userInteractionEnabled = false
         flipCameraButton.alpha = 0
-        flipCameraButton.userInteractionEnabled = false
+        flipCameraButton.enabled = false
         cancelButton.alpha = 0
         cancelButton.enabled = false
         
@@ -197,109 +193,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             }
         }
     }
-    
-    // MARK: Output recording delegate methods
-    func captureOutput(captureOutput: AVCaptureFileOutput!, didStartRecordingToOutputFileAtURL fileURL: NSURL!, fromConnections connections: [AnyObject]!) {
-        
-        print("Recording")
-    }
-    
-    
-    func captureOutput(captureOutput: AVCaptureFileOutput!, didFinishRecordingToOutputFileAtURL outputFileURL: NSURL!, fromConnections connections: [AnyObject]!, error: NSError!) {
-        // reset progress
-        self.progressBar.progress = 0.0
-        self.progressBar.alpha = 0
-        self.progress.invalidate()
-        if camera.isFocusModeSupported(.ContinuousAutoFocus) {
-            camera.focusMode = .ContinuousAutoFocus
-        }
-        // prepare cleanup function to reset recording file for next recording
-        let currentBackgroundRecordingID = self.backgroundRecordingID
-        self.backgroundRecordingID = UIBackgroundTaskInvalid
-        
-        let cleanup: dispatch_block_t = { () -> Void in
-            do {
-                try NSFileManager.defaultManager().removeItemAtURL(outputFileURL)
-            } catch let fileError as NSError {
-                print(fileError.localizedDescription)
-            }
-            
-            if currentBackgroundRecordingID != UIBackgroundTaskInvalid {
-                UIApplication.sharedApplication().endBackgroundTask(currentBackgroundRecordingID)
-            }
-        }
-        
-        // handle success or failure of previous recording
-        var success = true
-        if (error != nil) {
-            print("Did Finish Recording:",error.localizedDescription)
-            success = error.userInfo[AVErrorRecordingSuccessfullyFinishedKey] as! Bool
-        }
-        
-        // save file to Photos.
-        if success && self.segueToPerform != "introUnwind" {
-            // check if authorized to save to photos
-            PHPhotoLibrary.requestAuthorization({ (status:PHAuthorizationStatus) -> Void in
-                if status == PHAuthorizationStatus.Authorized {
-                    // move movie to Photos library
-                    PHPhotoLibrary.sharedPhotoLibrary().performChanges({ () -> Void in
-                        let options = PHAssetResourceCreationOptions()
-                        options.shouldMoveFile = true
-                        let photosChangeRequest = PHAssetCreationRequest.creationRequestForAsset()
-                        photosChangeRequest.addResourceWithType(PHAssetResourceType.Video, fileURL: outputFileURL, options: options)
-                        self.newClip = photosChangeRequest.placeholderForCreatedAsset
-                        }, completionHandler: { (success: Bool, error: NSError?) -> Void in
-                            if !success {
-                                print("Failed to save to photos: %@", error?.localizedDescription)
-                                cleanup()
-                            }
-                    })
-                    
-                    // save movie to correct album
-                    PHPhotoLibrary.sharedPhotoLibrary().performChanges({ () -> Void in
-                        
-                        // add to Free Film Camp album
-                        let fetchOptions = PHFetchOptions()
-                        fetchOptions.predicate = NSPredicate(format: "title = %@", self.toAlbumTitle)
-                        let album: PHFetchResult = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: fetchOptions)
-                        let albumCollection = album.firstObject as! PHAssetCollection
-                        let albumChangeRequest = PHAssetCollectionChangeRequest(forAssetCollection: albumCollection, assets: album)
-                        albumChangeRequest?.addAssets([self.newClip])
-                        self.shots = album
-                        }, completionHandler: { (success: Bool, error: NSError?) -> Void in
-                            if !success {
-                                print("Failed to add photo to album: %@", error?.localizedDescription)
-                            }
-                    })
-                } else {
-                    cleanup()
-                }
-            })
-        } else if success {
-            // Access stored intro.
-            let videoPath = MediaController.sharedMediaController.getIntroShotSavePath()
-            
-            if NSFileManager.defaultManager().fileExistsAtPath(videoPath.path!) {
-                // print("IntroFILE!!!!!!!!!!!!!!!!\(videoPath)")
-            } else {
-                // print("IntroFUCK!!!!!!!!!!!\(videoPath)")
-            }
-            MediaController.sharedMediaController.intro = Intro(video: videoPath.lastPathComponent, image: nil)
-            MediaController.sharedMediaController.saveIntro()
-        }
-        
-        // re-enable camera button for new recording
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
-            self.recordButton.enabled = true
-            self.recordButton.alpha = 1
-            self.cancelButton.alpha = 1
-            self.cancelButton.enabled = true
-        }
-        self.cancelButton.setImage(UIImage(named: "Check"), forState: UIControlState.Normal)
-        print("End recording")
-    }
-    
-    // MARK: Action methods
+ 
     @IBAction func cancelCamera(sender: AnyObject) {
         if self.pickingShot && self.shots != nil {
             let shotFetch = PHAsset.fetchAssetsInAssetCollection(self.shots.firstObject as! PHAssetCollection, options: nil)
@@ -327,7 +221,6 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             self.dismissViewControllerAnimated(true, completion: nil)
         }
     }
-    
     
     @IBAction func flipCamera(sender: AnyObject) {
         self.videoCapture.beginConfiguration()
@@ -377,6 +270,114 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         
     }
     
+    // MARK: Output recording delegate methods
+    func captureOutput(captureOutput: AVCaptureFileOutput!, didStartRecordingToOutputFileAtURL fileURL: NSURL!, fromConnections connections: [AnyObject]!) {
+        
+        print("Recording")
+    }
+    
+    
+    func captureOutput(captureOutput: AVCaptureFileOutput!, didFinishRecordingToOutputFileAtURL outputFileURL: NSURL!, fromConnections connections: [AnyObject]!, error: NSError!) {
+        // reset progress
+        self.progressBar.progress = 0.0
+        self.progressBar.alpha = 0
+        self.progress.invalidate()
+        
+        if camera.isFocusModeSupported(.ContinuousAutoFocus) {
+            camera.focusMode = .ContinuousAutoFocus
+        }
+        
+        // prepare cleanup function to reset recording file for next recording
+        let currentBackgroundRecordingID = self.backgroundRecordingID
+        self.backgroundRecordingID = UIBackgroundTaskInvalid
+        
+        let cleanup: dispatch_block_t = { () -> Void in
+            do {
+                try NSFileManager.defaultManager().removeItemAtURL(outputFileURL)
+            } catch let fileError as NSError {
+                print(fileError.localizedDescription)
+            }
+            
+            if currentBackgroundRecordingID != UIBackgroundTaskInvalid {
+                UIApplication.sharedApplication().endBackgroundTask(currentBackgroundRecordingID)
+            }
+        }
+        
+        // handle success or failure of previous recording
+        var success = true
+        
+        if (error != nil) {
+            print("Did Finish Recording:",error.localizedDescription)
+            success = error.userInfo[AVErrorRecordingSuccessfullyFinishedKey] as! Bool
+        }
+        
+        // save file to Photos.
+        if success && self.segueToPerform != "introUnwind" {
+            // check if authorized to save to photos
+            PHPhotoLibrary.requestAuthorization({ (status:PHAuthorizationStatus) -> Void in
+                if status == PHAuthorizationStatus.Authorized {
+                    // move movie to Photos library
+                    PHPhotoLibrary.sharedPhotoLibrary().performChanges({ () -> Void in
+                        let options = PHAssetResourceCreationOptions()
+                        options.shouldMoveFile = true
+                        let photosChangeRequest = PHAssetCreationRequest.creationRequestForAsset()
+                        photosChangeRequest.addResourceWithType(PHAssetResourceType.Video, fileURL: outputFileURL, options: options)
+                        self.newClip = photosChangeRequest.placeholderForCreatedAsset
+                        }, completionHandler: { (success: Bool, error: NSError?) -> Void in
+                            if !success {
+                                print("Failed to save to photos: %@", error?.localizedDescription)
+                                cleanup()
+                            }
+                    })
+                    
+                    // save movie to correct album
+                    PHPhotoLibrary.sharedPhotoLibrary().performChanges({ () -> Void in
+                        
+                        // add to Free Film Camp album
+                        let fetchOptions = PHFetchOptions()
+                        fetchOptions.predicate = NSPredicate(format: "title = %@", self.toAlbumTitle)
+                        let album: PHFetchResult = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: fetchOptions)
+                        let albumCollection = album.firstObject as! PHAssetCollection
+                        let albumChangeRequest = PHAssetCollectionChangeRequest(forAssetCollection: albumCollection, assets: album)
+                        albumChangeRequest?.addAssets([self.newClip])
+                        self.shots = album
+                        }, completionHandler: { (success: Bool, error: NSError?) -> Void in
+                            if !success {
+                                print("Failed to add photo to album: %@", error?.localizedDescription)
+                            }
+                    })
+                } else {
+                    cleanup()
+                }
+            })
+        } else if success && segueToPerform == "introUnwind" {
+            // Access stored intro.
+            let videoPath = MediaController.sharedMediaController.getIntroShotSavePath()
+            
+            if NSFileManager.defaultManager().fileExistsAtPath(videoPath.path!) {
+                // print("IntroFILE!!!!!!!!!!!!!!!!\(videoPath)")
+            } else {
+                // print("IntroFUCK!!!!!!!!!!!\(videoPath)")
+            }
+            MediaController.sharedMediaController.intro = Intro(video: videoPath.lastPathComponent, image: nil)
+            MediaController.sharedMediaController.saveIntro()
+        }
+        
+        // re-enable camera button for new recording
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            self.recordButton.enabled = true
+            self.recordButton.alpha = 1
+            self.cancelButton.alpha = 1
+            self.cancelButton.enabled = true
+            self.flipCameraButton.alpha = 1
+            self.flipCameraButton.enabled = true
+        }
+        
+        self.recorded = true
+        print("End recording")
+    }
+    
+    // MARK: Helper methods
     func orientationChanged(notificaton: NSNotification) {
         let device: UIDevice = notificaton.object as! UIDevice
         
@@ -409,13 +410,15 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "cameraUnwindSegue" {
             let videosVC = segue.destinationViewController as! VideosViewController
-            if self.shotAsset != nil && self.shotAsset != nil {
-            videosVC.videoAssetToPass = self.shotAsset.URL
-            videosVC.videoImageToPass = self.shotImage
+            if self.shotAsset != nil {
+                videosVC.videoAssetToPass = self.shotAsset.URL
+                videosVC.videoImageToPass = self.shotImage
             }
         } else if segue.identifier == "introUnwind" {
             let introVC = segue.destinationViewController as! IntroViewController
-            introVC.getIntro()        }
+            introVC.getIntro()
+            introVC.setButtons()
+        }
     }
     
     // MARK: Path for shots going to photos framework

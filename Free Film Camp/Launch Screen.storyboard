@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" initialViewController="01J-lp-oVM">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -17,16 +17,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Image" translatesAutoresizingMaskIntoConstraints="NO" id="DbE-AS-DHF">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="02_scene-builder-single-scene" translatesAutoresizingMaskIntoConstraints="NO" id="vwB-Rv-lfO">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="DbE-AS-DHF" secondAttribute="bottom" id="8NS-8B-Swe"/>
-                            <constraint firstItem="DbE-AS-DHF" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="topMargin" id="B6y-fr-OHY"/>
-                            <constraint firstItem="DbE-AS-DHF" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="-20" id="C71-ke-OcY"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="DbE-AS-DHF" secondAttribute="trailing" constant="-20" id="EXz-XG-zQg"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="vwB-Rv-lfO" secondAttribute="bottom" id="G1P-yL-Wag"/>
+                            <constraint firstItem="vwB-Rv-lfO" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="-20" id="UXw-1R-xbD"/>
+                            <constraint firstItem="vwB-Rv-lfO" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="topMargin" id="hbf-sS-m4J"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="vwB-Rv-lfO" secondAttribute="trailing" constant="-20" id="iT4-YQ-Vcb"/>
                         </constraints>
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
@@ -37,6 +37,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Image" width="2208" height="1242"/>
+        <image name="02_scene-builder-single-scene" width="1334" height="750"/>
     </resources>
 </document>

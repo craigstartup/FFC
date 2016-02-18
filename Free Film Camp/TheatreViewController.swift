@@ -67,7 +67,6 @@ class TheatreViewController: UICollectionViewController {
     }
     
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
         return clipsAlbum.estimatedAssetCount
     }
     
@@ -96,10 +95,9 @@ class TheatreViewController: UICollectionViewController {
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
 
         let video = videos[(indexPath.row)]
+        
         manager.requestPlayerItemForVideo(video, options: nil) { (playerItem, info) -> Void in
-            
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                
                 let videoPlayer = AVPlayer(playerItem: playerItem!)
                 self.vpVC.player = videoPlayer
                 self.presentViewController(self.vpVC, animated: true, completion: nil)
