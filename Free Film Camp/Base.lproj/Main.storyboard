@@ -202,9 +202,9 @@
                                 </constraints>
                             </imageView>
                             <progressView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="2e3-6R-qjb">
-                                <rect key="frame" x="20" y="578" width="560" height="2"/>
+                                <rect key="frame" x="90" y="558" width="420" height="2"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="560" id="X9n-Qm-q04"/>
+                                    <constraint firstAttribute="width" constant="420" id="X9n-Qm-q04"/>
                                 </constraints>
                                 <color key="progressTintColor" red="1" green="0.054037065269999997" blue="0.25342486240000001" alpha="1" colorSpace="calibratedRGB"/>
                             </progressView>
@@ -216,7 +216,7 @@
                             <constraint firstItem="LUE-oc-VoD" firstAttribute="leading" secondItem="Peq-8Z-zMT" secondAttribute="leadingMargin" constant="10" id="9St-i5-aZh"/>
                             <constraint firstAttribute="trailingMargin" secondItem="QZ9-xt-Jb3" secondAttribute="trailing" constant="-20" id="B3L-33-IEe"/>
                             <constraint firstItem="wmB-a5-e8R" firstAttribute="centerY" secondItem="Peq-8Z-zMT" secondAttribute="centerY" id="CJr-pN-wbd"/>
-                            <constraint firstItem="D3s-mU-XgP" firstAttribute="top" secondItem="2e3-6R-qjb" secondAttribute="bottom" constant="20" id="GNp-3B-iDM"/>
+                            <constraint firstItem="D3s-mU-XgP" firstAttribute="top" secondItem="2e3-6R-qjb" secondAttribute="bottom" constant="40" id="GNp-3B-iDM"/>
                             <constraint firstAttribute="trailingMargin" secondItem="6fx-vh-WYk" secondAttribute="trailing" constant="-20" id="HhU-Qe-L7g"/>
                             <constraint firstItem="QZ9-xt-Jb3" firstAttribute="top" secondItem="BG8-UZ-oCb" secondAttribute="bottom" id="JGK-Wt-PPK"/>
                             <constraint firstItem="6fx-vh-WYk" firstAttribute="centerY" secondItem="Peq-8Z-zMT" secondAttribute="centerY" id="JSc-gA-D0j"/>

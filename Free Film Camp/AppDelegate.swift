@@ -36,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Create user projects name storage.
         if let _ = NSUserDefaults.standardUserDefaults().arrayForKey("projects") {
         } else {
-            let currentProject = "Video Maker"
+            let currentProject = "Default Project"
             let projects = [currentProject]
             NSUserDefaults.standardUserDefaults().setObject(projects, forKey: "projects")
             NSUserDefaults.standardUserDefaults().setObject(currentProject, forKey: "currentProject")
