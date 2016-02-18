@@ -14,7 +14,6 @@ import AVKit
 import SwiftyDropbox
 
 class MediaController {
-    
     enum Notifications {
         static let audioExportStart  = "audioExportBegan"
         static let audioExportFinish = "audioExportComplete"
@@ -23,8 +22,15 @@ class MediaController {
         static let saveMovieFinished = "saveMovieComplete"
         static let saveMovieFailed   = "saveMovieFailed"
         static let previewReady      = "previewPrepped"
-        static let dropBoxUpFinish   = "dropBoxUploadComplete"
-        static let dropBoxFail       = "dropBoxFailure"
+        static let uploadComplete    = "uploadComplete"
+        static let uploadFailed      = "uploadFailure"
+        static let movieReady        = "movieReady"
+        static let sharingComplete   = "sharedMovie"
+        static let projectSelected   = "projectSelected"
+        static let toolViewDismissed = "toolViewVanished"
+        static let voiceoverCalled   = "voiceoverCalled"
+        static let selectShotCalled  = "shotCalled"
+        static let noSocialSetup     = "setupFacebook"
     }
     
     enum Albums {
@@ -38,26 +44,33 @@ class MediaController {
     
     var albumTitle: String!
     var project = NSUserDefaults.standardUserDefaults().stringForKey("currentProject")
+    var numberOfScenes = 1
+    var movieEnds: [String:Bool]!
     let library = PHPhotoLibrary.sharedPhotoLibrary()
+    let vpVC = AVPlayerViewController()
     
     // Media components
     var scenes: [Scene]!
     var intro: Intro!
     var musicTrack: AVURLAsset!
     var preview: AVPlayerItem!
+    var movieToShare: NSURL!
     
     var dropboxIsLoading = false
+    var lastPreview: String!
+    var lastVoiceover: String!
 
     // place holder for scene
     var newScene: PHObjectPlaceholder!
     
     // MARK: Media methods
-    func prepareMedia(intro intro: Bool, media: [Scene]!, movie: Bool, save: Bool) {
+    func prepareMediaFor(scene scene: Int!, movie: Bool, save: Bool) {
+        self.preview = nil
         // Exactract and assemble media assets
         var videoAssets = [AVURLAsset]()
         var voiceOverAssets = [AVURLAsset]()
         
-        if intro && self.intro != nil {
+        if self.intro != nil && movie {
             // Intro has audio and video tracks. Append it to both assets arrays.
             let introPath = self.getPathForFileInDocumentsDirectory(self.intro.video)
             let introVideo = AVURLAsset(URL: introPath)
@@ -65,9 +78,18 @@ class MediaController {
             voiceOverAssets.append(introVideo)
         }
         
+        var scenes: [Scene]!
+        
+        if scene != nil && !movie {
+            scenes = [self.scenes[scene]]
+        } else if movie && scene == nil {
+            scenes = self.scenes
+        } else {
+            return print("Scene || Movie!!")
+        }
         // TODO: Check assets and post notification for what is missing.
-        if media != nil {
-            for scene in media {
+        if scenes != nil {
+            for scene in scenes {
                 for video in scene.shotVideos {
                     let videoAsset = AVURLAsset(URL: video)
                     
@@ -87,7 +109,8 @@ class MediaController {
         
         // If movie, prepare voiceover, prepend intro and append bumper to video array
         if movie {
-            let bumper = AVURLAsset(URL: NSBundle.mainBundle().URLForResource("Bumper_3 sec", withExtension: "mp4")!)
+            let bumperPath = NSBundle.mainBundle().URLForResource("Bumper-3-sec", withExtension: "mp4")
+            let bumper = AVURLAsset(URL: bumperPath!)
             videoAssets.append(bumper)
             
             guard !voiceOverAssets.isEmpty else {
@@ -100,7 +123,6 @@ class MediaController {
             self.composeMedia(videoAssets, voiceOverAssets: voiceOverAssets, movieVoiceOver: nil, movie: movie, save: save)
         }
     }
-    
     
     func getMovieVoiceOver(voiceOvers: [AVURLAsset], videoAssets: [AVURLAsset], save: Bool) {
         let audioComposition = AVMutableComposition()
@@ -123,6 +145,7 @@ class MediaController {
                 
             }
         }
+        
         // get path
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = .LongStyle
@@ -140,25 +163,33 @@ class MediaController {
         vOExporter!.shouldOptimizeForNetworkUse = true
         vOExporter!
             .exportAsynchronouslyWithCompletionHandler() {
-                    // TODO: Handle nil.
-                    if vOExporter!.status == AVAssetExportSessionStatus.Completed {
-                        print("Export finished")
-                        let movieVoiceOver = AVURLAsset(URL: (vOExporter?.outputURL)!)
-                        self.composeMedia(videoAssets, voiceOverAssets: voiceOvers, movieVoiceOver: movieVoiceOver, movie: true, save: save)
-                    } else if vOExporter!.status == AVAssetExportSessionStatus.Waiting {
-                        print("Export waiting")
-                    } else if vOExporter!.status == AVAssetExportSessionStatus.Failed {
-                        print("Export failure")
-                        self.composeMedia(videoAssets, voiceOverAssets: voiceOvers, movieVoiceOver: nil, movie: true, save: save)
+                // TODO: Handle nil.
+                if vOExporter!.status == AVAssetExportSessionStatus.Completed {
+                    print("Export finished")
+                    
+                    if self.lastVoiceover != nil {
+                        do {
+                            try NSFileManager.defaultManager().removeItemAtPath(self.lastVoiceover)
+                        } catch let error as NSError {
+                            print(error.localizedDescription)
+                        }
                     }
+                    if !save {
+                        self.lastVoiceover = (vOExporter!.outputURL?.path)!
+                    }
+                    
+                    let movieVoiceOver = AVURLAsset(URL: (vOExporter?.outputURL)!)
+                    self.composeMedia(videoAssets, voiceOverAssets: voiceOvers, movieVoiceOver: movieVoiceOver, movie: true, save: save)
+                } else if vOExporter!.status == AVAssetExportSessionStatus.Waiting {
+                    print("Export waiting")
+                } else if vOExporter!.status == AVAssetExportSessionStatus.Failed {
+                    print("Export failure")
+                    self.composeMedia(videoAssets, voiceOverAssets: voiceOvers, movieVoiceOver: nil, movie: true, save: save)
+                }
         }
     }
-
     
     func composeMedia(videoAssets: [AVURLAsset], voiceOverAssets: [AVURLAsset], movieVoiceOver: AVURLAsset?, movie: Bool, save: Bool) {
-        defer {
-                NSNotificationCenter.defaultCenter().postNotificationName(Notifications.previewReady, object: self)
-        }
         
         // Get total time for movie assets.
         var totalTime: CMTime = kCMTimeZero
@@ -246,19 +277,33 @@ class MediaController {
             }
         }
         
-        
-        if save && !mixComposition.tracks.isEmpty {
-            self.saveMedia(mixComposition, videoComposition: mainComposition, movie: movie)
-        } else if !save && !mixComposition.tracks.isEmpty {
-            let preview = AVPlayerItem(asset: mixComposition)
-            preview.videoComposition = mainComposition
-            self.preview = preview
+        if !mixComposition.tracks.isEmpty {
+            if movie {
+                self.mergeMedia(
+                    mixComposition,
+                    videoComposition: mainComposition,
+                    movie: movie,
+                    save: save)
+            } else {
+                self.preview = AVPlayerItem(asset: mixComposition)
+                self.preview.videoComposition = mainComposition
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    NSNotificationCenter.defaultCenter().postNotificationName(Notifications.previewReady, object: self)
+                })
+            }
+            
         }
     }
-    
-    
-    // MARK: Media save methods
-    func saveMedia(mixComposition: AVMutableComposition, videoComposition: AVMutableVideoComposition, movie: Bool) {
+
+    func mergeMedia(mixComposition: AVMutableComposition, videoComposition: AVMutableVideoComposition, movie: Bool, save: Bool) {
+        if self.lastPreview != nil {
+            do {
+                try NSFileManager.defaultManager().removeItemAtPath(self.lastPreview)
+            } catch let error as NSError {
+                print(error.localizedDescription)
+            }
+        }
+
         // setup to save
         let paths: NSArray = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
         let documentDirectory: String = paths[0] as! String
@@ -266,6 +311,7 @@ class MediaController {
         dateFormatter.dateStyle = .FullStyle
         dateFormatter.timeStyle = .MediumStyle
         let date = dateFormatter.stringFromDate(NSDate())
+        // check project for spaces and change name if needed.
         let projectToCheck = self.project!
         let projectName = projectToCheck.stringByReplacingOccurrencesOfString(" ", withString: "-")
         let url = NSURL(fileURLWithPath: documentDirectory).URLByAppendingPathComponent("\(projectName)-Movie-\(date).mov")
@@ -274,26 +320,49 @@ class MediaController {
             asset: mixComposition,
             presetName: AVAssetExportPresetHighestQuality)
         exporter!.outputURL = url
+        print(url)
         exporter!.outputFileType = AVFileTypeQuickTimeMovie
         exporter!.videoComposition = videoComposition
         exporter!
             .exportAsynchronouslyWithCompletionHandler() {
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.exportDidFinish(exporter!, type: movie ? "movie" : "scene")
-                })
+                if save {
+                    self.saveMedia(exporter!)
+                } else {
+                    let movie = AVURLAsset(URL: exporter!.outputURL!)
+                    self.shareMedia(exporter!.outputURL!)
+                    self.preview = AVPlayerItem(asset: movie)
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        NSNotificationCenter.defaultCenter().postNotificationName(Notifications.previewReady, object: self)
+                    })
+                }
+                
+                if !save {
+                    self.lastPreview = (exporter!.outputURL?.path)!
+                }
         }
     }
     
+    func shareMedia(movie: NSURL!) {
+        let paths: NSArray = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
+        let documentDirectory: String = paths[0] as! String
+        let file: String = movie.lastPathComponent!
+        let filePath = NSURL(fileURLWithPath: documentDirectory).URLByAppendingPathComponent(file)
+        self.movieToShare = filePath
+        
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.movieReady, object: self)
+        })
+    }
     
-    func exportDidFinish(session:AVAssetExportSession, type: String) {
+    func saveMedia(session:AVAssetExportSession) {
         if session.status == AVAssetExportSessionStatus.Completed {
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                NSNotificationCenter.defaultCenter().postNotificationName(Notifications.movieReady, object: self)
+            })
+            
             let outputURL: NSURL = session.outputURL!
             
             // check if authorized to save to photos
-            if type == "movie" || type == "scene" {
-                saveToDropBox(outputURL)
-            }
-            
             PHPhotoLibrary.requestAuthorization({ (status:PHAuthorizationStatus) -> Void in
                 if status == PHAuthorizationStatus.Authorized {
                     // move scene to Photos library
@@ -325,11 +394,7 @@ class MediaController {
                                 print("SUCCESS")
                             }
                             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                if type == "movie" {
-                                    NSNotificationCenter.defaultCenter().postNotificationName(Notifications.saveMovieFinished, object: self)
-                                } else if type == "scene" {
-                                    NSNotificationCenter.defaultCenter().postNotificationName(Notifications.saveSceneFinished, object: self)
-                                }
+                                NSNotificationCenter.defaultCenter().postNotificationName(Notifications.saveMovieFinished, object: self)
                             })
                     })
                 }
@@ -337,11 +402,7 @@ class MediaController {
         } else {
             print("\(session.status)SESSION STATUS NOT COMPLETED")
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                if type == "movie" {
-                    NSNotificationCenter.defaultCenter().postNotificationName(Notifications.saveMovieFailed, object: self)
-                } else if type == "scene" {
-                    NSNotificationCenter.defaultCenter().postNotificationName(Notifications.saveSceneFailed, object: self)
-                }
+                NSNotificationCenter.defaultCenter().postNotificationName(Notifications.saveMovieFailed, object: self)
             })
         }
     }
@@ -364,7 +425,6 @@ class MediaController {
         return (assetOrientation, isPortrait)
     }
     
-    
     func videoCompositionInstructionForTrack(track: AVCompositionTrack, asset: AVAsset) -> AVMutableVideoCompositionLayerInstruction {
         let instruction = AVMutableVideoCompositionLayerInstruction(assetTrack: track)
         let assetTrack = asset.tracksWithMediaType(AVMediaTypeVideo)[0] 
@@ -381,7 +441,6 @@ class MediaController {
         }
         return instruction
     }
-    
     
     // MARK: Archiving path methods
     func getScenesArchivePathURL() -> NSURL {
@@ -417,7 +476,6 @@ class MediaController {
         return url
     }
     
-    
     func getPathForFileInDocumentsDirectory(fileName: String) -> NSURL {
         let documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
         let directoryPath = documentsPath + "/\(self.project!)"
@@ -435,7 +493,6 @@ class MediaController {
         }
     }
     
-    
     func saveIntro() {
         let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(intro, toFile: self.getIntroArchivePathURL().path!)
         if !isSuccessfulSave {
@@ -443,20 +500,35 @@ class MediaController {
         }
     }
     
-    
     func loadScenes() -> [Scene]! {
         guard let loadedScenes = NSKeyedUnarchiver.unarchiveObjectWithFile(getScenesArchivePathURL().path!) as! [Scene]! else {
             let scenesContainer = [Scene]()
+            self.scenes = scenesContainer
+            self.movieEnds = NSUserDefaults.standardUserDefaults().objectForKey(self.project!) as! [String:Bool]
             return scenesContainer
         }
+        self.movieEnds = NSUserDefaults.standardUserDefaults().objectForKey(self.project!) as! [String:Bool]
+        self.scenes = loadedScenes
         return loadedScenes
     }
     
-    
     func loadIntro() -> Intro? {
-        return NSKeyedUnarchiver.unarchiveObjectWithFile(self.getIntroArchivePathURL().path!) as? Intro
+        let intro = NSKeyedUnarchiver.unarchiveObjectWithFile(self.getIntroArchivePathURL().path!) as? Intro
+        self.intro = intro
+        return intro
     }
     
+    // MARK: Preview helper
+    func playerForPreview() -> AVPlayerViewController {
+        if let preview = self.preview {
+            self.vpVC.player = nil
+            let videoPlayer = AVPlayer(playerItem: preview)
+            self.vpVC.player = videoPlayer
+            vpVC.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
+        }
+        
+        return self.vpVC
+    }
     
     // MARK: DropBox
     func saveToDropBox(filePath: NSURL!) {
@@ -467,7 +539,11 @@ class MediaController {
                 print("*** Get current account ***")
                 if let account = response {
                     print("Hello \(account.name.givenName)! Dropbox saving has begun.")
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.sharingComplete, object: self)
+                    })
                 } else {
+                    
                     print(error!.description)
                 }
             }
@@ -475,15 +551,22 @@ class MediaController {
             // Upload a file
             let fileData = NSData(contentsOfFile: filePath.path!)
             client.files.upload(path: "/\(filePath!.lastPathComponent!)", body: fileData!).response { response, error in
-                if let metadata = response {
-                    print("*** Upload file ****")
-                    print("Uploaded file name: \(metadata.name)")
-                    print("Uploaded file revision: \(metadata.rev)")
-                    NSNotificationCenter.defaultCenter().postNotificationName(Notifications.dropBoxUpFinish, object: self)
-                } else {
-                    print("DROPBOX FAILURE\(error!.description)")
-                    NSNotificationCenter.defaultCenter().postNotificationName(Notifications.dropBoxFail, object: self)
-                }
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    if let metadata = response {
+                        print("*** Upload file ****")
+                        print("Uploaded file name: \(metadata.name)")
+                        print("Uploaded file revision: \(metadata.rev)")
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.uploadComplete, object: self)
+                        })
+                    } else {
+                        print("DROPBOX FAILURE\(error!.description)")
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.uploadFailed, object: self)
+                        })
+                    }
+                })
+                
             }
         }
     }

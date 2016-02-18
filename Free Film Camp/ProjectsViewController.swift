@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SwiftyDropbox
 
 class ProjectsViewController: UITableViewController {
     var projects = NSUserDefaults.standardUserDefaults().arrayForKey("projects")
@@ -18,23 +17,41 @@ class ProjectsViewController: UITableViewController {
     }
     
     // MARK: Action methods
-    @IBAction func linkDropBox(sender: UIBarButtonItem) {
-        if Dropbox.authorizedClient == nil {
-        Dropbox.authorizeFromController(self)
-        }
-    }
-    
-    @IBAction func donePressed(sender: UIBarButtonItem) {
-        NSNotificationCenter.defaultCenter().postNotificationName("projectSelected", object: self)
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
     @IBAction func addProject(sender: UIBarButtonItem) {
         // Present an alert veiw with text box to enter new project name, confirm button and cancel button.
-        let addProjectView = UIAlertController(title: "Add Project", message: "Please enter a project name.", preferredStyle: .Alert)
-        let addNewProject = UIAlertAction(title: "Create Project", style: .Default) { (_) -> Void in
+        let addProjectView = UIAlertController(title: "Project Type", message: "Please choose a project type.", preferredStyle: .ActionSheet)
+        
+        addProjectView.popoverPresentationController?.sourceView = self.view
+        addProjectView.popoverPresentationController?.sourceRect = self.view.bounds
+        
+        let addNewProject1 = UIAlertAction(title: "1 scene", style: .Default) { (_) -> Void in
             // Capture project name and store it in array to populate table view.
-            let projectTextField = addProjectView.textFields![0] as UITextField
+            NSUserDefaults.standardUserDefaults().setObject(["intro":false,"music":true], forKey: MediaController.sharedMediaController.project!)
+            NSUserDefaults.standardUserDefaults().synchronize()
+            MediaController.sharedMediaController.numberOfScenes = 1
+            self.tableView.reloadData()
+        }
+        
+        let addNewProject2 = UIAlertAction(title: "3 Scenes", style: .Default) { (_) -> Void in
+            // Capture project name and store it in array to populate table view.
+            NSUserDefaults.standardUserDefaults().setObject(["intro":false,"music":true], forKey: MediaController.sharedMediaController.project!)
+            NSUserDefaults.standardUserDefaults().synchronize()
+            MediaController.sharedMediaController.numberOfScenes = 3
+            self.tableView.reloadData()
+        }
+        
+        let addNewProject3 = UIAlertAction(title: "Intro & 3 Scenes", style: .Default) { (_) -> Void in
+            // Capture project name and store it in array to populate table view.
+            NSUserDefaults.standardUserDefaults().setObject(["intro":true,"music":true], forKey: MediaController.sharedMediaController.project!)
+            NSUserDefaults.standardUserDefaults().synchronize()
+            MediaController.sharedMediaController.numberOfScenes = 3
+            self.tableView.reloadData()
+        }
+        
+        let nameProjectView = UIAlertController(title: "Name A New Project", message: "Please enter a project name.", preferredStyle: .Alert)
+        
+        let confirmName = UIAlertAction(title: "Yes", style: .Default) { (_) -> Void in
+            let projectTextField = nameProjectView.textFields![0] as UITextField
             self.projects!.append(projectTextField.text!)
             NSUserDefaults.standardUserDefaults().setObject(self.projects, forKey: "projects")
             NSUserDefaults.standardUserDefaults().setObject(projectTextField.text, forKey: "currentProject")
@@ -42,28 +59,26 @@ class ProjectsViewController: UITableViewController {
             // Add directory for project
             self.createProjectDirectory(projectTextField.text)
             MediaController.sharedMediaController.project = projectTextField.text!
-            self.tableView.reloadData()
+            self.presentViewController(addProjectView, animated: true, completion: nil)
         }
         
-        addNewProject.enabled = false
+        let cancelName = UIAlertAction(title: "No", style: .Destructive, handler: nil)
         
-        let cancel = UIAlertAction(title: "Cancel", style: .Destructive) { (_) -> Void in }
-        addProjectView.addTextFieldWithConfigurationHandler { (textField) -> Void in
+        nameProjectView.addTextFieldWithConfigurationHandler { (textField) -> Void in
             textField.placeholder = "Project Name"
             NSNotificationCenter.defaultCenter().addObserverForName(UITextFieldTextDidChangeNotification, object: textField, queue: NSOperationQueue.mainQueue(), usingBlock: { (notification) -> Void in
-                addNewProject.enabled = textField.text != ""
+                confirmName.enabled = textField.text != ""
             })
         }
         
-        addProjectView.addAction(cancel)
-        addProjectView.addAction(addNewProject)
+        nameProjectView.addAction(confirmName)
+        nameProjectView.addAction(cancelName)
         
-        self.presentViewController(addProjectView, animated: true, completion: nil)
-    }
-
-    
-    @IBAction func switchMediaToShow(sender: UISwitch) {
+        addProjectView.addAction(addNewProject1)
+        addProjectView.addAction(addNewProject2)
+        addProjectView.addAction(addNewProject3)
         
+        self.presentViewController(nameProjectView, animated: true, completion: nil)
     }
     
     // MARK: Table view methods
@@ -92,6 +107,7 @@ class ProjectsViewController: UITableViewController {
         NSUserDefaults.standardUserDefaults().synchronize()
         MediaController.sharedMediaController.project = self.projects![indexPath.row] as? String
         self.tableView.reloadData()
+        NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.projectSelected, object: self)
     }
     
     
@@ -142,4 +158,6 @@ class ProjectsViewController: UITableViewController {
             print(directoryDestroyError.localizedDescription)
         }
     }
+    
+    // MARK: Alert Views
 }

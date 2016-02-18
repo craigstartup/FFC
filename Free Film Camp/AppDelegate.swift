@@ -13,11 +13,9 @@ import SwiftyDropbox
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
     var window: UIWindow?
     
     func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
-        
         if let authResult = Dropbox.handleRedirectURL(url) {
             switch authResult {
             case .Success(let token):
@@ -38,10 +36,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Create user projects name storage.
         if let _ = NSUserDefaults.standardUserDefaults().arrayForKey("projects") {
         } else {
-            let currentProject = "Video Maker"
+            let currentProject = "Default Project"
             let projects = [currentProject]
             NSUserDefaults.standardUserDefaults().setObject(projects, forKey: "projects")
             NSUserDefaults.standardUserDefaults().setObject(currentProject, forKey: "currentProject")
+            NSUserDefaults.standardUserDefaults().setObject(["intro":false,"music":false], forKey: currentProject)
             NSUserDefaults.standardUserDefaults().synchronize()
             
             // Create a file directory for the default project

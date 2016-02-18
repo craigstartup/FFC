@@ -12,8 +12,8 @@ import AVKit
 
 class IntroViewController: UIViewController {
     // MARK: Outlets
+    @IBOutlet weak var introLabel: UIButton!
     @IBOutlet weak var introButton: UIButton!
-    @IBOutlet weak var destroyIntroButton: UIButton!
     
     var intro: Intro!
     var index: Int!
@@ -44,12 +44,13 @@ class IntroViewController: UIViewController {
     func setButtons() {
         // TODO: Clean up logic.
         if self.intro == nil {
-            self.destroyIntroButton.alpha = 0
-            self.destroyIntroButton.enabled = false
+            self.introButton.layer.borderWidth = 1
+            self.introButton.layer.borderColor = UIColor.grayColor().CGColor
+            self.introLabel.setImage(UIImage(named: "Incomplete-Unselected"), forState: .Normal)
+            self.introLabel.highlighted = false
         } else {
-            self.destroyIntroButton.alpha = 1
-            self.destroyIntroButton.enabled = true
-            self.introButton.enabled = false
+            self.introLabel.setImage(UIImage(named: "Complete-Selected"), forState: .Highlighted)
+            self.introLabel.highlighted = true
             self.introButton.setImage(self.intro.image, forState: .Normal)
             let video = AVURLAsset(URL: MediaController.sharedMediaController.getPathForFileInDocumentsDirectory(self.intro.video))
             print(intro.video)
@@ -73,11 +74,6 @@ class IntroViewController: UIViewController {
     
     // MARK: Actions
     @IBAction func selectIntro(sender: UIButton) {
-        
-    }
-    
-    
-    @IBAction func destroyIntro(sender: UIButton) {
         MediaController.sharedMediaController.intro = nil
         self.intro = nil
         do {
@@ -87,12 +83,9 @@ class IntroViewController: UIViewController {
         }
         self.introButton.contentMode = .ScaleAspectFit
         self.introButton.contentVerticalAlignment = .Center
-        self.introButton.setImage(UIImage(named: "plus_white_69"), forState: UIControlState.Normal)
-        self.destroyIntroButton.alpha = 0
-        self.destroyIntroButton.enabled = false
+        self.introButton.setImage(UIImage(named: "Add-Shot-Icon@"), forState: UIControlState.Normal)
         self.introButton.enabled = true
     }
-    
     
     @IBAction func previewIntro(sender: UIButton) {
         // TODO: Use Media CONTROLLER for preview
@@ -124,6 +117,6 @@ class IntroViewController: UIViewController {
     
     
     @IBAction func introUnwind(unwindSegue: UIStoryboardSegue) {
-        self.setButtons()
+    
     }
 }
