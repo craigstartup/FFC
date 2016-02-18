@@ -34,7 +34,6 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
     
     var photosPost   = false
     var facebookPost = false
-    var twitterPost  = false
     var dropboxPost  = false
     var service: String!
     var playTimer: NSTimer!
@@ -237,13 +236,7 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
             MediaController.sharedMediaController.prepareMediaFor(scene: nil, movie: true, save: false)
         }
         
-        let twitterAction = UIAlertAction(title: "Post to Twitter", style: .Default) { (action) -> Void in
-            self.twitterPost = true
-            self.service = "Twitter"
-            MediaController.sharedMediaController.prepareMediaFor(scene: nil, movie: true, save: false)
-        }
-        
-        let actions = [cancelAction, photosAction, dropboxAction, facebookAction, twitterAction]
+        let actions = [cancelAction, photosAction, dropboxAction, facebookAction]
         
         for action in actions {
             shareView.addAction(action)
@@ -357,7 +350,7 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
         
         let videoURL = MediaController.sharedMediaController.movieToShare
         
-        if self.facebookPost || self.twitterPost || self.dropboxPost {
+        if self.facebookPost || self.dropboxPost {
             NSNotificationCenter.defaultCenter().addObserver(
                 self,
                 selector: "movieShared:",
