@@ -1,6 +1,6 @@
 //  Assisted by http://www.raywenderlich.com/94404/play-record-merge-videos-ios-swift
 //  SceneBuilderViewController.swift
-//  Free Film Camp
+//  Film Camp
 //
 //  Created by Eric Mentele on 10/5/15.
 //  Copyright © 2015 Craig Swanson. All rights reserved.

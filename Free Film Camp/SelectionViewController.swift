@@ -1,5 +1,5 @@
 //  SelectionViewController.swift
-//  Free Film Camp
+//  Film Camp
 //
 //  Created by Eric Mentele on 11/1/15.
 //  Copyright © 2015 Eric Mentele. All rights reserved.

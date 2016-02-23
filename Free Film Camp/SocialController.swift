@@ -1,6 +1,6 @@
 //
 //  SocialController.swift
-//  Free Film Camp
+//  Film Camp
 //
 //  Created by Eric Mentele on 12/28/15.
 //  Copyright © 2015 Eric Mentele. All rights reserved.

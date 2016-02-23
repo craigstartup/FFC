@@ -1,6 +1,6 @@
 //
 //  VideosViewController.swift
-//  Free Film Camp
+//  Film Camp
 //
 //  Created by Eric Mentele on 10/6/15.
 //  Copyright © 2015 Craig Swanson. All rights reserved.
@@ -21,7 +21,7 @@ class VideosViewController: UIViewController, UICollectionViewDataSource, UIColl
 
     // fetch albums and assets
     let fetchOptions = PHFetchOptions()
-    let albumTitle = "Free Film Camp Clips"
+    let albumTitle = "Film Camp Clips"
     var clipsAlbumFetch: PHFetchResult!
     var clipsAlbumVideosFetch: PHFetchResult!
     var clipsAlbum: PHAssetCollection!
@@ -56,7 +56,7 @@ class VideosViewController: UIViewController, UICollectionViewDataSource, UIColl
         
         if let _: AnyObject = clipsAlbumFetch.firstObject {
             clipsAlbum = clipsAlbumFetch.firstObject as! PHAssetCollection
-            print("Free Film Camp Clips exists")
+            print("Film Camp Clips exists")
             // setup to retrieve videos from clips album
             clipsAlbumVideosFetch = PHAsset.fetchAssetsInAssetCollection(clipsAlbum, options: nil)
         } else {
@@ -83,6 +83,20 @@ class VideosViewController: UIViewController, UICollectionViewDataSource, UIColl
             initialEntry = (defaults.objectForKey("initialEntry") as? Bool)!
         }
         
+        self.videos = [PHAsset]()
+        
+        if self.clipsAlbumVideosFetch != nil {
+            clipsAlbumVideosFetch.enumerateObjectsUsingBlock { (object, _, _) in
+                if let asset = object as? PHAsset {
+                    self.videos.append(asset)
+                }
+            }
+        }
+        //self.setCollectionViewLayout()
+        self.navigationController?.navigationBar.translucent = true
+    }
+    
+    override func viewDidAppear(animated: Bool) {
         if initialEntry {
             initialEntry = false
             defaults.setObject(initialEntry, forKey: "initialEntry")
@@ -92,19 +106,6 @@ class VideosViewController: UIViewController, UICollectionViewDataSource, UIColl
             alert.addAction(action)
             self.presentViewController(alert, animated: true, completion: nil)
         }
-        
-        self.videos = [PHAsset]()
-        
-        if self.clipsAlbumVideosFetch != nil {
-            clipsAlbumVideosFetch.enumerateObjectsUsingBlock { (object, _, _) in
-                if let asset = object as? PHAsset {
-                    
-                    self.videos.append(asset)
-                }
-            }
-        }
-        //self.setCollectionViewLayout()
-        self.navigationController?.navigationBar.translucent = true
     }
     
     // MARK: Collection view layout.

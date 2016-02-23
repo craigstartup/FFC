@@ -1,6 +1,6 @@
 //
 //  MediaLibraryController.swift
-//  Free Film Camp
+//  Film Camp
 //
 //  Created by Eric Mentele on 10/13/15.
 //  Copyright © 2015 Craig Swanson. All rights reserved.
@@ -34,9 +34,9 @@ class MediaController {
     }
     
     enum Albums {
-        static let shots = "Free Film Camp Clips"
-        static let scenes = "Free Film Camp Scenes"
-        static let movies = "Free Film Camp Movies"
+        static let shots = "Film Camp Clips"
+        static let scenes = "Film Camp Scenes"
+        static let movies = "Film Camp Movies"
     }
     
     static let sharedMediaController = MediaController()
@@ -380,7 +380,7 @@ class MediaController {
                     
                     // save movie to correct album
                     PHPhotoLibrary.sharedPhotoLibrary().performChanges({ () -> Void in
-                        // add to Free Film Camp album
+                        // add to Film Camp album
                         let fetchOptions = PHFetchOptions()
                         fetchOptions.predicate = NSPredicate(format: "title = %@", self.albumTitle)
                         let album: PHFetchResult = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: fetchOptions)

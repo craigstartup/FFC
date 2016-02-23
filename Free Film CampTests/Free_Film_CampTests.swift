@@ -1,6 +1,6 @@
 //
 //  Free_Film_CampTests.swift
-//  Free Film CampTests
+//  Film CampTests
 //
 //  Created by Eric Mentele on 10/4/15.
 //  Copyright © 2015 Eric Mentele. All rights reserved.

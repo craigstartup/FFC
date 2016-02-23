@@ -1,6 +1,6 @@
 //
 //  VideosViewController.swift
-//  Free Film Camp
+//  Film Camp
 //
 //  Created by Eric Mentele on 10/6/15.
 //  Copyright © 2015 Craig Swanson. All rights reserved.
@@ -19,7 +19,7 @@ class TheatreViewController: UICollectionViewController {
     
     // fetch albums and assets
     let fetchOptions = PHFetchOptions()
-    let albumTitle = "Free Film Camp Scenes"
+    let albumTitle = "Film Camp Scenes"
     var clipsAlbumFetch: PHFetchResult!
     var clipsAlbumVideosFetch: PHFetchResult!
     var clipsAlbum: PHAssetCollection!
@@ -43,7 +43,7 @@ class TheatreViewController: UICollectionViewController {
         clipsAlbum = clipsAlbumFetch.firstObject as! PHAssetCollection
         if let _: AnyObject = clipsAlbumFetch.firstObject {
             
-            print("Free Film Camp Clips exists")
+            print("Film Camp Clips exists")
         } else {
             
             library.performChanges({ () -> Void in

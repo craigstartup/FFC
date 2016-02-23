@@ -1,6 +1,6 @@
 //
 //  VideoLibraryCell.swift
-//  Free Film Camp
+//  Film Camp
 //
 //  Created by Eric Mentele on 10/7/15.
 //  Copyright © 2015 Craig Swanson. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  Free Film Camp
+//  Film Camp
 //
 //  Created by Eric Mentele on 10/4/15.
 //  Copyright © 2015 Craig Swanson. All rights reserved.
@@ -67,9 +67,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var clipsAlbum: PHFetchResult!
         var scenesAlbum: PHFetchResult!
         var moviesAlbum: PHFetchResult!
-        let clipsAlbumTitle = "Free Film Camp Clips"
-        let scenesAlbumTitle = "Free Film Camp Scenes"
-        let moviesAlbumTitle = "Free Film Camp Movies"
+        let clipsAlbumTitle = "Film Camp Clips"
+        let scenesAlbumTitle = "Film Camp Scenes"
+        let moviesAlbumTitle = "Film Camp Movies"
         
         PHPhotoLibrary.requestAuthorization { (status) -> Void in
             if status == PHAuthorizationStatus.Authorized {
