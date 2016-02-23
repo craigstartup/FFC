@@ -633,7 +633,7 @@
 				INFOPLIST_FILE = "Free Film Camp/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.freefilmcamp.Free-Film-Camp";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.digitalfilmcamp.Film-Camp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Free Film Camp/Free Film Camp-Bridging-Header.h";
@@ -654,7 +654,7 @@
 				INFOPLIST_FILE = "Free Film Camp/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.freefilmcamp.Free-Film-Camp";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.digitalfilmcamp.Film-Camp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Free Film Camp/Free Film Camp-Bridging-Header.h";
