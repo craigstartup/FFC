@@ -21,6 +21,7 @@ class VideosViewController: UIViewController, UICollectionViewDataSource, UIColl
 
     // fetch albums and assets
     let fetchOptions = PHFetchOptions()
+    let requestOptions = PHImageRequestOptions()
     let albumTitle = "Film Camp Clips"
     var clipsAlbumFetch: PHFetchResult!
     var clipsAlbumVideosFetch: PHFetchResult!
@@ -94,6 +95,11 @@ class VideosViewController: UIViewController, UICollectionViewDataSource, UIColl
                 }
             }
         }
+        
+        // configure image request options
+        requestOptions.deliveryMode = .Opportunistic
+        requestOptions.networkAccessAllowed = true
+        
         //self.setCollectionViewLayout()
         self.navigationController?.navigationBar.translucent = true
     }
@@ -141,7 +147,7 @@ class VideosViewController: UIViewController, UICollectionViewDataSource, UIColl
         cell.tag = Int(manager.requestImageForAsset(video,
             targetSize: CGSize(width: 215, height: 136),
             contentMode: .AspectFill,
-            options: nil) { (result, resultInfo) -> Void in
+            options: requestOptions) { (result, resultInfo) -> Void in
                 cell.imageView.image = result
             })
         

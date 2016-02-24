@@ -210,7 +210,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             manager.requestImageForAsset(video,
                 targetSize: CGSize(width: 215, height: 136),
                 contentMode: .AspectFill,
-            options: nil) {[unowned self](result, info) -> Void in
+            options: requestOptions) {(result, info) -> Void in
                 if result != nil {
                     self.shotImage = result!
                 } else if info![PHImageErrorKey] != nil {
@@ -218,15 +218,17 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                 }
             }
             
-            manager.requestAVAssetForVideo(video, options: nil) {[unowned self](videoAsset, audioMix, info) -> Void in
+            manager.requestAVAssetForVideo(video, options: nil) {(videoAsset, audioMix, info) -> Void in
                 if (videoAsset?.isKindOfClass(AVURLAsset) != nil) {
                     let url = videoAsset as! AVURLAsset
                     self.shotAsset = url
-                    dispatch_async(dispatch_get_main_queue(), {[weak self]() -> Void in
-                        self!.performSegueWithIdentifier(self!.segueToPerform, sender: self)
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.performSegueWithIdentifier(self.segueToPerform, sender: self)
                     })
                 }
             }
+        } else if self.segueToPerform == "introUnwind" {
+            self.performSegueWithIdentifier(self.segueToPerform, sender: self)
         } else {
             NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.toolViewDismissed, object: self)
             self.dismissViewControllerAnimated(true, completion: nil)
@@ -341,7 +343,6 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                     
                     // save movie to correct album
                     PHPhotoLibrary.sharedPhotoLibrary().performChanges({ () -> Void in
-                        
                         // add to Film Camp album
                         let fetchOptions = PHFetchOptions()
                         fetchOptions.predicate = NSPredicate(format: "title = %@", self!.toAlbumTitle)
@@ -350,13 +351,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                         let albumChangeRequest = PHAssetCollectionChangeRequest(forAssetCollection: albumCollection, assets: album)
                         albumChangeRequest?.addAssets([self!.newClip])
                         self!.shots = album
-                        }, completionHandler: {[weak self](success: Bool, error: NSError?) -> Void in
-                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                self!.cancelButton.enabled = true
-                                self!
-                                    .cancelButton.alpha = 1
-                            })
-                            
+                        }, completionHandler: {(success: Bool, error: NSError?) -> Void in
                             if !success {
                                 print("Failed to add photo to album: %@", error?.localizedDescription)
                             }
@@ -379,11 +374,13 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         }
         
         // re-enable camera button for new recording
-        dispatch_async(dispatch_get_main_queue()) {[weak self] () -> Void in
-            self!.recordButton.enabled = true
-            self!.recordButton.alpha = 1
-            self!.flipCameraButton.alpha = 1
-            self!.flipCameraButton.enabled = true
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            self.cancelButton.enabled = true
+            self.cancelButton.alpha = 1
+            self.recordButton.enabled = true
+            self.recordButton.alpha = 1
+            self.flipCameraButton.alpha = 1
+            self.flipCameraButton.enabled = true
         }
         
         self.recorded = true
