@@ -218,7 +218,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                 }
             }
             
-            manager.requestAVAssetForVideo(video, options: nil) {(videoAsset, audioMix, info) -> Void in
+            manager.requestAVAssetForVideo(video, options: nil) {[unowned self](videoAsset, audioMix, info) -> Void in
                 if (videoAsset?.isKindOfClass(AVURLAsset) != nil) {
                     let url = videoAsset as! AVURLAsset
                     self.shotAsset = url
@@ -361,6 +361,9 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                 }
             })
         } else if success && segueToPerform == "introUnwind" {
+            if currentBackgroundRecordingID != UIBackgroundTaskInvalid {
+                UIApplication.sharedApplication().endBackgroundTask(currentBackgroundRecordingID)
+            }
             // Access stored intro.
             let videoPath = MediaController.sharedMediaController.getIntroShotSavePath()
             

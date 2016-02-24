@@ -1,6 +1,6 @@
 //
 //  IntroViewController.swift
-//  Film Camp
+//  Free Film Camp
 //
 //  Created by Eric Mentele on 11/19/15.
 //  Copyright © 2015 Eric Mentele. All rights reserved.
@@ -78,8 +78,10 @@ class IntroViewController: UIViewController {
         self.intro = nil
         do {
             try NSFileManager.defaultManager().removeItemAtPath(MediaController.sharedMediaController.getIntroArchivePathURL().path!)
+            print("INTRO REMOVED!")
         } catch let error as NSError {
             print(error.localizedDescription)
+            print("INTRO IS STILL ALIVE!")
         }
         self.introButton.contentMode = .ScaleAspectFit
         self.introButton.contentVerticalAlignment = .Center

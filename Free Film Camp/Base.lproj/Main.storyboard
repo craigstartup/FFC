@@ -285,7 +285,7 @@
                             </button>
                             <collectionView clipsSubviews="YES" contentMode="center" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="BuV-Yb-RWh">
                                 <rect key="frame" x="67" y="0.0" width="466" height="600"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="NpO-Sr-pNS">
                                     <size key="itemSize" width="100" height="100"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -1299,6 +1299,6 @@
         <image name="camera_reverse_btn_50 (1)" width="45" height="40"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ep1-Lp-XbT"/>
+        <segue reference="0ql-4U-NHC"/>
     </inferredMetricsTieBreakers>
 </document>
