@@ -58,7 +58,9 @@ class VideosViewController: UIViewController, UICollectionViewDataSource, UIColl
             clipsAlbum = clipsAlbumFetch.firstObject as! PHAssetCollection
             print("Film Camp Clips exists")
             // setup to retrieve videos from clips album
-            clipsAlbumVideosFetch = PHAsset.fetchAssetsInAssetCollection(clipsAlbum, options: nil)
+            let options = PHFetchOptions()
+            options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+            clipsAlbumVideosFetch = PHAsset.fetchAssetsInAssetCollection(clipsAlbum, options: options)
         } else {
             library.performChanges({ () -> Void in
                 PHAssetCollectionChangeRequest.creationRequestForAssetCollectionWithTitle(self.albumTitle)

@@ -58,7 +58,6 @@ class SceneViewController: UIViewController {
     
     
     override func viewWillAppear(animated: Bool) {
-        MediaController.sharedMediaController.albumTitle = MediaController.Albums.scenes
         self.scene = MediaController.sharedMediaController.scenes[sceneNumber]
         
         defer {

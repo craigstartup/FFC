@@ -43,7 +43,6 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     // video storage
     let toAlbumTitle = "Film Camp Clips"
     var newClip: PHObjectPlaceholder!
-    var video: PHAsset!
     var shots: PHFetchResult!
     var shotAsset: AVURLAsset!
     var shotImage: UIImage!
@@ -197,28 +196,39 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
  
     @IBAction func cancelCamera(sender: AnyObject) {
         if self.pickingShot && self.shots != nil {
-            let shotFetch = PHAsset.fetchAssetsInAssetCollection(self.shots.firstObject as! PHAssetCollection, options: nil)
-            self.video = shotFetch.firstObject as! PHAsset
+            let options = PHFetchOptions()
+            options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+            let shotFetch: PHFetchResult! = PHAsset.fetchAssetsInAssetCollection(self.shots.firstObject as! PHAssetCollection, options: options)
+            
+            let video = shotFetch.firstObject as! PHAsset
+            
             let manager = PHImageManager()
-            manager.requestImageForAsset(self.video,
+            let requestOptions = PHImageRequestOptions()
+            requestOptions.deliveryMode = .Opportunistic
+            requestOptions.networkAccessAllowed = true
+
+            manager.requestImageForAsset(video,
                 targetSize: CGSize(width: 215, height: 136),
                 contentMode: .AspectFill,
-                options: nil) { (result, _) -> Void in
+            options: nil) {[unowned self](result, info) -> Void in
+                if result != nil {
                     self.shotImage = result!
+                } else if info![PHImageErrorKey] != nil {
+                    print(info![PHImageErrorKey]!.localizedDescription)
+                }
             }
-            manager.requestAVAssetForVideo(self.video, options: nil) {[weak self](videoAsset, audioMix, info) -> Void in
-                dispatch_async(dispatch_get_main_queue(), {[weak self]() -> Void in
-                    if (videoAsset?.isKindOfClass(AVURLAsset) != nil) {
-                        let url = videoAsset as! AVURLAsset
-                        self!.shotAsset = url
+            
+            manager.requestAVAssetForVideo(video, options: nil) {[unowned self](videoAsset, audioMix, info) -> Void in
+                if (videoAsset?.isKindOfClass(AVURLAsset) != nil) {
+                    let url = videoAsset as! AVURLAsset
+                    self.shotAsset = url
+                    dispatch_async(dispatch_get_main_queue(), {[weak self]() -> Void in
                         self!.performSegueWithIdentifier(self!.segueToPerform, sender: self)
-                    }
-                })
+                    })
+                }
             }
         } else {
-            if pickingShot {
-                self.performSegueWithIdentifier(self.segueToPerform, sender: self)
-            }
+            NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.toolViewDismissed, object: self)
             self.dismissViewControllerAnimated(true, completion: nil)
         }
     }
@@ -315,9 +325,10 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             PHPhotoLibrary.requestAuthorization({[weak self](status:PHAuthorizationStatus) -> Void in
                 if status == PHAuthorizationStatus.Authorized {
                     // move movie to Photos library
-                    PHPhotoLibrary.sharedPhotoLibrary().performChanges({[weak self] () -> Void in
+                    PHPhotoLibrary.sharedPhotoLibrary().performChanges({ () -> Void in
                         let options = PHAssetResourceCreationOptions()
                         options.shouldMoveFile = true
+                        
                         let photosChangeRequest = PHAssetCreationRequest.creationRequestForAsset()
                         photosChangeRequest.addResourceWithType(PHAssetResourceType.Video, fileURL: outputFileURL, options: options)
                         self!.newClip = photosChangeRequest.placeholderForCreatedAsset
@@ -329,7 +340,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                     })
                     
                     // save movie to correct album
-                    PHPhotoLibrary.sharedPhotoLibrary().performChanges({[weak self] () -> Void in
+                    PHPhotoLibrary.sharedPhotoLibrary().performChanges({ () -> Void in
                         
                         // add to Film Camp album
                         let fetchOptions = PHFetchOptions()
@@ -339,7 +350,13 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                         let albumChangeRequest = PHAssetCollectionChangeRequest(forAssetCollection: albumCollection, assets: album)
                         albumChangeRequest?.addAssets([self!.newClip])
                         self!.shots = album
-                        }, completionHandler: { (success: Bool, error: NSError?) -> Void in
+                        }, completionHandler: {[weak self](success: Bool, error: NSError?) -> Void in
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                self!.cancelButton.enabled = true
+                                self!
+                                    .cancelButton.alpha = 1
+                            })
+                            
                             if !success {
                                 print("Failed to add photo to album: %@", error?.localizedDescription)
                             }
@@ -353,9 +370,9 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             let videoPath = MediaController.sharedMediaController.getIntroShotSavePath()
             
             if NSFileManager.defaultManager().fileExistsAtPath(videoPath.path!) {
-                // print("IntroFILE!!!!!!!!!!!!!!!!\(videoPath)")
+                // print("Intro FILE!!!!!!!!!!!!!!!!\(videoPath)")
             } else {
-                // print("IntroFUCK!!!!!!!!!!!\(videoPath)")
+                // print("No Intro FILE!!!!!!!!!!!\(videoPath)")
             }
             MediaController.sharedMediaController.intro = Intro(video: videoPath.lastPathComponent, image: nil)
             MediaController.sharedMediaController.saveIntro()
@@ -365,8 +382,6 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         dispatch_async(dispatch_get_main_queue()) {[weak self] () -> Void in
             self!.recordButton.enabled = true
             self!.recordButton.alpha = 1
-            self!.cancelButton.alpha = 1
-            self!.cancelButton.enabled = true
             self!.flipCameraButton.alpha = 1
             self!.flipCameraButton.enabled = true
         }

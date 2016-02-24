@@ -35,7 +35,6 @@ class MediaController {
     
     enum Albums {
         static let shots = "Film Camp Clips"
-        static let scenes = "Film Camp Scenes"
         static let movies = "Film Camp Movies"
     }
     

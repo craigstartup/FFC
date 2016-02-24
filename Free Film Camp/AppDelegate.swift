@@ -61,14 +61,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         
-        let scenesFetchOptions = PHFetchOptions()
         let moviesFetchOptions = PHFetchOptions()
         let clipsFetchOptions = PHFetchOptions()
         var clipsAlbum: PHFetchResult!
-        var scenesAlbum: PHFetchResult!
         var moviesAlbum: PHFetchResult!
         let clipsAlbumTitle = "Film Camp Clips"
-        let scenesAlbumTitle = "Film Camp Scenes"
         let moviesAlbumTitle = "Film Camp Movies"
         
         PHPhotoLibrary.requestAuthorization { (status) -> Void in
@@ -90,23 +87,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     }
                 }
 
-                // set up album for recorded scenes and movies
-                scenesFetchOptions.predicate = NSPredicate(format: "title = %@", scenesAlbumTitle)
-                scenesAlbum = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: scenesFetchOptions)
-                
-                if let _: AnyObject = scenesAlbum.firstObject {
-                    
-                } else {
-                    
-                    PHPhotoLibrary.sharedPhotoLibrary().performChanges({ () -> Void in
-                        PHAssetCollectionChangeRequest.creationRequestForAssetCollectionWithTitle(scenesAlbumTitle)
-                        }) { (success: Bool, error: NSError?) -> Void in
-                            if !success {
-                                print(error!.localizedDescription)
-                            }
-                    }
-                }
-
+                // set up album for recorded movies
                 moviesFetchOptions.predicate = NSPredicate(format: "title = %@", moviesAlbumTitle)
                 moviesAlbum = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: moviesFetchOptions)
                 

@@ -208,6 +208,7 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
         let photosAction = UIAlertAction(title: "Save to Photos", style: .Default) { (action) -> Void in
             self.photosPost = true
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveFailed:", name: MediaController.Notifications.saveMovieFailed, object: nil)
+            MediaController.sharedMediaController.albumTitle = MediaController.Albums.movies
             MediaController.sharedMediaController.prepareMediaFor(scene: nil, movie: true, save: true)
         }
         
