@@ -9,7 +9,6 @@
 import UIKit
 import AVFoundation
 import Photos
-//import MediaPlayer
 
 class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelegate {
     // view components
@@ -56,9 +55,11 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Monitor orientation to stop portrait shots
         UIDevice.currentDevice().beginGeneratingDeviceOrientationNotifications()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "orientationChanged:", name: UIDeviceOrientationDidChangeNotification, object: UIDevice.currentDevice())
         self.rotateCameraToShoot.alpha = 0
+        
         
         for device in self.devices {
             if device.hasMediaType(AVMediaTypeVideo) && device.position == AVCaptureDevicePosition.Front {
@@ -166,67 +167,79 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         cancelButton.enabled = false
         
         // record for 3 seconds to file
-        dispatch_async(self.sessionQueue) { [weak self]() -> Void in
-            if !self!.videoForFileOutput.recording {
+        dispatch_async(self.sessionQueue) {() -> Void in
+            if !self.videoForFileOutput.recording {
                 // ensure that video will save even if user switches tasks.
                 if UIDevice.currentDevice().multitaskingSupported {
-                    self!.backgroundRecordingID = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler(nil)
+                    self.backgroundRecordingID = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler(nil)
                 }
                 
                 // set orientation to match preview layer.
-                let videoCaptureOutputConnection = self!.videoForFileOutput.connectionWithMediaType(AVMediaTypeVideo)
+                let videoCaptureOutputConnection = self.videoForFileOutput.connectionWithMediaType(AVMediaTypeVideo)
                 
                 videoCaptureOutputConnection.videoOrientation = AVCaptureVideoOrientation.LandscapeRight
                 
                 var url: NSURL!
                 
                 // record to path.
-                if self!.segueToPerform != nil && self!.segueToPerform == "introUnwind" {
+                if self.segueToPerform != nil && self.segueToPerform == "introUnwind" {
                     url = MediaController.sharedMediaController.getIntroShotSavePath()
                 } else {
-                    url = self!.getShotPath()
+                    url = self.getShotPath()
                 }
                 
-                self!.videoForFileOutput.startRecordingToOutputFileURL(url, recordingDelegate: self)
+                self.videoForFileOutput.startRecordingToOutputFileURL(url, recordingDelegate: self)
             } else {
-                self!.videoForFileOutput.stopRecording()
+                self.videoForFileOutput.stopRecording()
             }
         }
     }
  
     @IBAction func cancelCamera(sender: AnyObject) {
         if self.pickingShot && self.shots != nil {
+            let manager = PHImageManager()
+            // Get asset for last created clip.
             let options = PHFetchOptions()
             options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
             let shotFetch: PHFetchResult! = PHAsset.fetchAssetsInAssetCollection(self.shots.firstObject as! PHAssetCollection, options: options)
             
             let video = shotFetch.firstObject as! PHAsset
             
-            let manager = PHImageManager()
-            let requestOptions = PHImageRequestOptions()
-            requestOptions.deliveryMode = .Opportunistic
-            requestOptions.networkAccessAllowed = true
+            // Set up options for video fetch
+            let videoRequestOptions = PHVideoRequestOptions()
+            videoRequestOptions.deliveryMode = .HighQualityFormat
+            videoRequestOptions.networkAccessAllowed = true
+            
+            // Set up options for image fetch
+            let imageRequestOptions = PHImageRequestOptions()
+            imageRequestOptions.deliveryMode = .HighQualityFormat
+            imageRequestOptions.networkAccessAllowed = true
+            imageRequestOptions.synchronous = true
+            
+            manager.requestAVAssetForVideo(video, options: videoRequestOptions) {(videoAsset, audioMix, info) -> Void in
+                if (videoAsset?.isKindOfClass(AVURLAsset) != nil) {
+                    let asset = videoAsset as! AVURLAsset
+                    self.shotAsset = asset
+                    
+                    manager.requestImageForAsset(video,
+                        targetSize: CGSize(width: 215, height: 136),
+                        contentMode: .AspectFit,
+                        options: imageRequestOptions) {(result, info) -> Void in
+                            if result != nil && info![PHImageResultIsDegradedKey] as! Bool == false{
+                                self.shotImage = result!
+                                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                    self.performSegueWithIdentifier(self.segueToPerform, sender: self)
+                                })
+                            } else if info![PHImageErrorKey] != nil {
+                                print(info![PHImageErrorKey]!.localizedDescription)
+                            }
+                    }
 
-            manager.requestImageForAsset(video,
-                targetSize: CGSize(width: 215, height: 136),
-                contentMode: .AspectFill,
-            options: requestOptions) {(result, info) -> Void in
-                if result != nil {
-                    self.shotImage = result!
-                } else if info![PHImageErrorKey] != nil {
-                    print(info![PHImageErrorKey]!.localizedDescription)
                 }
             }
             
-            manager.requestAVAssetForVideo(video, options: nil) {[unowned self](videoAsset, audioMix, info) -> Void in
-                if (videoAsset?.isKindOfClass(AVURLAsset) != nil) {
-                    let url = videoAsset as! AVURLAsset
-                    self.shotAsset = url
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.performSegueWithIdentifier(self.segueToPerform, sender: self)
-                    })
-                }
-            }
+            
+            
         } else if self.segueToPerform == "introUnwind" {
             self.performSegueWithIdentifier(self.segueToPerform, sender: self)
         } else {
@@ -288,11 +301,6 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     
     
     func captureOutput(captureOutput: AVCaptureFileOutput!, didFinishRecordingToOutputFileAtURL outputFileURL: NSURL!, fromConnections connections: [AnyObject]!, error: NSError!) {
-        // reset progress
-        self.progressBar.progress = 0.0
-        self.progressBar.alpha = 0
-        self.progress.invalidate()
-        
         if camera.isFocusModeSupported(.ContinuousAutoFocus) {
             camera.focusMode = .ContinuousAutoFocus
         }
@@ -364,6 +372,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             if currentBackgroundRecordingID != UIBackgroundTaskInvalid {
                 UIApplication.sharedApplication().endBackgroundTask(currentBackgroundRecordingID)
             }
+            
             // Access stored intro.
             let videoPath = MediaController.sharedMediaController.getIntroShotSavePath()
             
@@ -372,6 +381,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             } else {
                 // print("No Intro FILE!!!!!!!!!!!\(videoPath)")
             }
+            
             MediaController.sharedMediaController.intro = Intro(video: videoPath.lastPathComponent, image: nil)
             MediaController.sharedMediaController.saveIntro()
         }
@@ -388,6 +398,12 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         
         self.recorded = true
         print("End recording")
+        // reset progress
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            self.progressBar.progress = 0.0
+            self.progressBar.alpha = 0
+            self.progress.invalidate()
+        }
     }
     
     // MARK: Helper methods

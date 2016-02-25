@@ -48,7 +48,7 @@ class SceneViewController: UIViewController {
     // MARK: View Life Cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-            for button in self.sceneAddMediaButtons {
+        for button in self.sceneAddMediaButtons {
             button.layer.borderWidth = 1
             button.layer.borderColor = UIColor.grayColor().CGColor
         }
@@ -87,7 +87,7 @@ class SceneViewController: UIViewController {
         }
         
         // Set button images
-        for var i = 0; i < self.sceneButtons[ADD_BUTTONS]!.count; i++ {
+        for var i = 0; i < self.sceneButtons[ADD_BUTTONS]!.count; i+=1 {
             let images = self.scene.shotImages
             let videos = self.scene.shotVideos
             
@@ -165,7 +165,7 @@ class SceneViewController: UIViewController {
     
     
     @IBAction func sceneShotUnwindSegue(unwindSegue: UIStoryboardSegue) {
-        self.checkForCompletedScene()
+        self.setupView()
     }
     
     @IBAction func sceneAudioUnwindSegue(unwindSegue: UIStoryboardSegue){
