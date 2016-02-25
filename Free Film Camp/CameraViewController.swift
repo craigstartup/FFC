@@ -60,6 +60,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "orientationChanged:", name: UIDeviceOrientationDidChangeNotification, object: UIDevice.currentDevice())
         self.rotateCameraToShoot.alpha = 0
         
+        self.videoCapture.beginConfiguration()
         
         for device in self.devices {
             if device.hasMediaType(AVMediaTypeVideo) && device.position == AVCaptureDevicePosition.Front {
@@ -98,20 +99,9 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             print(captureError.localizedDescription)
         }
         
-        let microphone = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeAudio)
-        var audioInput: AVCaptureDeviceInput!
-        
-        if self.segueToPerform != nil && self.segueToPerform == "introUnwind" {
-            do {
-                audioInput = try AVCaptureDeviceInput(device: microphone)
-                videoCapture.addInput(audioInput)
-            } catch let captureError as NSError {
-                print(captureError.localizedDescription)
-            }
-        }
-        
         videoCapture.addOutput(videoPreviewOutput)
         videoCapture.addOutput(videoForFileOutput)
+        self.videoCapture.commitConfiguration()
     }
     
     
