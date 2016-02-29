@@ -39,28 +39,28 @@ class SocialController {
     
     func setupAccounts(withMovieToSend movie: NSURL?) {
         // FACEBOOK READ AND WRITE
-        let readOptions = [ACFacebookAppIdKey:"318605501597030", ACFacebookPermissionsKey:["email"], ACFacebookAudienceKey:ACFacebookAudienceOnlyMe]
+        //let readOptions = [ACFacebookAppIdKey:"318605501597030", , ACFacebookAudienceKey:ACFacebookAudienceOnlyMe]
         let writeOptions = [
-            ACFacebookAppIdKey:"318605501597030",
+            ACFacebookAppIdKey:"318605501597030", ACFacebookPermissionsKey:["email"],
             ACFacebookPermissionsKey:["publish_actions"],
             ACFacebookAudienceKey:ACFacebookAudienceFriends,
             ACFacebookAudienceKey:ACFacebookAudienceEveryone,
             ACFacebookAudienceKey:ACFacebookAudienceOnlyMe]
         
-        self.accounts.requestAccessToAccountsWithType(self.accountTypeFB, options: readOptions as [NSObject:AnyObject]) {[unowned self](granted, error) -> Void in
-            if granted {
-                let facebookAccounts = [self.accounts.accountsWithAccountType(self.accountTypeFB)]
-                
-                if facebookAccounts.count > 0 {
-                    print("GOT FACEBOOK ACCOUNT READ")
-                }
-            } else {
-                print("Facebook access denied.")
-                if error != nil {
-                    print(error.localizedDescription)
-                }
-            }
-        }
+//        self.accounts.requestAccessToAccountsWithType(self.accountTypeFB, options: readOptions as [NSObject:AnyObject]) {[unowned self](granted, error) -> Void in
+//            if granted {
+//                let facebookAccounts = [self.accounts.accountsWithAccountType(self.accountTypeFB)]
+//                
+//                if facebookAccounts.count > 0 {
+//                    print("GOT FACEBOOK ACCOUNT READ")
+//                }
+//            } else {
+//                print("Facebook access denied.")
+//                if error != nil {
+//                    print(error.localizedDescription)
+//                }
+//            }
+//        }
 
         self.accounts.requestAccessToAccountsWithType(self.accountTypeFB, options: writeOptions as [NSObject:AnyObject]) {[unowned self] (granted, error) -> Void in
             if granted {
