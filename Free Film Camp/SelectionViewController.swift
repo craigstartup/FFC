@@ -420,7 +420,9 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
             handler: nil)
         
         uploadAlert.addAction(okAction)
-        self.presentViewController(uploadAlert, animated: true, completion: nil)
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+             self.presentViewController(uploadAlert, animated: true, completion: nil)
+        }
     }
     
     func saveCompleted(notification: NSNotification) {

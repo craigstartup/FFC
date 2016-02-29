@@ -12,13 +12,32 @@ import Accounts
 
 class SocialController {
     let accounts = ACAccountStore()
-    var accountTypeFB: ACAccountType
+    let accountTypeFB: ACAccountType
+    var facebookAccount: ACAccount!
     
     init() {
         self.accountTypeFB = self.accounts.accountTypeWithAccountTypeIdentifier(ACAccountTypeIdentifierFacebook)
+        self.checkFBAccountAuth()
     }
     
-    func setupAccounts() {
+    func checkFBAccountAuth() {
+        if let fbaccounts = accounts.accountsWithAccountType(accountTypeFB) {
+            if fbaccounts.count > 0 {
+                let facebookAccount = fbaccounts[0] as! ACAccount
+                self.facebookAccount = facebookAccount
+                
+                if facebookAccount.credential == nil {
+                    self.accounts.renewCredentialsForAccount(facebookAccount, completion: { (result, error) -> Void in
+                        if error != nil {
+                            print(error.localizedDescription)
+                        }
+                    })
+                }
+            }
+        }
+    }
+    
+    func setupAccounts(withMovieToSend movie: NSURL?) {
         // FACEBOOK READ AND WRITE
         let readOptions = [ACFacebookAppIdKey:"318605501597030", ACFacebookPermissionsKey:["email"], ACFacebookAudienceKey:ACFacebookAudienceOnlyMe]
         let writeOptions = [
@@ -28,7 +47,7 @@ class SocialController {
             ACFacebookAudienceKey:ACFacebookAudienceEveryone,
             ACFacebookAudienceKey:ACFacebookAudienceOnlyMe]
         
-        self.accounts.requestAccessToAccountsWithType(self.accountTypeFB, options: readOptions as [NSObject:AnyObject]) {[unowned self] (granted, error) -> Void in
+        self.accounts.requestAccessToAccountsWithType(self.accountTypeFB, options: readOptions as [NSObject:AnyObject]) {[unowned self](granted, error) -> Void in
             if granted {
                 let facebookAccounts = [self.accounts.accountsWithAccountType(self.accountTypeFB)]
                 
@@ -49,7 +68,9 @@ class SocialController {
                 
                 if facebookAccounts.count > 0 {
                     print("GOT FACEBOOK ACCOUNT WRITE")
-
+                    if movie != nil {
+                        self.postMovieToFacebook(movie!)
+                    }
                 }
             } else {
                 print("Facebook access denied.")
@@ -66,18 +87,10 @@ class SocialController {
     }
     
     func postMovieToFacebook(movie: NSURL) {
-        guard let facebookAccount = self.accounts.accountsWithAccountType(self.accountTypeFB)?[0] as? ACAccount else {
+        guard let facebookAccount = self.facebookAccount else {
             print("FACEBOOK ACCOUNT FAILED")
-            self.setupAccounts()
+            self.setupAccounts(withMovieToSend: movie)
             return
-        }
-        
-        if facebookAccount.credential == nil {
-            self.accounts.renewCredentialsForAccount(facebookAccount, completion: { (result, error) -> Void in
-                if error != nil {
-                    print(error.localizedDescription)
-                }
-            })
         }
         
         let videoURL = NSURL(string: "https://graph-video.facebook.com/me/videos")
