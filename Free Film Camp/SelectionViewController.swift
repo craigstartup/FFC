@@ -226,11 +226,8 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         
         let facebookAction = UIAlertAction(title: "Post to Facebook", style: .Default) { (action) -> Void in
-            NSNotificationCenter.defaultCenter().addObserver(
-                self,
-                selector: "facebookSetupNeeded:",
-                name: MediaController.Notifications.noSocialSetup,
-                object: nil)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "facebookSetupNeeded:", name: MediaController.Notifications.noSocialSetup, object: nil)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "facebookAccessGranted:", name: MediaController.Notifications.facebookGranted, object: nil)
             
             self.facebookPost = true
             self.service = "Facebook"
@@ -322,6 +319,18 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
             self.presentViewController(facebookSetupAlert, animated: true, completion: nil)
         }
     }
+    
+    func facebookAccessGranted(notification: NSNotification) {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MediaController.Notifications.facebookGranted, object: nil)
+        self.facebookPost = false
+        self.progressSwitch(on: false)
+        let facebookSetupAlert = UIAlertController(title: "Facebook Granted", message: "Facebook access granted. Please reshare video.", preferredStyle: .Alert)
+        let ok = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
+        facebookSetupAlert.addAction(ok)
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            self.presentViewController(facebookSetupAlert, animated: true, completion: nil)
+        }
+    }
 
     
     // MARK: Buttons state notification methods
@@ -395,7 +404,7 @@ class SelectionViewController: UIViewController, UITableViewDelegate, UITableVie
         self.progressSwitch(on: false)
         let uploadAlert = UIAlertController(
             title: "Uploading Video",
-            message: "Video being uploaded to \(service). Do not close the app until you are notified that this is done.",
+            message: "Video being uploaded to \(service). This can take 5 to 10 minutes. Do not close the app until you are notified that this is done.",
             preferredStyle: .Alert)
         
         let okAction = UIAlertAction(

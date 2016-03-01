@@ -31,6 +31,7 @@ class MediaController {
         static let voiceoverCalled   = "voiceoverCalled"
         static let selectShotCalled  = "shotCalled"
         static let noSocialSetup     = "setupFacebook"
+        static let facebookGranted   = "facebookGranted"
     }
     
     enum Albums {

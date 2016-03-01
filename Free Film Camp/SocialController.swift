@@ -22,10 +22,12 @@ class SocialController {
     
     func checkFBAccountAuth() {
         if let fbaccounts = accounts.accountsWithAccountType(accountTypeFB) {
+            fbaccounts.count
+            
             if fbaccounts.count > 0 {
                 let facebookAccount = fbaccounts[0] as! ACAccount
                 self.facebookAccount = facebookAccount
-                
+
                 if facebookAccount.credential == nil {
                     self.accounts.renewCredentialsForAccount(facebookAccount, completion: { (result, error) -> Void in
                         if error != nil {
@@ -46,31 +48,17 @@ class SocialController {
             ACFacebookAudienceKey:ACFacebookAudienceFriends,
             ACFacebookAudienceKey:ACFacebookAudienceEveryone,
             ACFacebookAudienceKey:ACFacebookAudienceOnlyMe]
-        
-//        self.accounts.requestAccessToAccountsWithType(self.accountTypeFB, options: readOptions as [NSObject:AnyObject]) {[unowned self](granted, error) -> Void in
-//            if granted {
-//                let facebookAccounts = [self.accounts.accountsWithAccountType(self.accountTypeFB)]
-//                
-//                if facebookAccounts.count > 0 {
-//                    print("GOT FACEBOOK ACCOUNT READ")
-//                }
-//            } else {
-//                print("Facebook access denied.")
-//                if error != nil {
-//                    print(error.localizedDescription)
-//                }
-//            }
-//        }
 
         self.accounts.requestAccessToAccountsWithType(self.accountTypeFB, options: writeOptions as [NSObject:AnyObject]) {[unowned self] (granted, error) -> Void in
             if granted {
                 let facebookAccounts = [self.accounts.accountsWithAccountType(self.accountTypeFB)]
                 
                 if facebookAccounts.count > 0 {
-                    print("GOT FACEBOOK ACCOUNT WRITE")
-                    if movie != nil {
-                        self.postMovieToFacebook(movie!)
-                    }
+                    print("GOT FACEBOOK ACCOUNT READ WRITE")
+                    
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.facebookGranted, object: self)
+                    })
                 }
             } else {
                 print("Facebook access denied.")
