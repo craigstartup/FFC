@@ -230,7 +230,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             
             
             
-        } else if self.segueToPerform == "introUnwind" {
+        } else if self.segueToPerform != nil && self.segueToPerform == "introUnwind" {
             self.performSegueWithIdentifier(self.segueToPerform, sender: self)
         } else {
             NSNotificationCenter.defaultCenter().postNotificationName(MediaController.Notifications.toolViewDismissed, object: self)
